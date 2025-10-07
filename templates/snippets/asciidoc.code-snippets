@@ -1,0 +1,80 @@
+{
+	"GOST Table Block": {
+	  "prefix": "num-t",
+	  "description": "Готовый блок таблицы с счетчиком {num_t}",
+	  "body": [
+		":num_t: {counter:table-number}",
+		"в <<id_t_{num_t}, Таблице {num_t}>>.",
+		"",
+		"[#id_t_{num_t}]",
+		".Таблица {num_t}. ${1:Заголовок таблицы}",
+		"[cols=\"2, 6\", options=\"header, breakable\"]",
+		"|===",
+		"^| ${2:Название} ^| ${3:Назначение}",
+		"| ${4:Ячейка 1} | ${5:Ячейка 2}",
+		"|===",
+		"$0"
+	  ]
+	},
+  
+	"GOST Figure Block": {
+	  "prefix": "num-i",
+	  "description": "Готовый блок рисунка с счетчиком {num_i}",
+	  "body": [
+		":num_i: {counter:figure-number}",
+		"Схема приведена на <<id_i_{num_i}, Рисунке {num_i}>>.",
+		"",
+		"[#id_i_{num_i}]",
+		".Рисунок {num_i}. ${1:Схема}",
+		":name_image: ${2:wiki_tech_images/schema_kts.png}",
+		"include::../../common/partials/schema_image.adoc[]",
+		"$0"
+	  ]
+	},
+  
+	"GOST Equation Block": {
+	  "prefix": "num-e",
+	  "description": "Готовый блок формулы с счетчиком {num_e}",
+	  "body": [
+		":num_e: {counter:equation-number}",
+		"См. формулу <<id_e_{num_e}, ({num_e})>>.",
+		"",
+		"[#id_e_{num_e}]",
+		".Формула ({num_e}) ${1:Описание формулы}",
+		"[latexmath]",
+		"++++",
+		"${2:E = mc^2}",
+		"++++",
+		"$0"
+	  ]
+	},
+	   
+	
+	  "olist": {
+		  "prefix": "olist",
+		  "body": [
+		"Описание:",
+		"",
+		". Элемент.",
+		". Элемент.",
+		". Элемент."
+	  ],
+	  "description": "Список с номерами" 
+  
+	  },
+  
+		"ulist": {
+		  "prefix": "ulist",
+		  "body": [
+		"Описание:",
+		"",
+		"* Элемент.",
+		"* Элемент.",
+		"* Элемент."
+	  ],
+	  "description": "Список с маркерами" 
+  
+	  }
+  
+  }
+  

@@ -1,0 +1,41 @@
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= CI/CD
+
+== Этапы сборки
+
+[cols="1,2,3"]
+|===
+|Этап |Действие |Результат
+
+|`generate_diagrams`
+|Генерация SVG из BPMN и Draw.io
+|SVG файлы в artifacts
+
+|`pdf`
+|Создание PDF документов
+|PDF файлы в attachments
+
+|`build`
+|Генерация статического сайта
+|Папка `public/`
+
+|`deploy`
+|Публикация GitLab Pages
+|Онлайн сайт
+|===
+
+== Зависимости
+
+* `build` зависит от `generate_diagrams` и `pdf`;
+* `pdf` зависит от `generate_diagrams`.
+
+== Отслеживание изменений
+
+Добавьте в `changes`:
+
+* `tools/scripts/` — скрипты генерации;
+* `components/*/modules/implementation/bpmn/` — BPMN файлы;
+* `components/*/modules/implementation/drawio/` — Draw.io файлы;
+* `components/*/modules/implementation/api/` — API файлы (только отслеживание).

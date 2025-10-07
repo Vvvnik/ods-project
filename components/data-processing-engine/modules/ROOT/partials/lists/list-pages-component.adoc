@@ -1,0 +1,3 @@
+* xref:index.adoc[Ядро обработки данных]
+** xref:hardware-complex:index.adoc[Комплекс технических средств]
+** xref:user-guide:index.adoc[Руководство пользователя ядра обработки данных]

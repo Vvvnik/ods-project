@@ -1,0 +1,5 @@
+name: information-system
+title: Информационная система
+version: 1.0
+nav:
+  - modules/ROOT/nav.adoc

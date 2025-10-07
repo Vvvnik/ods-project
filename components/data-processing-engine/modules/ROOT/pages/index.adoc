@@ -1,0 +1,240 @@
+:doctype: book
+include::../partials/attr_common.adoc[]
+
+= Ядро обработки данных
+:title-page:
+:custom_title_page: original
+:custom_other_page: none
+:code-main: FHSJIQS
+:data_report: {localdate}
+:name_doc: Ядро обработки данных
+:number_doc: 23
+:name_prog_main: Ядро обработки данных
+:tom: 1
+:imagesdir: ../images
+:docinfo: shared
+:!chapter-signifier:
+:!section-refsig:
+:table-caption!: 
+:section-refsig: разделе
+:toc: macro
+:toc-title: Содержание 
+:sectnumlevels: 7
+:toclevels: 4
+:imagesdir: ../images
+
+
+== Назначение компонента
+
+Ядро обработки данных является центральным компонентом системы, обеспечивающим выполнение критически важных операций по обработке, анализу и управлению данными.
+
+Основные функции компонента:
+
+* Обработка больших объемов данных в реальном времени;
+* Интеграция с различными источниками данных;
+* Выполнение сложных аналитических запросов;
+* Обеспечение безопасности и контроля доступа;
+* Мониторинг производительности и состояния системы.
+
+== Архитектура компонента
+
+=== Общая архитектура
+
+Компонент построен по модульной архитектуре с четким разделением ответственности.
+
+Основные модули:
+
+* Комплекс технических средств - аппаратная инфраструктура;
+* Описание программы - техническая документация;
+* Руководство пользователя - инструкции для пользователей;
+* Руководство системного программиста - техническое руководство.
+
+=== Взаимодействие модулей
+
+Модули компонента взаимодействуют через стандартизированные интерфейсы.
+
+Схема взаимодействия:
+
+* Комплекс технических средств обеспечивает инфраструктуру;
+* Описание программы определяет требования и архитектуру;
+* Руководство пользователя описывает пользовательские сценарии;
+* Руководство системного программиста содержит технические детали.
+
+.Архитектура ядра обработки данных
+
+[plantuml, data-processing-architecture]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+skinparam component {
+  BackgroundColor #E8F4FD
+  BorderColor #2E86AB
+  FontColor #2E86AB
+}
+
+title Архитектура ядра обработки данных
+
+package "Уровень представления" {
+  [Web UI] as UI
+  [REST API] as API
+  [GraphQL Gateway] as GQL
+}
+
+package "Уровень бизнес-логики" {
+  [Сервис обработки данных] as DataService
+  [Сервис аналитики] as AnalyticsService
+  [Сервис безопасности] as SecurityService
+  [Сервис мониторинга] as MonitoringService
+}
+
+package "Уровень интеграции" {
+  [Kafka Connect] as KafkaConnect
+  [API Gateway] as APIGateway
+  [Message Broker] as MessageBroker
+}
+
+package "Уровень данных" {
+  [PostgreSQL] as DB
+  [Redis Cache] as Cache
+  [Elasticsearch] as Search
+  [Object Storage] as Storage
+}
+
+package "Инфраструктура" {
+  [Load Balancer] as LB
+  [Service Mesh] as ServiceMesh
+  [Configuration Management] as Config
+}
+
+UI --> API : HTTP/HTTPS
+API --> GQL : GraphQL
+API --> DataService : gRPC
+GQL --> DataService : gRPC
+
+DataService --> AnalyticsService : Event-driven
+DataService --> SecurityService : Interceptor
+DataService --> MonitoringService : Metrics
+
+DataService --> DB : JDBC
+DataService --> Cache : Redis Client
+DataService --> Search : REST
+DataService --> Storage : S3 API
+
+KafkaConnect --> DataService : Events
+APIGateway --> API : Routing
+MessageBroker --> DataService : Async
+
+LB --> UI : Load Distribution
+ServiceMesh --> DataService : Service Discovery
+Config --> DataService : Configuration
+
+@enduml
+----
+
+== Технологический стек
+
+=== Основные технологии
+
+Компонент использует современные технологии для обеспечения высокой производительности.
+
+Ключевые технологии:
+
+* Java 17 - основной язык разработки;
+* Spring Boot 3.x - фреймворк для создания приложений;
+* Apache Kafka - потоковая обработка данных;
+* Apache Spark - распределенная обработка данных;
+* PostgreSQL - основная база данных;
+* Redis - кэширование и сессии;
+* Elasticsearch - поиск и аналитика.
+
+.Технологический стек
+
+[plantuml, tech-stack-overview]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam rectangle {
+  BackgroundColor #F0F8FF
+  BorderColor #4682B4
+  FontColor #2F4F4F
+}
+
+title Технологический стек ядра обработки данных
+
+rectangle "Языки программирования" {
+  [Java 17] as Java
+  [Kotlin] as Kotlin
+  [Python] as Python
+}
+
+rectangle "Фреймворки" {
+  [Spring Boot 3.x] as Spring
+  [Spring Cloud] as SpringCloud
+  [Spring Data] as SpringData
+  [Spring Security] as SpringSecurity
+}
+
+rectangle "Обработка данных" {
+  [Apache Kafka] as Kafka
+  [Apache Spark] as Spark
+  [Apache Flink] as Flink
+  [Apache Beam] as Beam
+}
+
+rectangle "Базы данных" {
+  [PostgreSQL] as Postgres
+  [Redis] as Redis
+  [Elasticsearch] as Elastic
+  [MongoDB] as Mongo
+}
+
+rectangle "Контейнеризация" {
+  [Docker] as Docker
+  [Kubernetes] as K8s
+  [Helm] as Helm
+}
+
+rectangle "Мониторинг" {
+  [Prometheus] as Prometheus
+  [Grafana] as Grafana
+  [Jaeger] as Jaeger
+  [ELK Stack] as ELK
+}
+
+Java --> Spring
+Kotlin --> Spring
+Python --> Spark
+
+Spring --> SpringCloud
+Spring --> SpringData
+Spring --> SpringSecurity
+
+Kafka --> Spark
+Spark --> Flink
+Flink --> Beam
+
+SpringData --> Postgres
+SpringData --> Redis
+SpringData --> Elastic
+SpringData --> Mongo
+
+Spring --> Docker
+Docker --> K8s
+K8s --> Helm
+
+Spring --> Prometheus
+Prometheus --> Grafana
+Spring --> Jaeger
+Spring --> ELK
+
+@enduml
+----
+
+== Заключение
+
+Ядро обработки данных представляет собой комплексное решение для автоматизации процессов обработки и анализа данных. Модульная архитектура обеспечивает гибкость и масштабируемость системы.
+
+// xref:ROOT:attachment$index.pdf[Скачать файл pdf «Ядро обработки данных»]

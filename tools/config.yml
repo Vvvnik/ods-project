@@ -1,0 +1,115 @@
+# ******************************************************
+# Настройка сборки проекта документации ODS
+# Она используется для генерации PDF-документов и сайта
+# и для конвертации BPMN, Drawio, API и БД в AsciiDoc
+# 
+# Настройки БД и API источников теперь в компонентах:
+# - components/{name}/database.yml - профили БД
+# - components/{name}/sources.yml - источники API
+# ******************************************************
+
+# Путь к темам для PDF генерации
+themes_dir: "resources/themes"
+
+# ******************************************************
+# Настройки по умолчанию для всех компонентов
+# ******************************************************
+defaults: &defaults
+  # BPMN диаграммы
+  bpmn:
+    enabled: false                # ← Включить/отключить генерацию BPMN
+    src: "components/{name}/modules/ROOT/examples/bpmn"           # ← Откуда брать .bpmn файлы
+    dst: "components/{name}/modules/ROOT/images/bpmn"            # ← Куда сохранять изображения
+    erase_destination_folder: true # ← Очищать папку назначения перед генерацией
+  
+  # Draw.io диаграммы  
+  drawio:
+    enabled: false                # ← Включить/отключить генерацию Draw.io
+    src: "components/{name}/modules/ROOT/examples/drawio"        # ← Откуда брать .drawio файлы
+    dst: "components/{name}/modules/ROOT/images/drawio"          # ← Куда сохранять изображения
+    erase_destination_folder: true # ← Очищать папку назначения перед генерацией
+  
+  # API документация
+  api:
+    enabled: false                # ← Включить/отключить генерацию API документации
+    dst: "components/{name}/modules/ROOT/partials/docs-api"     # ← Куда保存вать API документацию
+    api_sources_file: "components/{name}/modules/ROOT/examples/sources.yml"  # ← Файл источников API
+    erase_destination_folder: true # ← Очищать папку назначения перед генерацией
+  
+  # База данных
+  db:
+    enabled: false                # ← Включить/отключить генерацию DB документации
+    images_dir: "components/{name}/modules/ROOT/images/images-db" # ← Папка для изображений схем БД
+    dst: "components/{name}/modules/ROOT/partials/docs-db"       # ← Куда сохранять DB документацию
+    database_connect_file: "components/{name}/modules/ROOT/examples/database.yml"  # ← Файл подключения к БД
+    erase_destination_folder: false # ← НЕ очищать папку назначения (сохранять существующие)
+    profile: "pg_demo"            # ← Профиль БД для подключения
+  
+  # PDF генерация
+  pdf:
+    enabled: false                # ← Включить/отключить генерацию PDF
+    src: "components/{name}/modules/*/pages"                   # ← Откуда брать .adoc файлы
+    dst: "components/{name}/modules/ROOT/attachments"          # ← Куда сохранять PDF файлы
+    converter: "tools/scripts/convert_ascii_to_pdf.rb"     # ← Конвертер для генерации PDF
+    theme: "report"               # ← Тема оформления PDF
+    themes_dir: "resources/themes" # ← Папка с темами
+    fonts_dir: "resources/fonts"  # ← Папка со шрифтами
+    exclude_files: ["index.adoc"] # ← Файлы исключаемые из генерации
+    erase_destination_folder: true # ← Очищать папку назначения перед генерацией
+    use_title_pages: true        # ← Использовать титульные страницы
+  # Генерация списков файлов
+  list:
+    enabled: true                    # ← По умолчанию ВКЛЮЧЕНО
+    adoc_lists: true                # ← Списки .adoc файлов (везде)
+    pdf_lists: true                # ← PDF списки создаются только при включенной PDF генерации
+    # Директории
+    adoc_src: "components/{name}/modules/*/pages"     # ← Откуда брать .adoc
+    pdf_src: "components/{name}/modules/ROOT/attachments"  # ← Откуда брать PDF
+    dst: "components/{name}/modules/ROOT/partials/lists"  # ← Куда сохранять списки
+# uml и plantuml не конвертируем это делает kroki
+# ******************************************************  
+# Список компонентов и параметров сборки
+# ******************************************************
+components:
+  - name: airport-service
+    <<: *defaults
+    # db:
+    #   enabled: true
+    #   profile: "pg_demo"
+    # pdf:
+    #   enabled: true
+
+  - name: data-processing-engine
+    <<: *defaults
+    bpmn:
+      enabled: true
+    # pdf:
+    #   enabled: true
+  
+  - name: information-system
+    <<: *defaults
+    drawio:
+      enabled: true
+      dst: "components/{name}/modules/ed/images/drawio"
+
+  - name: information-system
+    <<: *defaults
+    drawio:
+      enabled: true
+      dst: "components/{name}/modules/ROOT/images/drawio"
+    pdf:
+      enabled: true
+
+  - name: toys-service
+    <<: *defaults
+    # api:
+    #   enabled: true
+
+  - name: project-guide
+    <<: *defaults
+    drawio:
+      enabled: true
+    # pdf:
+    #   enabled: true
+  
+# ******************************************************

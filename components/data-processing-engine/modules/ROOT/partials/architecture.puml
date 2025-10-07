@@ -1,0 +1,8 @@
+@startuml
+actor User
+rectangle Component {
+  User --> Interface
+  Interface --> Logic
+  Logic --> Database
+}
+@enduml

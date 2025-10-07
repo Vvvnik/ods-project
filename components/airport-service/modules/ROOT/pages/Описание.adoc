@@ -1,0 +1,23 @@
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+include::../partials/attr_common.adoc[]
+
+= Описание
+
+Документ содержит описание сервиса аэропортов, включая схему базы данных, структуру таблиц и логические связей между сущностями системы управления аэропортами.
+
+:sectnums:
+:sectnumlevels: 3
+
+<<<<
+toc::[]
+<<<<
+
+== Список PDF файлов
+
+include::../partials/lists/list-pdf-component.adoc[]
+
+== Содержание
+
+include::index.adoc[]

@@ -1,0 +1,86 @@
+[plantuml, network-diagram]
+----
+@startuml
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam component {
+  BackgroundColor #E8F5E8
+  BorderColor #228B22
+  FontColor #006400
+}
+skinparam database {
+  BackgroundColor #FFF8DC
+  BorderColor #DAA520
+  FontColor #8B4513
+}
+skinparam cloud {
+  BackgroundColor #F0F8FF
+  BorderColor #4682B4
+  FontColor #2F4F4F
+}
+
+title Схема сетевого взаимодействия
+
+cloud "Интернет" {
+  [External Users] as Users
+  [CDN] as CDN
+}
+
+cloud "Периметр безопасности" {
+  [WAF] as WAF
+  [DDoS Protection] as DDoS
+  [VPN Gateway] as VPN
+}
+
+cloud "DMZ" {
+  [Web Servers] as Web
+  [API Gateway] as APIGateway
+  [Mail Server] as Mail
+}
+
+cloud "Внутренняя сеть" {
+  [Application Servers] as AppServers
+  [Database Servers] as DBServers
+  [File Servers] as FileServers
+  [Backup Servers] as BackupServers
+}
+
+cloud "Сеть управления" {
+  [Monitoring] as Monitoring
+  [Logging] as Logging
+  [Configuration] as Configuration
+}
+
+cloud "Сеть хранения" {
+  [SAN Switch] as SAN
+  [Storage Arrays] as Storage
+  [Tape Library] as Tape
+}
+
+Users --> CDN : HTTPS
+CDN --> WAF : HTTPS
+WAF --> DDoS : Traffic Filtering
+DDoS --> Web : Clean Traffic
+DDoS --> APIGateway : Clean Traffic
+
+VPN --> Web : Secure Access
+VPN --> APIGateway : Secure Access
+
+Web --> AppServers : Internal API
+APIGateway --> AppServers : Internal API
+Mail --> AppServers : Internal API
+
+AppServers --> DBServers : Database Queries
+AppServers --> FileServers : File Operations
+AppServers --> BackupServers : Backup Operations
+
+AppServers --> SAN : Storage Access
+SAN --> Storage : Block Storage
+SAN --> Tape : Backup Storage
+
+Monitoring --> AppServers : Health Checks
+Logging --> AppServers : Log Collection
+Configuration --> AppServers : Config Updates
+
+@enduml
+----

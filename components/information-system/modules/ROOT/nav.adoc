@@ -1,0 +1,14 @@
+// * xref:index.adoc[Информационная система]
+// ** xref:trd:index.adoc[Техническое задание (ТЗ)]
+// *** xref:trd:requirements.adoc[Требования к системе]
+// *** xref:trd:architecture.adoc[Архитектура системы]
+// ** xref:trd:Частное_техническое_задание.adoc[Частное техническое задание]
+// ** xref:oed:index.adoc[Опытная эксплуатация (ОЭ)]
+// *** xref:oed:Акт_приемки_в_опытную_эксплуатацию.adoc[Акт приемки в опытную эксплуатацию]
+// *** xref:oed:Протокол_опытнои_эксплуатации.adoc[Протокол опытной эксплуатации]
+// *** xref:oed:test-results.adoc[Результаты тестирования]
+// ** xref:ed:index.adoc[Эксплуатационная документация (ЭД)]
+// ** xref:pmi:index.adoc[Приемочные испытания (ПИ)]
+
+
+include::partials/lists/list-pages-component.adoc[]

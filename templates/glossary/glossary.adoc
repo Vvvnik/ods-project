@@ -1,0 +1,17 @@
+:glossary-title: Глоссарий
+:glossary-name: Глоссарий
+:glossary-description: Глоссарий
+:glossary-keywords: Глоссарий
+:glossary-keywords-description: Глоссарий
+:glossary-keywords-description: Глоссарий
+
+:name-term-1: Компонент
+:name-term-2: Определение компонента
+:name-term-3: 
+:name-term-4: 
+:name-term-5: 
+:name-term-6: 
+:name-term-7: 
+:name-term-8: 
+:name-term-9: 
+:name-term-10: 

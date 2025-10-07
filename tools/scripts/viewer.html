@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://unpkg.com/bpmn-js@13.0.3/dist/bpmn-viewer.development.js"></script>
+  <style>
+    body, html { margin: 0; padding: 0; }
+    #canvas { width: 1000px; height: 600px; background: white; }
+  </style>
+</head>
+<body>
+  <div id="canvas"></div>
+  <script>
+    const viewer = new BpmnJS({ container: '#canvas' });
+    window.isDiagramLoaded = false;
+
+    window.loadDiagram = async function (xml) {
+      try {
+        await viewer.importXML(xml);
+        window.isDiagramLoaded = true;
+      } catch (err) {
+        console.error('❌ Ошибка загрузки диаграммы:', err);
+      }
+    };
+
+window.getSVG = async function () {
+  const { svg } = await viewer.saveSVG();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svg, 'image/svg+xml');
+  const svgEl = doc.querySelector('svg');
+
+  const viewBox = svgEl.getAttribute('viewBox');
+  if (viewBox) {
+    const [x, y, width, height] = viewBox.split(' ').map(parseFloat);
+    const rect = doc.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', x);
+    rect.setAttribute('y', y);
+    rect.setAttribute('width', width);
+    rect.setAttribute('height', height);
+    rect.setAttribute('fill', 'white');
+    svgEl.insertBefore(rect, svgEl.firstChild);
+  }
+
+  return new XMLSerializer().serializeToString(doc);
+};
+
+
+  </script>
+</body>
+</html>

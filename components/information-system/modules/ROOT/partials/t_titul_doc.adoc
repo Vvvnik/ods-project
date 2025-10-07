@@ -1,0 +1,102 @@
+include::contract.adoc[]
+// tag::titul_start_utv[]
+// Данные из контракта
+[cols="1,10,1,10,1", grid=none, frame=none]
+|===
+|
+// [.my-title-table] стиль пдф из папки resources/themes/report-theme.yml
+^| [.my-title-table]#*УТВЕРЖДАЮ*#
+|
+^| [.my-title-table]#*УТВЕРЖДАЮ*#
+|
+|
+^| [.my-title-table]#{job_customer_1}# +
+[.my-title-table]#{job_customer_2}#
+|
+^| [.my-title-table]#{job_executor_1}# +
+[.my-title-table]#{job_executor_2}#
+|
+|
+|
+|
+|
+|
+|                                                                    
+^| [.my-title-table]#+++_______________+++ {nbsp} {iof_customer}#
+|
+^| [.my-title-table]#+++_______________+++ {nbsp} {iof_executor}#
+|
+|
+|
+|
+|
+|
+|
+^| [.my-title-table]#«+++____+++» +++_______________+++ {year} г.#
+|
+^| [.my-title-table]#«+++____+++» +++_______________+++ {year} г.#
+|
+|===
+// end::titul_start_utv[]
+[cols="1*", grid=none, frame=none]
+|===
+|{nbsp}
+^| [.my-title-table]#{name_component_1}# +
+[.my-title-table]#{name_component_2}# +
+[.my-title-table]#{name_component_3} {name_component_4}# +
+|===
+
+// данные из документа
+// ***********************
+[cols="1*", grid=none, frame=none]
+|===
+^| [.my-title-table]#*{name_dokument_master}*#                                              
+^| [.my-title-table]#{name_dokument_slave}#
+|===
+// tag::titul_center_utv[]
+[cols="1*", grid=none, frame=none]
+|===
+^| [.my-title-table]#{сontract_name} {contract_number} ({stage} этап)# +     
+[.my-title-table]#Государственный контракт {state_сontract_number}# +
+{nbsp} +
+|===
+// end::titul_center_utv[]
+// tag::titul_end_utv[]
+// данные из документа
+[cols="1*", grid=none, frame=none]
+|===
+^|[.my-title-table]#*Версия {cod_gk}{code}.01*# +
+|===
+[cols="1,10,1,10,1", grid=none, frame=none]
+|===
+|{nbsp}
+// ***********************
+// tag::titul_end_concordant[]
+|
+|
+|                                                                    
+|
+|
+^|  [.my-title-table]#*СОГЛАСОВАНО*#
+^|
+^|
+^|
+^|  
+^| [.my-title-table]#{job_concordant_1}# +
+[.my-title-table]#{job_concordant_2}#
+^|
+^|
+^|
+^|
+^| [.my-title-table]#+++_______________ +++ {nbsp} {iof_concordant}#
+^|
+^|{nbsp}
+^|
+^|
+^| [.my-title-table]#«+++____+++» +++_______________+++ {year} г.#
+^|
+|
+|
+|===
+// end::titul_end_concordant[]
+// end::titul_end_utv[]

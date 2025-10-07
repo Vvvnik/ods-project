@@ -1,0 +1,635 @@
+swagger: "2.0"
+info:
+  title: "Тестовый API для демонстрации конвертера (YAML)"
+  description: "Полнофункциональный API для тестирования всех возможностей конвертера документации. Включает все типы параметров, схемы данных, коды ответов и примеры. Версия в формате YAML."
+  version: "1.0.0"
+  contact:
+    name: "Команда разработки"
+    email: "dev@example.com"
+    url: "https://example.com"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+host: "api.example.com"
+basePath: "/v1"
+schemes:
+  - "https"
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+tags:
+  - name: "Пользователи"
+    description: "Операции с пользователями системы"
+  - name: "Товары"
+    description: "Каталог товаров и управление"
+  - name: "Аутентификация"
+    description: "Вход в систему и управление сессиями"
+
+paths:
+  "/users":
+    get:
+      tags:
+        - "Пользователи"
+      summary: "Получить список пользователей"
+      description: "Возвращает список всех пользователей с возможностью фильтрации и пагинации"
+      operationId: "getUsers"
+      parameters:
+        - name: "page"
+          in: "query"
+          description: "Номер страницы для пагинации"
+          required: false
+          type: "integer"
+          minimum: 1
+          maximum: 1000
+          default: 1
+          example: 1
+        - name: "limit"
+          in: "query"
+          description: "Количество пользователей на странице"
+          required: false
+          type: "integer"
+          minimum: 1
+          maximum: 100
+          default: 20
+          example: 20
+        - name: "search"
+          in: "query"
+          description: "Поиск по имени или email пользователя"
+          required: false
+          type: "string"
+          minLength: 2
+          maxLength: 100
+          pattern: "^[a-zA-Z0-9@._-]+$"
+          example: "john"
+        - name: "status"
+          in: "query"
+          description: "Фильтр по статусу пользователя"
+          required: false
+          type: "string"
+          enum:
+            - "active"
+            - "inactive"
+            - "pending"
+            - "banned"
+          default: "active"
+          example: "active"
+      responses:
+        "200":
+          description: "Список пользователей успешно получен"
+          schema:
+            "$ref": "#/definitions/UsersListResponse"
+        "400":
+          description: "Некорректные параметры запроса"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+        "401":
+          description: "Требуется аутентификация"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+        "500":
+          description: "Внутренняя ошибка сервера"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+
+    post:
+      tags:
+        - "Пользователи"
+      summary: "Создать нового пользователя"
+      description: "Регистрирует нового пользователя в системе с указанными данными"
+      operationId: "createUser"
+      parameters:
+        - name: "user"
+          in: "body"
+          description: "Данные нового пользователя"
+          required: true
+          schema:
+            "$ref": "#/definitions/CreateUserRequest"
+      responses:
+        "201":
+          description: "Пользователь успешно создан"
+          schema:
+            "$ref": "#/definitions/UserResponse"
+        "400":
+          description: "Некорректные данные пользователя"
+          schema:
+            "$ref": "#/definitions/ValidationErrorResponse"
+        "409":
+          description: "Пользователь с таким email уже существует"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+        "500":
+          description: "Внутренняя ошибка сервера"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+
+  "/users/{userId}":
+    get:
+      tags:
+        - "Пользователи"
+      summary: "Получить пользователя по ID"
+      description: "Возвращает детальную информацию о пользователе по его уникальному идентификатору"
+      operationId: "getUserById"
+      parameters:
+        - name: "userId"
+          in: "path"
+          description: "Уникальный идентификатор пользователя"
+          required: true
+          type: "string"
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        "200":
+          description: "Пользователь найден"
+          schema:
+            "$ref": "#/definitions/UserResponse"
+        "404":
+          description: "Пользователь не найден"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+        "500":
+          description: "Внутренняя ошибка сервера"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+
+  "/auth/login":
+    post:
+      tags:
+        - "Аутентификация"
+      summary: "Вход в систему"
+      description: "Аутентификация пользователя по email и паролю"
+      operationId: "login"
+      parameters:
+        - name: "credentials"
+          in: "body"
+          description: "Данные для входа"
+          required: true
+          schema:
+            "$ref": "#/definitions/LoginRequest"
+      responses:
+        "200":
+          description: "Успешный вход в систему"
+          schema:
+            "$ref": "#/definitions/LoginResponse"
+        "401":
+          description: "Неверные учетные данные"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+        "429":
+          description: "Слишком много попыток входа"
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+
+  "/products":
+    get:
+      tags:
+        - "Товары"
+      summary: "Получить каталог товаров"
+      description: "Возвращает список товаров с фильтрацией по категориям и ценам"
+      operationId: "getProducts"
+      parameters:
+        - name: "category"
+          in: "query"
+          description: "Категория товаров"
+          required: false
+          type: "string"
+          enum:
+            - "electronics"
+            - "clothing"
+            - "books"
+            - "home"
+            - "sports"
+          example: "electronics"
+        - name: "minPrice"
+          in: "query"
+          description: "Минимальная цена товара"
+          required: false
+          type: "number"
+          format: "float"
+          minimum: 0
+          example: 100.50
+        - name: "maxPrice"
+          in: "query"
+          description: "Максимальная цена товара"
+          required: false
+          type: "number"
+          format: "float"
+          minimum: 0
+          example: 1000.00
+        - name: "inStock"
+          in: "query"
+          description: "Только товары в наличии"
+          required: false
+          type: "boolean"
+          default: true
+          example: true
+      responses:
+        "200":
+          description: "Список товаров получен"
+          schema:
+            "$ref": "#/definitions/ProductsListResponse"
+
+definitions:
+  User:
+    type: "object"
+    required:
+      - "id"
+      - "name"
+      - "email"
+      - "status"
+    properties:
+      id:
+        type: "string"
+        description: "Уникальный идентификатор пользователя"
+        pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        example: "123e4567-e89b-12d3-a456-426614174000"
+      name:
+        type: "string"
+        description: "Полное имя пользователя"
+        minLength: 2
+        maxLength: 100
+        pattern: "^[а-яА-Яa-zA-Z\\s]+$"
+        example: "Иван Петров"
+      email:
+        type: "string"
+        format: "email"
+        description: "Email адрес пользователя"
+        maxLength: 255
+        example: "ivan.petrov@example.com"
+      phone:
+        type: "string"
+        description: "Номер телефона пользователя"
+        pattern: "^\\+7[0-9]{10}$"
+        example: "+79161234567"
+      age:
+        type: "integer"
+        description: "Возраст пользователя"
+        minimum: 18
+        maximum: 120
+        example: 25
+      status:
+        type: "string"
+        description: "Статус пользователя в системе"
+        enum:
+          - "active"
+          - "inactive"
+          - "pending"
+          - "banned"
+        default: "active"
+        example: "active"
+      role:
+        type: "string"
+        description: "Роль пользователя"
+        enum:
+          - "user"
+          - "admin"
+          - "moderator"
+        default: "user"
+        example: "user"
+      createdAt:
+        type: "string"
+        format: "date-time"
+        description: "Дата и время создания пользователя"
+        example: "2024-01-15T10:30:00Z"
+      updatedAt:
+        type: "string"
+        format: "date-time"
+        description: "Дата и время последнего обновления"
+        example: "2024-01-15T10:30:00Z"
+
+  CreateUserRequest:
+    type: "object"
+    description: "Данные для создания нового пользователя"
+    required:
+      - "name"
+      - "email"
+      - "password"
+    properties:
+      name:
+        type: "string"
+        description: "Полное имя пользователя"
+        minLength: 2
+        maxLength: 100
+        pattern: "^[а-яА-Яa-zA-Z\\s]+$"
+        example: "Иван Петров"
+      email:
+        type: "string"
+        format: "email"
+        description: "Email адрес пользователя"
+        maxLength: 255
+        example: "ivan.petrov@example.com"
+      password:
+        type: "string"
+        description: "Пароль пользователя"
+        minLength: 8
+        maxLength: 128
+        pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]"
+        example: "SecurePass123!"
+      phone:
+        type: "string"
+        description: "Номер телефона пользователя"
+        pattern: "^\\+7[0-9]{10}$"
+        example: "+79161234567"
+      age:
+        type: "integer"
+        description: "Возраст пользователя"
+        minimum: 18
+        maximum: 120
+        example: 25
+      role:
+        type: "string"
+        description: "Роль пользователя"
+        enum:
+          - "user"
+          - "admin"
+          - "moderator"
+        default: "user"
+        example: "user"
+
+  UserResponse:
+    type: "object"
+    description: "Ответ с данными пользователя"
+    properties:
+      success:
+        type: "boolean"
+        description: "Статус успешности операции"
+        example: true
+      data:
+        "$ref": "#/definitions/User"
+      message:
+        type: "string"
+        description: "Сообщение о результате операции"
+        example: "Пользователь успешно получен"
+
+  UsersListResponse:
+    type: "object"
+    description: "Ответ со списком пользователей"
+    properties:
+      success:
+        type: "boolean"
+        description: "Статус успешности операции"
+        example: true
+      data:
+        type: "array"
+        description: "Список пользователей"
+        items:
+          "$ref": "#/definitions/User"
+      pagination:
+        "$ref": "#/definitions/PaginationInfo"
+      message:
+        type: "string"
+        description: "Сообщение о результате операции"
+        example: "Список пользователей успешно получен"
+
+  PaginationInfo:
+    type: "object"
+    description: "Информация о пагинации"
+    properties:
+      page:
+        type: "integer"
+        description: "Текущая страница"
+        minimum: 1
+        example: 1
+      limit:
+        type: "integer"
+        description: "Количество элементов на странице"
+        minimum: 1
+        example: 20
+      total:
+        type: "integer"
+        description: "Общее количество элементов"
+        minimum: 0
+        example: 150
+      pages:
+        type: "integer"
+        description: "Общее количество страниц"
+        minimum: 0
+        example: 8
+
+  LoginRequest:
+    type: "object"
+    description: "Данные для входа в систему"
+    required:
+      - "email"
+      - "password"
+    properties:
+      email:
+        type: "string"
+        format: "email"
+        description: "Email адрес пользователя"
+        maxLength: 255
+        example: "ivan.petrov@example.com"
+      password:
+        type: "string"
+        description: "Пароль пользователя"
+        minLength: 8
+        maxLength: 128
+        example: "SecurePass123!"
+      rememberMe:
+        type: "boolean"
+        description: "Запомнить пользователя"
+        default: false
+        example: true
+
+  LoginResponse:
+    type: "object"
+    description: "Ответ при успешном входе в систему"
+    properties:
+      success:
+        type: "boolean"
+        description: "Статус успешности операции"
+        example: true
+      data:
+        type: "object"
+        description: "Данные пользователя и токен"
+        properties:
+          user:
+            "$ref": "#/definitions/User"
+          token:
+            type: "string"
+            description: "JWT токен для аутентификации"
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          refreshToken:
+            type: "string"
+            description: "Токен для обновления сессии"
+            example: "refresh_token_here"
+          expiresIn:
+            type: "integer"
+            description: "Время жизни токена в секундах"
+            example: 3600
+      message:
+        type: "string"
+        description: "Сообщение о результате операции"
+        example: "Успешный вход в систему"
+
+  Product:
+    type: "object"
+    description: "Товар в каталоге"
+    required:
+      - "id"
+      - "name"
+      - "price"
+      - "category"
+      - "inStock"
+    properties:
+      id:
+        type: "string"
+        description: "Уникальный идентификатор товара"
+        pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        example: "456e7890-e89b-12d3-a456-426614174000"
+      name:
+        type: "string"
+        description: "Название товара"
+        minLength: 2
+        maxLength: 200
+        example: "Смартфон iPhone 15 Pro"
+      description:
+        type: "string"
+        description: "Подробное описание товара"
+        maxLength: 2000
+        example: "Новейший смартфон с камерой 48 МП и процессором A17 Pro"
+      price:
+        type: "number"
+        format: "float"
+        description: "Цена товара в рублях"
+        minimum: 0
+        example: 89999.99
+      category:
+        type: "string"
+        description: "Категория товара"
+        enum:
+          - "electronics"
+          - "clothing"
+          - "books"
+          - "home"
+          - "sports"
+        example: "electronics"
+      inStock:
+        type: "boolean"
+        description: "Наличие товара на складе"
+        example: true
+      quantity:
+        type: "integer"
+        description: "Количество товара на складе"
+        minimum: 0
+        example: 25
+      images:
+        type: "array"
+        description: "Изображения товара"
+        items:
+          type: "string"
+          format: "uri"
+        example:
+          - "https://example.com/images/iphone15pro1.jpg"
+          - "https://example.com/images/iphone15pro2.jpg"
+      specifications:
+        type: "object"
+        description: "Технические характеристики товара"
+        additionalProperties:
+          type: "string"
+        example:
+          screen: "6.1 дюйма"
+          memory: "256 ГБ"
+          color: "Титан"
+      createdAt:
+        type: "string"
+        format: "date-time"
+        description: "Дата добавления товара"
+        example: "2024-01-15T10:30:00Z"
+
+  ProductsListResponse:
+    type: "object"
+    description: "Ответ со списком товаров"
+    properties:
+      success:
+        type: "boolean"
+        description: "Статус успешности операции"
+        example: true
+      data:
+        type: "array"
+        description: "Список товаров"
+        items:
+          "$ref": "#/definitions/Product"
+      pagination:
+        "$ref": "#/definitions/PaginationInfo"
+      message:
+        type: "string"
+        description: "Сообщение о результате операции"
+        example: "Список товаров успешно получен"
+
+  ErrorResponse:
+    type: "object"
+    description: "Стандартный ответ об ошибке"
+    properties:
+      success:
+        type: "boolean"
+        description: "Статус успешности операции"
+        example: false
+      error:
+        type: "object"
+        description: "Информация об ошибке"
+        properties:
+          code:
+            type: "string"
+            description: "Код ошибки"
+            example: "USER_NOT_FOUND"
+          message:
+            type: "string"
+            description: "Сообщение об ошибке"
+            example: "Пользователь не найден"
+          details:
+            type: "string"
+            description: "Дополнительные детали ошибки"
+            example: "Пользователь с ID 123e4567-e89b-12d3-a456-426614174000 не существует"
+      timestamp:
+        type: "string"
+        format: "date-time"
+        description: "Время возникновения ошибки"
+        example: "2024-01-15T10:30:00Z"
+
+  ValidationErrorResponse:
+    type: "object"
+    description: "Ответ об ошибках валидации"
+    properties:
+      success:
+        type: "boolean"
+        description: "Статус успешности операции"
+        example: false
+      error:
+        type: "object"
+        description: "Информация об ошибке валидации"
+        properties:
+          code:
+            type: "string"
+            description: "Код ошибки"
+            example: "VALIDATION_ERROR"
+          message:
+            type: "string"
+            description: "Общее сообщение об ошибке"
+            example: "Ошибка валидации данных"
+          validationErrors:
+            type: "array"
+            description: "Детальные ошибки валидации"
+            items:
+              type: "object"
+              properties:
+                field:
+                  type: "string"
+                  description: "Поле с ошибкой"
+                  example: "email"
+                message:
+                  type: "string"
+                  description: "Сообщение об ошибке поля"
+                  example: "Email должен быть корректным адресом"
+                value:
+                  type: "string"
+                  description: "Значение поля с ошибкой"
+                  example: "invalid-email"
+      timestamp:
+        type: "string"
+        format: "date-time"
+        description: "Время возникновения ошибки"
+        example: "2024-01-15T10:30:00Z"

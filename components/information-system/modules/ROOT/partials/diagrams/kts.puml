@@ -1,0 +1,80 @@
+[plantuml, hardware-architecture]
+----
+@startuml kts
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam component {
+  BackgroundColor #E6F3FF
+  BorderColor #0066CC
+  FontColor #003366
+}
+skinparam database {
+  BackgroundColor #FFF2E6
+  BorderColor #FF8C00
+  FontColor #8B4513
+}
+skinparam cloud {
+  BackgroundColor #F0F8FF
+  BorderColor #4682B4
+  FontColor #2F4F4F
+}
+
+title Архитектура комплекса технических средств
+
+package "Уровень вычислений" {
+  [Application Server 1] as App1
+  [Application Server 2] as App2
+  [Application Server 3] as App3
+  [Load Balancer] as LB
+}
+
+package "Уровень хранения" {
+  [Primary Storage] as Primary
+  [Backup Storage] as Backup
+  [Cache Storage] as Cache
+  [Archive Storage] as Archive
+}
+
+package "Уровень сети" {
+  [Core Switch] as CoreSwitch
+  [Access Switch 1] as Access1
+  [Access Switch 2] as Access2
+  [Router] as Router
+  [Firewall] as Firewall
+}
+
+package "Уровень управления" {
+  [Monitoring Server] as Monitor
+  [Configuration Server] as Config
+  [Backup Server] as BackupServer
+}
+
+package "Внешние системы" {
+  [Internet] as Internet
+  [Corporate Network] as CorpNet
+}
+
+App1 --> CoreSwitch : 10 Gbps
+App2 --> CoreSwitch : 10 Gbps
+App3 --> CoreSwitch : 10 Gbps
+LB --> CoreSwitch : 10 Gbps
+
+CoreSwitch --> Access1 : 25 Gbps
+CoreSwitch --> Access2 : 25 Gbps
+
+Access1 --> Primary : 10 Gbps
+Access1 --> Cache : 10 Gbps
+Access2 --> Backup : 10 Gbps
+Access2 --> Archive : 10 Gbps
+
+CoreSwitch --> Router : 40 Gbps
+Router --> Firewall : 40 Gbps
+Firewall --> Internet : 10 Gbps
+Firewall --> CorpNet : 10 Gbps
+
+Monitor --> CoreSwitch : 1 Gbps
+Config --> CoreSwitch : 1 Gbps
+BackupServer --> CoreSwitch : 1 Gbps
+
+@enduml
+----

@@ -1,0 +1,306 @@
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Правка и проверка
+
+== Этапы генерации документации
+
+[cols="1,2,3,4"]
+|===
+|Этап |Инструмент |Результат |Среда
+
+|BPMN → SVG
+|Node.js скрипт
+|SVG диаграммы процессов
+|Только локально
+
+|Draw.io → SVG
+|Node.js скрипт
+|SVG диаграммы архитектуры
+|Только локально
+
+|API → AsciiDoc
+|Ruby скрипт
+|Документация API
+|Только локально
+
+|БД → AsciiDoc
+|Ruby скрипт
+|Документация БД
+|Только локально
+
+|AsciiDoc → PDF
+|Asciidoctor PDF
+|PDF документы
+|CI и локально
+|===
+
+== Работа с диаграммами
+
+=== Генерация через start.rb
+
+Для генерации BPMN и Draw.io диаграмм через основной скрипт:
+
+1. Включите генерацию в `tools/config.yml`:
+   ```yaml
+   bpmn:
+     enabled: true
+   drawio:
+     enabled: true
+   ```
+
+2. Запустите генерацию:
+   ```bash
+   ruby tools/start.rb
+   ```
+
+**Результат:**
+
+* BPMN: исходники в `modules/ROOT/examples/bpmn/` → `modules/ROOT/images/bpmn/*.svg`
+* Draw.io: исходники в `modules/ROOT/examples/drawio/` → `modules/ROOT/images/drawio/*.svg`
+
+=== Ручная генерация диаграмм
+
+Для ручной генерации BPMN и Draw.io диаграмм используйте скрипты:
+
+[source,bash]
+----
+# Генерация BPMN диаграмм
+node tools/scripts/bpmn_to_img.js --in components/component-name/modules/ROOT/examples/bpmn --out components/component-name/modules/ROOT/images/bpmn --format svg
+
+# Генерация Draw.io диаграмм  
+node tools/scripts/drawio_to_img.js --in components/component-name/modules/ROOT/examples/drawio --out components/component-name/modules/ROOT/images/drawio --format svg
+----
+
+=== Kroki диаграммы
+
+Для PlantUML диаграмм используйте Kroki (работает автоматически):
+
+```adoc
+[kroki-plantuml, format=svg]
+----
+@startuml
+A --> B
+@enduml
+----
+```
+
+=== Зависимости для рендеринга
+
+* **BPMN**: Puppeteer + Chrome/Chromium (только локально)
+* **Draw.io**: Draw.io Desktop приложение (только локально)
+* **PlantUML**: Kroki сервер (автоматически в CI и локально)
+
+**Примечание:** В CI генерация BPMN и Draw.io диаграмм отключена автоматически.
+
+См. подробности в разделе <<Установка, Установка>>.
+
+== Генерация PDF с титульными страницами
+
+Для генерации PDF документов с кастомными титульными страницами используйте команду:
+
+[source,bash]
+----
+asciidoctor-pdf \
+  -r asciidoctor-kroki \
+  -r ./tools/scripts/convert_ascii_to_pdf.rb \
+  -a kroki-default-format=png \
+  -a kroki-server-url=http://localhost:8000 \
+  -a pdf-theme=report \
+  -a pdf-themesdir=resources/themes \
+  -a pdf-fontsdir=resources/fonts \
+  -a allow-uri-read \
+  components/information-system/modules/trd/pages/Частное_техническое_задание.adoc
+----
+
+=== Параметры команды
+
+* `-r asciidoctor-kroki` - подключение Kroki для диаграмм
+* `-r ./tools/scripts/convert_ascii_to_pdf.rb` - унифицированный конвертер с автоматическим выбором тем и типов списков
+* `-a kroki-server-url=http://localhost:8000` - URL локального сервера Kroki
+* `-a pdf-theme=report` - тема для PDF (автоматически выбирается: `frame` для `_frame` типов, `report` для остальных)
+* `-a pdf-themesdir=resources/themes` - директория с темами
+* `-a pdf-fontsdir=resources/fonts` - директория со шрифтами
+* `-a allow-uri-read` - разрешение чтения внешних ресурсов
+
+=== Типы титульных страниц
+
+* `:custom_title_page: contract` - для контрактных документов
+* `:custom_title_page: original` - для обычных документов
+* `:custom_title_page: none` - без титульной страницы
+
+=== Отключение титульной страницы
+
+Для полного отключения титульной страницы используйте:
+
+[source,asciidoc]
+----
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:notitle:
+
+== Название документа
+----
+
+Важно: 
+
+Используйте заголовок уровня 2 (`==`) вместо уровня 1 (`=`), чтобы избежать создания титульной страницы.
+
+=== Правильное использование заголовков
+
+Если НЕ задан тип титульной страницы (`:custom_title_page:` не указан или пустой):
+
+[source,asciidoc]
+----
+:doctype: book
+:custom_other_page: none
+
+== Название документа
+
+Содержание документа начинается сразу после заголовка...
+----
+
+Если задан тип титульной страницы (`:custom_title_page: contract` или `:custom_title_page: original`):
+
+[source,asciidoc]
+----
+:doctype: book
+:custom_title_page: contract
+:custom_other_page: none
+
+== Название документа
+
+Содержание документа начинается после титульной страницы...
+----
+
+Ключевое правило:
+
+* `=` (уровень 1) + `:custom_title_page:` = титульная страница + содержание
+* `==` (уровень 2) + отсутствие `:custom_title_page:` = только содержание без титульной страницы
+
+Важно: Если `:custom_title_page:` не задан или пустой, система автоматически использует тип `none` и не создает титульную страницу. Это поведение по умолчанию безопасно для большинства документов.
+
+=== Логика работы системы титульных страниц
+
+Что происходит при разных значениях `:custom_title_page:`:
+
+1. `:custom_title_page: contract` → загружается модуль `ConvertTitlePageContract`
+2. `:custom_title_page: original` → загружается модуль `ConvertTitlePageOriginal`  
+3. `:custom_title_page: none` → модуль не загружается, титульная страница отключена
+4. `:custom_title_page:` (пустой) → система использует значение по умолчанию `'none'` → модуль не загружается, титульная страница отключена
+5. Атрибут не задан → система использует значение по умолчанию `'none'` → модуль не загружается, титульная страница отключена
+
+Конфигурация типов страниц находится в файле `tools/config_type_page.yml`:
+
+[source,yaml]
+----
+title_pages:
+  original: "convert_title_page_original"
+  contract: "convert_title_page_contract"
+  none: null
+----
+
+=== Поведение при отключенных титульных страницах
+
+Когда `:custom_title_page: none` или атрибут не задан:. Кастомные конвертеры не загружаются - модули `ConvertTitlePageContract` и `ConvertTitlePageOriginal` не включаются
+. Используется стандартный Asciidoctor PDF - вызывается `super(doc)` вместо кастомной обработки
+. Стандартная титульная страница Asciidoctor - если есть заголовок уровня 1 (`=`), создается стандартная титульная страница
+. Настройки из темы - все стили, шрифты, цвета, отступы берутся из `report-theme.yml` или другой темы
+
+⚠️ Важно: При `custom_title_page: none` заголовок уровня 1 (`=`) все равно создает стандартную титульную страницу Asciidoctor. Чтобы избежать этого, используйте заголовок уровня 2 (`==`) или добавьте атрибут `:notitle:`.
+
+Пример конфигурации темы:[source,yaml]
+----
+# resources/themes/report-theme.yml
+extends: default
+font:
+  catalog:
+    Noto Sans:
+      normal: NotoSans-Regular.ttf
+      bold: NotoSans-Bold.ttf
+page:
+  margin: [0.75in, 0.75in, 0.75in, 0.75in]
+  size: A4
+footer:
+  recto:
+    right: '{page-number}'
+  verso:
+    left: '{page-number}'
+----
+
+Примеры правильного использования:
+
+Неправильно (создаст стандартную титульную страницу Asciidoctor):```asciidoc
+:custom_title_page: none
+
+== Документ
+```
+
+✅ Правильно (без титульной страницы):```asciidoc
+:custom_title_page: none
+:notitle:
+
+== Документ
+```
+
+✅ Или используйте заголовок уровня 2:```asciidoc
+:custom_title_page: none
+
+== Документ
+```
+
+Важно: При `custom_title_page: none` система полностью полагается на настройки темы. Убедитесь, что в `config.yml` правильно указана тема:
+
+[source,yaml]
+----
+pdf:
+  theme: "report"  # или ваша пользовательская тема
+  themes_dir: "resources/themes"
+----
+
+== Полная проверка
+
+=== Запуск команд
+
+[source,bash]
+----
+# Генерация всей документации
+ruby ./tools/start.rb
+
+# Запуск локального сайта
+npx antora antora-playbook.yml
+----
+
+=== Варианты запуска Antora
+
+Существует два способа запуска Antora:
+
+=== Использование NPX (рекомендуется)
+
+```bash
+npx antora antora-playbook.yml
+```
+
+Преимущества NPX:
+
+* Работает даже если Antora не установлена глобально
+* Использует локальную версию из `node_modules`
+* Больше совместимости между разными средами
+* Стандартный подход в Node.js экосистеме
+
+
+=== Прямая команда
+
+
+```bash
+antora antora-playbook.yml
+```
+
+Минусы прямой команды:
+
+* Требует глобальной установки Antora (`npm install -g @antora/cli`)
+* Пользователь должен иметь права для глобальной установки пакетов
+* Возможны конфликты версий между проектами
+
+Рекомендация: Используйте `npx antora antora-playbook.yml` - он более надежен и будет работать у большего количества пользователей.

@@ -1,0 +1,30 @@
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+include::../partials/docker-compose-snippets.adoc[]
+
+= Docker: сборка и сервисы
+
+== Образы
+
+* **Универсальный образ**: `registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1`:
+** Содержит Ruby + Node.js + Asciidoctor + Antora + все необходимые пакеты;
+** Используется в CI для сборки PDF и сайта.
+* **Kroki сервис**: `registry.gitlab.com/vvvnik/my-project/kroki:0.28.0`:
+** Отдельный контейнер для рендеринга диаграмм;
+** Подключается как сервис в CI.
+
+== Архитектура
+
+Проект использует **универсальный подход** с одним основным образом:
+
+* **`ruby-node-antora:1`** - основной образ для всех операций сборки;
+* **`kroki:0.28.0`** - сервис для диаграмм (PlantUML, Mermaid, Graphviz).
+
+Это обеспечивает:
+
+* Быструю сборку (один образ вместо двух);
+* Надежность (все зависимости в одном месте);
+* Простоту поддержки (меньше образов для управления).
+
+== Пример команд

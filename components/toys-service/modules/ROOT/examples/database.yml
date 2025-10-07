@@ -1,0 +1,20 @@
+# Настройки подключения к базе данных для toys-service
+# Используется для генерации документации БД
+
+profiles:
+  pg_demo:
+    host: localhost
+    port: 5432
+    db: demo
+    user: postgres
+    pass: postgres
+    
+  # pg_prod:
+  #   host: db.prod.local
+  #   port: 5432
+  #   db: prod
+  #   user: app
+  #   pass: secret
+
+# Профиль по умолчанию
+default_profile: pg_demo

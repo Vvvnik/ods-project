@@ -1,0 +1,64 @@
+site:
+  title: ODS - Open Documentation Standard
+  # на GitHub Pages можно не указывать url, либо указать свой домен
+  start_page: project-guide::index.adoc
+  
+content:
+  sources:
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/information-system
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/data-processing-engine
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/airport-service
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/toys-service
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/project-guide
+
+ui:
+  bundle:
+    url: ./ui-files/ui-bundle.zip
+    snapshot: true
+  supplemental_files: ./ui-files/ui-bundle-style
+
+antora:
+  extensions:
+    - require: '@antora/lunr-extension'
+      languages: [en, ru]
+
+asciidoc:
+  extensions:
+    - asciidoctor-kroki
+  attributes:
+
+    # Совет: в CI (и локально при желании) URL можно передать через CLI:
+    #   antora -a kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
+    kroki-server-url: http://kroki:8000
+    # kroki-server-url: http://localhost:8000
+    kroki-default-format: svg
+    kroki-fetch-diagram: ''   # встраивать диаграммы на этапе сборки
+    allow-uri-read: ''         # для include:: с URL
+    experimental: ''           # расширенные блоки (tabs и т.п.)
+    idprefix: ''
+    idseparator: '-'
+    page-pagination: ''
+    env-antora: ' '
+
+output:
+  dir: public
+
+runtime:
+  fetch: true
+
+  

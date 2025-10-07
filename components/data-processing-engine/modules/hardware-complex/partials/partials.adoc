@@ -1,0 +1,1 @@
+// partials для hardware-complex компонента data-processing-engine

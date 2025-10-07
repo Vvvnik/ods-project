@@ -1,0 +1,426 @@
+= Автоматизированная генерация списков файлов
+
+Система автоматически генерирует списки файлов и навигацию для компонентов Antora.
+
+== Описание
+
+Данная система автоматически:
+
+* Сканирует все `.adoc` файлы в модулях компонента;
+* Находит PDF файлы в директории attachments;
+* Создает иерархичную навигацию по модулям и страницам;
+* Генерирует списки для скачивания PDF файлов;
+* Обновляет навигационные файлы автоматически.
+
+== Архитектура
+
+=== Компоненты системы
+
+.Scripts и модули
+[cols="1,2,3"]
+|===
+|Компонент |Путь |Описание
+
+|Скрипт генерации
+|`tools/scripts/generate_lists.rb`
+|Основной скрипт для запуска генерации
+
+|Генератор списков
+|`tools/lib/list_generator.rb`
+|Основная логика сканирования и создания списков
+
+|Парсер конфигурации
+|`tools/lib/config_parser.rb`
+|Чтение настроек из config.yml
+
+|Основной скрипт
+|`tools/start.rb`
+|Интеграция с общим процессом сборки
+
+|===
+
+=== Структура файлов
+
+```
+components/{name}/modules/ROOT/
+├── partials/lists/
+│   ├── list-pages-component.adoc    # ← Список .adoc файлов
+│   └── list-pdf-component.adoc     # ← Список PDF файлов
+├── attachments/                    # ← Источник PDF файлов
+└── nav.adoc                        # ← Навигационный файл (обновляется автоматически)
+```
+
+=== Конфигурация
+
+Система настраивается через секцию `list` в `config.yml`:
+
+[source,yaml]
+----
+defaults:
+  list:
+    enabled: true                           # ← Включить/выключить генерацию
+    adoc_lists: true                       # ← Генерировать списки .adoc файлов
+    pdf_lists: true                        # ← Генерировать списки PDF файлов
+    
+    # Директории сканирования
+    adoc_src: "components/{name}/modules/*/pages"     # ← Откуда брать .adoc
+    pdf_src: "components/{name}/modules/ROOT/attachments"  # ← Откуда брать PDF
+    
+    # Директория назначения
+    dst: "components/{name}/modules/ROOT/partials/lists"  # ← Куда сохранять
+----
+
+=== Порядок выполнения
+
+[source,ruby]
+----
+# В start.rb (пункт 6)
+list_settings = ConfigParser.get_list_settings(comp, cfg)
+if list_settings[:enabled] && (list_settings[:adoc_lists] || list_settings[:pdf_lists])
+  puts "  -> list: генерация списков файлов"
+  system(%(ruby "tools/scripts/generate_lists.rb"))
+end
+----
+
+== Генерируемые файлы
+
+=== list-pages-component.adoc
+
+Содержит иерархичную навигацию по всем модулям и страницам:
+
+[source,asciidoc]
+----
+// Автоматически сгенерированная навигация
+* Информационная система
+ Модуль "Опытная эксплуатация"
+* xref:index.adoc[Опытная эксплуатация]
+
+ Модуль "Техническое задание (ТЗ)"  
+* xref:index.adoc[Техническое задание (ТЗ)]
+* xref:architecture.adoc[Архитектура системы]
+* xref:requirements.adoc[Требования к системе]
+----
+
+Особенности:
+
+* Использует имена файлов для формирования списков и навигации
+* Создает иерархию модулей и страниц
+* Использует русские названия компонентов
+* Специальный порядок модулей для некоторых компонентов
+
+=== list-pdf-component.adoc  
+
+Содержит список доступных PDF файлов для скачивания:
+
+[source,asciidoc]
+----
+. xref:attachment$oed_test-results.pdf[oed_test-results]
+. xref:attachment$trd_architecture.pdf[trd_architecture]
+. xref:attachment$trd_requirements.pdf[trd_requirements]
+----
+
+Особенности:
+
+* Формат: `attachment$файл.pdf[название]` (без xref префикса)
+* Извлекает заголовок из метаданных PDF (Title)
+* Создается всегда (пустой если PDF файлов нет)
+* Совместим с `ROOT:attachment$` механизмом Antora
+
+=== Автоматическое обновление навигации
+
+Система автоматически добавляет в `nav.adoc`:
+
+[source,asciidoc]
+----
+// Автоматически сгенерированная навигация
+//  include::partials/lists/list-pages-component.adoc[]
+----
+
+Логика:
+
+* Проверяет существующий include
+* Удаляет старые include для списков
+* Добавляет новый с правильным путем относительно dst
+
+=== Динамические пути
+
+Пути включаются автоматически в зависимости от настройки `dst`:
+
+```ruby
+# Пример: dst: "components/{name}/modules/ROOT/partials/lists"
+# В nav.adoc будет: include::partials/lists/list-pages-component.adoc[]
+```
+
+Вычисление:
+
+* Извлекается относительная часть от модуля ROOT
+* Используется для правильного include пути
+
+== Соглашения именования файлов
+
+=== Буквы "й" и "ё" в именах файлов
+
+Согласно рекомендациям, в именах файлов следует избегать букв "й" и "ё", заменив их на "и" и "е" соответственно.
+
+Примеры правильного именования:
+
+* ✅ `Локальныи_запуск_Kroki_и_Postgres.adoc` 
+* ✅ `Система_листов_утверждения_ЛУ.adoc`
+* ✅ `Настроика_config_yml.adoc`
+
+Причины рекомендации:
+
+* Совместимость с файловыми системами в различных операционных системах
+* Предотвращение проблем с кодировкой в CI/CD системах
+* Упрощение работы с файлами в командной строке Linux/Unix
+
+=== Пробелы в именах файлов
+
+**Важно:** В именах файлов НЕ ДОЛЖНЫ использоваться пробелы. Вместо пробелов используйте подчеркивания (`_`) или дефисы (`-`).
+
+Примеры правильного именования:
+
+* ✅ `Локальныи_запуск_Kroki_и_Postgres.adoc` (с подчеркиваниями)
+* ✅ `Система-листов-утверждения-ЛУ.adoc` (с дефисами)
+* ✅ `Настроика_config_yml.adoc` (смешанный стиль)
+
+Примеры неправильного именования:
+
+* ❌ `Локальный запуск Kroki и Postgres.adoc` (с пробелами)
+* ❌ `Система листов утверждения ЛУ.adoc` (с пробелами)
+* ❌ `Настройка config yml.adoc` (с пробелами)
+
+Причины запрета пробелов:
+
+* **Совместимость с командной строкой** - пробелы требуют экранирования в bash/zsh
+* **Проблемы с URL** - пробелы в именах файлов создают проблемы при генерации ссылок
+* **CI/CD системы** - многие системы сборки плохо обрабатывают пробелы в путях
+* **Кроссплатформенность** - некоторые файловые системы имеют ограничения на пробелы
+* **Автоматизация** - скрипты и инструменты работают надежнее без пробелов
+
+Отображение в документах:
+
+При создании ссылок в документах можно использовать оригинальные названия в тексте ссылки:
+
+[source,asciidoc]
+----
+// Файл называется: Локальныи_запуск_Kroki_и_Postgres.adoc
+// Но ссылка может выглядеть красиво:
+xref:Локальныи_запуск_Kroki_и_Postgres.adoc[Локальный запуск Kroki и Postgres]
+----
+
+Таким образом, техническое имя файла остается совместимым, а пользовательский интерфейс остается читаемым.
+
+⚠️ Важное примечание: При автоматической регенерации системы (например, через `ruby tools/scripts/generate_lists.rb`) все автоматически сгенерированные файлы списков будут перезаписаны. Это означает, что любые ручные изменения в файлах `list-pages-component.adoc` и `list-pdf-component.adoc` будут потеряны.
+
+Для постоянных изменений логики генерации нужно модифицировать исходный код в `tools/lib/list_generator.rb`, а не сами генерируемые файлы.
+
+== Использование в документации
+
+=== Подключение списков в документах
+
+Можно вставлять автоматически генерируемые списки в любые `.adoc` файлы:
+
+[source,asciidoc]
+----
+== Разделы
+
+include::../partials/lists/list-pages-component.adoc[]
+
+== Скачивания
+
+include::../partials/lists/list-pdf-component.adoc[]
+----
+
+Важно: Использовать относительный путь от текущего файла!
+
+=== Условное отображение PDF списков
+
+Система автоматически управляет отображением разделов с PDF файлами. Если PDF файлы отсутствуют, скрипт создает файлы с атрибутом `list_pdf_file_is_empty`, что позволяет скрыть разделы загрузок:
+
+[source,asciidoc]
+----
+ifndef::list_pdf_file_is_empty[]
+== Загрузки
+
+include::../partials/lists/list-pdf-component.adoc[]
+
+== Таблица файлов
+
+include::../partials/lists/list-pdf-component-table.adoc[]
+endif::list_pdf_file_is_empty[]
+----
+
+**Логика работы:**
+* Если PDF файлы есть → списки генерируются без атрибута → разделы отображаются
+* Если PDF файлов нет → создается атрибут `list_pdf_file_is_empty` → разделы скрываются
+
+Это обеспечивает чистый интерфейс без пустых разделов "Загрузки".
+
+=== Пример для главной страницы
+
+[source,asciidoc]
+----
+= Руководство по документированию
+:page-partof: introduction
+:page-description: Полное руководство по использованию системы документирования
+
+== Разделы
+
+include::../partials/lists/list-pages-component.adoc[]
+
+ifndef::list_pdf_file_is_empty[]
+== Файлы для скачивания  
+
+include::../partials/lists/list-pdf-component.adoc[]
+
+== Таблица файлов
+
+include::../partials/lists/list-pdf-component-table.adoc[]
+endif::list_pdf_file_is_empty[]
+----
+
+== Настройка компонентов
+
+=== Переопределение настроек
+
+Для конкретного компонента можно переопределить настройки по умолчанию:
+
+[source,yaml]
+----
+components:
+  * name: information-system
+    list:
+      pdf_lists: true          # ← Только для этого компонента
+----
+
+=== Исключение файлов
+
+Некоторые файлы автоматически исключаются из списков:
+
+* `index.adoc` * если не содержит заголовка уровня 1
+* Файлы без заголовков отображаются как обработанные имена файлов
+
+=== Порядок модулей
+
+Для некоторых компонентов установлен особый порядок модулей:
+
+[source,ruby]
+----
+case component_name
+when 'information-system'
+  module_order = %w[ROOT oed trd test-results]
+  # ROOT модуль добавляется в начало списка
+when 'data-processing-engine'  
+  module_order = %w[ROOT hardware-complex user-guide system-programmer-guide program-description]
+end
+----
+
+== Поддержка метаданных PDF
+
+=== Извлечение заголовков PDF
+
+Система автоматически извлекает заголовки из PDF метаданных:
+
+[source,ruby]
+----
+def extract_pdf_title(pdf_file)
+  require 'hexapdf'
+  doc = HexaPDF::Document.open(pdf_file)
+  
+  if doc.trailer[:Info]
+    title = doc.trailer[:Info][:Title]
+    return title && !title.empty? ? title.to_s.strip : nil
+  end
+  
+  nil
+rescue => e
+  puts "⚠️  Ошибка чтения PDF #{pdf_file}: #{e.message}"
+  nil
+end
+----
+
+Преимущества:* Использует существующие PDF заголовки
+* Fallback на имя файла если заголовок отсутствует
+* Обработка ошибок чтения
+
+== Совместимость с CI/CD
+
+=== GitLab CI
+
+Система полностью совместима с автоматизированными сборками:
+
+```yaml
+# .gitlab-ci.yml
+script:
+
+  * ruby tools/start.rb
+  * npx antora antora-playbook.yml
+  * antora antora-playbook.yml
+```
+
+=== Автоматические списки
+
+* Создаются каждый раз при сборке
+* Обновляются при изменении файлов
+* Не требуют ручного вмешательства
+
+== Логи диагностики
+
+=== Пример вывода
+
+```
+🚀 Генератор списков файлов для Antora
+==================================================
+🔄 Генерация списков для всех компонентов...
+
+📁 Обработка компонента: information-system
+📄 Найден заголовок для index: Информационная система
+📄 Найден заголовок для architecture: Архитектура системы
+✅ Сгенерирован файл навигации: components/information-system/modules/ROOT/partials/lists/list-pages-component.adoc
+
+📄 Обработан PDF: oed_test-results -> xref:attachment$oed_test-results.pdf[oed_test-results]
+📄 Обработан PDF: trd_architecture -> xref:attachment$trd_architecture.pdf[trd_architecture]
+✅ Сгенерирован файл списка PDF: components/information-system/modules/ROOT/partials/lists/list-pdf-component.adoc
+
+🔍 Вычисление пути:
+  dst: components/information-system/modules/ROOT/partials/lists
+  include:: partials/lists/list-pages-component.adoc[]
+✅ Добавлен include в components/information-system/modules/ROOT/nav.adoc
+```
+
+== Расширение функциональности
+
+=== Добавление новых типов списков
+
+Для добавления нового типа списков:
+
+1. Расширить `list_generator.rb` новым методом
+2. Добавить настройку в `config.yml`
+3. Обновить `ConfigParser.get_list_settings`
+4. Добавить условие в `start.rb`
+
+=== Кастомные форматы
+
+Можно изменить формат генерации списков:
+
+[source,ruby]
+----
+# Пример кастомного формата таблицы
+def generate_custom_list(files)
+  lines = ["[cols=\"1,2\", options=\"header\"]", "|==="]
+  lines << "|Файл |Описание"
+  
+  files.each do |file|
+    lines << "|#{file.name} |#{file.description}"
+  end
+  
+  lines << "|==="
+  lines.join("\n")
+end
+----
+
+== Связанные компоненты
+
+* xref:Настроика_config_yml.adoc[Настройка config.yml] * конфигурация системы
+* xref:Скрипт_start_rb.adoc[Скрипт start.rb] * интеграция со сборкой

@@ -1,0 +1,84 @@
+== Предварительные требования
+
+* Git — система контроля версий
+* Node.js (LTS) — для Antora и скриптов генерации
+* Ruby — для Asciidoctor PDF
+* Docker — для Kroki и PostgreSQL
+* Graphviz — для ERD диаграмм
+* Java — для PlantUML (опционально)
+* Chrome/Chromium — для рендеринга BPMN диаграмм
+* Draw.io Desktop — для рендеринга Draw.io диаграмм
+
+== Установка зависимостей
+
+[source,bash]
+----
+# Ruby зависимости
+gem install asciidoctor asciidoctor-pdf asciidoctor-kroki
+
+# Node.js зависимости
+npm install
+
+# Дополнительные зависимости для рендеринга диаграмм
+npm install puppeteer
+----
+
+== Установка инструментов для рендеринга диаграмм
+
+=== BPMN диаграммы
+
+Для рендеринга BPMN диаграмм используется:
+* **Puppeteer** — Node.js библиотека для управления браузером
+* **Chrome/Chromium** — браузер для рендеринга
+
+[source,bash]
+----
+# Установка Chrome (Ubuntu/Debian)
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+sudo apt update
+sudo apt install google-chrome-stable
+
+# Установка Chrome (macOS)
+brew install --cask google-chrome
+
+# Установка Chromium (альтернатива)
+sudo apt install chromium-browser  # Ubuntu/Debian
+brew install chromium              # macOS
+----
+
+=== Draw.io диаграммы
+
+Для рендеринга Draw.io диаграмм используется:
+* **Draw.io Desktop** — приложение для создания диаграмм
+* **Командная строка** — для автоматической конвертации
+
+[source,bash]
+----
+# Установка Draw.io Desktop (Ubuntu/Debian)
+wget https://github.com/jgraph/drawio-desktop/releases/latest/download/drawio-amd64-*.deb
+sudo dpkg -i drawio-amd64-*.deb
+
+# Установка Draw.io Desktop (macOS)
+brew install --cask drawio
+
+# Установка Draw.io Desktop (Windows)
+# Скачайте с https://github.com/jgraph/drawio-desktop/releases
+----
+
+=== Проверка установки
+
+[source,bash]
+----
+# Проверка Chrome
+google-chrome --version
+# или
+chromium --version
+
+# Проверка Draw.io
+draw.io --version
+
+# Проверка Puppeteer
+node -e "console.log(require('puppeteer').executablePath())"
+----
+

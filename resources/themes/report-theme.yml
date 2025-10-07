@@ -1,0 +1,330 @@
+extends: default
+
+#9C9C9C: #9C9C9C
+
+title_page:
+  margin: [10mm, 10mm, 25mm, 10mm]  
+  text_align: center
+  logo:
+    top: 10%
+  title:
+    font_size: 14
+    font-style: bold
+    text-align: center
+    text-transform: uppercase
+    line_height: 1
+  main: 
+    font_size: 14
+    font-style: bold
+    text-align: center
+  stroke: 
+    font_size: 14
+    font-style: normal
+    text-align: center
+
+  subtitle:
+    font_size: 14
+    font_style: bold
+    line_height: 1
+    content: ''
+  city:
+    font_style: normal
+    line_height: 1
+    font_size: 14
+    content: ''
+  authors:
+    margin_top: $base_font_size * 1.25
+    font_size: $base_font_size_large
+    # font_color: 181818
+  revision:
+    margin_top: $base_font_size * 1.25
+
+font:
+  catalog:
+    # merge: false
+    
+    M+ 1mn:
+      normal: times-new-roman-normal.ttf
+      bold: times-new-roman-bold.ttf
+      italic: times-new-roman-italic.ttf
+      bold_italic: times-new-roman-bold-italic.ttf
+
+    Times:
+      normal: times-new-roman-normal.ttf
+      italic: times-new-roman-italic.ttf
+      bold: times-new-roman-bold.ttf
+      bold_italic: times-new-roman-bold-italic.ttf
+
+    Roboto:
+      normal: Roboto-Regular.ttf
+      bold: Roboto-Bold.ttf
+      italic: Roboto-Italic.ttf
+      bold_italic: Roboto-BoldItalic.ttf
+
+    Arial:
+      normal: Roboto-Regular.ttf
+      bold: Roboto-Bold.ttf
+      italic: Roboto-Italic.ttf
+      bold_italic: Roboto-BoldItalic.ttf
+
+    Helvetica:
+      normal: Roboto-Regular.ttf
+      bold: Roboto-Bold.ttf
+      italic: Roboto-Italic.ttf
+      bold_italic: Roboto-BoldItalic.ttf
+
+    "sans-serif":
+      normal: Roboto-Regular.ttf
+      bold: Roboto-Bold.ttf
+      italic: Roboto-Italic.ttf
+      bold_italic: Roboto-BoldItalic.ttf
+
+
+  # base:
+  #   font_family: Roboto
+  #   size: 12
+  #   line-height: 1.5
+  #   color: #000000
+  #   font-style: normal
+  #   font-weight: normal    
+
+page:
+  # size: A3
+  # layout: landscape
+  # margin: [15mm, 10mm, 20mm, 20mm]
+  size: A4
+  # layout: landscape
+  margin: [15mm, 7mm, 25mm, 20mm]
+  margin-rotated: [20mm, 7mm, 20mm, 7mm]
+  mode: fullscreen thumbs
+
+# считает нумерацию с титульной страницы
+  numbering:
+    start-at: title 
+# запускает печать колонтитулов со второй страницы
+running-content:
+    start-at: 1
+
+
+header:
+  font-family: Times
+  font-color: #9C9C9C
+  font_size: 12
+  text-align: center
+  # NOTE if background_color is set, background and border will span width of page
+  border_color: 000000
+  border_width: 0
+  height: 20mm
+  line_height: 1.15
+  # padding: [$base_line_height_length / 2, 1, 0, 1]
+  vertical_align: center
+  recto:
+    left:
+      text-align: left
+      content: ''
+    right:
+      text-align: center
+      # content: '_Дата формирования документа {data_report}_'
+      # content: ''
+
+    center:
+      text-align: center
+      content: ''
+  verso:
+    left:
+      text-align: left
+      content: ''
+    right:
+      text-align: center
+      # content: '_Дата формирования документа {data_report}_'
+      # content: ''
+
+    center:
+      content: ''
+
+
+footer:
+  font-family: Times
+  font_size: 10
+  text-align: center
+  font-color: #9C9C9C
+  # NOTE if background_color is set, background and border will span width of page
+  border_color: 000000
+  border_width: 0
+  height: 15mm
+  line_height: 1.15
+  # padding: [$base_line_height_length / 2, 1, 0, 1]
+  vertical_align: center
+  recto:
+    left:
+      text-align: left
+      content: 
+    right:
+      text-align: right
+      # content: 'Лист: {page-number} / {page-count}'
+      content: ''
+    center:
+      text-align: center
+      content: ''
+  verso:
+    left:
+      text-align: left
+      content: 
+    right:
+      text-align: right
+      # content: 'Лист: {page-number} / {page-count}'
+      content: ''
+    center:
+      content: ''
+
+table:
+  font-family: Times
+  border-width: 0.5
+  grid-width: [0.5, 0.5]
+  font-size: 12
+  line-height: 1
+  grid-color: 707070
+  border-color: 707070
+  caption:
+    font-family: Times
+    font-size: 12
+    align: left
+    font-style: normal
+    line-height: 1.13
+  head:
+    border-bottom-width: 0.5
+    font-style: bold
+  text-indent: 0
+
+image:
+  align: center
+  border-fit: auto
+  # border-width: 0.5cm
+  # border-color: FFFFFF
+  font-family: Arial
+  caption:
+    font-family: Times
+    font-size: 12
+    align: center
+    font-style: normal
+    line-height: 1.13
+
+# заменяет ссылки на черный цвет
+link:
+  font-color: #333333
+  
+role:
+  my-title-table:
+    font-family: Times
+    font-size: 12
+    font-style: normal
+    text-align: left
+  custom-heading:
+    font-family: Times
+    font-size: 12
+    font_style: bold
+    align: right
+  my-table-text:
+    font-family: Times
+    font-size: 12
+    font-style: normal
+    text-align: left
+  my-bold-title:
+    font-family: Times
+    font-size: 12
+    font-style: bold
+    text-align: center
+  my-bold-table:
+    font-family: Times
+    font-size: 12
+    font-style: bold
+    text-align: center    
+  append-style-right:
+    font-family: Times
+    font-size: 12
+    font-style: bold
+    text-align: right
+  table-style-center:
+    font-family: Times
+    font-size: 12
+    font-style: normal
+    text-align: center
+  table-style-left:
+    font-family: Times
+    font-size: 12
+    font-style: normal
+    text-align: left
+  append-name-style:
+    font-family: Times
+    font-size: 12
+    font-style: normal
+    text-align: center
+  my-uppercase-title:
+    font-family: Times
+    font-size: 12
+    font-style: bold
+    text-align: center
+    text-transform: uppercase
+    line-height: 1.5
+
+base:
+  font-family: Times
+  font-size: 12
+  text-align: justify
+  text-indent: 1.25cm
+  margin-top: 2
+  margin-bottom: 2
+  line-height: 1.5
+
+list:
+  item-spacing: 0
+  line-height: 1.5
+  text-align: justify
+  # indent: 0 используется для списков так как отступы задаются конвертером ruby 
+  # скриптом convert_ascii_to_pdf.rb, иначе отступы будут слишком большими
+  indent: 0 
+  margin_top: 1.5
+  margin_bottom: 1.5
+
+olist:
+    line-height: 1
+
+гlist:
+    line-height: 1
+
+prose:
+  text-indent: 1.25cm
+  text-indent-inner: 0.5cm
+  line-height: 1.5
+  margin_top: 1.5
+  margin_bottom: 1.5
+  
+heading:
+  font-style: bold
+  line-height: 1.5
+  h2-font-size: 12
+  h3-font-size: 12
+  h4-font-size: 12
+  h5-font-size: 12
+  h6-font-size: 12
+  h7-font-size: 12
+
+  h2-padding: [0, 0, 0, 1.25cm]
+  h3-padding: [0, 0, 0, 1.25cm]
+  h4-padding: [0, 0, 0, 1.25cm]
+  h5-padding: [0, 0, 0, 1.25cm]
+  h6-padding: [0, 0, 0, 1.25cm]
+  h7-padding: [0, 0, 0, 1.25cm]
+
+  h2-text-align: left
+  h3-text-align: left
+  h4-text-align: left
+  h5-text-align: left
+  h6-text-align: left
+  h7-text-align: left
+  text-indent: 1.25cm
+  chapter:
+    break-before: auto
+    break-after: auto    
+
+

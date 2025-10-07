@@ -1,0 +1,23 @@
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Открытие сайта
+
+После успешной сборки откройте GitLab Pages URL из артефактов `pages`.
+
+Локально:
+
+[source,bash]
+----
+npx antora antora-playbook.yml
+open public/index.html
+----
+
+== Примечание о команде antora
+
+Для локального запуска рекомендуется использовать `npx antora antora-playbook.yml` вместо `antora antora-playbook.yml`:
+
+. NPX обеспечивает лучшую совместимость между разными окружениями
+. Используется локальная версия Antora из проекта
+. Не требует глобальной установки пакетов
+. Стандартный подход в современной разработке

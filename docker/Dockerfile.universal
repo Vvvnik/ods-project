@@ -1,0 +1,31 @@
+FROM ruby:3.2-slim
+
+# Установка системных зависимостей (включая curl)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    curl \
+    wget \
+    unzip \
+    ca-certificates \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Установка Node.js 20
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
+# Установка Ruby gems
+RUN gem install --no-document asciidoctor asciidoctor-pdf asciidoctor-diagram asciidoctor-kroki rouge prawn hexapdf pg
+
+# Установка Antora и дополнительных пакетов
+RUN npm install -g @antora/cli @antora/site-generator-default @antora/site-generator @antora/lunr-extension puppeteer xml2js
+
+# Проверка установки
+RUN ruby -v && node -v && npm -v && asciidoctor -v && antora -v
+
+# Рабочая директория
+WORKDIR /builds
+
+# Команда по умолчанию
+CMD ["bash"]

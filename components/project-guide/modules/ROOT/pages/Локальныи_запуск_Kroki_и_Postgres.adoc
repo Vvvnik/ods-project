@@ -1,0 +1,20 @@
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Локальный запуск Kroki и Postgres
+
+== Kroki
+
+Запуск локально (Docker):
+
+[source,bash]
+----
+docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/my-project/kroki:0.28.0
+----
+
+== Postgres
+
+[source,bash]
+----
+docker run --rm -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15
+----

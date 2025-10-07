@@ -1,0 +1,124 @@
+:doctype: book
+
+:title-page:
+:custom_title_page: original
+:custom_other_page: none
+:code-main: TOYS
+:data_report: {localdate}
+:name_doc: Сервис игрушек
+:number_doc: 2
+:name_prog_main: Сервис игрушек
+:name-prog: Сервис
+:tom: 1
+:imagesdir: ../images
+:docinfo: shared
+:!chapter-signifier:
+:!section-refsig:
+:table-caption!: 
+:section-refsig: разделе
+:toc: macro
+:toc-title: Содержание 
+:sectnumlevels: 7
+:toclevels: 4
+
+= Сервис игрушек
+
+== Назначение документа
+
+Документ содержит описание сервиса игрушек, включая API документацию, схемы данных и примеры использования для системы управления каталогом игрушек.
+
+== Общее описание
+
+=== Назначение сервиса
+
+Сервис игрушек предназначен для управления каталогом игрушек, пользователями системы и процессами аутентификации.
+
+Основные функции:
+
+* Управление каталогом товаров (игрушек);
+* Управление пользователями системы;
+* Аутентификация и авторизация;
+* Обработка заказов и корзины покупок;
+* Управление категориями и характеристиками товаров.
+
+=== Архитектура API
+
+Система построена на основе RESTful API с использованием OpenAPI спецификации.
+
+Основные компоненты:
+
+* Пользователи - управление пользователями системы;
+* Товары - каталог игрушек и управление товарами;
+* Аутентификация - вход в систему и управление сессиями.
+
+== API Документация
+
+=== Общие сведения
+
+Сервис предоставляет RESTful API для управления игрушками с поддержкой:
+
+* JSON формата данных;
+* HTTPS и HTTP протоколов;
+* Пагинации и фильтрации;
+* Аутентификации через токены.
+
+=== Основные эндпоинты
+
+* `GET /users` - получение списка пользователей;
+* `POST /users` - создание нового пользователя;
+* `GET /products` - получение каталога товаров;
+* `POST /products` - добавление нового товара;
+* `POST /auth/login` - аутентификация пользователя.
+
+== Документация API
+
+include::api-documentation.adoc[]
+
+== Тестовый API
+
+include::test-api.adoc[]
+
+== Примеры использования
+
+=== Получение списка товаров
+
+[source,http]
+----
+GET /api/v1/products?page=1&limit=10&category=toys HTTP/1.1
+Host: api.toys-service.com
+Authorization: Bearer <token>
+Content-Type: application/json
+----
+
+=== Создание нового пользователя
+
+[source,http]
+----
+POST /api/v1/users HTTP/1.1
+Host: api.toys-service.com
+Content-Type: application/json
+
+{
+  "name": "Иван Иванов",
+  "email": "ivan@example.com",
+  "password": "secure_password"
+}
+----
+
+=== Аутентификация
+
+[source,http]
+----
+POST /api/v1/auth/login HTTP/1.1
+Host: api.toys-service.com
+Content-Type: application/json
+
+{
+  "email": "ivan@example.com",
+  "password": "secure_password"
+}
+----
+
+== Заключение
+
+Сервис игрушек обеспечивает полнофункциональное API для управления каталогом игрушек, пользователями и процессами аутентификации. RESTful архитектура и подробная документация обеспечивают удобство интеграции и использования.

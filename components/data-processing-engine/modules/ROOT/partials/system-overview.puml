@@ -1,0 +1,28 @@
+@startuml
+title Схема взаимодействия компонентов системы
+
+package "Внешние системы" {
+  [Сторонняя ИС] as ExternalSystem
+}
+
+package "Взаимодействие" {
+  [Интеграционный модуль] as Integration
+}
+
+package "Обработка данных" {
+  [Ядро обработки] as Engine
+}
+
+package "Отчётность" {
+  [Модуль отчётов] as Reports
+}
+
+package "Безопасность" {
+  [Подсистема безопасности] as Security
+}
+
+ExternalSystem --> Integration : API / файлы
+Integration --> Engine : события
+Engine --> Reports : агрегированные данные
+Engine --> Security : проверка доступа
+@enduml

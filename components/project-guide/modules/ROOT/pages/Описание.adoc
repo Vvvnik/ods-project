@@ -1,0 +1,7 @@
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Описание
+
+include::index.adoc[]
+

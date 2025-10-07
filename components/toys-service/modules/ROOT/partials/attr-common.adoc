@@ -1,0 +1,17 @@
+:imagesdir: images/docs-db
+:icons: font
+:source-highlighter: highlight.js
+:docinfo: shared
+:toc: left
+:toclevels: 3
+:sectnums:
+:sectlinks:
+:experimental:
+:page-partial:
+:page-role: doc
+
+// API attributes
+:petid: 123
+:orderid: 456
+:username: testuser
+:userid: 789

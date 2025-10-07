@@ -1,0 +1,399 @@
+= Скрипт start.rb
+
+include::../partials/attr_common.adoc[]
+
+== Назначение
+
+== Структура конфигурации
+
+В файле `tools/config.yml` определены настройки для всех компонентов документации. Скрипт `start.rb` обрабатывает эти настройки и запускает соответствующие процессы генерации.
+
+=== Секция defaults
+
+Секция `defaults` содержит настройки по умолчанию для всех компонентов:
+
+.YAML структура секции defaults
+----
+defaults: &defaults
+  # BPMN диаграммы
+  bpmn:
+    enabled: false                # ← Включить/отключить генерацию BPMN
+    src: "components/{name}/modules/ROOT/examples/bpmn"           # ← Откуда брать .bpmn файлы
+    dst: "components/{name}/modules/ROOT/images/bpmn"            # ← Куда сохранять изображения
+    erase_destination_folder: true # ← Очищать папку назначения перед генерацией
+  
+  # Draw.io диаграммы  
+  drawio:
+    enabled: false                # ← Включить/отключить генерацию Draw.io
+    src: "components/{name}/modules/ROOT/examples/drawio"        # ← Откуда брать .drawio файлы
+    dst: "components/{name}/modules/ROOT/images/drawio"          # ← Куда сохранять изображения
+    erase_destination_folder: true # ← Очищать папку назначения перед генерацией
+  
+  # API документация
+  api:
+    enabled: false                # ← Включить/отключить генерацию API документации
+    dst: "components/{name}/modules/ROOT/partials/docs-api"       # ← Куда сохранять API документацию
+    api_sources_file: "components/{name}/modules/ROOT/examples/sources.yml"  # ← Файл источников API
+    erase_destination_folder: true # ← Очищать папку назначения перед генерацией
+  
+  # База данных
+  db:
+    enabled: false                # ← Включить/отключить генерацию DB документации
+    images_dir: "components/{name}/modules/ROOT/images/images-db" # ← Папка для изображений схем БД
+    dst: "components/{name}/modules/ROOT/partials/docs-db"       # ← Куда сохранять DB документацию
+    database_connect_file: "components/{name}/modules/ROOT/examples/dataset.yml"  # ← Файл подключения к БД
+    erase_destination_folder: false # ← НЕ очищать папку назначения (сохранять существующие)
+    profile: "pg_demo"            # ← Профиль БД для подключения
+  
+  # PDF генерация
+  pdf:
+    enabled: false                # ← Включить/отключить генерацию PDF
+    src: "components/{name}/modules/*/pages"                   # ← Откуда брать .adoc файлы
+    dst: "components/{name}/modules/ROOT/attachments"          # ← Куда сохранять PDF файлы
+    converter: "tools/scripts/convert_ascii_to_pdf.rb"     # ← Унифицированный конвертер с автоматическим выбором тем
+    theme: "report"               # ← Тема оформления PDF
+    themes_dir: "resources/themes" # ← Папка с темами
+    fonts_dir: "resources/fonts"  # ← Папка со шрифтами
+    exclude_files: ["index.adoc"] # ← Файлы исключаемые из генерации
+    erase_destination_folder: true # ← Очищать папку назначения перед генерацией
+    use_title_pages: false        # ← Использовать титульные страницы
+  
+  # Генерация списков файлов
+  list:
+    enabled: true                    # ← По умолчанию ВКЛЮЧЕНО
+    adoc_lists: true                # ← Списки .adoc файлов (везде)
+    pdf_lists: false                # ← Списки PDF (только где нужно)
+    # Директории
+    adoc_src: "components/{name}/modules/*/pages"     # ← Откуда брать .adoc
+    pdf_src: "components/{name}/modules/ROOT/attachments"  # ← Откуда брать PDF
+    dst: "components/{name}/modules/ROOT/partials/lists"  # ← Куда сохранять списки
+    # Типы генерации
+----
+
+=== Секция components
+
+Каждый компонент может переопределить любые настройки из `defaults`:
+
+.YAML структура секции components
+----
+components:
+
+name: information-system
+    <<: *defaults
+    drawio:
+      enabled: true
+    pdf:
+      enabled: true
+      use_title_pages: true
+      pdf_lists: true
+
+name: data-processing-engine
+    <<: *defaults
+    bpmn:
+      enabled: true
+----
+
+== Архитектура обработки
+
+=== ConfigParser модуль
+
+Модуль `ConfigParser` содержит методы для получения настроек каждого типа:
+
+==== Метод получения настроек BPMN/Draw.io
+
+[source,ruby]
+----
+def self.get_diagram_settings(comp, defaults)
+  bpmn_settings = comp['bpmn'] || defaults.dig('defaults', 'bpmn') || {}\
+  drawio_settings = comp['drawio'] || defaults.dig('defaults', 'drawio') || {}
+  
+  {\
+    bpmn_enabled: bpmn_settings['enabled'] || false,\
+    bpmn_src: Utils.expand(bpmn_settings['src'] || defaults.dig('defaults', 'bpmn', 'src'), comp),\
+    bpmn_dst: Utils.expand(bpmn_settings['dst'] || defaults.dig('defaults', 'bpmn', 'dst'), comp),\
+    bpmn_erase_folder: bpmn_settings['erase_destination_folder'] || defaults.dig('defaults', 'bpmn', 'erase_destination_folder') || false,\
+    drawio_enabled: drawio_settings['enabled'] || false,\
+    drawio_src: Utils.expand(drawio_settings['src'] || defaults.dig('defaults', 'drawio', 'src'), comp),\
+    drawio_dst: Utils.expand(drawio_settings['dst'] || defaults.dig('defaults', 'drawio', 'dst'), comp),\
+    drawio_erase_folder: drawio_settings['erase_destination_folder'] || defaults.dig('defaults', 'drawio', 'erase_destination_folder') || false\
+  }\
+end\
+----
+
+==== Метод получения настроек API
+
+[source,ruby]
+----
+def self.get_api_settings(comp, defaults, name) 
+  api_settings = comp['api'] || defaults.dig('defaults', 'api') || {}
+  
+  {\
+    enabled: api_settings['enabled'] || false,\
+    dst: Utils.expand(api_settings['dst'] || defaults.dig('defaults', 'api', 'dst'), comp),\
+    sources_file: Utils.expand(api_settings['api_sources_file'] || defaults.dig('defaults', 'api', 'api_sources_file'), comp),\
+    erase_folder: api_settings['erase_destination_folder'] || defaults.dig('defaults', 'api', 'erase_destination_folder') || false\
+  }\
+end\
+----
+
+==== Метод получения настроек БД
+
+[source,ruby]
+----
+def self.get_db_settings(comp, defaults, name)
+  db_settings = comp['db'] || defaults.dig('defaults', 'db') || {}
+  db_config_path = Utils.expand(db_settings['database_connect_file'] || defaults.dig('defaults', 'db', 'database_connect_file'), comp)
+  return nil unless File.exist?(db_config_path)
+  
+  db_config = YAML.safe_load(File.read(db_config_path))
+  default_profile = db_config['default_profile'] || 'pg_demo'
+  prof = db_config['profiles'][default_profile] || {}
+  
+  {\
+    enabled: db_settings['enabled'] || false,\
+    profile: default_profile,\
+    connection: prof,\
+    dst: Utils.expand(db_settings['dst'] || defaults.dig('defaults', 'db', 'dst'), comp),\
+    images_dir: Utils.expand(db_settings['images_dir'] || defaults.dig('defaults', 'db', 'images_dir'), comp),\
+    erase_folder: db_settings['erase_destination_folder'] || defaults.dig('defaults', 'db', 'erase_destination_folder') || false\
+  }\
+end\
+----
+
+=== Проверка среды выполнения
+
+Скрипт автоматически определяет среду выполнения и отключает генерацию в CI:
+
+[source,ruby]
+----
+# В CI отключаем генерацию диаграмм (нет Chrome и Draw.io)
+if ENV['CI']
+  diagram_settings[:bpmn_enabled] = false
+  diagram_settings[:drawio_enabled] = false
+end
+
+# В CI отключаем генерацию API (нет доступа к источникам)
+if ENV['CI']
+  api_settings[:enabled] = false
+end
+
+# В CI отключаем генерацию БД (нет доступа к базе данных)
+if ENV['CI'] && db_settings
+  db_settings[:enabled] = false
+end
+----
+
+**Результат:**
+* **Локально:** работает как настроено в `config.yml`
+* **В CI:** автоматически отключает генерацию диаграмм, API и БД
+
+=== Основной цикл обработки
+
+В `start.rb` выполняется цикл по всем компонентам:\
+
+[source,ruby]
+----
+cfg['components'].each do |comp|\
+  name = comp['name']\
+  puts "=== Обработка компонента: #{name} ==="\
+  
+  # 1. Конвертация BPMN\
+  diagram_settings = ConfigParser.get_diagram_settings(comp, cfg)\
+  if diagram_settings[:bpmn_enabled]\
+    puts "  -> bpmn: #{diagram_settings[:bpmn_src]} -> #{diagram_settings[:bpmn_dst]}"\
+    Utils.prepare_destination_dir(diagram_settings[:bpmn_dst], diagram_settings[:bpmn_erase_folder])\
+    system(%(node "#{bpmn_js}" --in "#{diagram_settings[:bpmn_src]}" --out "#{diagram_settings[:bpmn_dst]}" --format svg))\ 
+  end
+
+  # 2. Конвертация Drawio\
+  if diagram_settings[:drawio_enabled]\
+    puts "  -> drawio: #{diagram_settings[:drawio_src]} -> #{diagram_settings[:drawio_dst]}"\
+    Utils.prepare_destination_dir(diagram_settings[:drawio_dst], diagram_settings[:drawio_erase_folder])\
+    system(%(node "#{drawio_js}" --in "#{diagram_settings[:drawio_src]}" --out "#{diagram_dst]}" --format svg))\ 
+  end
+
+  # 3. Конвертация API\
+  api_settings = ConfigParser.get_api_settings(comp, cfg, name)\
+  if api_settings[:enabled]\
+    puts "  -> api: #{api_settings[:dst]}"\
+    puts "  -> sources: #{api_settings[:sources_file]}"\
+    
+    Utils.prepare_destination_dir(api_settings[:dst], api_settings[:erase_folder])\
+    
+    if File.exist?(api_settings[:sources_file])\
+      sources_abs_path = File.expand_path(api_settings[:sources_file])\
+      system(%(ruby "#{api_rb}" --sources "#{sources_abs_path}" --out "#{api_settings[:dst]}"))\ 
+    else\
+      puts "  ❌ Файл источников API не найден: #{api_settings[:sources_file]}"\
+    end\
+  end
+
+  # 4. Конвертация БД\
+  db_settings = ConfigParser.get_db_settings(comp, cfg, name)\
+  if db_settings && db_settings[:enabled]\ 
+    puts "  -> bd(#{db_settings[:profile]}): #{db_settings[:connection]['host']}:#{db_settings[:connection]['port']}/#{db_settings[:connection]['db']} -> #{db_settings[:dst]}"\
+    puts "  -> bd_images: -> #{db_settings[:images_dir]}"\
+    
+    Utils.prepare_destination_dir(db_settings[:dst], db_settings[:erase_folder])\
+    Utils.prepare_destination_dir(db_settings[:images_dir], db_settings[:erase_folder])\
+    
+    system(%(ruby "#{bd_rb}" --host "#{db_settings[:connection]['host']}" --port "#{db_settings[:connection]['port']}" --db "#{db_settings[:connection]['db']}" --user "#{db_settings[:connection]['user']}" --pass "#{db_settings[:connection]['pass']}" --out "#{db_settings[:dst]}" --images "#{db_settings[:images_dir]}"))\ 
+  end
+
+  # 5. Генерация PDF\
+  PdfGenerator.generate_pdfs(comp, KROKI_URL, cfg)\
+end\
+----
+
+== Порядок выполнения
+
+=== Этапы обработки компонента
+
+Скрипт выполняет операции в следующем порядке для каждого компонента:
+
+1. Конвертация BPMN диаграмм   * Исходные файлы: `components/{name}/modules/ROOT/examples/bpmn/*.bpmn`
+   * Результат: SVG изображения в `components/{name}/modules/ROOT/images/bpmn/`
+   * Скрипт: `tools/scripts/bpmn_to_img.js`
+
+2. Конвертация Draw.io диаграмм   * Исходные файлы: `components/{name}/modules/ROOT/examples/drawio/*.drawio`
+   * Результат: SVG изображения в `components/{name}/modules/ROOT/images/drawio/`
+   * Скрипт: `tools/scripts/drawio_to_img.js`
+
+3. Конвертация API документации   * Источники: `components/{name}/modules/ROOT/examples/sources.yml`
+   * Результат: AsciiDoc файлы в `components/{name}/modules/ROOT/partials/docs-api/`
+   * Скрипт: `tools/scripts/openapi-swagger-adoc.rb`
+
+4. Конвертация БД документации   * Источники: `components/{name}/modules/ROOT/examples/database.yml`
+   * Результат: AsciiDoc файлы в `components/{name}/modules/ROOT/partials/docs-db/`
+   * Результат: PNG схемы в `components/{name}/modules/ROOT/images/images-db/`
+   * Скрипт: `tools/scripts/db_to_adoc.rb`
+
+5. Генерация PDF документов   * Исходные файлы: `components/{name}/modules/*/pages/*.adoc`
+   * Результат: PDF файлы в `components/{name}/modules/ROOT/attachments/`
+   * Скрипт: `tools/lib/pdf_generator.rb`
+
+6. Генерация списков файлов (планируется)
+   * Исходные файлы: `components/{name}/modules/*/pages/*.adoc`
+   * Результат: файл навигации `components/{name}/modules/ROOT/partials/list-pages-component.adoc`
+   * Скрипт: `tools/scripts/generate_lists.rb`
+
+== Использование
+
+=== Запуск скрипта
+
+[source,bash]
+----
+# Используя конфигурацию по умолчанию
+ruby tools/start.rb
+
+# Используя пользовательскую конфигурацию
+ruby tools/start.rb custom_config.yml
+----
+
+=== Переменные окружения
+
+Скрипт поддерживает следующие переменные окружения:
+
+.Переменные окружения start.rb
+
+[cols="1,2,2"]
+|===
+|Переменная |Значение по умолчанию |Описание
+
+|`KROKI_SERVER_URL`
+|`http://localhost:8000`
+|URL сервера Kroki для генерации диаграмм
+
+|`DB_HOST`
+|`nil`
+|Переопределение хоста базы данных (для БД конвертера)
+
+|`DB_PORT`
+|`nil`
+|Переопределение порта базы данных
+
+|`DB_NAME`
+|`nil`
+|Переопределение имени базы данных
+
+|`DB_USER`
+|`nil`
+|Переопределение пользователя базы данных
+
+|`DB_PASS`
+|`nil`
+|Переопределение пароля базы данных
+
+|===
+
+== Расширение функциональности
+
+=== Добавление нового типа генерации
+
+Для добавления нового типа генерации (например, списков файлов) необходимо:
+
+1. Добавить метод в ConfigParser   [source,ruby]
+   ----\
+   def self.get_list_settings(comp, defaults)\
+     list_settings = comp['list'] || defaults.dig('defaults', 'list') || {}\
+     
+     {\
+       enabled: list_settings['enabled'] || false,\
+       adoc_lists: list_settings['adoc_lists'] || false,\
+       adoc_src: Utils.expand(list_settings['adoc_src'] || defaults.dig('defaults', 'list', 'adoc_src'), comp),\
+       dst: Utils.expand(list_settings['dst'] || defaults.dig('defaults', 'list', 'dst'), comp)\
+     }\
+   end\
+   ----
+
+2. Добавить обработку в start.rb   [source,ruby]
+   ----\
+   # 6. Генерация списков файлов\
+   list_settings = ConfigParser.get_list_settings(comp, cfg)\
+   if list_settings[:enabled] && list_settings[:adoc_lists]\
+     puts "  -> list: генерация навигации"\
+     system(%(ruby "tools/scripts/generate_lists.rb"))\
+   end\
+   ----
+
+3. Создать исполняемый скрипт   * Скрипт должен быть исполняемым и размещаться в `tools/scripts/`
+   * Скрипт должен принимать необходимые параметры через аргументы командной строки
+
+=== Принципы обработки настроек
+
+1. Приоритет настроек: Компонентальные настройки переопределяют настройки по умолчанию
+2. Расширение путей: Используется `Utils.expand()` для подстановки переменных в пути
+3. Проверка существования: Проверяется существование файлов источников перед запуском
+4. Подготовка директорий: Используется `Utils.prepare_destination_dir()` для подготовки папок назначения
+5. Логирование: Все операции логируются с указанием путей входных и выходных файлов
+
+== Логика выбора из config.yml
+
+Настройки компонента получаются с использованием следующей логики:
+
+[source,ruby]
+----
+# Путь получения настроек:
+settings = comp['[section]'] || defaults.dig('defaults', '[section]') || {}
+
+# Обработка параметров с fallback:
+param_value = settings['param'] || defaults.dig('defaults', '[section]', 'param') || default_value
+
+# Расширение путей:
+expanded_path = Utils.expand(path_template, comp)
+----
+
+Пример получения настроек списков:
+
+[source,ruby]
+----\
+list_settings = comp['list'] || defaults.dig('defaults', 'list') || {}\
+enabled = list_settings['enabled'] || false  # Вернет значение компонента или false из defaults\
+adoc_lists = list_settings['adoc_lists'] || defaults.dig('defaults', 'list', 'adoc_lists') || false\
+----\
+
+Эта логика позволяет:
+
+* Переопределять любые настройки на уровне компонента;
+* Использовать разумные значения по умолчанию;
+* Легко добавлять новые параметры в существующие секции.

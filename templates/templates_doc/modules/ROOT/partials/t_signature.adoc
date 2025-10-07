@@ -1,0 +1,24 @@
+// Таблица подписи
+include::contract.adoc[]
+
+// [.text-center] стиль пдф из папки resources/themes/report-theme.yml
+[.text-center]
+*ИСПОЛНИТЕЛИ*
+
+[cols="6,5,5,3,3", options="header, breakable"]
+|===
+^| Наименование организации                 ^| Должность исполнителя    ^| Фамилия, Имя, Отчество ^| Подпись ^| Дата
+| {job_executor_1} | {job_executor_2} | {iof_executor_2}|         |     
+|===
+
+[.text-center]
+*СОГЛАСОВАНО*
+
+[cols="6,5,5,3,3", options="header, breakable"]
+|===
+^| Наименование организации                 ^| Должность исполнителя    ^| Фамилия, Имя, Отчество ^| Подпись ^| Дата
+| {job_concordant_1} | {job_concordant_2} | {iof_concordant_2}|         | 
+| {nbsp}            |  |  |         | {nbsp} 
+|===
+
+

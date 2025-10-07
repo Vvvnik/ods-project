@@ -1,0 +1,41 @@
+# Конфигурация типов страниц и списков для PDF конвертеров
+# Связывает атрибуты документов с модулями конвертеров
+# 
+# Секции:
+# - title_pages: конвертеры титульных страниц
+# - other_pages: конвертеры обычных страниц  
+# - list_types: конвертеры стилей нумерации списков
+
+title_pages:
+  # Стандартная титульная страница с абсолютными координатами
+  original: "convert_title_page_original"
+  
+  # Титульная страница для контрактов с абсолютными координатами
+  contract: "convert_title_page_contract"
+  
+  # Титульная страница с рамками
+  original_frame: "convert_title_page_original_frame"
+  
+  # Лист утверждения в стиле ГОСТ
+  approval_page_gost: "convert_approval_page_gost"
+  
+  # Без титульной страницы
+  none: null
+
+other_pages:
+  # Страницы с полными рамками и колонтитулами
+  original: "convert_other_page_original"
+  
+  # Страницы с рамками и приставкой
+  original_frame: "convert_other_page_original_frame"
+  
+  
+  # Без дополнительного оформления (стандартное Asciidoctor)
+  none: null
+
+list_types:
+  # Тип "alphabetic" - уровень 2 тире (–)
+  alphabetic: "convert_list_alphabetic"
+  
+  # Тип "dash" - уровень 2 буквы (а б в)
+  dash: "convert_list_dash"

@@ -1,0 +1,43 @@
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="{{{or site.url siteRootPath}}}">{{site.title}}</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    {{!-- -------------------------- --}}
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Компоненты</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="{{{relativize (resolvePageURL 'project-guide:ROOT:index.adoc')}}}">Руководство по документированию</a>
+            <a class="navbar-item" href="{{{relativize (resolvePageURL 'data-processing-engine:ROOT:index.adoc')}}}">Центр обработки данных</a>
+            <a class="navbar-item" href="{{{relativize (resolvePageURL 'information-system:ROOT:index.adoc')}}}">Информационная система</a>
+            <a class="navbar-item" href="{{{relativize (resolvePageURL 'airport-service:ROOT:index.adoc')}}}">Сервис аэропортов</a>
+            <a class="navbar-item" href="{{{relativize (resolvePageURL 'toys-service:ROOT:index.adoc')}}}">Сервис игрушек</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">О проекте ODS</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://docs.antora.org/antora/latest/" target="_blank">Antora Docs</a>
+            <a class="navbar-item" href="https://docs.asciidoctor.org/" target="_blank">Asciidoctor Docs</a>
+            <a class="navbar-item" href="https://gitlab.com/vvvnik/my-project" target="_blank">Проект ODS в GitLab</a>
+          </div>
+        </div>
+        {{#if env.SITE_SEARCH_PROVIDER}}
+        <div class="navbar-item search hide-for-print">
+          <div id="search-field" class="field">
+            <input id="search-input" type="text" placeholder="Поиск по документации"{{#if page.home}} autofocus{{/if}}>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    {{!-- ------------------------- --}}
+  </nav>
+</header>

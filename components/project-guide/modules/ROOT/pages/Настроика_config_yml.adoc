@@ -1,0 +1,163 @@
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Настройка config.yml
+
+Проект настраивается через центральный файл `tools/config.yml`.
+
+== Секции конфигурации
+
+[cols="1,2,3"]
+|===
+|Секция |Параметр |Описание
+
+|`defaults`
+|Настройки по умолчанию
+|Общие параметры для всех компонентов
+
+|`components`
+|Список компонентов
+|Конфигурация каждого компонента
+|===
+
+=== Настройки БД и API
+
+Настройки БД и API источников находятся в компонентах:
+
+* `components/{name}/modules/ROOT/examples/database.yml` - профили БД;
+* `components/{name}/modules/ROOT/examples/sources.yml` - источники API.
+
+Путь к настройкам БД и API источников задается в файле `tools/config.yml` в секции `defaults`.
+
+Это обеспечивает изоляцию настроек между компонентами.
+
+=== Порядок секций
+
+Порядок секций в `config.yml` **не важен**:
+
+[source,yaml]
+----
+# Любой из этих вариантов работает одинаково:
+
+# Вариант 1
+pdf:
+  enabled: true
+drawio:
+  enabled: true
+list:
+  pdf_lists: true
+
+# Вариант 2  
+list:
+  pdf_lists: true
+pdf:
+  enabled: true
+drawio:
+  enabled: true
+----
+
+**Причина:** YAML структура - это словарь, где порядок ключей не влияет на функциональность. Ruby код читает конфигурацию независимо от порядка секций.
+
+== Пример конфигурации компонента
+
+[source,yaml]
+----
+- name: airport-service
+  bpmn_enabled: false
+  drawio_enabled: false
+  api_enabled: false
+  bd_enabled: true
+  bd_profile: "pg_demo"
+  ruby_enabled: true
+----
+
+== Рекомендации
+
+* Не включайте парсинг БД и API по умолчанию;
+* Используйте флаги `bpmn_enabled`, `drawio_enabled` для управления генерацией;
+* Настройте `kroki_url` для обработки PlantUML диаграмм.
+
+== Конфигурирование сборки диаграмм
+
+=== Проблема с путями к изображениям
+
+При использовании диаграмм в разных модулях компонента возникает проблема с путями к изображениям:
+
+* **ROOT модуль подходит** для изображений, которые нужны и в PDF и в Antora, **НО ТОЛЬКО** если AsciiDoc файл, ссылающийся на них, находится в модуле ROOT;
+* **Проблема возникает** когда AsciiDoc файл находится в модуле `ed`, а изображения в модуле `ROOT`;
+* Путь `image::drawio/diagrams_diagram-1.svg[]` не работает и для PDF, и для Antora, потому что `:imagesdir: ../images` указывает на `modules/ed/images/`, а не на `modules/ROOT/images/`.
+
+=== Решения
+
+==== Решение 1: Размещение изображений в том же модуле
+
+Размещать изображения в том же модуле, где находится AsciiDoc файл, и конфигурировать генерацию диаграмм для каждого модуля отдельно:
+
+[source,yaml]
+----
+- name: information-system
+  <<: *defaults
+  drawio:
+    enabled: true
+    dst: "components/{name}/modules/ed/images/drawio"
+
+- name: information-system
+  <<: *defaults
+  drawio:
+    enabled: true
+    dst: "components/{name}/modules/trd/images/drawio"
+----
+
+**Преимущества:**
+
+* Простые пути `image::drawio/diagrams_diagram-1.svg[]`;
+* Работает и в PDF, и в Antora;
+* Не требует условной логики.
+
+==== Решение 2: Условная логика с env-antora
+
+Использовать условную логику в модуледля разных путей в PDF и Antora:
+
+[source,adoc]
+----
+
+:imagesdir: ../images
+
+ifdef::env-antora[]
+image::ROOT:drawio/diagrams_diagram-1.svg[] # ROOT или имя модуля
+endif::[]
+ifndef::env-antora[]
+image::../../ROOT/images/drawio/diagrams_diagram-1.svg[] 
+----
+
+**Переменная `env-antora`:**
+
+* Определяется в `antora-playbook.yml`;
+* Активна при сборке Antora;
+* Позволяет использовать разные пути для PDF и Antora.
+
+=== Глобальные настройки
+
+**PDF и списки** работают для всех модулей компонента автоматически:
+
+[source,yaml]
+----
+- name: information-system
+  <<: *defaults
+  pdf:
+    enabled: true
+    use_title_pages: true
+  list:
+    pdf_lists: true
+----
+
+**Результат:**
+
+* PDF генерируется со всех модулей (`ed`, `trd`, `oed`) и сохраняется в `ROOT/attachments/`;
+* Списки создают навигацию по всем модулям и сохраняют в `ROOT/partials/`.
+
+=== Рекомендации по диаграммам
+
+* **Для диаграмм в разных модулях:** используйте Решение 1 - отдельную конфигурацию для каждого модуля;
+* **Для общих диаграмм:** используйте Решение 2 - условную логику с `env-antora`;
+* **PDF и списки:** настраивайте один раз для всего компонента.

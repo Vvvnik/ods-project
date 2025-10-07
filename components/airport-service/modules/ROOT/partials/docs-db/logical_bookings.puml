@@ -1,0 +1,27 @@
+@startuml
+hide stereotype
+hide circle
+skinparam class {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+  FontColor Black
+}
+skinparam classAttributeIconSize 0
+left to right direction
+class "Посадочные талоны" as boarding_passes
+class "Рейсы билетов" as ticket_flights
+class "Рейсы" as flights
+class "Данные воздушных судов" as aircrafts_data
+class "Данные аэропортов" as airports_data
+class "Места" as seats
+class "Билеты" as tickets
+class "Бронирования" as bookings
+boarding_passes ||--o{ ticket_flights : "flight_id → flight_id"
+flights ||--o{ aircrafts_data : "aircraft_code → aircraft_code"
+flights ||--o{ airports_data : "arrival_airport → airport_code"
+seats ||--o{ aircrafts_data : "aircraft_code → aircraft_code"
+ticket_flights ||--o{ flights : "flight_id → flight_id"
+ticket_flights ||--o{ tickets : "ticket_no → ticket_no"
+tickets ||--o{ bookings : "book_ref → book_ref"
+@enduml

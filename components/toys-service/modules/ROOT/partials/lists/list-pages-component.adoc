@@ -1,0 +1,3 @@
+* xref:index.adoc[Сервис игрушек]
+** xref:api-documentation.adoc[Документация API сервиса игрушек]
+** xref:test-api.adoc[Тестовый API сервиса игрушек]

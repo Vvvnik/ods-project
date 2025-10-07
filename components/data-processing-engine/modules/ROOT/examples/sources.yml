@@ -1,0 +1,23 @@
+# Конфигурация источников API для data-processing-engine
+# Поддерживаются URL, локальные файлы и папки
+
+sources:
+  # URL источники
+  - type: url
+    path: "https://petstore.swagger.io/v2/swagger.json"
+    description: "Petstore API (пример)"
+    
+  # Локальные файлы
+  - type: file
+    path: "components/data-processing-engine/api/swagger.json"
+    description: "Data Processing Engine API (JSON)"
+    
+  # Папки с файлами
+  - type: directory
+    path: "components/data-processing-engine/api/"
+    description: "Все файлы из папки api"
+    patterns: ["*.json", "*.yaml", "*.yml"]
+
+# Настройки генерации
+settings:
+  output_suffix: ""

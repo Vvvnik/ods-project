@@ -1,0 +1,207 @@
+:num_t: {counter:table-number}
+
+Описание данных «aircrafts» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «aircrafts»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|aircraft_code |character |Нет |Код воздушного судна
+|model |text |Нет |Модель
+|range |integer |Нет |Дальность
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «aircrafts_data» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «aircrafts_data»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|aircraft_code |character |Да |Код воздушного судна
+|model |jsonb |Да |Модель
+|range |integer |Да |Дальность
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «airports» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «airports»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|airport_code |character |Нет |Код аэропорта
+|airport_name |text |Нет |Название аэропорта
+|city |text |Нет |Город
+|coordinates |point |Нет |Координаты
+|timezone |text |Нет |Часовой пояс
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «airports_data» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «airports_data»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|airport_code |character |Да |Код аэропорта
+|airport_name |jsonb |Да |Название аэропорта
+|city |jsonb |Да |Город
+|coordinates |point |Да |Координаты
+|timezone |text |Да |Часовой пояс
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «boarding_passes» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «boarding_passes»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|ticket_no |character |Да |Номер билета
+|flight_id |integer |Да |Идентификатор рейса
+|boarding_no |integer |Да |Номер посадки
+|seat_no |character varying |Да |Номер места
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «bookings» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «bookings»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|book_ref |character |Да |Номер бронирования
+|book_date |timestamp with time zone |Да |Дата бронирования
+|total_amount |numeric |Да |Общая сумма
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «flights» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «flights»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|flight_id |integer |Да |Идентификатор рейса
+|flight_no |character |Да |Номер рейса
+|scheduled_departure |timestamp with time zone |Да |Плановое отправление
+|scheduled_arrival |timestamp with time zone |Да |Плановое прибытие
+|departure_airport |character |Да |Аэропорт отправления
+|arrival_airport |character |Да |Аэропорт прибытия
+|status |character varying |Да |Статус
+|aircraft_code |character |Да |Код воздушного судна
+|actual_departure |timestamp with time zone |Нет |Фактическое отправление
+|actual_arrival |timestamp with time zone |Нет |Фактическое прибытие
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «flights_v» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «flights_v»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|flight_id |integer |Нет |Идентификатор рейса
+|flight_no |character |Нет |Номер рейса
+|scheduled_departure |timestamp with time zone |Нет |Плановое отправление
+|scheduled_departure_local |timestamp without time zone |Нет |Плановое отправление (местное время)
+|scheduled_arrival |timestamp with time zone |Нет |Плановое прибытие
+|scheduled_arrival_local |timestamp without time zone |Нет |Плановое прибытие (местное время)
+|scheduled_duration |interval |Нет |Плановая продолжительность
+|departure_airport |character |Нет |Аэропорт отправления
+|departure_airport_name |text |Нет |Название аэропорта отправления
+|departure_city |text |Нет |Город отправления
+|arrival_airport |character |Нет |Аэропорт прибытия
+|arrival_airport_name |text |Нет |Название аэропорта прибытия
+|arrival_city |text |Нет |Город прибытия
+|status |character varying |Нет |Статус
+|aircraft_code |character |Нет |Код воздушного судна
+|actual_departure |timestamp with time zone |Нет |Фактическое отправление
+|actual_departure_local |timestamp without time zone |Нет |Фактическое отправление (местное время)
+|actual_arrival |timestamp with time zone |Нет |Фактическое прибытие
+|actual_arrival_local |timestamp without time zone |Нет |Фактическое прибытие (местное время)
+|actual_duration |interval |Нет |Фактическая продолжительность
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «routes» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «routes»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|flight_no |character |Нет |Номер рейса
+|departure_airport |character |Нет |Аэропорт отправления
+|departure_airport_name |text |Нет |Название аэропорта отправления
+|departure_city |text |Нет |Город отправления
+|arrival_airport |character |Нет |Аэропорт прибытия
+|arrival_airport_name |text |Нет |Название аэропорта прибытия
+|arrival_city |text |Нет |Город прибытия
+|aircraft_code |character |Нет |Код воздушного судна
+|duration |interval |Нет |Продолжительность
+|days_of_week |ARRAY |Нет |Дни недели
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «seats» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «seats»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|aircraft_code |character |Да |Код воздушного судна
+|seat_no |character varying |Да |Номер места
+|fare_conditions |character varying |Да |Условия тарифа
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «ticket_flights» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «ticket_flights»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|ticket_no |character |Да |Номер билета
+|flight_id |integer |Да |Идентификатор рейса
+|fare_conditions |character varying |Да |Условия тарифа
+|amount |numeric |Да |Сумма
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «tickets» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «tickets»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|ticket_no |character |Да |Номер билета
+|book_ref |character |Да |Номер бронирования
+|passenger_id |character varying |Да |Идентификатор пассажира
+|passenger_name |text |Да |Имя пассажира
+|contact_data |jsonb |Нет |Контактные данные
+|===
+

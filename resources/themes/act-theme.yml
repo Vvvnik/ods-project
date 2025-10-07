@@ -1,0 +1,41 @@
+extends: report
+
+# Переопределяем только нумерацию страниц для актов
+# Акты должны иметь номера страниц с первой страницы
+running-content:
+  start-at: 0  # Начинаем с первой страницы вместо второй
+
+# Остальные настройки наследуются от report-theme.yml
+footer:
+  font-family: Times
+  font_size: 10
+  text-align: center
+  font-color: #9C9C9C
+  # NOTE if background_color is set, background and border will span width of page
+  border_color: 000000
+  border_width: 0
+  height: 15mm
+  line_height: 1.15
+  # padding: [$base_line_height_length / 2, 1, 0, 1]
+  vertical_align: center
+  recto:
+    left:
+      text-align: left
+      content: 
+    right:
+      text-align: right
+      # content: 'Лист: {page-number} / {page-count}'
+      content: ''
+    center:
+      text-align: center
+      content: '{page-number}'
+  verso:
+    left:
+      text-align: left
+      content: 
+    right:
+      text-align: right
+      # content: 'Лист: {page-number} / {page-count}'
+      content: ''
+    center:
+      content: '{page-number}'

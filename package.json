@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "@antora/lunr-extension": "^1.0.0-alpha.10",
+    "asciidoctor-kroki": "^0.18.1",
+    "asciidoctor-plantuml": "^1.5.0",
+    "opal": "^0.2.0",
+    "puppeteer": "^24.7.1",
+    "xml2js": "^0.6.2"
+  },
+  "name": "my-progect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

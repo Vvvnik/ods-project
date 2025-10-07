@@ -1,0 +1,15 @@
+@startuml schema
+title GitLab CI/CD: Antora + GitLab Pages + PDF
+
+start
+:Developer pushes to main;
+:CI job build_site runs;
+fork
+  :Ruby scripts generate PDF from .adoc;
+  :Copy PDF to attachments/;
+end fork
+:Antora outputs site into public/ (including attachments/);
+:Save public/ as job artifact;
+:GitLab Pages publishes site from artifact;
+stop
+@enduml

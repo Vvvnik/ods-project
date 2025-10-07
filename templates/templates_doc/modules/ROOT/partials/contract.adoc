@@ -1,0 +1,44 @@
+// Данные договора
+:year: 2025
+:city: Санкт-Петербург
+:сontract_name: Договор
+:contract_number: от 15.03.2024 года № СПБ-9876543
+:state_name: Государственный контракт
+:state_сontract_number: от 15.03.2024 года № СПБ-9876543
+:stage: 1 
+:stage_gk:
+:start_period: 30.06.2025
+:end_period: 30.06.2025
+:period: с {start_period} по {end_period}
+
+// Наименование компонента
+:name_component_1: Информационная система «Проект» 
+:name_component_2: Подсистема документооборота
+:name_component_3: Компонент
+:name_component_4: автоматизации процессов документооборота
+
+// Подпись заказчик
+:iof_customer: А.В. Петров
+:iof_customer_2: Петров А.В.
+:job_customer_1: Заместитель директора
+:job_customer_2: ООО «Заказчик организация»
+:job_customer_all: {job_customer_1} {job_customer_2}
+
+// Подпись исполнитель
+:iof_executor: М.С. Иванов
+:iof_executor_2: Иванов М.С.
+:job_executor_1: Руководитель проектов 
+:job_executor_2: ООО «Исполнитель организация»
+:job_executor_all: {job_executor_1} {job_executor_2}
+
+// Подпись согласовавший
+:iof_concordant: С.П. Сидоров
+:iof_concordant_2: Сидоров С.П.
+:job_concordant_1: Начальник отдела 
+:job_concordant_2: {job_customer_2}
+:job_concordant_all: {job_concordant_1} {job_concordant_2}
+
+:fio_responsible: Козлова А.И.
+:cod_gk: 00123.02.0{version}.045.01
+
+:main_point_contract: п. 2.2
