@@ -6,37 +6,37 @@
 
 == Архитектура системы конвертеров
 
-Система PDF конвертеров построена на модульной архитектуре с централизованной конфигурацией в файле `tools/config_type_page.yml`.
+Система PDF конвертеров построена на модульной архитектуре с централизованной конфигурацией в файле tools/config_type_page.yml.
 
 === Компоненты системы
 
-**Титульные страницы** (`title_pages`) - разные стили титульных страниц:
+Титульные страницы (title_pages) - разные стили титульных страниц:
 
-* `original` - стандартная;
-* `contract` - для контрактов;
-* `original_frame` - с рамками;
-* `approval_page_gost` - лист утверждения ГОСТ;
-* `none` - без титульной страницы.
+* original - стандартная;
+* contract - для контрактов;
+* original_frame - с рамками;
+* approval_page_gost - лист утверждения ГОСТ;
+* none - без титульной страницы.
 
-**Обычные страницы** (`other_pages`) - стили оформления страниц:
+Обычные страницы (other_pages) - стили оформления страниц:
 
-* `original` - с полными рамками и колонтитулами;
-* `original_frame` - с рамками и приставкой;
-* `none` - стандартное Asciidoctor.
+* original - с полными рамками и колонтитулами;
+* original_frame - с рамками и приставкой;
+* none - стандартное Asciidoctor.
 
-**Списки** (`list_types`) - стили нумерации:
+Списки (list_types) - стили нумерации:
 
-* `alphabetic` - уровень 2 тире (–);
-* `dash` - уровень 2 буквы (а б в).
+* alphabetic - уровень 2 тире (–);
+* dash - уровень 2 буквы (а б в).
 
 === Принцип работы
 
-. Атрибуты `:custom_title_page:`, `:custom_other_page:`, `:custom_list_type:` в документах
-. Конвертер читает `config_type_page.yml`
-. Динамически загружает нужные модули
-. Применяет соответствующие стили
+. Атрибуты :custom_title_page:, :custom_other_page:, :custom_list_type: в документах;
+. Конвертер читает config_type_page.yml;
+. Динамически загружает нужные модули;
+. Применяет соответствующие стили.
 
-**Результат:** Один универсальный конвертер `convert_ascii_to_pdf.rb` с модульной архитектурой для всех типов оформления!
+Результат: Один универсальный конвертер convert_ascii_to_pdf.rb с модульной архитектурой для всех типов оформления!
 
 Подробнее о конвертерах списков см. xref:Настроика_конвертеров_списков.adoc[Настройка конвертеров списков].
 
@@ -101,18 +101,18 @@
 
 Параметры:
 
-* `custom_title_page`: тип титульной страницы (`original`, `contract`, `original_frame`, `none`);
-* `custom_other_page`: тип обычных страниц (`original`, `original_frame`, `protocol`, `none`);
-* `use_title_pages`: включить/выключить титульные страницы (`true`/`false`).
+* custom_title_page: тип титульной страницы (original, contract, original_frame, none);
+* custom_other_page: тип обычных страниц (original, original_frame, protocol, none);
+* use_title_pages: включить/выключить титульные страницы (true/false).
 
 Важно: Типы титульных и обычных страниц настраиваются независимо:
 
-* `:custom_title_page:` - только для первой страницы (титульной)
-* `:custom_other_page:` - для всех остальных страниц (со второй и далее)
+* :custom_title_page: - только для первой страницы (титульной);
+* :custom_other_page: - для всех остальных страниц (со второй и далее).
 
 === Поведение по умолчанию
 
-Если `custom_title_page` не задан или пустой, используется `none` (без кастомной титульной страницы).
+Если custom_title_page не задан или пустой, используется none (без кастомной титульной страницы).
 
 == Система позиционирования
 
@@ -128,7 +128,7 @@ height: 3.0              # 3 см высота
 
 == Гибридная система интервалов
 
-Параметр `custom_line_spacing` поддерживает разные форматы:
+Параметр custom_line_spacing поддерживает разные форматы:
 
 Сантиметры (числа < 10):
 [source,ruby]
@@ -177,39 +177,43 @@ approval_signature_block = TitlePageBlocks::SignatureBlock.new(
 # page_count_block.draw(self, page_count)
 ----
 
-Важно: Если закомментировать только создание, но оставить использование, возникнет ошибка `undefined local variable`.
+Важно: Если закомментировать только создание, но оставить использование, возникнет ошибка undefined local variable.
 
 == Рамки на страницах
 
 === Рамки на титульных страницах
 
-Для добавления рамок на титульные страницы используйте тип `original_frame`:
+Для добавления рамок на титульные страницы используйте тип original_frame:
 
 [source,asciidoc]
 ----
 :custom_title_page: original_frame
 ----
 
-Настройки рамок:* `frame_margin_top`: отступ сверху (по умолчанию 5мм)
-* `frame_margin_right`: отступ справа (по умолчанию 5мм)  
-* `frame_margin_bottom`: отступ снизу (по умолчанию 5мм)
-* `frame_margin_left`: отступ слева (по умолчанию 20мм)
-* `frame_line_width`: толщина линии (по умолчанию 0.1мм)
+Настройки рамок:
+
+* frame_margin_top: отступ сверху (по умолчанию 5мм);
+* frame_margin_right: отступ справа (по умолчанию 5мм);    
+* frame_margin_bottom: отступ снизу (по умолчанию 5мм);
+* frame_margin_left: отступ слева (по умолчанию 20мм);
+* frame_line_width: толщина линии (по умолчанию 0.1мм).
 
 === Рамки на обычных страницах
 
-Для добавления рамок на обычные страницы используйте атрибут `:custom_other_page:`:
+Для добавления рамок на обычные страницы используйте атрибут :custom_other_page::
 
-* `original` * без рамок
-* `original_frame` * с рамкой и приставкой (как на титульной странице)
+* original * без рамок
+* original_frame * с рамкой и приставкой (как на титульной странице)
 
-Важно:* Рамки на титульной и обычных страницах настраиваются независимо
-* Рамки на обычных страницах рисуются только со второй страницы (первая страница * титульная)
+Важно:
+
+* Рамки на титульной и обычных страницах настраиваются независимо;
+* Рамки на обычных страницах рисуются только со второй страницы (первая страница * титульная);
 * Рамки на титульной и обычных страницах рисуются независимо в разных файлах Ruby:
-  * Титульная: `tools/lib/convert_title_page_original_frame.rb`
-  * Обычные: `tools/lib/convert_other_page_original_frame.rb`
+** Титульная: tools/lib/convert_title_page_original_frame.rb;
+** Обычные: tools/lib/convert_other_page_original_frame.rb.
 
-Настройка отступов страниц:Отступы страниц настроены в файле темы `resources/themes/report-theme.yml` с завышенными значениями, которые подходят как для обычных страниц, так и для страниц с рамками:
+Настройка отступов страниц:Отступы страниц настроены в файле темы resources/themes/report-theme.yml с завышенными значениями, которые подходят как для обычных страниц, так и для страниц с рамками:
 
 [source,yaml]
 ----
@@ -219,60 +223,69 @@ page:
 
 Текущие отступы:
 
-* Тема `report`: `[15mm, 10mm, 25mm, 25mm]` (стандартные поля)
-* Тема `frame`: `[15mm, 10mm, 25mm, 25mm]` (увеличенные поля для рамок)
+* Тема report: [15mm, 10mm, 25mm, 25mm] (стандартные поля)
+* Тема frame: [15mm, 10mm, 25mm, 25mm] (увеличенные поля для рамок)
 
 При необходимости изменения отступов:
 
-* Отредактируйте файл `resources/themes/report-theme.yml` для обычных документов
-* Отредактируйте файл `resources/themes/frame-theme.yml` для документов с рамками
-* Измените значение `margin` в секции `page`
+* Отредактируйте файл resources/themes/report-theme.yml для обычных документов
+* Отредактируйте файл resources/themes/frame-theme.yml для документов с рамками
+* Измените значение margin в секции page
 
 Примеры комбинаций:
 
-* Акт с нумерацией с первой страницы: `:pdf-theme: act` → тема `act`;
-* Титульная с рамкой + обычные без рамок: `:custom_title_page: original_frame` + `:custom_other_page: original` → тема `report`;
-* Титульная без рамок + обычные с рамками: `:custom_title_page: original` + `:custom_other_page: original_frame` → тема `frame`;
-* Все страницы с рамками: `:custom_title_page: original_frame` + `:custom_other_page: original_frame` → тема `frame`;
-* Контракт без рамок + обычные с рамками: `:custom_title_page: contract` + `:custom_other_page: original_frame` → тема `frame`;
-* Контракт с рамками + обычные с рамками: `:custom_title_page: original_frame` + `:custom_other_page: original_frame` → тема `frame`;
-* Все страницы без рамок: `:custom_title_page: original` + `:custom_other_page: original` → тема `report`.
+* Акт с нумерацией с первой страницы: :pdf-theme: act → тема act;
+* Титульная с рамкой + обычные без рамок: :custom_title_page: original_frame + :custom_other_page: original → тема report;
+* Титульная без рамок + обычные с рамками: :custom_title_page: original + :custom_other_page: original_frame → тема frame;
+* Все страницы с рамками: :custom_title_page: original_frame + :custom_other_page: original_frame → тема frame;
+* Контракт без рамок + обычные с рамками: :custom_title_page: contract + :custom_other_page: original_frame → тема frame;
+* Контракт с рамками + обычные с рамками: :custom_title_page: original_frame + :custom_other_page: original_frame → тема frame;
+* Все страницы без рамок: :custom_title_page: original + :custom_other_page: original → тема report.
 
-Доступные типы:* Титульные: `original`, `contract`, `original_frame`, `approval_page_gost`, `none`
-* Обычные: `original`, `original_frame`, `protocol`, `none`
+Доступные типы:
+
+* Титульные: original, contract, original_frame, approval_page_gost, none;
+* Обычные: original, original_frame, protocol, none.
 
 == Стандартное поведение AsciiDoc
 
-При `custom_title_page: none` или отсутствии атрибута:
+При custom_title_page: none или отсутствии атрибута:
 
-* Если документ начинается с `= Заголовок`, AsciiDoc создаст стандартную титульную страницу
-* Если документ начинается с `== Заголовок`, титульная страница не создается
-* Для полного отключения используйте атрибут `:notitle:`
+* Если документ начинается с = Заголовок, AsciiDoc создаст стандартную титульную страницу;
+* Если документ начинается с == Заголовок, титульная страница не создается;
+* Для полного отключения используйте атрибут :notitle:
 
 == Файлы конфигурации
 
-* `tools/config_type_page.yml` * связывает типы страниц с модулями
-* `tools/lib/convert_title_page_*.rb` * модули титульных страниц
-* `tools/lib/title_page_blocks.rb` * базовые классы блоков
+* tools/config_type_page.yml * связывает типы страниц с модулями;
+* tools/lib/convert_title_page_*.rb * модули титульных страниц;
+* tools/lib/title_page_blocks.rb * базовые классы блоков.
 
 === Конфигурация типов страниц
 
-Файл `tools/config_type_page.yml` определяет доступные типы:
+Файл tools/config_type_page.yml определяет доступные типы:
 
-Титульные страницы:* `original` → `convert_title_page_original`
-* `contract` → `convert_title_page_contract`
-* `original_frame` → `convert_title_page_original_frame`
-* `approval_page_gost` → `convert_approval_page_gost`
-* `none` → отключено
+Титульные страницы:
 
-Обычные страницы:* `original` → `convert_other_page_original`
-* `original_frame` → `convert_other_page_original_frame`
-* `protocol` → `convert_other_page_protocol`
-* `none` → отключено
+* original → convert_title_page_original;
+* contract → convert_title_page_contract;
+* original_frame → convert_title_page_original_frame;
+* approval_page_gost → convert_approval_page_gost;
+* none → отключено.
 
-Важно: Типы титульных и обычных страниц настраиваются независимо через разные атрибуты:
-* `:custom_title_page:` * для титульной страницы
-* `:custom_other_page:` * для обычных страниц
+Обычные страницы:
+
+* original → convert_other_page_original;
+* original_frame → convert_other_page_original_frame;
+* protocol → convert_other_page_protocol;
+* none → отключено.
+
+Важно: 
+
+Типы титульных и обычных страниц настраиваются независимо через разные атрибуты:
+
+* :custom_title_page: * для титульной страницы;
+* :custom_other_page: * для обычных страниц.
 
 == Автоматический выбор тем PDF
 
@@ -280,9 +293,9 @@ page:
 
 === Логика выбора темы
 
-* Если в документе указан атрибут `:pdf-theme: act` → используется тема `act`
-* Если `custom_other_page` заканчивается на `_frame` → используется тема `frame`
-* Во всех остальных случаях → используется тема `report`
+* Если в документе указан атрибут :pdf-theme: act → используется тема act;
+* Если custom_other_page заканчивается на _frame → используется тема frame;
+* Во всех остальных случаях → используется тема report.
 
 Примеры:
 
@@ -299,13 +312,13 @@ page:
 
 Система использует три файла тем:
 
-* `resources/themes/act-theme.yml` - тема для актов с нумерацией с первой страницы;
-* `resources/themes/report-theme.yml` - основная тема с стандартными отступами;
-* `resources/themes/frame-theme.yml` - тема с увеличенными отступами для рамок.
+* resources/themes/act-theme.yml - тема для актов с нумерацией с первой страницы;
+* resources/themes/report-theme.yml - основная тема с стандартными отступами;
+* resources/themes/frame-theme.yml - тема с увеличенными отступами для рамок.
 
 === Тема act
 
-Тема `act` предназначена для актов и документов, которые должны иметь нумерацию страниц с первой страницы:
+Тема act предназначена для актов и документов, которые должны иметь нумерацию страниц с первой страницы:
 
 [source,yaml]
 ----
@@ -317,15 +330,15 @@ running-content:
   start-at: 0  # Начинаем с первой страницы вместо второй
 ----
 
-**Особенности темы act:**
+Особенности темы act:
 
-* Наследует все настройки от `report-theme.yml`;
+* Наследует все настройки от report-theme.yml;
 * Нумерация страниц начинается с первой страницы (вместо второй);
 * Подходит для актов, протоколов и других документов, где нужна нумерация с первой страницы.
 
 === Тема frame
 
-Тема `frame` наследует все настройки от `report` и добавляет увеличенные отступы:
+Тема frame наследует все настройки от report и добавляет увеличенные отступы:
 
 [source,yaml]
 ----
@@ -339,11 +352,11 @@ page:
   mode: fullscreen thumbs
 ----
 
-Отличия от `report` темы:
+Отличия от report темы:
 
-* Увеличенные поля для размещения рамок
-* Сохранение всех шрифтов и стилей
-* Оптимизация для документов с рамками
+* Увеличенные поля для размещения рамок;
+* Сохранение всех шрифтов и стилей;
+* Оптимизация для документов с рамками.
 
 === Тема report
 
@@ -365,8 +378,8 @@ page:
 
 Для изменения отступов отредактируйте соответствующий файл темы:
 
-* `resources/themes/act-theme.yml` - для актов с нумерацией с первой страницы;
-* `resources/themes/frame-theme.yml` - для документов с рамками;
-* `resources/themes/report-theme.yml` - для обычных документов.
+* resources/themes/act-theme.yml - для актов с нумерацией с первой страницы;
+* resources/themes/frame-theme.yml - для документов с рамками;
+* resources/themes/report-theme.yml - для обычных документов.
 
-Формат отступов: `[верх, право, низ, лево]` в миллиметрах.
+Формат отступов: [верх, право, низ, лево] в миллиметрах.

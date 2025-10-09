@@ -7,10 +7,10 @@ include::../partials/docker-compose-snippets.adoc[]
 
 == Образы
 
-* **Универсальный образ**: `registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1`:
+* **Универсальный образ**: registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1:
 ** Содержит Ruby + Node.js + Asciidoctor + Antora + все необходимые пакеты;
 ** Используется в CI для сборки PDF и сайта.
-* **Kroki сервис**: `registry.gitlab.com/vvvnik/my-project/kroki:0.28.0`:
+* **Kroki сервис**: registry.gitlab.com/vvvnik/my-project/kroki:0.28.0:
 ** Отдельный контейнер для рендеринга диаграмм;
 ** Подключается как сервис в CI.
 
@@ -18,8 +18,8 @@ include::../partials/docker-compose-snippets.adoc[]
 
 Проект использует **универсальный подход** с одним основным образом:
 
-* **`ruby-node-antora:1`** - основной образ для всех операций сборки;
-* **`kroki:0.28.0`** - сервис для диаграмм (PlantUML, Mermaid, Graphviz).
+* **ruby-node-antora:1** - основной образ для всех операций сборки;
+* **kroki:0.28.0** - сервис для диаграмм (PlantUML, Mermaid, Graphviz).
 
 Это обеспечивает:
 

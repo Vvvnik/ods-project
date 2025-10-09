@@ -14,10 +14,13 @@ include::../partials/attr_common.adoc[]
 toc::[]
 <<<<
 
+ifdef::list_pdf_file_is_empty[]
 == Список PDF файлов
 
 include::../partials/lists/list-pdf-component.adoc[]
+endif::[]
 
-== Содержание
+
+// == Содержание
 
 include::index.adoc[]

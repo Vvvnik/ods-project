@@ -6,11 +6,11 @@ include::../partials/attr_common.adoc[]
 
 == Структура конфигурации
 
-В файле `tools/config.yml` определены настройки для всех компонентов документации. Скрипт `start.rb` обрабатывает эти настройки и запускает соответствующие процессы генерации.
+В файле tools/config.yml определены настройки для всех компонентов документации. Скрипт start.rb обрабатывает эти настройки и запускает соответствующие процессы генерации.
 
 === Секция defaults
 
-Секция `defaults` содержит настройки по умолчанию для всех компонентов:
+Секция defaults содержит настройки по умолчанию для всех компонентов:
 
 .YAML структура секции defaults
 ----
@@ -72,7 +72,7 @@ defaults: &defaults
 
 === Секция components
 
-Каждый компонент может переопределить любые настройки из `defaults`:
+Каждый компонент может переопределить любые настройки из defaults:
 
 .YAML структура секции components
 ----
@@ -97,7 +97,7 @@ name: data-processing-engine
 
 === ConfigParser модуль
 
-Модуль `ConfigParser` содержит методы для получения настроек каждого типа:
+Модуль ConfigParser содержит методы для получения настроек каждого типа:
 
 ==== Метод получения настроек BPMN/Draw.io
 
@@ -183,13 +183,13 @@ if ENV['CI'] && db_settings
 end
 ----
 
-**Результат:**
-* **Локально:** работает как настроено в `config.yml`
-* **В CI:** автоматически отключает генерацию диаграмм, API и БД
+Результат:
+* Локально: работает как настроено в config.yml;
+* В CI: автоматически отключает генерацию диаграмм, API и БД.
 
 === Основной цикл обработки
 
-В `start.rb` выполняется цикл по всем компонентам:\
+В start.rb выполняется цикл по всем компонентам:\
 
 [source,ruby]
 ----
@@ -251,31 +251,31 @@ end\
 
 Скрипт выполняет операции в следующем порядке для каждого компонента:
 
-1. Конвертация BPMN диаграмм   * Исходные файлы: `components/{name}/modules/ROOT/examples/bpmn/*.bpmn`
-   * Результат: SVG изображения в `components/{name}/modules/ROOT/images/bpmn/`
-   * Скрипт: `tools/scripts/bpmn_to_img.js`
+1. Конвертация BPMN диаграмм   * Исходные файлы: components/{name}/modules/ROOT/examples/bpmn/*.bpmn
+   * Результат: SVG изображения в components/{name}/modules/ROOT/images/bpmn/
+   * Скрипт: tools/scripts/bpmn_to_img.js
 
-2. Конвертация Draw.io диаграмм   * Исходные файлы: `components/{name}/modules/ROOT/examples/drawio/*.drawio`
-   * Результат: SVG изображения в `components/{name}/modules/ROOT/images/drawio/`
-   * Скрипт: `tools/scripts/drawio_to_img.js`
+2. Конвертация Draw.io диаграмм   * Исходные файлы: components/{name}/modules/ROOT/examples/drawio/*.drawio
+   * Результат: SVG изображения в components/{name}/modules/ROOT/images/drawio/
+   * Скрипт: tools/scripts/drawio_to_img.js
 
-3. Конвертация API документации   * Источники: `components/{name}/modules/ROOT/examples/sources.yml`
-   * Результат: AsciiDoc файлы в `components/{name}/modules/ROOT/partials/docs-api/`
-   * Скрипт: `tools/scripts/openapi-swagger-adoc.rb`
+3. Конвертация API документации   * Источники: components/{name}/modules/ROOT/examples/sources.yml
+   * Результат: AsciiDoc файлы в components/{name}/modules/ROOT/partials/docs-api/
+   * Скрипт: tools/scripts/openapi-swagger-adoc.rb
 
-4. Конвертация БД документации   * Источники: `components/{name}/modules/ROOT/examples/database.yml`
-   * Результат: AsciiDoc файлы в `components/{name}/modules/ROOT/partials/docs-db/`
-   * Результат: PNG схемы в `components/{name}/modules/ROOT/images/images-db/`
-   * Скрипт: `tools/scripts/db_to_adoc.rb`
+4. Конвертация БД документации   * Источники: components/{name}/modules/ROOT/examples/database.yml
+   * Результат: AsciiDoc файлы в components/{name}/modules/ROOT/partials/docs-db/
+   * Результат: PNG схемы в components/{name}/modules/ROOT/images/images-db/
+   * Скрипт: tools/scripts/db_to_adoc.rb
 
-5. Генерация PDF документов   * Исходные файлы: `components/{name}/modules/*/pages/*.adoc`
-   * Результат: PDF файлы в `components/{name}/modules/ROOT/attachments/`
-   * Скрипт: `tools/lib/pdf_generator.rb`
+5. Генерация PDF документов   * Исходные файлы: components/{name}/modules/*/pages/*.adoc
+   * Результат: PDF файлы в components/{name}/modules/ROOT/attachments/
+   * Скрипт: tools/lib/pdf_generator.rb
 
 6. Генерация списков файлов (планируется)
-   * Исходные файлы: `components/{name}/modules/*/pages/*.adoc`
-   * Результат: файл навигации `components/{name}/modules/ROOT/partials/list-pages-component.adoc`
-   * Скрипт: `tools/scripts/generate_lists.rb`
+   * Исходные файлы: components/{name}/modules/*/pages/*.adoc
+   * Результат: файл навигации components/{name}/modules/ROOT/partials/list-pages-component.adoc
+   * Скрипт: tools/scripts/generate_lists.rb
 
 == Использование
 
@@ -300,28 +300,28 @@ ruby tools/start.rb custom_config.yml
 |===
 |Переменная |Значение по умолчанию |Описание
 
-|`KROKI_SERVER_URL`
-|`http://localhost:8000`
+|KROKI_SERVER_URL
+|http://localhost:8000
 |URL сервера Kroki для генерации диаграмм
 
-|`DB_HOST`
-|`nil`
+|DB_HOST
+|nil
 |Переопределение хоста базы данных (для БД конвертера)
 
-|`DB_PORT`
-|`nil`
+|DB_PORT
+|nil
 |Переопределение порта базы данных
 
-|`DB_NAME`
-|`nil`
+|DB_NAME
+|nil
 |Переопределение имени базы данных
 
-|`DB_USER`
-|`nil`
+|DB_USER
+|nil
 |Переопределение пользователя базы данных
 
-|`DB_PASS`
-|`nil`
+|DB_PASS
+|nil
 |Переопределение пароля базы данных
 
 |===
@@ -356,16 +356,16 @@ ruby tools/start.rb custom_config.yml
    end\
    ----
 
-3. Создать исполняемый скрипт   * Скрипт должен быть исполняемым и размещаться в `tools/scripts/`
+3. Создать исполняемый скрипт   * Скрипт должен быть исполняемым и размещаться в tools/scripts/
    * Скрипт должен принимать необходимые параметры через аргументы командной строки
 
 === Принципы обработки настроек
 
-1. Приоритет настроек: Компонентальные настройки переопределяют настройки по умолчанию
-2. Расширение путей: Используется `Utils.expand()` для подстановки переменных в пути
-3. Проверка существования: Проверяется существование файлов источников перед запуском
-4. Подготовка директорий: Используется `Utils.prepare_destination_dir()` для подготовки папок назначения
-5. Логирование: Все операции логируются с указанием путей входных и выходных файлов
+. Приоритет настроек: Компонентальные настройки переопределяют настройки по умолчанию
+. Расширение путей: Используется Utils.expand() для подстановки переменных в пути
+. Проверка существования: Проверяется существование файлов источников перед запуском
+. Подготовка директорий: Используется Utils.prepare_destination_dir() для подготовки папок назначения
+. Логирование: Все операции логируются с указанием путей входных и выходных файлов
 
 == Логика выбора из config.yml
 

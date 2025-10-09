@@ -11,19 +11,19 @@ include::../partials/attr_common.adoc[]
 |===
 |Папка |Назначение |Описание
 
-|`components/`
+|components/
 |Компоненты Antora
 |Содержит все компоненты документации (airport-service, data-processing-engine, information-system, toys-service, project-guide)
 
-|`tools/`
+|tools/
 |Инструменты сборки
 |Скрипты и конфигурации для автоматизации
 
-|`resources/`
+|resources/
 |Ресурсы оформления
 |Темы, шрифты для PDF
 
-|`public/`
+|public/
 |Готовый сайт
 |Сгенерированный статический сайт
 |===
@@ -49,31 +49,31 @@ image::drawio/Проект_диаграмма_классов_antora_project.svg[
 |===
 |Папка |Тип файлов |Назначение
 
-|`api/`
+|api/
 |JSON, YAML
 |Исходные файлы API спецификаций
 
-|`bpmn/`
+|bpmn/
 |BPMN
 |Диаграммы бизнес-процессов
 
-|`drawio/`
+|drawio/
 |Draw.io
 |Диаграммы архитектуры и схемы
 
-|`puml/`
+|puml/
 |PlantUML
 |Диаграммы, обрабатываемые Kroki
 
-|`docs-api/`
+|docs-api/
 |AsciiDoc
 |Сгенерированная документация API
 
-|`docs-db/`
+|docs-db/
 |AsciiDoc, SVG
 |Документация базы данных + SVG диаграммы
 
-|`modules/`
+|modules/
 |Antora модули
 |Структура для Antora документации (ROOT, implementation, user-guide и др.)
 |===
@@ -99,43 +99,43 @@ image::drawio/Проект_диаграмма_классов_config.svg[]
 |===
 |Файл |Назначение |Описание
 
-|`README.md`
+|README.md
 |Главный файл проекта
 |Описание ODS, быстрый старт, ссылки на лицензии
 
-|`MANIFESTO.adoc`
+|MANIFESTO.adoc
 |Манифест проекта
 |Принципы, области применения, экосистема профилей ODS
 
-|`LICENSE.md`
+|LICENSE.md
 |Сводная лицензия
 |Объяснение двойной лицензионной модели проекта
 
-|`LICENSE-CODE.md`
+|LICENSE-CODE.md
 |Лицензия кода
 |Apache 2.0 для кода, скриптов, инструментов
 
-|`LICENSE-DOCS.md`
+|LICENSE-DOCS.md
 |Лицензия документации
 |CC-BY 4.0 для документации, шаблонов, текстов
 
-|`CONTRIBUTING.md`
+|CONTRIBUTING.md
 |Руководство по участию
 |Правила участия, структура проекта, работа с документацией
 
-|`CODE_OF_CONDUCT.md`
+|CODE_OF_CONDUCT.md
 |Кодекс поведения
 |Стандарты поведения участников проекта
 
-|`SUPPORT.md`
+|SUPPORT.md
 |Поддержка проекта
 |Где искать помощь, FAQ, контакты
 
-|`SECURITY.md`
+|SECURITY.md
 |Политика безопасности
 |Процедуры сообщения об уязвимостях
 
-|`CHANGELOG.md`
+|CHANGELOG.md
 |История изменений
 |Журнал изменений по стандарту Keep a Changelog
 |===

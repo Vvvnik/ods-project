@@ -40,20 +40,20 @@ include::../partials/prereqs.adoc[]
 * Установите Git, Node.js (LTS), Ruby, Graphviz;
 * Установите Java (для PlantUML при необходимости);
 * Установите Docker Desktop;
-* Ruby gems: `gem install asciidoctor asciidoctor-pdf asciidoctor-kroki`;
-* Node: `npm install`.
+* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
+* Node: npm install.
 
 === Linux
 
 * Установите Git, Node.js (LTS), Ruby, Graphviz;
 * Установите Docker Engine и Docker Compose;
-* Ruby gems: `gem install asciidoctor asciidoctor-pdf asciidoctor-kroki`;
-* Node: `npm install`.
+* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
+* Node: npm install.
 
 === macOS
 
 * Установите Homebrew;
-* `brew install node ruby graphviz`;
+* brew install node ruby graphviz;
 * Установите Docker Desktop;
-* Ruby gems: `gem install asciidoctor asciidoctor-pdf asciidoctor-kroki`;
-* Node: `npm install`.
+* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
+* Node: npm install.

@@ -9,33 +9,33 @@
 |===
 |Этап |Действие |Результат
 
-|`generate_diagrams`
+|generate_diagrams
 |Генерация SVG из BPMN и Draw.io
 |SVG файлы в artifacts
 
-|`pdf`
+|pdf
 |Создание PDF документов
 |PDF файлы в attachments
 
-|`build`
+|build
 |Генерация статического сайта
-|Папка `public/`
+|Папка public/
 
-|`deploy`
+|deploy
 |Публикация GitLab Pages
 |Онлайн сайт
 |===
 
 == Зависимости
 
-* `build` зависит от `generate_diagrams` и `pdf`;
-* `pdf` зависит от `generate_diagrams`.
+* build зависит от generate_diagrams и pdf;
+* pdf зависит от generate_diagrams.
 
 == Отслеживание изменений
 
-Добавьте в `changes`:
+Добавьте в changes:
 
-* `tools/scripts/` — скрипты генерации;
-* `components/*/modules/implementation/bpmn/` — BPMN файлы;
-* `components/*/modules/implementation/drawio/` — Draw.io файлы;
-* `components/*/modules/implementation/api/` — API файлы (только отслеживание).
+* tools/scripts/ — скрипты генерации;
+* components/*/modules/implementation/bpmn/ — BPMN файлы;
+* components/*/modules/implementation/drawio/ — Draw.io файлы;
+* components/*/modules/implementation/api/ — API файлы (только отслеживание).
