@@ -140,7 +140,6 @@ module ConvertTitlePageContract
     
     # 5. Блок версии - позиционируем под блоком контракта
     # Позиционируем в 3 см от левого края, 16 см от верха, размер 16x2 см
-    # version_code = "#{doc.attr('code') || ''} #{doc.attr('code_document') || ''} 01"
     version_text = "#{doc.attr('code') || ''} #{doc.attr('code_document') || ''} 01"
     
     

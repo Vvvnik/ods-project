@@ -199,9 +199,6 @@ module ConvertApprovalPageGost
     document_text << (doc.attr('name_dokument_master') || '')  # Название документа
     document_text << "Лист утверждения"  # Название документа
     document_text << "#{doc.attr('code') || ''} #{doc.attr('code_document') || ''} 01-ЛУ"        # Код документа
-    # document_text << " #{doc.attr('version') || '1'}-ЛУ"    # Версия документа
-    # document_text << "Дата: #{doc.attr('date') || ''}"                       # Пример добавления даты
-    # document_text << "Автор: #{doc.attr('author') || ''}"                    # Пример добавления автора
     
     document_info_block.set_text(document_text.join("\n"))
     blocks << document_info_block
@@ -209,8 +206,6 @@ module ConvertApprovalPageGost
     # Блоки для остальных подписантов (справа, вертикально)
     signers_data = [
       { position: doc.attr('signer_3_position') || '', name: doc.attr('signer_3_name') || '' },
-      # { position: doc.attr('signer_4_position') || '', name: doc.attr('signer_4_name') || '' },
-      # { position: doc.attr('signer_5_position') || '', name: doc.attr('signer_5_name') || '' },
       { position: doc.attr('signer_6_position') || '', name: doc.attr('signer_6_name') || '' }
     ]
     
