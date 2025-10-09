@@ -18,8 +18,8 @@ ifdef::list_pdf_file_is_empty[]
 == Список PDF файлов
 
 include::../partials/lists/list-pdf-component.adoc[]
-endif::[]
 
+endif::list_pdf_file_is_empty[]
 
 // == Содержание
 
