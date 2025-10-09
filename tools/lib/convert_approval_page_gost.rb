@@ -231,18 +231,18 @@ module ConvertApprovalPageGost
       blocks << signature_block
     end
     
-    # Блок "Литера" (внизу справа)
-    text_block = TitlePageBlocks::TextBlock.new(
-      page_width, page_height,
-      left_position: 18.0,      # 18 см от левого края
-      top_position: 27.0,       # 25 см от верхнего края
-      width: 2.0,               # 2 см ширина
-      height: 1.0,              # 1 см высота
-      custom_font_size: 10
-    )
+    # # Блок "Литера" (внизу справа)
+    # text_block = TitlePageBlocks::TextBlock.new(
+    #   page_width, page_height,
+    #   left_position: 18.0,      # 18 см от левого края
+    #   top_position: 27.0,       # 25 см от верхнего края
+    #   width: 2.0,               # 2 см ширина
+    #   height: 1.0,              # 1 см высота
+    #   custom_font_size: 10
+    # )
     
-    text_block.set_text("Литера")
-    blocks << text_block
+    # text_block.set_text("Литера")
+    # blocks << text_block
     
     # Рендерим все блоки (передаем canvas, который есть у нас в контексте)
     blocks.each { |block| block.draw(self) }

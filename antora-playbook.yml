@@ -44,8 +44,8 @@ asciidoc:
 
     # Совет: в CI (и локально при желании) URL можно передать через CLI:
     #   antora -a kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
-    # kroki-server-url: http://kroki:8000
-    kroki-server-url: http://localhost:8000
+    kroki-server-url: http://kroki:8000
+    # kroki-server-url: http://localhost:8000
     kroki-default-format: svg
     kroki-fetch-diagram: ''   # встраивать диаграммы на этапе сборки
     allow-uri-read: ''         # для include:: с URL
