@@ -1,7 +1,7 @@
 # ODS – Open Documentation Standard
 
-[![License Code](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE-CODE)
-[![License Docs](https://img.shields.io/badge/license-CC--BY--4.0-yellow)](LICENSE-DOCS)
+[![License Code](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE-CODE.md)
+[![License Docs](https://img.shields.io/badge/license-CC--BY--4.0-yellow)](LICENSE-DOCS.md)
 
 ODS — это открытый стандарт и инструменты для автоматизации технической документации в ИТ-проектах.
 

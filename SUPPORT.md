@@ -4,7 +4,7 @@
 
 ## Где искать помощь
 
-- 📂 [Issues](https://gitlab.com/vvvnik/my-project/-/issues) — основной способ сообщить о проблеме или задать вопрос.
+- 📂 [Issues](https://gitlab.com/vvvnik/ods-project/-/issues) — основной способ сообщить о проблеме или задать вопрос.
 - 💬 Telegram-чат сообщества (ссылка будет добавлена).
 - 📖 [readme.adoc](./readme.adoc) — подробная документация.
 - 📄 [CONTRIBUTING.md](./CONTRIBUTING.md) — как участвовать в проекте.

@@ -1,4 +1,3 @@
-
 # License Information
 
 This project uses a dual license model:
