@@ -125,14 +125,13 @@ drawio:
 
 [source,adoc]
 ----
-
 :imagesdir: ../images
-
-ifdef::env-antora[]
+\ifdef::env-antora[]
 image::ROOT:drawio/diagrams_diagram-1.svg[] # ROOT или имя модуля
-endif::[]
-ifndef::env-antora[]
+\endif::[]
+\ifndef::env-antora[]
 image::../../ROOT/images/drawio/diagrams_diagram-1.svg[] 
+\endif::[]
 ----
 
 Переменная env-antora:

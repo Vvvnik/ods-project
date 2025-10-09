@@ -41,14 +41,16 @@
 
 === Структура файлов
 
-`
+[source,text]
+----
 components/{name}/modules/ROOT/
 ├── partials/lists/
 │   ├── list-pages-component.adoc    # ← Список .adoc файлов
 │   └── list-pdf-component.adoc     # ← Список PDF файлов
 ├── attachments/                    # ← Источник PDF файлов
 └── nav.adoc                        # ← Навигационный файл (обновляется автоматически)
-`
+----
+
 
 === Конфигурация
 
@@ -147,10 +149,12 @@ end
 
 Пути включаются автоматически в зависимости от настройки dst:
 
-`ruby
+[source,ruby]
+----
 # Пример: dst: "components/{name}/modules/ROOT/partials/lists"
 # В nav.adoc будет: include::partials/lists/list-pages-component.adoc[]
-`
+----
+
 
 Вычисление:
 
@@ -239,9 +243,9 @@ include::../partials/lists/list-pdf-component.adoc[]
 
 Система автоматически управляет отображением разделов с PDF файлами. Если PDF файлы отсутствуют, скрипт создает файлы с атрибутом list_pdf_file_is_empty, что позволяет скрыть разделы загрузок:
 
-[source,asciidoc]
+[source,text]
 ----
-ifndef::list_pdf_file_is_empty[]
+\ifndef::list_pdf_file_is_empty[]
 == Загрузки
 
 include::../partials/lists/list-pdf-component.adoc[]
@@ -249,7 +253,7 @@ include::../partials/lists/list-pdf-component.adoc[]
 == Таблица файлов
 
 include::../partials/lists/list-pdf-component-table.adoc[]
-endif::list_pdf_file_is_empty[]
+\endif::list_pdf_file_is_empty[]
 ----
 
 Логика работы:
@@ -261,9 +265,9 @@ endif::list_pdf_file_is_empty[]
 
 === Пример для главной страницы
 
-[source,asciidoc]
+[source,text]
 ----
-= Руководство по документированию
+// = Руководство по документированию
 :page-partof: introduction
 :page-description: Полное руководство по использованию системы документирования
 
@@ -271,7 +275,7 @@ endif::list_pdf_file_is_empty[]
 
 include::../partials/lists/list-pages-component.adoc[]
 
-ifndef::list_pdf_file_is_empty[]
+\ifndef::list_pdf_file_is_empty[]
 == Файлы для скачивания  
 
 include::../partials/lists/list-pdf-component.adoc[]
@@ -279,7 +283,7 @@ include::../partials/lists/list-pdf-component.adoc[]
 == Таблица файлов
 
 include::../partials/lists/list-pdf-component-table.adoc[]
-endif::list_pdf_file_is_empty[]
+\endif::list_pdf_file_is_empty[]
 ----
 
 == Настройка компонентов
@@ -354,14 +358,15 @@ end
 
 Система полностью совместима с автоматизированными сборками:
 
-`yaml
+[source,yaml]
+----
 # .gitlab-ci.yml
 script:
+  - ruby tools/start.rb
+  - npx antora antora-playbook.yml
+  - antora antora-playbook.yml
+----
 
-  * ruby tools/start.rb
-  * npx antora antora-playbook.yml
-  * antora antora-playbook.yml
-`
 
 === Автоматические списки
 
@@ -373,7 +378,8 @@ script:
 
 === Пример вывода
 
-`
+[source,text]
+----
 🚀 Генератор списков файлов для Antora
 ==================================================
 🔄 Генерация списков для всех компонентов...
@@ -391,7 +397,7 @@ script:
   dst: components/information-system/modules/ROOT/partials/lists
   include:: partials/lists/list-pages-component.adoc[]
 ✅ Добавлен include в components/information-system/modules/ROOT/nav.adoc
-`
+----
 
 == Расширение функциональности
 
@@ -400,17 +406,16 @@ script:
 Для добавления нового типа списков:
 
 . Расширить list_generator.rb новым методом;
-.. Добавить настройку в config.yml;
-... Обновить ConfigParser.get_list_settings;
-.... Добавить условие в start.rb.
+. Добавить настройку в config.yml;
+. Обновить ConfigParser.get_list_settings;
+. Добавить условие в start.rb.
 
 === Кастомные форматы
 
 Можно изменить формат генерации списков:
 
-[source,ruby]
+[source,text]
 ----
-# Пример кастомного формата таблицы
 def generate_custom_list(files)
   lines = ["[cols=\"1,2\", options=\"header\"]", "|==="]
   lines << "|Файл |Описание"
