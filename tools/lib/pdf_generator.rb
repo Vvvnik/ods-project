@@ -60,7 +60,11 @@ module PdfGenerator
     else
       # Если тема не указана в документе, определяем по типу страниц
       custom_other_page = extract_custom_other_page_from_document(adoc_file)
-      if custom_other_page && custom_other_page.end_with?('_frame')
+      if custom_other_page == 'contract'
+        # Для контрактов используем act тему (номера страниц с первой страницы)
+        pdf_theme = 'act'
+        puts "    🎨 Выбрана тема 'act' для контрактов: #{custom_other_page}"
+      elsif custom_other_page && custom_other_page.end_with?('_frame')
         # Для типов с суффиксом "_frame" используем frame тему (меньше полей)
         pdf_theme = 'frame'
         puts "    🎨 Выбрана тема 'frame' для типа страниц: #{custom_other_page}"

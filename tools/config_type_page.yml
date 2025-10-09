@@ -29,6 +29,9 @@ other_pages:
   # Страницы с рамками и приставкой
   original_frame: "convert_other_page_original_frame"
   
+  # Страницы для контрактов (используют report тему)
+  contract: "convert_other_page_contract"
+  
   
   # Без дополнительного оформления (стандартное Asciidoctor)
   none: null

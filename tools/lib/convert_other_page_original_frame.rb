@@ -23,16 +23,16 @@ module ConvertOtherPageOriginalFrame
       })
       
       # Рисуем рамку страницы с приставкой
-      draw_page_frame(doc)
+      draw_other_page_frame(doc)
     end
   end
 
   # Рисует рамку страницы с настраиваемыми отступами
-  def draw_page_frame(doc)
+  def draw_other_page_frame(doc)
     # Получаем размеры страницы
     page_width = page.dimensions[2]  # Ширина страницы
     page_height = page.dimensions[3] # Высота страницы
-    
+    stroke_color '777777'
     # Высота строк снизу вверх (в миллиметрах)
     row_heights = [35, 25, 25, 35, 25]
     
@@ -58,7 +58,33 @@ module ConvertOtherPageOriginalFrame
     # Рисуем прямоугольник рамки
     rectangle([frame_x, frame_y], frame_width, frame_height)
     stroke
+
+    # Рисуем нижнюю рамку высотой 2 см
+    bottom_frame_height = 20 * TitlePageBlocks::MM_TO_POINTS    # 2 см = 20 мм
+    bottom_frame_y = frame_y - frame_height + bottom_frame_height # Начинаем с низа основной рамки
+    rectangle([frame_x, bottom_frame_y], frame_width, bottom_frame_height)
+    stroke
     
+    # Рисуем нижнюю рамку шириной 2 см и высотой 2 см
+    bottom_frame_height = 20 * TitlePageBlocks::MM_TO_POINTS    # 2 см = 20 мм
+    bottom_frame_y = frame_y - frame_height + bottom_frame_height # Начинаем с низа основной рамки
+    rectangle([frame_width - 20 * TitlePageBlocks::MM_TO_POINTS, bottom_frame_y], 20 * TitlePageBlocks::MM_TO_POINTS, bottom_frame_height)
+    stroke
+
+    rectangle([frame_width - 20 * TitlePageBlocks::MM_TO_POINTS, bottom_frame_y - 10 * TitlePageBlocks::MM_TO_POINTS], 20 * 2 * TitlePageBlocks::MM_TO_POINTS, bottom_frame_height - 10 * TitlePageBlocks::MM_TO_POINTS)
+    stroke
+
+    # Координаты центра области для номера листа
+    center_x = frame_width - 20 * TitlePageBlocks::MM_TO_POINTS + 10 * TitlePageBlocks::MM_TO_POINTS  # Центр по X
+    center_y_text = 70  # Центр для текста "Лист"
+    center_y_number = 40  # Центр для номера
+    
+    # Используем Листов в тексте и номере в text_box для центрирования
+    text_box "Лист", at: [frame_width, center_y_text - 6], 
+             width: 20 * TitlePageBlocks::MM_TO_POINTS, height: 12, size: 12, align: :center, valign: :center
+    text_box page_number.to_s, at: [frame_width, center_y_number - 6], 
+             width: 20 * TitlePageBlocks::MM_TO_POINTS, height: 12, size: 12, align: :center, valign: :center
+
     # Рисуем приставку к рамке
     # Размеры приставки (в пикселях)
     attachment_width = 12 * TitlePageBlocks::MM_TO_POINTS  # общая ширина

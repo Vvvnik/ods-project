@@ -6,7 +6,7 @@ title_page:
   
 page:
   size: A4
-  margin: [15mm, 10mm, 25mm, 25mm]  # Увеличенные поля для рамок
+  margin: [10mm, 10mm, 30mm, 25mm]  # Увеличенные поля для рамок
   margin-rotated: [20mm, 10mm, 35mm, 10mm]
   mode: fullscreen thumbs
 

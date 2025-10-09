@@ -314,7 +314,7 @@ module ConvertTitlePageOriginalFrame
     text_block = TitlePageBlocks::TextBlock.new(
       page_width, page_height,
       left_position: 18.0,      # 18 см от левого края
-      top_position: 27.0,       # 25 см от верхнего края
+      top_position: 26.0,       # 25 см от верхнего края
       width: 2.0,               # 2 см ширина
       height: 1.0,              # 1 см высота
       custom_font_size: title_page_font_size
@@ -350,7 +350,7 @@ module ConvertTitlePageOriginalFrame
     
     # Высота строк снизу вверх (в миллиметрах)
     row_heights = [35, 25, 25, 35, 25]
-    
+    stroke_color '777777'
     # Параметры рамки (в миллиметрах)
     # Отступы: top=5мм, right=5мм, bottom=5мм, left=20мм
     frame_margin_top = (doc.attr('frame_margin_top') || 5).to_f * TitlePageBlocks::MM_TO_POINTS
