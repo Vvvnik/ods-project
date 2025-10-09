@@ -121,12 +121,16 @@ ODS (Open Documentation Standard) — это стандарт открытой �
 ----
 - name: airport-service
   <<: *defaults
-  bd_enabled: true
-  bd_profile: "pg_demo"
+  db:
+    enabled: true
+    profile: "pg_demo"
+  pdf:
+    enabled: true
 
 - name: toys-service
   <<: *defaults
-  api_enabled: true
+  api:
+    enabled: true
 ----
 
 == Процесс сборки

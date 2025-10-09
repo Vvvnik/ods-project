@@ -63,18 +63,23 @@ drawio:
 [source,yaml]
 ----
 - name: airport-service
-  bpmn_enabled: false
-  drawio_enabled: false
-  api_enabled: false
-  bd_enabled: true
-  bd_profile: "pg_demo"
-  ruby_enabled: true
+  <<: *defaults
+  db:
+    enabled: true
+    profile: "pg_demo"
+  pdf:
+    enabled: true
+
+- name: toys-service
+  <<: *defaults
+  api:
+    enabled: true
 ----
 
 == Рекомендации
 
 * Не включайте парсинг БД и API по умолчанию;
-* Используйте флаги bpmn_enabled, drawio_enabled для управления генерацией;
+* Используйте вложенные секции (bpmn:, drawio:, api:, db:, pdf:) для управления генерацией;
 * Настройте kroki_url для обработки PlantUML диаграмм.
 
 == Конфигурирование сборки диаграмм
