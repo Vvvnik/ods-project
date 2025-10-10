@@ -9,33 +9,34 @@
 |===
 |Этап |Действие |Результат
 
-|generate_diagrams
-|Генерация SVG из BPMN и Draw.io
-|SVG файлы в artifacts
+|build_all
+|Сборка PDF документов и генерация сайта
+|Папка public/ с готовым сайтом
 
-|pdf
-|Создание PDF документов
-|PDF файлы в attachments
+|pages
+|Публикация на GitLab Pages
+|Онлайн сайт документации
 
-|build
-|Генерация статического сайта
-|Папка public/
+|prepare_release_notes
+|Подготовка release notes по тегу
+|Файл release-notes.adoc
 
-|deploy
-|Публикация GitLab Pages
-|Онлайн сайт
+|release
+|Создание GitLab Release
+|Официальный релиз с заметками
 |===
 
 == Зависимости
 
-* build зависит от generate_diagrams и pdf;
-* pdf зависит от generate_diagrams.
+* pages зависит от build_all;
+* prepare_release_notes выполняется только при создании тега;
+* release зависит от prepare_release_notes.
 
 == Отслеживание изменений
 
 Добавьте в changes:
 
-* tools/scripts/ — скрипты генерации;
-* components/*/modules/implementation/bpmn/ — BPMN файлы;
-* components/*/modules/implementation/drawio/ — Draw.io файлы;
-* components/*/modules/implementation/api/ — API файлы (только отслеживание).
+* tools/ - скрипты генерации и конфигурация;
+* components/*/modules/ - содержимое документации;
+* antora-playbook.yml - настройки сборки сайта;
+* resources/ - темы и шрифты для PDF.
