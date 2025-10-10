@@ -1,7 +1,9 @@
 :doctype: book
 :custom_title_page: none
 :custom_other_page: none
+
 = Проверка этапов в GitLab
+В случае ошибок или некорректной работы этапов, обратитесь к разделу xref:Правка_и_проверка.adoc[Правка и проверка].
 
 . Убедитесь, что "generate_diagrams" отработал и выложил SVG-артефакты;
 . Проверьте, что "pdf" собрал PDF и выложил в artifacts;
