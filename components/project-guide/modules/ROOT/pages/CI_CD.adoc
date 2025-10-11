@@ -7,6 +7,12 @@ include::../partials/attr_common.adoc[]
 
 == Этапы сборки
 
+.Схема сборки
+[plantuml, schema]
+----
+include::../examples/schema.puml[plantuml, schema]
+----
+
 [cols="1,2,3"]
 |===
 |Этап |Действие |Результат
