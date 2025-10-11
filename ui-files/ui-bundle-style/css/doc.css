@@ -33,8 +33,8 @@
 .doc h4,
 .doc h5,
 .doc h6 {
-  color: var(--color-jet-30);
-  /* color: #8a1704; */
+  color: var(--heading-font-color);
+  /* color: #a60000; */
   /* font-weight: var(--heading-font-weight); */
   hyphens: none;
   line-height: 1.3;
@@ -178,7 +178,7 @@ a.xref.page::after {
   padding: 5px 10px;
   z-index: 9999; /* Подсказка выше других элементов */
   border-radius: 4px;
-  font-size: 14;
+  /* font-size: 14; */
   width: auto; /* Автоматическая ширина под содержимое */
   min-width: 300px; /* Минимальная ширина для читаемости */
   max-width: 500px; /* Ограничение ширины, чтобы текст не растягивал элемент */
