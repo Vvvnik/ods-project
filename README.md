@@ -26,7 +26,7 @@ npx antora --fetch antora-playbook.yml
 
 ## Документация
 
-Полная документация находится в файле [readme.adoc](./readme.adoc).
+ документация находится в файле [readme.adoc](./readme.adoc).
 
 ## Лицензии
 
