@@ -34,6 +34,7 @@
 .doc h5,
 .doc h6 {
   color: var(--color-jet-30);
+  /* color: #8a1704; */
   /* font-weight: var(--heading-font-weight); */
   hyphens: none;
   line-height: 1.3;
@@ -116,10 +117,10 @@
 .doc h4 .anchor::before,
 .doc h5 .anchor::before,
 .doc h6 .anchor::before {
-  content: "\2728";
-  /* content: "\00a7"; */
+  /* content: "\2728"; */
+  content: "\00a7";
   margin-left: -19mm;
-  font-size: 0.8em;
+  font-size: 1.1em;
 }
 
 .doc h1:hover .anchor,
