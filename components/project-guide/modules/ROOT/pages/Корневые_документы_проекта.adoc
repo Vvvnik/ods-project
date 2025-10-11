@@ -3,6 +3,7 @@ include::../partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 = Корневые документы проекта
+:sectnums:
 
 В корне проекта ODS находятся важные документы, которые описывают проект, его лицензии, правила участия и поддержку.
 

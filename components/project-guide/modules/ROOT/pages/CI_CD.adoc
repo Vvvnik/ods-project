@@ -2,49 +2,121 @@ include::../partials/attr_common.adoc[]
 :doctype: book
 :custom_title_page: none
 :custom_other_page: none
+:sectnums:
 
 = CI/CD
 
 == Этапы сборки
 
-.Схема сборки
+:num_i: {counter:image-number}
+Схема сборки документации представлена на <<id_{num_i}, Рисунке {num_i}>>.
+
+[#id_{num_i}]
+.Рисунок {num_i}. Схема сборки документации
 [plantuml, schema]
 ----
 include::../examples/schema.puml[plantuml, schema]
 ----
 
+:num_t: {counter:table-number}
+Описание этапов сборки представлено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание этапов сборки
 [cols="1,2,3"]
 |===
 |Этап |Действие |Результат
 
 |build_all
-|Сборка PDF документов и генерация сайта
-|Папка public/ с готовым сайтом
+|PDF генерация + Node.js установка + Antora сборка + копирование в public/
+|Папка public/ с готовым сайтом (артефакт на 3 дня)
 
 |pages
-|Публикация на GitLab Pages
-|Онлайн сайт документации
+|Деплой артефактов build_all на GitLab Pages
+|Онлайн сайт документации (постоянный)
 
 |prepare_release_notes
-|Подготовка release notes по тегу
-|Файл release-notes.adoc
+|Генерация dist/release-notes.adoc с коммитами между тегами
+|Файл dist/release-notes.adoc (артефакт на 3 дня)
 
 |release
-|Создание GitLab Release
-|Официальный релиз с заметками
+|Создание GitLab Release с заметками из prepare_release_notes
+|Официальный релиз с описанием изменений
 |===
 
-== Зависимости
+== Детальное описание этапов
+=== build_all
+Основной этап сборки документации с последовательным выполнением команд:
 
-* pages зависит от build_all;
-* prepare_release_notes выполняется только при создании тега;
-* release зависит от prepare_release_notes.
+. **Образ**: `registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1`
+. **Сервисы**: Kroki (`registry.gitlab.com/vvvnik/my-project/kroki:0.28.0`) для генерации диаграмм
+. **Кэш**: `node_modules/` и `.npm/` для ускорения сборки
+. **Последовательность выполнения**:
+.. Проверка версий Ruby и Node.js
+.. Генерация PDF документов через `ruby tools/start.rb`
+.. Установка Node.js зависимостей (`npm ci` или `npm install`)
+.. Генерация сайта через `antora antora-playbook.yml`
+.. Копирование результата: `cp -a build/site/. public/` (если public/ не существует)
+. **Артефакты**: папка `public/` (истекает через 3 дня)
+. **Триггеры**:
+.. Изменения в технических файлах (`tools/**`, `antora-playbook.yml`, `components/*/antora.yml`, `resources/**`)
+.. Каждый push в main (если нет изменений в технических файлах)
+.. НЕ выполняется при создании тега
+
+=== pages
+Этап публикации сайта на GitLab Pages:
+
+. **Зависимости**: требует завершения `build_all`
+. **Этап**: `deploy`
+. **Действие**: деплой артефактов на GitLab Pages
+. **Скрипт**: `echo "Deploy GitLab Pages"` (символическая команда)
+. **Результат**: сайт документации доступен онлайн
+. **Артефакты**: папка `public/` (не истекает)
+. **Триггеры**: аналогично `build_all`, но НЕ выполняется при создании тега
+
+=== prepare_release_notes
+Этап подготовки заметок о релизе (только при создании тега):
+
+. **Триггер**: создание тега в репозитории
+. **Образ**: `alpine:latest`
+. **Этап**: `deploy`
+. **Подготовка**:
+.. Установка Git (`apk add --no-cache git`)
+.. Настройка безопасной директории
+.. Получение всех тегов из репозитория
+.. Распаковка shallow репозитория (если необходимо)
+. **Логика генерации**:
+.. Определение предыдущего тега (3 стратегии поиска)
+.. Создание диапазона коммитов между тегами
+.. Генерация файла `dist/release-notes.adoc` с коммитами
+. **Результат**: файл `dist/release-notes.adoc`
+. **Артефакты**: `dist/release-notes.adoc` (истекает через 3 дня)
+
+=== release
+Этап создания официального релиза:
+
+. **Зависимости**: требует завершения `prepare_release_notes`
+. **Образ**: `registry.gitlab.com/gitlab-org/release-cli:latest`
+. **Этап**: `deploy`
+. **Действие**: создание GitLab Release с заметками
+. **Процесс**:
+.. Чтение заметок из `dist/release-notes.adoc`
+.. Создание релиза с именем и описанием
+.. Добавление ссылки на файл заметок как ассет
+. **Результат**: официальный релиз с описанием изменений
+. **Ассеты**: ссылка на `release-notes.adoc` из артефактов `prepare_release_notes`
+
+== Зависимости
+Зависимости между этапами сборки:
+
+* pages зависит от build_all
+* prepare_release_notes выполняется только при создании тега
+* release зависит от prepare_release_notes
 
 == Отслеживание изменений
-
 Добавьте в changes:
 
-* tools/ - скрипты генерации и конфигурация;
-* components/*/modules/ - содержимое документации;
-* antora-playbook.yml - настройки сборки сайта;
-* resources/ - темы и шрифты для PDF.
+* tools/ - скрипты генерации и конфигурация
+* components/*/modules/ - содержимое документации
+* antora-playbook.yml - настройки сборки сайта
+* resources/ - темы и шрифты для PDF

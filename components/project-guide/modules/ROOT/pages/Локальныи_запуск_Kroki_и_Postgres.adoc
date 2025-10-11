@@ -3,6 +3,7 @@ include::../partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 = Локальный запуск Kroki и Postgres
+:sectnums:
 
 == Kroki
 

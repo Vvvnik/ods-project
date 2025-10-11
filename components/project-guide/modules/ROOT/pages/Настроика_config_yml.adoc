@@ -3,7 +3,7 @@ include::../partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 = Настройка config.yml
-
+:sectnums:
 Проект настраивается через центральный файл tools/config.yml.
 
 == Секции конфигурации

@@ -3,6 +3,7 @@ include::../partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 = Архитектура и состав системы ODS
+:sectnums:
 
 Документ описывает архитектуру проекта ODS, структуру всех папок и файлов, а также логику работы системы генерации документации.
 

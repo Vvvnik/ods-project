@@ -34,6 +34,7 @@
 .doc h5,
 .doc h6 {
   color: var(--heading-font-color);
+  font-size: 1.4em;
   /* color: #a60000; */
   /* font-weight: var(--heading-font-weight); */
   hyphens: none;
@@ -45,7 +46,7 @@
 .doc h4,
 .doc h5,
 .doc h6 {
-  font-size: 1.17em;
+  font-size: 1.3em;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -104,11 +105,11 @@
   position: absolute;
   text-decoration: none;
   width: 1.75ex;
+  margin-left: -1.5ex;
   visibility: hidden;
-  font-size: 0.8em;
+  font-size: 0.9em;
   font-weight: normal;
-  padding-top: 0.05em;
-  /* border: 1px solid #ef6780; */
+  padding-top: 0em;
 }
 
 .doc h1 .anchor::before,
@@ -117,10 +118,9 @@
 .doc h4 .anchor::before,
 .doc h5 .anchor::before,
 .doc h6 .anchor::before {
-  /* content: "\2728"; */
   content: "\00a7";
-  margin-left: -19mm;
-  font-size: 1.1em;
+  /* content: "\2728"; */
+  margin-left: -2rem;
 }
 
 .doc h1:hover .anchor,
