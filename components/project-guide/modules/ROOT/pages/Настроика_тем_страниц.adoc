@@ -1,3 +1,4 @@
+include::../partials/attr_common.adoc[]
 = Настройка тем страниц
 
 == Обзор

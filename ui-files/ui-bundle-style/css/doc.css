@@ -39,7 +39,7 @@
   hyphens: none;
   line-height: 1.3;
   /* margin: 1rem 0 0; */
-  text-indent: 1.25cm;
+  text-indent: 1.5em;
 }
 
 .doc h4,
@@ -597,7 +597,7 @@ a.xref.page[data-tooltip]:hover::after {
 }
 
 .doc ol {
-  padding: 0 0 0 1.25cm;
+  padding: 0 0 0 0.1rem;
 }
 .doc ol ol,
 .doc ol ol ol 
@@ -606,12 +606,12 @@ a.xref.page[data-tooltip]:hover::after {
 }
 
 .doc ul {
-  padding: 0 0 0 1.85cm;
+  padding: 0 0 0 1.36rem;
 }
 .doc ul ul,
 .doc ul ul ul
 {
-  padding: 0 0 0 0.7cm;
+  padding: 0 0 0 0.1rem;
 }
 
 .doc ul.checklist,
@@ -626,7 +626,7 @@ a.xref.page[data-tooltip]:hover::after {
 
 /* ******************* */
 .paragraph {
-  text-indent: 1.25cm;
+  text-indent: 1.5em;
   text-align: justify;
 }
 
