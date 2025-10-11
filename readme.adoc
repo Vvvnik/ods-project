@@ -35,6 +35,11 @@ npm install @antora/cli @antora/site-generator-default
 # Antora (устанавливается глобально через npm)
 npm install -g @antora/cli @antora/site-generator-default
 
+# Puppeteer (для генерации BPMN диаграмм)
+# Устанавливается автоматически через npm install
+
+# xml2js (для парсинга Draw.io файлов)
+# Устанавливается автоматически через npm install
 
 # PlantUML (для генерации SVG диаграмм)
 # Установите PlantUML и Java
