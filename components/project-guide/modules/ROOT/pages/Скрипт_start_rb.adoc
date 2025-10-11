@@ -1,3 +1,4 @@
+include::../partials/attr_common.adoc[]
 = Скрипт start.rb
 
 include::../partials/attr_common.adoc[]

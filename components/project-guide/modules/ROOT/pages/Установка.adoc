@@ -1,7 +1,8 @@
+include::../partials/attr_common.adoc[]
 :doctype: book
 :custom_title_page: none
 :custom_other_page: none
-include::../partials/prereqs.adoc[]
+
 
 = Установка 
 
@@ -57,3 +58,5 @@ include::../partials/prereqs.adoc[]
 * Установите Docker Desktop;
 * Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
 * Node: npm install.
+
+include::../partials/prereqs.adoc[]

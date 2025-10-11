@@ -1,7 +1,8 @@
+include::../partials/attr_common.adoc[]
 :doctype: book
 :custom_title_page: original
 :custom_other_page: none
-include::../partials/attr_common.adoc[]
+
 
 = Руководство пользователя ODS
 

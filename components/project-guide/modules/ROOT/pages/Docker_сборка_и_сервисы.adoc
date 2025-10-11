@@ -1,7 +1,8 @@
+include::../partials/attr_common.adoc[]
 :doctype: book
 :custom_title_page: none
 :custom_other_page: none
-include::../partials/docker-compose-snippets.adoc[]
+
 
 = Docker: сборка и сервисы
 
@@ -27,4 +28,4 @@ include::../partials/docker-compose-snippets.adoc[]
 * Надежность (все зависимости в одном месте);
 * Простоту поддержки (меньше образов для управления).
 
-== Пример команд
+include::../partials/docker-compose-snippets.adoc[]
