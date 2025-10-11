@@ -3,7 +3,7 @@ include::../partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 = Правка и проверка
-
+:sectnums:
 == Этапы генерации документации
 
 Все этапы генерации документации выполняются автоматически через скрипт start.rb.

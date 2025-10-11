@@ -1,6 +1,6 @@
 include::../partials/attr_common.adoc[]
 = Скрипт start.rb
-
+:sectnums:
 include::../partials/attr_common.adoc[]
 
 == Назначение

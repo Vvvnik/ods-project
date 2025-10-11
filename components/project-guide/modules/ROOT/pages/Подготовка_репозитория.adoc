@@ -2,7 +2,7 @@ include::../partials/attr_common.adoc[]
 :doctype: book
 :custom_title_page: none
 :custom_other_page: none
-
+:sectnums:
 = Подготовка репозитория
 
 == Структура репозитория
