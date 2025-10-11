@@ -104,6 +104,30 @@ content:
       start_path: components/my-new-project
 ----
 
+==== Настройка UI и стилей
+
+Для настройки пользовательского интерфейса и стилей используйте секцию `ui` в `antora-playbook.yml`:
+
+[source,yaml]
+----
+ui:
+  bundle:
+    url: ./ui-files/ui-bundle.zip
+    snapshot: true
+  supplemental_files: ./ui-files/ui-bundle-style
+----
+
+Где:
+* `bundle.url` - путь к основному UI bundle (архив с темами);
+* `bundle.snapshot: true` - использовать локальную версию без проверки обновлений;
+* `supplemental_files` - путь к дополнительным файлам стилей для кастомизации внешнего вида сайта.
+
+Файлы в `supplemental_files` переопределяют стили из основного bundle, позволяя настроить:
+* Цветовую схему сайта;
+* Шрифты и типографику;
+* Макет и отступы;
+* Дополнительные CSS стили.
+
 === Шаг 4: Использование шаблонов
 
 Система предоставляет готовые шаблоны в папке `templates/`:

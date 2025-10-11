@@ -70,6 +70,11 @@ defaults: &defaults
 # ******************************************************  
 # Список компонентов и параметров сборки
 # ******************************************************
+# часть компонентов отключена для ускорения сборки
+# если нужно включить, то нужно раскомментировать секции
+# и убрать комментарии
+# сборка pdf включена для переноса артифактов в gitlab на сайте
+# ******************************************************
 components:
   - name: airport-service
     <<: *defaults
@@ -81,22 +86,28 @@ components:
 
   - name: data-processing-engine
     <<: *defaults
-    bpmn:
-      enabled: true
+    # bpmn:
+    #   enabled: true
     # pdf:
     #   enabled: true
   
   - name: information-system
     <<: *defaults
-    drawio:
-      enabled: true
-      dst: "components/{name}/modules/ed/images/drawio"
+    # drawio:
+    #   enabled: true
+    #   dst: "components/{name}/modules/ed/images/drawio"
 
   - name: information-system
     <<: *defaults
-    drawio:
-      enabled: true
-      dst: "components/{name}/modules/ROOT/images/drawio"
+    # drawio:
+    #   enabled: true
+    #   dst: "components/{name}/modules/trd/images/drawio"
+
+  - name: information-system
+    <<: *defaults
+    # drawio:
+    #   enabled: true
+    #   dst: "components/{name}/modules/ROOT/images/drawio"
     pdf:
       enabled: true
 
@@ -107,8 +118,8 @@ components:
 
   - name: project-guide
     <<: *defaults
-    drawio:
-      enabled: true
+    # drawio:
+    #   enabled: true
     # pdf:
     #   enabled: true
   

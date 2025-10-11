@@ -10,7 +10,7 @@
 :stage: 1 
 :stage_gk:
 :start_period: 30.06.2025
-:end_period: 30.06.2025
+:end_period: 30.09.2025
 :period: с {start_period} по {end_period}
 
 // Наименование компонента

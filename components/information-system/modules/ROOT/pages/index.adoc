@@ -13,34 +13,6 @@ include::../partials/attr_common.adoc[]
 
 = Информационная система
 
-== Загрузка PDF
-
-
-
-
-:num_t: {counter:table-number}
-
-// ifndef::list_pdf_file_is_empty[] этот атрибут создается в файле list-pdf-component-table.adoc 
-// скриптомlist_generator.rb если нет PDF файлов
-// и используется для условного отображения таблицы с PDF файлами
-// если PDF файлы есть, то таблица отображается
-
-include::../partials/lists/list-pdf-component.adoc[]
-
-ifndef::list_pdf_file_is_empty[]
-Список PDF файлов приведен в <<id_t_{num_t}, Таблице {num_t}>>.
-
-[#id_t_{num_t}]
-.Таблица {num_t}. Список PDF файлов
-[cols="1, 5, 2 ", options="header, breakable"]
-|===
-^| № п/п ^| Название ^| Количество 
-include::../partials/lists/list-pdf-component-table.adoc[]
-|===
-:num-list-t!:
-endif::[]
-
-
 == Назначение компонента
 
 Информационная система управления предприятием представляет собой комплексный компонент, содержащий полный жизненный цикл разработки системы согласно ГОСТ. Компонент включает все этапы от технического задания до приемочных испытаний.
@@ -62,19 +34,6 @@ endif::[]
 * Описание программы - техническое описание системы;
 * Руководство системного программиста - техническая документация.
 
-:num_i: {counter:figure-number}
-Схема алгоритма 1 приведена на <<id_i_{num_i}, Рисунке {num_i}>>.
-
-[#id_i_{num_i}]
-.Рисунок {num_i}. Схема
-image::drawio/diagrams_diagram-1.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
-
-:num_i: {counter:figure-number}
-Схема алгоритма 2 приведена на <<id_i_{num_i}, Рисунке {num_i}>>.
-
-[#id_i_{num_i}]
-.Рисунок {num_i}. Схема
-image::drawio/diagrams_diagram-2.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
 
 == Архитектура технического проекта
 
@@ -147,3 +106,26 @@ image::drawio/diagrams_diagram-2.svg[width=100%, height=500px, pdfwidth=100%, sc
 * Модульность и масштабируемость архитектуры;
 * Готовность к реализации;
 * Качество и надежность решений.
+
+// ifndef::list_pdf_file_is_empty[] этот атрибут создается  
+// если PDF файлы были загружены, то раздел Загрузка PDF, список PDF файлов и таблица отображаются
+ifndef::list_pdf_file_is_empty[]
+
+== Сформированные PDF файлы
+
+:num_t: {counter:table-number}
+Список PDF файлов приведен в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Список PDF файлов
+[cols="1, 5, 2 ", options="header, breakable"]
+|===
+^| № п/п ^| Название ^| Количество 
+include::../partials/lists/list-pdf-component-table.adoc[]
+|===
+:num-list-t!:
+endif::[]
+
+Сформированные PDF файлы для загрузки:
+
+include::../partials/lists/list-pdf-component.adoc[]

@@ -19,6 +19,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * components/ - папка с компонентами документации;
 * tools/ - инструменты и скрипты для генерации;
 * resources/ - ресурсы (темы, шрифты);
+* ui-files/ - пользовательский интерфейс для Antora;
 * .gitlab-ci.yml - конфигурация CI/CD;
 * antora-playbook.yml - конфигурация Antora;
 * .gitignore - исключения для Git.
@@ -131,6 +132,33 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 
 * fonts/ - папка со шрифтами (если используется);
 
+== Папка ui-files/
+
+Содержит пользовательский интерфейс для Antora сайта.
+
+=== Структура
+
+* ui-bundle.zip - основной UI bundle (архив с темами Antora);
+* ui-bundle-style/ - дополнительные файлы стилей для кастомизации;
+** css/ - кастомные CSS стили;
+** font/ - дополнительные шрифты;
+** img/ - изображения для интерфейса;
+** js/ - JavaScript файлы;
+** layouts/ - шаблоны макетов;
+** partials/ - частичные шаблоны.
+
+=== Назначение
+
+Папка `ui-files/` используется для:
+* Настройки внешнего вида сайта документации;
+* Переопределения стандартных стилей Antora;
+* Добавления кастомных элементов интерфейса;
+* Настройки цветовой схемы и типографики.
+
+Конфигурация UI происходит через секцию `ui` в `antora-playbook.yml`:
+* `bundle.url` - ссылка на основной UI bundle;
+* `supplemental_files` - путь к дополнительным файлам стилей.
+
 == Файлы конфигурации
 
 === CI/CD
@@ -145,7 +173,8 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * antora-playbook.yml - конфигурация Antora;
 ** Настройки сборки сайта документации;
 ** Конфигурация Kroki сервера;
-** Атрибуты для Antora.
+** Атрибуты для Antora;
+** UI bundle и supplemental_files для кастомных стилей.
 
 === Git
 
