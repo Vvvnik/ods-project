@@ -1,0 +1,88 @@
+include::../partials/attr_common.adoc[]
+= Парсинг базы данных
+:sectnums:
+
+== Назначение
+
+Конвертер базы данных предназначен для автоматической генерации AsciiDoc документации из схемы базы данных PostgreSQL.
+
+== Принцип работы
+
+Конвертер подключается к базе данных PostgreSQL и генерирует документацию в формате AsciiDoc:
+
+. Подключается к базе данных по параметрам из dataset.yml;
+. Извлекает метаданные о таблицах, колонках и связях;
+. Генерирует ERD диаграммы с помощью Graphviz;
+. Создает AsciiDoc файлы с описанием структуры БД;
+. Сохраняет результат в папку partials/docs-db.
+
+== Конфигурация
+
+=== Секция db в config.yml
+
+[source,yaml]
+----
+db:
+  enabled: true                 # Включить/отключить генерацию DB документации
+  images_dir: "components/{name}/modules/ROOT/images/images-db" # Папка для изображений схем БД
+  dst: "components/{name}/modules/ROOT/partials/docs-db"       # Куда сохранять DB документацию
+  database_connect_file: "components/{name}/modules/ROOT/examples/dataset.yml"  # Файл подключения к БД
+  erase_destination_folder: false # НЕ очищать папку назначения (сохранять существующие)
+  profile: "pg_demo"            # Профиль БД для подключения
+----
+
+=== Структура файла dataset.yml
+
+[source,yaml]
+----
+profiles:
+  pg_demo:
+    host: "localhost"
+    port: 5432
+    database: "demo_db"
+    username: "demo_user"
+    password: "demo_password"
+    schema: "public"
+----
+
+== Используемые технологии
+
+* Ruby - основной язык скрипта;
+* PostgreSQL - база данных для подключения;
+* Graphviz - генерация ERD диаграмм;
+* YAML - конфигурация подключения;
+* AsciiDoc - формат выходной документации.
+
+== Результат работы
+
+Конвертер создает следующие файлы:
+
+. schemas_index.adoc - главная страница документации БД;
+. bookings_tables.adoc - описание таблиц bookings;
+. bookings_logical.adoc - логическая схема данных;
+. schemas_logical_index.adoc - индекс логических схем;
+. erd_bookings.puml - PlantUML диаграмма ERD;
+. logical_bookings.puml - логическая диаграмма.
+
+== Примеры использования
+
+=== Запуск конвертера
+
+[source,bash]
+----
+ruby tools/scripts/db_to_adoc.rb --profile pg_demo
+----
+
+=== Интеграция в документацию
+
+[source,asciidoc]
+----
+\include::../partials/docs-db/schemas_index.adoc[]
+----
+
+== Ограничения
+
+* Поддерживается только PostgreSQL;
+* Требуется доступ к базе данных для извлечения метаданных;
+* Генерируются только базовые ERD диаграммы;
+* Не поддерживаются сложные типы данных и индексы.

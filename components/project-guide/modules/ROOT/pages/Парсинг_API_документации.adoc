@@ -1,0 +1,80 @@
+include::../partials/attr_common.adoc[]
+= Парсинг API документации
+:sectnums:
+
+== Назначение
+
+Конвертер API документации предназначен для автоматической генерации AsciiDoc документации из OpenAPI/Swagger спецификаций.
+
+== Принцип работы
+
+Конвертер читает конфигурацию источников API из файла sources.yml и генерирует документацию в формате AsciiDoc:
+
+. Загружает конфигурацию источников из файла sources.yml;
+. Подключается к каждому указанному API endpoint;
+. Парсит OpenAPI/Swagger спецификацию;
+. Генерирует AsciiDoc файлы с описанием API;
+. Сохраняет результат в папку partials/docs-api.
+
+== Конфигурация
+
+=== Секция api в config.yml
+
+[source,yaml]
+----
+api:
+  enabled: true                 # Включить/отключить генерацию API документации
+  dst: "components/{name}/modules/ROOT/partials/docs-api"       # Куда сохранять API документацию
+  api_sources_file: "components/{name}/modules/ROOT/examples/sources.yml"  # Файл источников API
+  erase_destination_folder: true # Очищать папку назначения перед генерацией
+----
+
+=== Структура файла sources.yml
+
+[source,yaml]
+----
+sources:
+  - name: "API Service 1"
+    url: "https://api.example.com/swagger.json"
+    description: "Описание первого API"
+  - name: "API Service 2" 
+    url: "https://api2.example.com/openapi.yaml"
+    description: "Описание второго API"
+----
+
+== Используемые технологии
+
+* Ruby - основной язык скрипта;
+* JSON/YAML - парсинг конфигурации;
+* OpenAPI/Swagger - стандарты API документации;
+* AsciiDoc - формат выходной документации.
+
+== Результат работы
+
+Конвертер создает следующие файлы:
+
+. test-api-yml.adoc - главная страница API документации;
+. test-api.adoc - альтернативная версия документации;
+. swagger.adoc - документация в формате Swagger.
+
+== Примеры использования
+
+=== Запуск конвертера
+
+[source,bash]
+----
+ruby tools/scripts/openapi-swagger-adoc.rb
+----
+
+=== Интеграция в документацию
+
+[source,asciidoc]
+----
+\include::../partials/docs-api/test-api-yml.adoc[]
+----
+
+== Ограничения
+
+* Поддерживаются только OpenAPI 3.0 и Swagger 2.0;
+* Требуется доступ к API endpoint для получения спецификации;
+* Генерируется только базовая документация без кастомизации.
