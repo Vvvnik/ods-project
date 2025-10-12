@@ -25,33 +25,32 @@ body {
   display: flex;
   flex: auto;
   padding-left: 1rem;
+  align-items: center;
 }
 
-.navbar-brand .navbar-item {
+.navbar-brand-logo {
+  flex-shrink: 0;
+  margin-right: 1rem;
+}
+
+.navbar-brand-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.navbar-brand-logo a,
+.navbar-brand-title a {
   color: var(--navbar-font-color);
-}
-
-.navbar-brand .navbar-item:first-child {
-  align-self: center;
-  padding: 0;
-  font-size: calc(22 / var(--rem-base) * 1rem);
-  flex-wrap: nowrap;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.navbar-brand .navbar-item:first-child a {
-  color: inherit;
-  word-wrap: normal;
+  text-decoration: none;
   display: flex;
   align-items: center;
-  white-space: nowrap;
-  flex-shrink: 0;
+  height: 100%;
 }
 
-.navbar-brand .navbar-item:first-child a span {
-  text-align: center;
-  width: 100%;
+.navbar-brand-title span {
+  font-size: calc(22 / var(--rem-base) * 1rem);
+  font-weight: normal;
+  line-height: 1;
 }
 
 .navbar-brand .navbar-item:first-child :not(:last-child) {
@@ -336,17 +335,16 @@ body {
 }
 
 .navbar-logo {
-  height: 50px;
+  height: auto;
   width: auto;
-  margin-right: 0.5rem;
+  max-height: 50px;
   vertical-align: middle;
-  flex-shrink: 0;
 }
 
 @media screen and (max-width: 768px) {
   :root {
-    --navbar-height: calc(90 / var(--rem-base) * 1rem);
-    --body-top: calc(90 / var(--rem-base) * 1rem);
+    --navbar-height: calc(75 / var(--rem-base) * 1rem);
+    --body-top: calc(75 / var(--rem-base) * 1rem);
   }
   
   .navbar {
@@ -358,11 +356,24 @@ body {
   }
   
   .navbar-logo {
-    height: 35px;
-    margin-right: 0.3rem;
+    max-height: 35px;
   }
   
-  .navbar-brand .navbar-item:first-child {
-    font-size: calc(20 / var(--rem-base) * 1rem);
+  .navbar-brand-title span {
+    font-size: calc(18 / var(--rem-base) * 1rem);
+  }
+  
+  .navbar-brand-logo {
+    margin-right: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .navbar-brand-title {
+    display: none;
+  }
+  
+  .navbar-brand-logo {
+    margin-right: 0;
   }
 }
