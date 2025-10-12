@@ -9,7 +9,7 @@ body {
 .navbar {
   background: var(--navbar-background);
   color: var(--navbar-font-color);
-  font-size: calc(16 / var(--rem-base) * 1rem);
+  font-size: calc(20 / var(--rem-base) * 1rem);
   height: var(--navbar-height);
   position: fixed;
   top: 0;
@@ -35,8 +35,9 @@ body {
   align-self: center;
   padding: 0;
   font-size: calc(22 / var(--rem-base) * 1rem);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .navbar-brand .navbar-item:first-child a {
@@ -44,6 +45,8 @@ body {
   word-wrap: normal;
   display: flex;
   align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .navbar-brand .navbar-item:first-child a span {
@@ -337,4 +340,29 @@ body {
   width: auto;
   margin-right: 0.5rem;
   vertical-align: middle;
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --navbar-height: calc(90 / var(--rem-base) * 1rem);
+    --body-top: calc(90 / var(--rem-base) * 1rem);
+  }
+  
+  .navbar {
+    height: var(--navbar-height);
+  }
+  
+  body {
+    padding-top: var(--body-top);
+  }
+  
+  .navbar-logo {
+    height: 35px;
+    margin-right: 0.3rem;
+  }
+  
+  .navbar-brand .navbar-item:first-child {
+    font-size: calc(20 / var(--rem-base) * 1rem);
+  }
 }
