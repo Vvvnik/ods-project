@@ -22,7 +22,7 @@
   --body-font-size: 1.0625em; /* 17px */
   --body-font-size--desktop: 1.125em; /* 18px */
   --body-font-size--print: 0.9375em; /* 15px */
-  --body-line-height: 1.15;
+  --body-line-height: 1.3;
   --body-font-color: var(--color-jet-70);
   --body-font-family: "Roboto", sans-serif;
   --body-font-weight-bold: bold;
@@ -49,7 +49,7 @@
   /* nav */
   --nav-background: var(--panel-background);
   --nav-border-color: var(--color-gray-10);
-  --nav-line-height: 1.2;
+  --nav-line-height: 1.3;
   --nav-heading-font-color: var(--color-jet-30);
   --nav-muted-color: var(--color-gray-70);
   --nav-panel-divider-color: var(--color-smoke-90);
@@ -76,7 +76,7 @@
   --doc-font-color: var(--color-jet-50);
   --doc-font-size: inherit;
   --doc-font-size--desktop: calc(17 / var(--rem-base) * 1rem);
-  --doc-line-height: 1.5;
+  --doc-line-height: 1.3;
   --doc-margin: 0 auto;
   --doc-margin--desktop: 0 2rem;
   --heading-font-color: var(--color-jet-80);
@@ -116,7 +116,7 @@
   --toc-font-color: var(--nav-muted-color);
   --toc-heading-font-color: var(--doc-font-color);
   --toc-border-color: var(--panel-border-color);
-  --toc-line-height: 1.2;
+  --toc-line-height: 1.3;
   /* footer */
   --footer-line-height: var(--doc-line-height);
   --footer-background: var(--color-smoke-90);

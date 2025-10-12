@@ -1,6 +1,6 @@
 ^| {counter:num-list-t} | ed Описание программы | Листов: 6
 ^| {counter:num-list-t} | ed Описание программы LU | Листов: 1
-^| {counter:num-list-t} | ed Описание языка | Листов: 5
+^| {counter:num-list-t} | ed Описание языка | Листов: 4
 ^| {counter:num-list-t} | ed Описание языка LU | Листов: 1
 ^| {counter:num-list-t} | oed Акт приемки в опытную эксплуатацию | Листов: 2
 ^| {counter:num-list-t} | oed Протокол опытнои эксплуатации | Листов: 3

@@ -38,7 +38,7 @@
   /* color: #a60000; */
   /* font-weight: var(--heading-font-weight); */
   hyphens: none;
-  line-height: 1.5em;
+  line-height: 1.3;
   /* margin: 1rem 0 0; */
   text-indent: 1.3em;
 }
@@ -1253,7 +1253,7 @@ a.xref.page[data-tooltip]:hover::after {
 
 #footnotes {
   font-size: 0.85em;
-  line-height: 1.5;
+  line-height: 1.3;
   margin: 2rem -0.5rem 0;
 }
 
