@@ -370,7 +370,7 @@ body {
 
 @media screen and (max-width: 400px) {
   .navbar-brand-title {
-    display: none;
+    display: block;
   }
   
   .navbar-brand-logo {
