@@ -52,7 +52,7 @@
 }
 
 .doc > h1.page:first-child {
-  font-size: calc(36 / var(--rem-base) * 1rem);
+  font-size: calc(24 / var(--rem-base) * 1rem);
   margin: 1.2rem 0;
 }
 
