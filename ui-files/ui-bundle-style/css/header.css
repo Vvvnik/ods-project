@@ -42,6 +42,13 @@ body {
 .navbar-brand .navbar-item:first-child a {
   color: inherit;
   word-wrap: normal;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand .navbar-item:first-child a span {
+  text-align: center;
+  width: 100%;
 }
 
 .navbar-brand .navbar-item:first-child :not(:last-child) {
@@ -323,4 +330,11 @@ body {
   .navbar-dropdown a.navbar-item:hover {
     background: var(--navbar-menu_hover-background);
   }
+}
+
+.navbar-logo {
+  height: 50px;
+  width: auto;
+  margin-right: 0.5rem;
+  vertical-align: middle;
 }
