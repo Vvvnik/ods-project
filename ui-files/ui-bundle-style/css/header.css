@@ -368,12 +368,60 @@ body {
   }
 }
 
+@media screen and (max-width: 768px) and (min-width: 401px) {
+  :root {
+    --navbar-height: calc(55 / var(--rem-base) * 1rem);
+    --body-top: calc(55 / var(--rem-base) * 1rem);
+  }
+  
+  .navbar {
+    height: var(--navbar-height);
+  }
+  
+  body {
+    padding-top: var(--body-top);
+  }
+  
+  .navbar-logo {
+    max-height: 30px;
+  }
+  
+  .navbar-brand-title span {
+    font-size: calc(16 / var(--rem-base) * 1rem);
+  }
+  
+  .navbar-brand-logo {
+    margin-right: 0.3rem;
+  }
+}
+
 @media screen and (max-width: 400px) {
+  :root {
+    --navbar-height: calc(50 / var(--rem-base) * 1rem);
+    --body-top: calc(50 / var(--rem-base) * 1rem);
+  }
+  
+  .navbar {
+    height: var(--navbar-height);
+  }
+  
+  body {
+    padding-top: var(--body-top);
+  }
+  
   .navbar-brand-title {
     display: block;
   }
   
   .navbar-brand-logo {
-    margin-right: 0;
+    margin-right: 0.2rem;
+  }
+  
+  .navbar-logo {
+    max-height: 25px;
+  }
+  
+  .navbar-brand-title span {
+    font-size: calc(14 / var(--rem-base) * 1rem);
   }
 }
