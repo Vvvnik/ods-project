@@ -116,7 +116,7 @@ include::../examples/schema.puml[plantuml, schema]
 == Отслеживание изменений
 Добавьте в changes:
 
-* tools/ - скрипты генерации и конфигурация
-* components/*/modules/ - содержимое документации
-* antora-playbook.yml - настройки сборки сайта
-* resources/ - темы и шрифты для PDF
+* tools/ – скрипты генерации и конфигурация
+* components/*/modules/ – содержимое документации
+* antora-playbook.yml – настройки сборки сайта
+* resources/ – темы и шрифты для PDF

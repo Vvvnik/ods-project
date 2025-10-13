@@ -23,8 +23,8 @@ include::../partials/attr_common.adoc[]
 [source,yaml]
 ----
 api:
-  enabled: true                 # Включить/отключить генерацию API документации
-  dst: "components/{name}/modules/ROOT/partials/docs-api"       # Куда сохранять API документацию
+  enabled: true # Включить/отключить генерацию API документации
+  dst: "components/{name}/modules/ROOT/partials/docs-api" # Куда сохранять API документацию
   api_sources_file: "components/{name}/modules/ROOT/examples/sources.yml"  # Файл источников API
   erase_destination_folder: true # Очищать папку назначения перед генерацией
 ----
@@ -44,18 +44,18 @@ sources:
 
 == Используемые технологии
 
-* Ruby - основной язык скрипта;
-* JSON/YAML - парсинг конфигурации;
-* OpenAPI/Swagger - стандарты API документации;
-* AsciiDoc - формат выходной документации.
+* Ruby – основной язык скрипта;
+* JSON/YAML – парсинг конфигурации;
+* OpenAPI/Swagger – стандарты API документации;
+* AsciiDoc – формат выходной документации.
 
 == Результат работы
 
 Конвертер создает следующие файлы:
 
-. test-api-yml.adoc - главная страница API документации;
-. test-api.adoc - альтернативная версия документации;
-. swagger.adoc - документация в формате Swagger.
+. test-api-yml.adoc – главная страница API документации;
+. test-api.adoc – альтернативная версия документации;
+. swagger.adoc – документация в формате Swagger.
 
 == Примеры использования
 

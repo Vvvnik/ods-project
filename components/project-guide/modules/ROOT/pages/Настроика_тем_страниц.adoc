@@ -11,24 +11,24 @@ include::../partials/attr_common.adoc[]
 
 === Компоненты системы
 
-Титульные страницы (title_pages) - разные стили титульных страниц:
+Титульные страницы (title_pages) – разные стили титульных страниц:
 
-* original - стандартная;
-* contract - для контрактов;
-* original_frame - с рамками;
-* approval_page_gost - лист утверждения ГОСТ;
-* none - без титульной страницы.
+* original – стандартная;
+* contract – для контрактов;
+* original_frame – с рамками;
+* approval_page_gost – лист утверждения ГОСТ;
+* none – без титульной страницы.
 
-Обычные страницы (other_pages) - стили оформления страниц:
+Обычные страницы (other_pages) – стили оформления страниц:
 
-* original - с полными рамками и колонтитулами;
-* original_frame - с рамками и приставкой;
-* none - стандартное Asciidoctor.
+* original – с полными рамками и колонтитулами;
+* original_frame – с рамками и приставкой;
+* none – стандартное Asciidoctor.
 
-Списки (list_types) - стили нумерации:
+Списки (list_types) – стили нумерации:
 
-* alphabetic - уровень 2 тире (–);
-* dash - уровень 2 буквы (а б в).
+* alphabetic – уровень 2 тире (–);
+* dash – уровень 2 буквы (а б в).
 
 === Принцип работы
 
@@ -108,8 +108,8 @@ include::../partials/attr_common.adoc[]
 
 Типы титульных и обычных страниц настраиваются независимо:
 
-* :custom_title_page: - только для первой страницы (титульной);
-* :custom_other_page: - для всех остальных страниц (со второй и далее).
+* :custom_title_page: – только для первой страницы (титульной);
+* :custom_other_page: – для всех остальных страниц (со второй и далее).
 
 :tip-caption: Примечание
 
@@ -315,9 +315,9 @@ page:
 
 Система использует три файла тем:
 
-* resources/themes/act-theme.yml - тема для актов с нумерацией с первой страницы;
-* resources/themes/report-theme.yml - основная тема с стандартными отступами;
-* resources/themes/frame-theme.yml - тема с увеличенными отступами для рамок.
+* resources/themes/act-theme.yml – тема для актов с нумерацией с первой страницы;
+* resources/themes/report-theme.yml – основная тема с стандартными отступами;
+* resources/themes/frame-theme.yml – тема с увеличенными отступами для рамок.
 
 === Тема act
 
@@ -381,8 +381,8 @@ page:
 
 Для изменения отступов отредактируйте соответствующий файл темы:
 
-* resources/themes/act-theme.yml - для актов с нумерацией с первой страницы;
-* resources/themes/frame-theme.yml - для документов с рамками;
-* resources/themes/report-theme.yml - для обычных документов.
+* resources/themes/act-theme.yml – для актов с нумерацией с первой страницы;
+* resources/themes/frame-theme.yml – для документов с рамками;
+* resources/themes/report-theme.yml – для обычных документов.
 
 Формат отступов: [верх, право, низ, лево] в миллиметрах.
