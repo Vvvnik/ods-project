@@ -54,6 +54,8 @@ asciidoc:
     idseparator: '-'
     page-pagination: ''
     env-antora: ' '
+    lang: ru
+    hyphenate: ''  # Включить переносы слов
 
 output:
   dir: public

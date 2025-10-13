@@ -297,9 +297,9 @@ ruby tools/start.rb custom_config.yml
 
 .Переменные окружения start.rb
 
-[cols="1,2,2"]
+[cols="1,2,2", options="header, breakable"]
 |===
-|Переменная |Значение по умолчанию |Описание
+^|Переменная ^|Значение по умолчанию ^|Описание
 
 |KROKI_SERVER_URL
 |http://localhost:8000

@@ -111,6 +111,7 @@
 .doc p,
 .doc dl {
   margin: 0;
+  hyphens: auto
 }
 
 .doc a {

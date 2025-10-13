@@ -3,15 +3,13 @@ include::../partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 :sectnums:
-
-
 = Установка 
 
 == Технологический стек
 
-[cols="1,2"]
+[cols="1,2", options="header, breakable"]
 |===
-|Технология |Назначение
+^|Технология ^|Назначение
 
 |AsciiDoc
 |Разметка документации

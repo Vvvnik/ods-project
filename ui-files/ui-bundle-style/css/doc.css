@@ -8,6 +8,12 @@
   padding: 0 1rem 4rem;
 }
 
+.doc[lang="ru"] {
+  hyphens: auto; /* Отключаем автоматические переносы */
+  word-break: break-word; /* Принудительный перенос длинных слов */
+  overflow-wrap: break-word; /* Перенос при переполнении */
+}
+
 @media screen and (min-width: 1024px) {
   .doc {
     flex: auto;
@@ -136,6 +142,7 @@
 .doc p,
 .doc dl {
   margin: 0;
+  hyphens: auto;
 }
 
 .doc a {
@@ -215,6 +222,7 @@ a.xref.page[data-tooltip]:hover::after {
   border-radius: 0.25em;
   font-size: 0.95em;
   padding: 0.125em 0.25em;
+  hyphens: auto
 }
 
 .doc code,
@@ -312,6 +320,8 @@ a.xref.page[data-tooltip]:hover::after {
 .doc details,
 .doc hr {
   margin: 0.5rem 0 0;
+  /* hyphens: auto; */
+  /* word-wrap: anywhere; */
 }
 
 .doc > table.tableblock,

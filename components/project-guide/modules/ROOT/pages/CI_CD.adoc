@@ -23,9 +23,9 @@ include::../examples/schema.puml[plantuml, schema]
 
 [#id_t_{num_t}]
 .Таблица {num_t}. Описание этапов сборки
-[cols="1,2,3"]
+[cols="1,2,3", options="header, breakable"]
 |===
-|Этап |Действие |Результат
+^|Этап ^|Действие ^|Результат
 
 |build_all
 |PDF генерация + Node.js установка + Antora сборка + копирование в public/
