@@ -42,14 +42,14 @@
   /* margin: 1rem 0 0; */
   text-indent: 1.3em;
 }
-
+/* 
 .doc h4,
 .doc h5,
 .doc h6 {
   font-size: 0.8em;
   margin-top: 20px;
   margin-bottom: 20px;
-}
+} */
 
 .doc > h1.page:first-child {
   font-size: calc(24 / var(--rem-base) * 1rem);

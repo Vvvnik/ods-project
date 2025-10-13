@@ -23,4 +23,4 @@ endif::list_pdf_file_is_empty[]
 
 // == Содержание
 
-include::index.adoc[]
+include::../pages/index.adoc[]
