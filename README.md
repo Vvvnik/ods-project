@@ -32,3 +32,4 @@ npx antora --fetch antora-playbook.yml
 
 - Код: [Apache-2.0](./LICENSE-CODE.md)
 - Документы: [CC-BY 4.0](./LICENSE-DOCS.md)
+- Сторонние библиотеки: [NOTICE](./NOTICE.md)

@@ -1,0 +1,58 @@
+This project includes the following third-party software:
+
+- Asciidoctor Project (MIT License)
+  Copyright (C) 2014-present OpenDevise Inc. and the Asciidoctor Project
+  https://github.com/asciidoctor/asciidoctor-pdf
+
+- Antora (Mozilla Public License Version 2.0)
+  Copyright (c) 2017-present OpenDevise Inc. and the Antora Project Contributors
+  https://gitlab.com/antora/antora/-/tree/main
+
+- Kroki (MIT License)
+  Copyright (c) 2020-present Kroki
+  https://github.com/yuzutech/kroki/tree/main
+
+- Prawn (Dual License: GPL v2/v3 OR liberal terms)
+  Copyright Gregory Brown and community contributions
+  Used under liberal terms (not GPL)
+  https://github.com/prawnpdf/prawn
+
+- Graphviz (Eclipse Public License 1.0)
+  Copyright (c) 2000-2023 Graphviz Contributors
+  https://github.com/ioquatix/graphviz
+
+- pg (BSD-2-Clause License)
+  Copyright (c) 1997-2023 PostgreSQL Global Development Group
+  https://github.com/ged/ruby-pg
+
+- rubyzip (BSD-2-Clause License)
+  Copyright (c) 2002-2004 Thomas Sondergaard
+  https://github.com/rubyzip/rubyzip
+
+- xml2js (MIT License)
+  Copyright (c) 2010-2020 Maciej Urbański
+  https://github.com/Leonidas-from-XIV/node-xml2js
+
+- Puppeteer (Apache License 2.0)
+  Copyright (c) 2017 Google Inc.
+  https://github.com/puppeteer/puppeteer
+
+- Opal (MIT License)
+  Copyright (c) 2013-2023 Elia Schito and contributors
+  https://github.com/opal/opal
+
+- HexaPDF (MIT License)
+  Copyright (c) 2015-2025 Thomas Leitner
+  https://github.com/gettalong/hexapdf
+
+- @antora/lunr-extension (Mozilla Public License Version 2.0)
+  Copyright (c) 2017-present OpenDevise Inc. and the Antora Project Contributors
+  https://gitlab.com/antora/antora-lunr-extension
+
+- asciidoctor-plantuml (MIT License)
+  Copyright (c) 2017-present Guillaume Grossetie
+  https://github.com/ggrossetie/asciidoctor-plantuml
+
+- asciidoctor-diagram (MIT License)
+  Copyright (c) 2014 Pepijn Van Eeckhoudt
+  https://github.com/asciidoctor/asciidoctor-diagram
