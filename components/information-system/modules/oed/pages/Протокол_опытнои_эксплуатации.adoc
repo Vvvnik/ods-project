@@ -1,18 +1,18 @@
 include::../../ROOT/partials/contract.adoc[]
 include::../../ROOT/partials/attr_common.adoc[]
 :custom_title_page: none
-// name1_dokument - название документа 1
+// name1_dokument – название документа 1
 :name1_dokument: Протокол 
-// name5_dokument - название документа 2
+// name5_dokument – название документа 2
 :name5_dokument: опытной эксплуатации
-// version - версия документа
+// version – версия документа
 :version: 4
-// page_all - кол-во страниц в документе, применяется для расчета нумерации страниц в документе. Может считаться вручную или автоматически при сборке документа
+// page_all – кол-во страниц в документе, применяется для расчета нумерации страниц в документе. Может считаться вручную или автоматически при сборке документа
 :page_all: 22
-// code - код документа
+// code – код документа
 :code: ABC.0001-01
 :code_document: П4
-// ramka: 4 - рамка документа
+// ramka: 4 – рамка документа
 :pdf-theme: act
 :data_report: {localdate}
 // plan:

@@ -4,17 +4,17 @@ include::../../ROOT/partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 :custom_list_type: alphabetic
-// name1_dokument - название документа 1
+// name1_dokument – название документа 1
 :name1_dokument: Акт
-// name5_dokument - название документа 2
+// name5_dokument – название документа 2
 :name5_dokument: приемки в опытную эксплуатацию
 // Кол-во страниц соответствует пдф и версия
 :page_all: 22
-// code - код документа
+// code – код документа
 :code: ABC.0001-01
 :code_document: АП
 :version: 4
-// pdf-theme: act - тема для актов
+// pdf-theme: act – тема для актов
 :pdf-theme: act-theme
 :data_report: {localdate}
 :plan:
