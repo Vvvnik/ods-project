@@ -8,6 +8,8 @@ This project uses a dual license model:
 - **Documentation, templates, and text materials** are licensed under the **Creative Commons Attribution 4.0 International (CC-BY 4.0)**.  
   See [LICENSE-DOCS.md](./LICENSE-DOCS.md) for details.
 
+- **Third-party software licenses** are listed in [NOTICE.adoc](./NOTICE.adoc).
+
 ## Demo Data Notice
 
 The demo data included in this project (such as the toys service API and database schemas) is provided **solely for documentation and demonstration purposes**. This demo data:
