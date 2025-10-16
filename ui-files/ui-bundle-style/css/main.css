@@ -33,3 +33,33 @@
     flex-basis: var(--toc-width--widescreen);
   }
 }
+
+/* Mobile search styles - keep search input above results */
+#search-field {
+  position: relative;
+  z-index: 1000;
+}
+
+@media screen and (max-width: 768px) {
+  #search-field {
+    z-index: 1000;
+    transform: translateY(-0.5rem);
+    transition: transform 0.3s ease;
+  }
+  
+  #search-input {
+    background-color: #fff !important;
+    position: relative;
+    z-index: 1001;
+    border: 2px solid #007bff !important;
+  }
+  
+  .search-result-dropdown-menu {
+    position: fixed !important;
+    top: 4rem !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    z-index: 999 !important;
+  }
+  
+}
