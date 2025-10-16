@@ -1,0 +1,249 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+
+= Быстрый старт
+
+Данное руководство поможет вам быстро начать работу с проектом ODS и создать свой первый компонент документации за 15 минут.
+
+== Предварительные требования
+
+Для работы с проектом вам понадобится:
+
+* Docker и Docker Compose
+* Git
+* Текстовый редактор (VS Code, Sublime Text, или любой другой)
+
+== Шаг 1: Получение проекта
+
+Клонируйте репозиторий проекта:
+
+[source,bash]
+----
+git clone https://gitlab.com/vvvnik/my-project.git
+cd my-project
+----
+
+== Шаг 2: Запуск проекта
+
+Запустите проект с помощью Docker Compose:
+
+[source,bash]
+----
+docker-compose up -d
+----
+
+Это запустит:
+* Kroki сервис для генерации диаграмм (если настроен)
+* PostgreSQL базу данных (если настроен)
+
+Для локальной разработки можно использовать готовые команды из docker-compose.yml.
+
+== Шаг 3: Создание нового компонента
+
+Создайте структуру для вашего компонента:
+
+[source,bash]
+----
+mkdir -p components/my-project/modules/ROOT/{pages,partials,attachments,images,examples}
+----
+
+Создайте файл конфигурации компонента:
+
+[source,yaml]
+----
+# components/my-project/antora.yml
+name: my-project
+title: Мой проект
+version: 1
+----
+
+== Шаг 4: Создание первой страницы
+
+Создайте файл общих атрибутов:
+
+[source,asciidoc]
+----
+# components/my-project/modules/ROOT/partials/attr_common.adoc
+:docinfo: shared
+:!chapter-signifier:
+:!section-refsig:
+:table-caption!: 
+:figure-caption!: 
+:imagesdir: ../images
+:section-refsig: разделе
+:toc: macro
+:toc-title: Содержание 
+:custom_list_type: alphabetic
+----
+
+Создайте главную страницу вашего компонента:
+
+[source,asciidoc]
+----
+# components/my-project/modules/ROOT/pages/index.adoc
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: original
+:toc: macro
+
+= Мой проект
+
+== Описание проекта
+
+Краткое описание вашего проекта.
+
+== Основные разделы
+
+=== Архитектура
+
+Описание архитектуры системы.
+
+=== Функциональность
+
+Основные функции системы.
+
+== Заключение
+
+Выводы по проекту.
+----
+
+== Шаг 6: Создание навигации
+
+Создайте файл навигации:
+
+[source,asciidoc]
+----
+# components/my-project/modules/ROOT/nav.adoc
+* xref:index.adoc[Главная страница]
+----
+
+== Шаг 7: Добавление компонента в сборку
+
+Добавьте ваш компонент в файл `antora-playbook.yml`:
+
+[source,yaml]
+----
+# antora-playbook.yml
+site:
+  title: ODS Documentation
+  url: https://vvvnik.gitlab.io/my-project
+content:
+  sources:
+    - url: .
+      branches: [main]
+      start_path: components/my-project
+      edit_url: '{web_url}/-/edit/{refname}/{path}'
+----
+
+== Шаг 8: Сборка документации
+
+Запустите сборку документации:
+
+[source,bash]
+----
+docker-compose run --rm pdf
+----
+
+Или используйте прямой вызов Docker:
+
+[source,bash]
+----
+docker run --rm -v $(pwd):/app \
+  registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1 \
+  ruby tools/start.rb
+----
+
+== Шаг 9: Генерация сайта
+
+Сгенерируйте HTML сайт:
+
+[source,bash]
+----
+docker-compose run --rm site
+----
+
+Или используйте прямой вызов Docker:
+
+[source,bash]
+----
+docker run --rm -v $(pwd):/app \
+  registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1 \
+  antora antora-playbook.yml
+----
+
+== Шаг 10: Просмотр результата
+
+Откройте сгенерированный сайт:
+
+[source,bash]
+----
+# На macOS
+open public/index.html
+
+# На Linux
+xdg-open public/index.html
+
+# На Windows
+start public/index.html
+----
+
+Или просто откройте файл `public/index.html` в браузере.
+
+== Следующие шаги
+
+После успешного создания первого компонента вы можете:
+
+* Добавить больше страниц в `pages/`;
+* Создать PDF документы с помощью `tools/start.rb`;
+* Добавить диаграммы в `examples/` и сгенерировать их в `images/`;
+* Настроить автоматическую генерацию из API или БД;
+* Изучить дополнительные возможности в разделе xref:Руководство_пользователя.adoc[Руководство пользователя].
+
+== Полезные ссылки
+
+* xref:Установка.adoc[Установка] – подробная инструкция по установке;
+* xref:Настроика_config_yml.adoc[Настройка config.yml] – конфигурация проекта;
+* xref:Руководство_пользователя.adoc[Руководство пользователя] – полное руководство;
+* xref:Правка_и_проверка.adoc[Правка и проверка] – решение проблем.
+
+== Диагностика проблем
+
+=== Проблемы с Docker
+
+Если возникают проблемы с Docker:
+
+[source,bash]
+----
+# Проверьте статус контейнеров
+docker-compose ps
+
+# Перезапустите сервисы
+docker-compose restart
+
+# Посмотрите логи
+docker-compose logs
+----
+
+=== Проблемы со сборкой
+
+Если сборка не работает:
+
+[source,bash]
+----
+# Проверьте права доступа
+ls -la components/my-project/
+
+# Убедитесь, что файлы созданы
+ls -la components/my-project/modules/ROOT/pages/
+----
+
+=== Проблемы с отображением
+
+Если сайт не отображается корректно:
+
+* Проверьте синтаксис AsciiDoc файлов;
+* Убедитесь, что все include файлы существуют;
+* Проверьте логи Antora в консоли.

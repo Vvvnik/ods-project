@@ -22,6 +22,9 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * tools/ – инструменты и скрипты для генерации;
 * resources/ – ресурсы (темы, шрифты);
 * ui-files/ – пользовательский интерфейс для Antora;
+* docker/ – Docker конфигурация и образы;
+* templates/ – шаблоны и примеры;
+* public/ – сгенерированный сайт документации (Antora);
 * .gitlab-ci.yml – конфигурация CI/CD;
 * antora-playbook.yml – конфигурация Antora;
 * .gitignore – исключения для Git.
@@ -45,6 +48,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 
 Детальная структура ROOT модуля:
 
+* nav.adoc – навигация по модулю;
 * pages/ – страницы документации (.adoc файлы);
 * partials/ – частичные файлы;
 ** lists/ – автоматически генерируемые списки;
@@ -70,6 +74,46 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * information-system – информационная система;
 * toys-service – сервис игрушек;
 * project-guide – руководство по проекту.
+
+== Папка docker/
+
+Содержит Docker конфигурацию и скрипты сборки образов.
+
+=== Структура
+
+* Dockerfile.universal – универсальный образ с Ruby + Node.js + все зависимости;
+* docker-compose.yml – конфигурация для локальной разработки;
+* build-images.sh – скрипт сборки универсального образа;
+* build-kroki.sh – скрипт сборки Kroki образа;
+* README.md – документация по Docker.
+
+=== Назначение
+
+* Контейнеризация всех инструментов генерации;
+* Упрощение развертывания и разработки;
+* Готовые образы для CI/CD.
+
+== Папка templates/
+
+Содержит шаблоны и примеры для документации.
+
+=== Структура
+
+* diagrams/ – шаблоны диаграмм (PlantUML);
+* glossary/ – шаблон глоссария;
+* snippets/ – сниппеты кода для редакторов;
+* templates_doc/ – шаблоны документов.
+
+== Папка public/
+
+Сгенерированный сайт документации (создается Antora).
+
+=== Структура
+
+* _/ – статические ресурсы (CSS, JS, изображения);
+* {component}/ – страницы каждого компонента;
+* index.html – главная страница;
+* search-index.js – индекс для поиска.
 
 == Папка tools/
 

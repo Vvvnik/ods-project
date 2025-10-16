@@ -114,7 +114,7 @@ asciidoctor-pdf \
   -a pdf-themesdir=resources/themes \
   -a pdf-fontsdir=resources/fonts \
   -a allow-uri-read \
-  components/information-system/modules/trd/pages/Частное_техническое_задание.adoc
+  components/information-system/modules/trd/pages/Описание_постановки_задачи.adoc
 ----
 
 === Параметры команды
@@ -129,8 +129,10 @@ asciidoctor-pdf \
 
 === Типы титульных страниц
 
-* :custom_title_page: *contract* - для контрактных документов;
 * :custom_title_page: *original* - для обычных документов;
+* :custom_title_page: *contract* - для контрактных документов;
+* :custom_title_page: *original_frame* - с рамками и приставкой;
+* :custom_title_page: *approval_page_gost* - лист утверждения в стиле ГОСТ;
 * :custom_title_page: *none* - без титульной страницы.
 
 === Отключение титульной страницы
@@ -166,12 +168,12 @@ asciidoctor-pdf \
 Содержание документа начинается сразу после заголовка...
 ----
 
-Если задан тип титульной страницы (:custom_title_page: contract или :custom_title_page: original):
+Если задан тип титульной страницы (:custom_title_page: contract, :custom_title_page: original, :custom_title_page: original_frame или :custom_title_page: approval_page_gost):
 
 [source,asciidoc]
 ----
 :doctype: book
-:custom_title_page: contract
+:custom_title_page: original
 :custom_other_page: none
 
 == Название документа
@@ -194,7 +196,9 @@ asciidoctor-pdf \
 Что происходит при разных значениях :custom_title_page::
 
 . :custom_title_page: contract → загружается модуль ConvertTitlePageContract
-. :custom_title_page: original → загружается модуль ConvertTitlePageOriginal  
+. :custom_title_page: original → загружается модуль ConvertTitlePageOriginal
+. :custom_title_page: original_frame → загружается модуль ConvertTitlePageOriginalFrame
+. :custom_title_page: approval_page_gost → загружается модуль ConvertApprovalPageGost
 . :custom_title_page: none → модуль не загружается, титульная страница отключена
 . :custom_title_page: (пустой) → система использует значение по умолчанию 'none' → модуль не загружается, титульная страница отключена
 . Атрибут не задан → система использует значение по умолчанию 'none' → модуль не загружается, титульная страница отключена
@@ -206,12 +210,16 @@ asciidoctor-pdf \
 title_pages:
   original: "convert_title_page_original"
   contract: "convert_title_page_contract"
+  original_frame: "convert_title_page_original_frame"
+  approval_page_gost: "convert_approval_page_gost"
   none: null
 ----
 
 === Поведение при отключенных титульных страницах
 
-Когда :custom_title_page: none или атрибут не задан:. Кастомные конвертеры не загружаются - модули ConvertTitlePageContract и ConvertTitlePageOriginal не включаются
+Когда :custom_title_page: none или атрибут не задан:
+
+. Кастомные конвертеры не загружаются - модули ConvertTitlePageContract, ConvertTitlePageOriginal, ConvertTitlePageOriginalFrame и ConvertApprovalPageGost не включаются
 . Используется стандартный Asciidoctor PDF - вызывается super(doc) вместо кастомной обработки
 . Стандартная титульная страница Asciidoctor - если есть заголовок уровня 1 (=), создается стандартная титульная страница
 . Настройки из темы - все стили, шрифты, цвета, отступы берутся из report-theme.yml или другой темы
@@ -221,18 +229,25 @@ title_pages:
 [WARNING]
 При использовании атрибута custom_title_page: none заголовок уровня 1 (=) все равно создает стандартную титульную страницу Asciidoctor. Чтобы избежать этого, используйте заголовок уровня 2 (==) или добавьте атрибут :notitle:.
 
-Пример конфигурации темы:[source,yaml]
+Пример конфигурации темы:
+
+[source,yaml]
 ----
 # resources/themes/report-theme.yml
 extends: default
+
 font:
   catalog:
-    Noto Sans:
-      normal: NotoSans-Regular.ttf
-      bold: NotoSans-Bold.ttf
+    Times:
+      normal: times-new-roman-normal.ttf
+      bold: times-new-roman-bold.ttf
+      italic: times-new-roman-italic.ttf
+      bold_italic: times-new-roman-bold-italic.ttf
+
 page:
-  margin: [0.75in, 0.75in, 0.75in, 0.75in]
+  margin: [15mm, 7mm, 25mm, 20mm]
   size: A4
+
 footer:
   recto:
     right: '{page-number}'

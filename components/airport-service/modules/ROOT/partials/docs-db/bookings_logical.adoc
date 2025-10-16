@@ -1,9 +1,9 @@
-:num_l: {counter:logical-number}
+:num_t: {counter:logical-number}
 
-Описание сущностей схемы «bookings» приведено в <<id_l_{num_l}, Таблице {num_l}>>.
+Описание сущностей схемы «bookings» приведено в <<id_l_{num_t}, Таблице {num_t}>>.
 
-[#id_l_{num_l}]
-.Таблица {num_l}. Сущности схемы «bookings»
+[#id_l_{num_t}]
+.Таблица {num_t}. Сущности схемы «bookings»
 [cols="2,4",options="header,breakable"]
 |===
 ^|Сущность ^|Описание
@@ -21,12 +21,12 @@
 |tickets |Билеты
 |===
 
-:num_l: {counter:logical-number}
+:num_t: {counter:logical-number}
 
-Описание связей между сущностями схемы «bookings» приведено в <<id_l_{num_l}, Таблице {num_l}>>.
+Описание связей между сущностями схемы «bookings» приведено в <<id_l_{num_t}, Таблице {num_t}>>.
 
-[#id_l_{num_l}]
-.Таблица {num_l}. Связи между сущностями схемы «bookings»
+[#id_l_{num_t}]
+.Таблица {num_t}. Связи между сущностями схемы «bookings»
 [cols="2,4,2,4",options="header,breakable"]
 |===
 ^|Источник ^|Ключ ^|Приёмник ^|Ключ

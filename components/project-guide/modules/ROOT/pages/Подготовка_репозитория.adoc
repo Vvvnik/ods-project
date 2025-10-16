@@ -23,6 +23,18 @@ include::../partials/attr_common.adoc[]
 |Ресурсы оформления
 |Темы, шрифты для PDF
 
+|docker/
+|Docker конфигурация
+|Dockerfile, docker-compose, скрипты сборки образов
+
+|templates/
+|Шаблоны и примеры
+|Шаблоны документов, диаграммы, глоссарий
+
+|ui-files/
+|Пользовательский интерфейс
+|UI компоненты для Antora (темы, стили, скрипты)
+
 |public/
 |Готовый сайт
 |Сгенерированный статический сайт
@@ -45,37 +57,53 @@ image::drawio/Проект_диаграмма_классов_antora_project.svg[
 
 == Структура компонента
 
-[cols="1,2,3", options="header, breakable"]
+[cols="2,2,4", options="header, breakable"]
 |===
 ^|Папка ^|Тип файлов ^|Назначение
 
-|api/
+|examples/
+|Исходные файлы
+|Исходные файлы для генерации документации
+
+|examples/api/
 |JSON, YAML
 |Исходные файлы API спецификаций
 
-|bpmn/
+|examples/bpmn/
 |BPMN
 |Диаграммы бизнес-процессов
 
-|drawio/
+|examples/drawio/
 |Draw.io
 |Диаграммы архитектуры и схемы
 
-|puml/
+|images/
+|SVG, PNG
+|Изображения и диаграммы
+
+|images/puml/
 |PlantUML
 |Диаграммы, обрабатываемые Kroki
 
-|docs-api/
+|partials/
+|AsciiDoc
+|Частичные файлы и сгенерированная документация
+
+|partials/docs-api/
 |AsciiDoc
 |Сгенерированная документация API
 
-|docs-db/
+|partials/docs-db/
 |AsciiDoc, SVG
 |Документация базы данных + SVG диаграммы
 
+|attachments/
+|PDF
+|Сгенерированные PDF документы
+
 |modules/
 |Antora модули
-|Структура для Antora документации (ROOT, implementation, user-guide и др.)
+|Структура для Antora документации (ROOT, ed, trd, oed и др.)
 |===
 
 :num_i: {counter:figure-number}
@@ -103,9 +131,17 @@ image::drawio/Проект_диаграмма_классов_config.svg[]
 |Главный файл проекта
 |Описание ODS, быстрый старт, ссылки на лицензии
 
+|readme.adoc
+|Альтернативный README
+|Описание проекта в формате AsciiDoc
+
 |MANIFESTO.adoc
 |Манифест проекта
 |Принципы, области применения, экосистема профилей ODS
+
+|NOTICE.adoc
+|Уведомление о стороннем ПО
+|Список используемых библиотек и их лицензий
 
 |LICENSE.md
 |Сводная лицензия
@@ -118,6 +154,18 @@ image::drawio/Проект_диаграмма_классов_config.svg[]
 |LICENSE-DOCS.md
 |Лицензия документации
 |CC-BY 4.0 для документации, шаблонов, текстов
+
+|package.json
+|Node.js зависимости
+|Описание зависимостей и скриптов
+
+|package-lock.json
+|Точные версии зависимостей
+|Воспроизводимые сборки
+
+|antora-playbook.yml
+|Конфигурация Antora
+|Настройки сборки сайта документации
 
 |CONTRIBUTING.md
 |Руководство по участию

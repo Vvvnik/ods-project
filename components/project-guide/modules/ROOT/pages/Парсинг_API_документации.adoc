@@ -31,6 +31,8 @@ api:
 
 === Структура файла sources.yml
 
+Файл sources.yml содержит список API endpoints для парсинга:
+
 [source,yaml]
 ----
 sources:
@@ -61,10 +63,27 @@ sources:
 
 === Запуск конвертера
 
+В проекте скрипт запускается автоматически через главный скрипт `tools/start.rb`, который использует конфигурацию из `tools/config.yml` и файл источников API компонента.
+
 [source,bash]
 ----
-ruby tools/scripts/openapi-swagger-adoc.rb
+# Автоматический запуск через главный скрипт
+ruby tools/start.rb
+
+# Ручной запуск с указанием файла источников и выходной директории
+ruby tools/scripts/openapi-swagger-adoc.rb --sources sources.yml --out output
+
+# Ручной запуск с дополнительными параметрами
+ruby tools/scripts/openapi-swagger-adoc.rb --sources sources.yml --in input_dir --out output
 ----
+
+Параметры:
+
+* `--sources` - путь к файлу sources.yml с конфигурацией API (обязательный)
+* `--in` - входная директория (опционально)
+* `--out` - выходная директория (обязательный)
+
+При запуске через `tools/start.rb` параметры `--sources` и `--out` берутся из конфигурации `tools/config.yml` (секция `api`, поля `api_sources_file` и `dst`).
 
 === Интеграция в документацию
 

@@ -107,23 +107,25 @@ include::../partials/attr_common.adoc[]
 
 === Дефолтные атрибуты
 
-В contract.adoc:[source,asciidoc]
+В components/information-system/modules/ROOT/partials/contract.adoc:
+
+[source,asciidoc]
 ----
 :year: 2025
 
-// Подписанты для листа утверждения (по умолчанию)
-:signer_1_position: Начальник отдела
-:signer_1_name: И.И. Иванов
-:signer_2_position: Главный инженер
-:signer_2_name: П.П. Петров
-:signer_3_position: Ведущий специалист
-:signer_3_name: С.С. Сидоров
-:signer_4_position: Руководитель проекта
-:signer_4_name: А.А. Алексеев
-:signer_5_position: Исполнитель
-:signer_5_name: В.Н. Лихачев
-:signer_6_position: Нормоконтролер
-:signer_6_name: В.Н. Державин
+// Подпись заказчик
+:iof_customer: А.В. Петров
+:iof_customer_2: Петров А.В.
+:job_customer_1: Заместитель директора
+:job_customer_2: ООО «Заказчик организация»
+:job_customer_all: {job_customer_1} {job_customer_2}
+
+// Подпись исполнитель
+:iof_executor: М.С. Иванов
+:iof_executor_2: Иванов М.С.
+:job_executor_1: Руководитель проекта
+:job_executor_2: ООО «Исполнитель организация»
+:job_executor_all: {job_executor_1} {job_executor_2}
 ----
 
 === Приоритет атрибутов
@@ -145,7 +147,6 @@ include::../partials/attr_common.adoc[]
 . УТВЕРЖДАЮ – правый блок подписи;
 . Информация о документе – центральный блок;
 . Дополнительные подписанты – правые блоки;
-// . Литера – нижний правый блок.
 
 === Позиционирование
 
@@ -158,12 +159,12 @@ include::../partials/attr_common.adoc[]
 
 == Именование файлов
 
-ЛУ создается с уникальным именем: LU_{module}_{document_name}.pdf
+ЛУ создается с уникальным именем: {module_name}_{document_name}_LU.pdf
 
 Примеры:
 
-* LU_trd_Частное_техническое_задание.pdf
-* LU_oed_Описание_элементов_данных.pdf
+* trd_Частное_техническое_задание_LU.pdf
+* oed_Описание_элементов_данных_LU.pdf
 
 == Настройка блоков
 
@@ -241,11 +242,14 @@ doc.attr('lu_new_attribute') || 'дефолт'
 Проблема: include file not found
 
 Решение: Проверить пути во встроенном шаблоне ApprovalPageGenerator:
+
 [source,ruby]
 ----
 # include::../../ROOT/partials/contract.adoc[]
-#include::../../ROOT/partials/attr_common.adoc[]
+# include::../../ROOT/partials/attr_common.adoc[]
 ----
+
+Убедиться, что файл contract.adoc существует по указанному пути.
 
 === ЛУ не генерируется
 
@@ -260,6 +264,7 @@ doc.attr('lu_new_attribute') || 'дефолт'
 - Атрибут :approval-page: false – ЛУ отключен явно
 - Атрибут :approval-page: отсутствует – ЛУ отключен по умолчанию
 - Ошибка в путях include файлов во встроенном шаблоне
+- Отсутствие файла contract.adoc
 
 === Неправильные данные в ЛУ
 

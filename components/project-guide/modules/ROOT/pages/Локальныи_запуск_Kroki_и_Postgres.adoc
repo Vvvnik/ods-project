@@ -7,16 +7,71 @@ include::../partials/attr_common.adoc[]
 
 == Kroki
 
-Запуск локально (Docker):
+Kroki используется для рендеринга диаграмм (PlantUML, Mermaid, Graphviz) в проекте.
+
+=== Запуск локально (Docker)
 
 [source,bash]
 ----
 docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/my-project/kroki:0.28.0
 ----
 
+=== Переменные окружения
+
+В проекте используется переменная `KROKI_SERVER_URL` для указания адреса Kroki сервера:
+
+* Локально: `http://localhost:8000`;
+* В CI: `http://kroki:8000`.
+
 == Postgres
+
+PostgreSQL используется как источник данных для генерации документации БД.
+
+=== Запуск локально (Docker)
 
 [source,bash]
 ----
 docker run --rm -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15
 ----
+
+=== Подключение к БД
+
+После запуска PostgreSQL доступен по адресу:
+
+* Хост: `localhost`;
+* Порт: `5432`;
+* Пользователь: `postgres`;
+* Пароль: `postgres`.
+
+== Docker Compose
+
+Для удобства можно использовать docker-compose файл:
+
+[source,yaml]
+----
+version: '3.8'
+services:
+  kroki:
+    image: registry.gitlab.com/vvvnik/my-project/kroki:0.28.0
+    ports: ['8000:8000']
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports: ['5432:5432']
+----
+
+Запуск:
+[source,bash]
+----
+docker-compose up -d
+----
+
+== Интеграция с проектом
+
+Эти сервисы используются в:
+
+* **CI/CD** - Kroki запускается как сервис в GitLab CI;
+* **Локальная разработка** - для тестирования генерации диаграмм и БД документации;
+* **Скрипт db_to_adoc.rb** - подключается к PostgreSQL для извлечения схемы БД;
+* **Antora** - использует Kroki для рендеринга PlantUML диаграмм.

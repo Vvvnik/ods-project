@@ -44,13 +44,22 @@ include::../examples/schema.puml[plantuml, schema]
 |Официальный релиз с описанием изменений
 |===
 
+== Переменные окружения
+
+В CI/CD используются следующие переменные:
+
+* `KROKI_SERVER_URL: "http://kroki:8000"` – URL сервиса Kroki для генерации диаграмм
+* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/my-project/kroki:0.28.0"` – образ Kroki сервиса
+* `GIT_DEPTH: "20"` – глубина клонирования Git репозитория
+* `TECHNICAL_FILES` – паттерн файлов, влияющих на генерацию контента
+
 == Детальное описание этапов
 === build_all
 Основной этап сборки документации с последовательным выполнением команд:
 
 . **Образ**: `registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1`
 . **Сервисы**: Kroki (`registry.gitlab.com/vvvnik/my-project/kroki:0.28.0`) для генерации диаграмм
-. **Кэш**: `node_modules/` и `.npm/` для ускорения сборки
+. **Кэш**: `node_modules/` и `.npm/` для ускорения сборки (ключ: `${CI_COMMIT_REF_SLUG}`)
 . **Последовательность выполнения**:
 .. Проверка версий Ruby и Node.js
 .. Генерация PDF документов через `ruby tools/start.rb`
@@ -62,6 +71,7 @@ include::../examples/schema.puml[plantuml, schema]
 .. Изменения в технических файлах (`tools/**`, `antora-playbook.yml`, `components/*/antora.yml`, `resources/**`)
 .. Каждый push в main (если нет изменений в технических файлах)
 .. НЕ выполняется при создании тега
+.. Merge Request события
 
 === pages
 Этап публикации сайта на GitLab Pages:
@@ -86,7 +96,7 @@ include::../examples/schema.puml[plantuml, schema]
 .. Получение всех тегов из репозитория
 .. Распаковка shallow репозитория (если необходимо)
 . **Логика генерации**:
-.. Определение предыдущего тега (3 стратегии поиска)
+.. Определение предыдущего тега (3 стратегии поиска: родитель тега, предыдущий по версии, предыдущий по дате)
 .. Создание диапазона коммитов между тегами
 .. Генерация файла `dist/release-notes.adoc` с коммитами
 . **Результат**: файл `dist/release-notes.adoc`

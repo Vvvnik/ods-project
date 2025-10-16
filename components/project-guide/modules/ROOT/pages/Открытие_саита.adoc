@@ -4,15 +4,40 @@ include::../partials/attr_common.adoc[]
 :custom_other_page: none
 = Открытие сайта
 :sectnums:
+
+== GitLab Pages
+
 После успешной сборки откройте GitLab Pages URL из артефактов `pages`.
 
-Локально:
+== Локальный запуск
+
+=== Предварительные требования
+
+Перед запуском убедитесь, что Kroki сервер запущен локально:
+
+[source,bash]
+----
+# Запуск Kroki сервера (в отдельном терминале)
+docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/my-project/kroki:0.28.0
+----
+
+=== Сборка сайта
 
 [source,bash]
 ----
 npx antora antora-playbook.yml
+----
+
+=== Открытие сайта
+
+После сборки откройте главную страницу:
+
+[source,bash]
+----
 open public/index.html
 ----
+
+Сайт генерируется в папку `public/` со стартовой страницей `index.html`.
 
 == Примечание о команде antora
 

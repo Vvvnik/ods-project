@@ -1,9 +1,10 @@
 include::../partials/attr_common.adoc[]
 = Скрипт start.rb
 :sectnums:
-include::../partials/attr_common.adoc[]
 
 == Назначение
+
+Скрипт `tools/start.rb` является главным координатором генерации документации в проекте. Он читает конфигурацию из `tools/config.yml`, обрабатывает все компоненты документации и запускает соответствующие процессы генерации в правильном порядке.
 
 == Структура конфигурации
 
@@ -42,7 +43,7 @@ defaults: &defaults
     enabled: false                # ← Включить/отключить генерацию DB документации
     images_dir: "components/{name}/modules/ROOT/images/images-db" # ← Папка для изображений схем БД
     dst: "components/{name}/modules/ROOT/partials/docs-db"       # ← Куда сохранять DB документацию
-    database_connect_file: "components/{name}/modules/ROOT/examples/dataset.yml"  # ← Файл подключения к БД
+    database_connect_file: "components/{name}/modules/ROOT/examples/database.yml"  # ← Файл подключения к БД
     erase_destination_folder: false # ← НЕ очищать папку назначения (сохранять существующие)
     profile: "pg_demo"            # ← Профиль БД для подключения
   
@@ -78,8 +79,7 @@ defaults: &defaults
 .YAML структура секции components
 ----
 components:
-
-name: information-system
+  - name: information-system
     <<: *defaults
     drawio:
       enabled: true
@@ -88,7 +88,7 @@ name: information-system
       use_title_pages: true
       pdf_lists: true
 
-name: data-processing-engine
+  - name: data-processing-engine
     <<: *defaults
     bpmn:
       enabled: true
@@ -210,7 +210,7 @@ cfg['components'].each do |comp|\
   if diagram_settings[:drawio_enabled]\
     puts "  -> drawio: #{diagram_settings[:drawio_src]} -> #{diagram_settings[:drawio_dst]}"\
     Utils.prepare_destination_dir(diagram_settings[:drawio_dst], diagram_settings[:drawio_erase_folder])\
-    system(%(node "#{drawio_js}" --in "#{diagram_settings[:drawio_src]}" --out "#{diagram_dst]}" --format svg))\ 
+    system(%(node "#{drawio_js}" --in "#{diagram_settings[:drawio_src]}" --out "#{diagram_settings[:drawio_dst]}" --format svg))\ 
   end
 
   # 3. Конвертация API\
@@ -266,7 +266,7 @@ end\
 
 4. Конвертация БД документации   * Источники: components/{name}/modules/ROOT/examples/database.yml
    * Результат: AsciiDoc файлы в components/{name}/modules/ROOT/partials/docs-db/
-   * Результат: PNG схемы в components/{name}/modules/ROOT/images/images-db/
+   * Результат: SVG схемы в components/{name}/modules/ROOT/images/images-db/
    * Скрипт: tools/scripts/db_to_adoc.rb
 
 5. Генерация PDF документов   * Исходные файлы: components/{name}/modules/*/pages/*.adoc

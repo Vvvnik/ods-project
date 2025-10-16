@@ -10,7 +10,7 @@ include::../partials/attr_common.adoc[]
 
 Конвертер подключается к базе данных PostgreSQL и генерирует документацию в формате AsciiDoc:
 
-. Подключается к базе данных по параметрам из dataset.yml;
+. Подключается к базе данных по параметрам из database.yml;
 . Извлекает метаданные о таблицах, колонках и связях;
 . Генерирует ERD диаграммы с помощью Graphviz;
 . Создает AsciiDoc файлы с описанием структуры БД;
@@ -26,12 +26,12 @@ db:
   enabled: true                 # Включить/отключить генерацию DB документации
   images_dir: "components/{name}/modules/ROOT/images/images-db" # Папка для изображений схем БД
   dst: "components/{name}/modules/ROOT/partials/docs-db"       # Куда сохранять DB документацию
-  database_connect_file: "components/{name}/modules/ROOT/examples/dataset.yml"  # Файл подключения к БД
+  database_connect_file: "components/{name}/modules/ROOT/examples/database.yml"  # Файл подключения к БД
   erase_destination_folder: false # НЕ очищать папку назначения (сохранять существующие)
   profile: "pg_demo"            # Профиль БД для подключения
 ----
 
-=== Структура файла dataset.yml
+=== Структура файла database.yml
 
 [source,yaml]
 ----
@@ -51,7 +51,12 @@ profiles:
 * PostgreSQL - база данных для подключения;
 * Graphviz - генерация ERD диаграмм;
 * YAML - конфигурация подключения;
-* AsciiDoc - формат выходной документации.
+* AsciiDoc - формат выходной документации;
+* translations_one.rb - словарь переводов полей БД на русский язык.
+
+Файл translations_one.rb содержит словарь переводов полей базы данных с английского на русский язык и используется в скрипте db_to_adoc.rb для автоматического перевода названий полей БД при генерации документации. Если перевод отсутствует в словаре, применяется автоматическое преобразование формата имени поля.
+
+В скрипт db_to_adoc.rb можно добавить проерку на содержимое поля comment на русский язык и если оно есть, то использовать его вместо названия поля. Если нет, то использовать название поля из словаря переводов.
 
 == Результат работы
 
@@ -68,10 +73,30 @@ profiles:
 
 === Запуск конвертера
 
+В проекте скрипт запускается автоматически через главный скрипт `tools/start.rb`, который использует конфигурацию из `tools/config.yml` и параметры подключения из файла БД компонента (например, `components/{name}/modules/ROOT/examples/database.yml`).
+
 [source,bash]
 ----
-ruby tools/scripts/db_to_adoc.rb --profile pg_demo
+# Автоматический запуск через главный скрипт
+ruby tools/start.rb
+
+# Ручной запуск с параметрами по умолчанию
+ruby tools/scripts/db_to_adoc.rb
+
+# Ручной запуск с указанием параметров подключения
+ruby tools/scripts/db_to_adoc.rb --host localhost --port 5432 --db demo_db --user demo_user --pass demo_password --out output --images images/bd-images
 ----
+
+Параметры:
+* `--host` - хост базы данных (по умолчанию: localhost)
+* `--port` - порт базы данных (по умолчанию: 5432)  
+* `--db` - имя базы данных (по умолчанию: demo)
+* `--user` - пользователь БД (по умолчанию: postgres)
+* `--pass` - пароль БД (по умолчанию: postgres)
+* `--out` - выходная директория (по умолчанию: output)
+* `--images` - директория для изображений (по умолчанию: images/bd-images)
+
+При запуске через `tools/start.rb` параметры `--out` и `--images` берутся из конфигурации `tools/config.yml` (секция `db`, поля `dst` и `images_dir`).
 
 === Интеграция в документацию
 

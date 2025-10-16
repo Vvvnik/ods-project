@@ -218,7 +218,7 @@ xref:Локальныи_запуск_Kroki_и_Postgres.adoc[Локальный �
 
 Таким образом, техническое имя файла остается совместимым, а пользовательский интерфейс остается читаемым.
 
-:warning-caption: Вниманиее примечание
+:warning-caption: Внимание
 
 [WARNING]
 При автоматической регенерации системы (например, через ruby tools/scripts/generate_lists.rb) все автоматически сгенерированные файлы списков будут перезаписаны. Это означает, что любые ручные изменения в файлах list-pages-component.adoc и list-pdf-component.adoc будут потеряны.
@@ -271,28 +271,23 @@ include::../partials/lists/list-pdf-component-table.adoc[]
 
 Это обеспечивает чистый интерфейс без пустых разделов "Загрузки".
 
-=== Пример для главной страницы
+=== Пример использования списков
 
-[source,text]
+[source,asciidoc]
 ----
-// = Руководство по документированию
-:page-partof: introduction
-:page-description: Полное руководство по использованию системы документирования
+= Руководство по документированию
 
 == Разделы
-
 include::../partials/lists/list-pages-component.adoc[]
 
 \ifndef::list_pdf_file_is_empty[]
-== Файлы для скачивания  
-
+== Файлы для скачивания
 include::../partials/lists/list-pdf-component.adoc[]
-
-== Таблица файлов
-
-include::../partials/lists/list-pdf-component-table.adoc[]
 \endif::list_pdf_file_is_empty[]
 ----
+
+Если в компоненте нет PDF файлов, то раздел "Файлы для скачивания" будет скрыт.
+
 
 == Настройка компонентов
 

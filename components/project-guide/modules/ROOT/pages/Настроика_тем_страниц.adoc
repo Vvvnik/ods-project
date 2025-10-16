@@ -103,7 +103,7 @@ include::../partials/attr_common.adoc[]
 Параметры:
 
 * custom_title_page: тип титульной страницы (original, contract, original_frame, none);
-* custom_other_page: тип обычных страниц (original, original_frame, protocol, none);
+* custom_other_page: тип обычных страниц (original, original_frame, contract, none);
 * use_title_pages: включить/выключить титульные страницы (true/false).
 
 Типы титульных и обычных страниц настраиваются независимо:
@@ -223,13 +223,13 @@ approval_signature_block = TitlePageBlocks::SignatureBlock.new(
 [source,yaml]
 ----
 page:
-  margin: [15mm, 10mm, 25mm, 25mm]  # [верх, право, низ, лево]
+  margin: [15mm, 7mm, 25mm, 20mm]  # [верх, право, низ, лево]
 ----
 
 Текущие отступы:
 
-* Тема report: [15mm, 10mm, 25mm, 25mm] (стандартные поля)
-* Тема frame: [15mm, 10mm, 25mm, 25mm] (увеличенные поля для рамок)
+* Тема report: [15mm, 7mm, 25mm, 20mm] (стандартные поля)
+* Тема frame: [10mm, 10mm, 30mm, 25mm] (увеличенные поля для рамок)
 
 При необходимости изменения отступов:
 
@@ -250,7 +250,7 @@ page:
 Доступные типы:
 
 * Титульные: original, contract, original_frame, approval_page_gost, none;
-* Обычные: original, original_frame, protocol, none.
+* Обычные: original, original_frame, contract, none.
 
 == Стандартное поведение AsciiDoc
 
@@ -282,7 +282,7 @@ page:
 
 * original → convert_other_page_original;
 * original_frame → convert_other_page_original_frame;
-* protocol → convert_other_page_protocol;
+* contract → convert_other_page_contract;
 * none → отключено.
 
 Типы титульных и обычных страниц настраиваются независимо через разные атрибуты:
@@ -307,7 +307,7 @@ page:
 :pdf-theme: act
 :custom_other_page: original_frame    # → тема 'frame'
 :custom_other_page: original          # → тема 'report'
-:custom_other_page: protocol          # → тема 'report'
+:custom_other_page: contract          # → тема 'report'
 :custom_other_page: none              # → тема 'report'
 ----
 
@@ -350,7 +350,7 @@ extends: report
 
 page:
   size: A4
-  margin: [15mm, 10mm, 25mm, 25mm]  # Увеличенные поля для рамок
+  margin: [10mm, 10mm, 30mm, 25mm]  # Увеличенные поля для рамок
   margin-rotated: [20mm, 10mm, 35mm, 10mm]
   mode: fullscreen thumbs
 ----
@@ -372,8 +372,8 @@ extends: default
 
 page:
   size: A4
-  margin: [15mm, 10mm, 25mm, 25mm]  # Стандартные поля
-  margin-rotated: [20mm, 10mm, 35mm, 10mm]
+  margin: [15mm, 7mm, 25mm, 20mm]  # Стандартные поля
+  margin-rotated: [20mm, 7mm, 20mm, 7mm]
   mode: fullscreen thumbs
 ----
 

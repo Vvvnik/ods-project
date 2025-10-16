@@ -4,17 +4,70 @@ include::../partials/attr_common.adoc[]
 :custom_other_page: none
 :sectnums:
 
-
 = Docker: сборка и сервисы
 
 == Образы
 
 * **Универсальный образ**: registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1:
-** Содержит Ruby + Node.js + Asciidoctor + Antora + все необходимые пакеты;
-** Используется в CI для сборки PDF и сайта.
+** Содержит Ruby 3.2 + Node.js 20 + Asciidoctor + Antora + все необходимые пакеты;
+** Используется в CI для сборки PDF и сайта;
+** Собирается из `docker/Dockerfile.universal`.
 * **Kroki сервис**: registry.gitlab.com/vvvnik/my-project/kroki:0.28.0:
 ** Отдельный контейнер для рендеринга диаграмм;
-** Подключается как сервис в CI.
+** Подключается как сервис в CI;
+** Базовый образ: yuzutech/kroki:0.28.0.
+
+== Скрипты сборки
+
+=== Сборка универсального образа
+
+[source,bash]
+----
+# Сборка и отправка в реестр
+./docker/build-images.sh [tag]
+
+# Пример с тегом
+./docker/build-images.sh 2
+----
+
+=== Сборка Kroki образа
+
+[source,bash]
+----
+# Сборка и отправка в реестр
+./docker/build-kroki.sh [tag]
+
+# Пример с тегом
+./docker/build-kroki.sh 0.29.0
+----
+
+== Локальная разработка
+
+=== Использование готовых образов
+
+[source,bash]
+----
+# Генерация PDF
+docker-compose -f docker/docker-compose.yml run --rm pdf
+
+# Сборка сайта документации
+docker-compose -f docker/docker-compose.yml run --rm site
+
+# С конкретным компонентом
+docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+----
+
+== Структура папки docker
+
+[source,text]
+----
+docker/
+├── Dockerfile.universal     # Универсальный образ
+├── docker-compose.yml       # Локальная разработка
+├── build-images.sh         # Сборка универсального образа
+├── build-kroki.sh          # Сборка Kroki образа
+└── README.md               # Документация по Docker
+----
 
 == Архитектура
 
