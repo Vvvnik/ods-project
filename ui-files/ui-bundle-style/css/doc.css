@@ -452,7 +452,7 @@ a.xref.page[data-tooltip]:hover::after {
 
 .doc .admonitionblock p,
 .doc .admonitionblock td.content {
-  font-size: calc(16 / var(--rem-base) * 1rem);
+  font-size: calc(18 / var(--rem-base) * 1rem);
 }
 
 .doc .admonitionblock td.content > :not(.title):first-child,
@@ -749,7 +749,7 @@ a.xref.page[data-tooltip]:hover::after {
 }
 
 .doc li{
-  text-align: justify;
+  text-align: left;
 }
 
 /* ******************* */
