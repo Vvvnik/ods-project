@@ -608,7 +608,7 @@ a.xref.page[data-tooltip]:hover::after {
 }
 
 .doc ol {
-  padding: 0 0 0 1rem;
+  padding: 0 0 0 1.4rem;
 }
 .doc ol ol,
 .doc ol ol ol 
@@ -649,7 +649,7 @@ a.xref.page[data-tooltip]:hover::after {
 }
 .doc ol li {
 	/* margin: 0; */
-	padding: 0 0 0 30px;
+	padding: 0 0 0 20px;
 	position: relative;
 	/* line-height: 20px; */
 }
@@ -657,7 +657,7 @@ a.xref.page[data-tooltip]:hover::after {
 	display: inline-block;
 	position: absolute;
   top: 0;
-  left: -15px;
+  left: -20px;
   width: 35px;
   text-align: right;
 	/* width: 32px;
