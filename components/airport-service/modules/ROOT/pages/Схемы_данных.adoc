@@ -1,7 +1,30 @@
 :doctype: book
 include::../partials/attr_common.adoc[]
 
+:title-page:
+:custom_title_page: original
+:custom_other_page: none
+:code-main: AIRPORT
+:data_report: {localdate}
+:name_doc: Сервис аэропортов
+:number_doc: 1
+:name_prog_main: Сервис аэропортов
+:name-prog: Сервис
+:tom: 1
+:imagesdir: ../images
+:docinfo: shared
+:!chapter-signifier:
+:!section-refsig:
+:table-caption!:
+:section-refsig: разделе
+:toc: macro
+:toc-title: Содержание 
+:sectnumlevels: 7
+:toclevels: 4
 = Пример документации схемы данных
+
+:toclevels: 5
+toc::[]
 
 :sectnums:
 == Общее описание

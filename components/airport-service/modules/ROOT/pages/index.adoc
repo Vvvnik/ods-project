@@ -1,6 +1,5 @@
 :doctype: book
 include::../partials/attr_common.adoc[]
-
 = Документирование базы данных
 :title-page:
 :custom_title_page: original
@@ -22,6 +21,9 @@ include::../partials/attr_common.adoc[]
 :toc-title: Содержание 
 :sectnumlevels: 7
 :toclevels: 4
+
+:toclevels: 5
+toc::[]
 
 == Назначение документа
 Данный компонент демонстрирует возможности автоматической генерации документации из базы данных PostgreSQL.

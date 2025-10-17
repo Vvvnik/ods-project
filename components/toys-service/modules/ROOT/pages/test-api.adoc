@@ -10,10 +10,10 @@
 :sectnumlevels: 5
 :imagesdir: ../images/docs-db
 :docinfo: shared
-
-
-
 = Тестовый API сервиса игрушек
+
+:toclevels: 5
+toc::[]
 
 :sectnums:
 

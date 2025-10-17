@@ -20,8 +20,10 @@
 :toc-title: Содержание 
 :sectnumlevels: 7
 :toclevels: 4
-
 = Сервис игрушек
+
+:toclevels: 5
+toc::[]
 
 == Назначение документа
 

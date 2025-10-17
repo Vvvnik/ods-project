@@ -23,6 +23,10 @@ docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 
 === Сборка сайта
 
+// вставка общего для нескольких страниц блока с предупреждением
+include::../partials/warning_point.adoc[]
+
+Сборка сайта производится командой:
 [source,bash]
 ----
 npx antora antora-playbook.yml
