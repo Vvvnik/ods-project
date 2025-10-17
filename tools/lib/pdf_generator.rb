@@ -114,14 +114,7 @@ module PdfGenerator
       args += ['-a', '!title-page', '-a', 'use_title_pages=false', '-a', 'notitle', '-a', 'no-title-page']
     end
     
-    # Добавляем imagesdir если передан adoc_file
-    # if adoc_file
-    #   # Определяем базовую директорию компонента
-    #   component_root = Pathname.new(adoc_file).each_filename.take_while { |f| f != 'modules' }.join('/')
-    #   images_dir = File.expand_path(File.join(component_root, 'modules', 'ROOT', 'images'))
-    #   args += ['-a', "imagesdir=#{images_dir}"]
-    # end
-    
+   
     args
   end
 

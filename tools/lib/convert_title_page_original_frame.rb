@@ -236,7 +236,7 @@ module ConvertTitlePageOriginalFrame
       row_heights_pixels.each_with_index do |height, index|
         # Позиция текста: центр левого столбца + сдвиги
         text_x = attachment_x + (left_width / 2) + (1.5 * TitlePageBlocks::MM_TO_POINTS)
-        text_y = current_y - (height / 2) - (11 * TitlePageBlocks::MM_TO_POINTS)  # -15+4=-11
+        text_y = current_y - (height / 2) - (11 * TitlePageBlocks::MM_TO_POINTS)  
         
         # Вторую и третью надписи снизу опускаем на 1мм
         text_y -= (1 * TitlePageBlocks::MM_TO_POINTS) if index == 1 || index == 2

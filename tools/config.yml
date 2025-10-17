@@ -32,7 +32,7 @@ defaults: &defaults
   # API документация
   api:
     enabled: false                # ← Включить/отключить генерацию API документации
-    dst: "components/{name}/modules/ROOT/partials/docs-api"     # ← Куда保存вать API документацию
+    dst: "components/{name}/modules/ROOT/partials/docs-api"     # ← Куда сохранять API документацию
     api_sources_file: "components/{name}/modules/ROOT/examples/sources.yml"  # ← Файл источников API
     erase_destination_folder: true # ← Очищать папку назначения перед генерацией
   
@@ -79,48 +79,48 @@ components:
   - name: airport-service
     <<: *defaults
     # db:
-    #   enabled: true
-    #   profile: "pg_demo"
-    # pdf:
-    #   enabled: true
+    #   enabled: true #TODO: включить генерацию БД
+    #   profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
+    # pdf: #TODO: включить генерацию PDF документации
+    #   enabled: true #TODO: включить генерацию PDF документации
 
   - name: data-processing-engine
     <<: *defaults
-    # bpmn:
-    #   enabled: true
-    # pdf:
-    #   enabled: true
+    # bpmn: #TODO: включить генерацию BPMN диаграмм
+    #   enabled: true #TODO: включить генерацию BPMN диаграмм
+    # pdf: #TODO: включить генерацию PDF документации
+    #   enabled: true #TODO: включить генерацию PDF документации
   
   - name: information-system
     <<: *defaults
-    # drawio:
+    # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true
     #   dst: "components/{name}/modules/ed/images/drawio"
 
   - name: information-system
     <<: *defaults
-    # drawio:
-    #   enabled: true
-    #   dst: "components/{name}/modules/trd/images/drawio"
+    # drawio: #TODO: включить генерацию Draw.io
+    #   enabled: true #TODO: включить генерацию Draw.io
+    #   dst: "components/{name}/modules/trd/images/drawio" #TODO: указать путь к изображениям Draw.io
 
   - name: information-system
     <<: *defaults
-    # drawio:
-    #   enabled: true
-    #   dst: "components/{name}/modules/ROOT/images/drawio"
-    pdf:
-      enabled: true
+    # drawio: #TODO: включить генерацию Draw.io
+    #   enabled: true #TODO: включить генерацию Draw.io
+    #   dst: "components/{name}/modules/ROOT/images/drawio" #TODO: указать путь к изображениям Draw.io
+    pdf: #TODO: включить генерацию PDF документации
+      enabled: true #TODO: включить генерацию PDF документации
 
   - name: toys-service
     <<: *defaults
-    # api:
-    #   enabled: true
+    # api: #TODO: включить генерацию API документации
+    #   enabled: true  #TODO: включить генерацию API документации
 
   - name: project-guide
     <<: *defaults
-    # drawio:
-    #   enabled: true
-    # pdf:
-    #   enabled: true
+    # drawio: #TODO: включить генерацию Draw.io
+    #   enabled: true #TODO: включить генерацию Draw.io
+    # pdf: #TODO: включить генерацию PDF документации
+    #   enabled: true #TODO: включить генерацию PDF документации
   
 # ******************************************************

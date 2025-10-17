@@ -7,38 +7,38 @@
 # - list_types: конвертеры стилей нумерации списков
 
 title_pages:
-  # Стандартная титульная страница с абсолютными координатами
-  original: "convert_title_page_original"
+  # Стандартная титульная страница с абсолютными координатами – конвертер tools/lib/convert_title_page_original.rb  
+  original: "convert_title_page_original" 
   
-  # Титульная страница для контрактов с абсолютными координатами
+  # Титульная страница для контрактов с абсолютными координатами – конвертер tools/lib/convert_title_page_contract.rb
   contract: "convert_title_page_contract"
   
-  # Титульная страница с рамками
+  # Титульная страница с рамками – конвертер tools/lib/convert_title_page_original_frame.rb
   original_frame: "convert_title_page_original_frame"
   
-  # Лист утверждения в стиле ГОСТ
+  # Лист утверждения в стиле ГОСТ – конвертер tools/lib/convert_approval_page_gost.rb
   approval_page_gost: "convert_approval_page_gost"
   
-  # Без титульной страницы
+  # Без титульной страницы – конвертер не загружается, титульная страница отключена
   none: null
 
 other_pages:
-  # Страницы с полными рамками и колонтитулами
+  # Страницы с полными рамками и колонтитулами – конвертер tools/lib/convert_other_page_original.rb
   original: "convert_other_page_original"
   
-  # Страницы с рамками и приставкой
+  # Страницы с рамками и приставкой – конвертер tools/lib/convert_other_page_original_frame.rb
   original_frame: "convert_other_page_original_frame"
   
-  # Страницы для контрактов (используют report тему)
+  # Страницы для контрактов (используют report тему) – конвертер tools/lib/convert_other_page_contract.rb
   contract: "convert_other_page_contract"
   
   
-  # Без дополнительного оформления (стандартное Asciidoctor)
+  # Без дополнительного оформления (стандартное Asciidoctor) – конвертер не загружается, обычная страница отключена
   none: null
 
 list_types:
-  # Тип "alphabetic" - уровень 2 тире (–)
+  # Тип "alphabetic" - уровень 2 тире (–) – конвертер tools/scripts/convert_list_alphabetic.rb
   alphabetic: "convert_list_alphabetic"
   
-  # Тип "dash" - уровень 2 буквы (а б в)
+  # Тип "dash" - уровень 2 буквы (а б в) – конвертер tools/scripts/convert_list_dash.rb
   dash: "convert_list_dash"
