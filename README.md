@@ -32,4 +32,9 @@ npx antora --fetch antora-playbook.yml
 
 - Код: [Apache-2.0](./LICENSE-CODE.md)
 - Документы: [CC-BY 4.0](./LICENSE-DOCS.md)
-- Сторонние библиотеки: [NOTICE](./NOTICE.md)
+
+## Коммерческое использование
+
+ODS — полностью открытый проект (Apache 2.0 / CC-BY 4.0).  
+
+Дополнительные платные возможности, поддержка и премиум-шаблоны описаны в [COMMERCIAL.md](./COMMERCIAL.md).
