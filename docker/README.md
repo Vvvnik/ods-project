@@ -5,7 +5,7 @@
 Проект использует **один универсальный образ** для всех задач:
 
 - **`Dockerfile.universal`** - Универсальный образ с Ruby + Node.js + все пакеты
-- **`registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1`** - готовый образ в реестре
+- **`registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1`** - готовый образ в реестре
 
 ## 🚀 Локальная разработка
 
@@ -24,8 +24,8 @@ docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb air
 
 ```bash
 # Универсальный образ
-docker build -f docker/Dockerfile.universal -t registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1 .
-docker push registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1
+docker build -f docker/Dockerfile.universal -t registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1 .
+docker push registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1
 
 # Kroki сервис
 ./docker/build-kroki.sh

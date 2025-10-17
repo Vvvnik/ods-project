@@ -13,7 +13,7 @@ Kroki используется для рендеринга диаграмм (Pla
 
 [source,bash]
 ----
-docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/my-project/kroki:0.28.0
+docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 ----
 
 === Переменные окружения
@@ -52,7 +52,7 @@ docker run --rm -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15
 version: '3.8'
 services:
   kroki:
-    image: registry.gitlab.com/vvvnik/my-project/kroki:0.28.0
+    image: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
     ports: ['8000:8000']
   postgres:
     image: postgres:15

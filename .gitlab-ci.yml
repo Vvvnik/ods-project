@@ -12,7 +12,7 @@ stages: [build, deploy]
 variables:
   # В CI Kroki доступен как сервис по алиасу 'kroki'
   KROKI_SERVER_URL: "http://kroki:8000"
-  KROKI_IMAGE: "registry.gitlab.com/vvvnik/my-project/kroki:0.28.0"  # pinned mirror in your registry
+  KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"  # pinned mirror in your registry
   GIT_DEPTH: "20"
   # Технические файлы, которые влияют на генерацию контента
   TECHNICAL_FILES: "tools/**,.gitlab-ci.yml,modules/**,antora-playbook.yml,components/*/antora.yml,resources/**"
@@ -20,7 +20,7 @@ variables:
 # Объединенная сборка: PDF + сайт
 build_all:
   stage: build
-  image: registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1
+  image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1
   services:
     - name: $KROKI_IMAGE
       alias: kroki

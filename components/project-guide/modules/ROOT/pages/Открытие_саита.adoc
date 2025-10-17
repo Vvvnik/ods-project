@@ -18,7 +18,7 @@ include::../partials/attr_common.adoc[]
 [source,bash]
 ----
 # Запуск Kroki сервера (в отдельном терминале)
-docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/my-project/kroki:0.28.0
+docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 ----
 
 === Сборка сайта

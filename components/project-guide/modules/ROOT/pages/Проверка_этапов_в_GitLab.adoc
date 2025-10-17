@@ -15,11 +15,11 @@ include::../partials/attr_common.adoc[]
 
 Объединенная сборка PDF и сайта документации:
 
-**Образ:** `registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1`
+**Образ:** `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1`
 
 **Сервисы:**
 
-* Kroki сервер: `registry.gitlab.com/vvvnik/my-project/kroki:0.28.0`
+* Kroki сервер: `registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`
 
 **Скрипт:**
 
@@ -97,7 +97,7 @@ include::../partials/attr_common.adoc[]
 === Переменные окружения
 
 * `KROKI_SERVER_URL: "http://kroki:8000"` - URL Kroki сервера в CI
-* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/my-project/kroki:0.28.0"` - образ Kroki
+* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` - образ Kroki
 * `TECHNICAL_FILES` - технические файлы, влияющие на сборку
 
 === Кэширование

@@ -5,7 +5,7 @@ set -e
 # Использование: ./build-images.sh [tag]
 
 TAG=${1:-1}
-REGISTRY="registry.gitlab.com/vvvnik/my-project"
+REGISTRY="registry.gitlab.com/vvvnik/ods-project"
 
 echo "🏗️  Сборка универсального Docker образа для проекта ODS"
 echo "📦 Тег: $TAG"

@@ -5,7 +5,7 @@ set -e
 # Использование: ./build-kroki.sh [tag]
 
 TAG=${1:-0.28.0}
-REGISTRY="registry.gitlab.com/vvvnik/my-project"
+REGISTRY="registry.gitlab.com/vvvnik/ods-project"
 
 echo "🏗️  Сборка Kroki образа для проекта ODS"
 echo "📦 Тег: $TAG"

@@ -49,7 +49,7 @@ include::../examples/schema.puml[plantuml, schema]
 В CI/CD используются следующие переменные:
 
 * `KROKI_SERVER_URL: "http://kroki:8000"` – URL сервиса Kroki для генерации диаграмм
-* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/my-project/kroki:0.28.0"` – образ Kroki сервиса
+* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` – образ Kroki сервиса
 * `GIT_DEPTH: "20"` – глубина клонирования Git репозитория
 * `TECHNICAL_FILES` – паттерн файлов, влияющих на генерацию контента
 
@@ -57,8 +57,8 @@ include::../examples/schema.puml[plantuml, schema]
 === build_all
 Основной этап сборки документации с последовательным выполнением команд:
 
-. **Образ**: `registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1`
-. **Сервисы**: Kroki (`registry.gitlab.com/vvvnik/my-project/kroki:0.28.0`) для генерации диаграмм
+. **Образ**: `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1`
+. **Сервисы**: Kroki (`registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`) для генерации диаграмм
 . **Кэш**: `node_modules/` и `.npm/` для ускорения сборки (ключ: `${CI_COMMIT_REF_SLUG}`)
 . **Последовательность выполнения**:
 .. Проверка версий Ruby и Node.js

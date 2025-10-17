@@ -22,8 +22,8 @@ include::../partials/attr_common.adoc[]
 
 [source,bash]
 ----
-git clone https://gitlab.com/vvvnik/my-project.git
-cd my-project
+git clone https://gitlab.com/vvvnik/ods-project.git
+cd ods-project
 ----
 
 == Шаг 2: Запуск проекта
@@ -47,15 +47,15 @@ docker-compose up -d
 
 [source,bash]
 ----
-mkdir -p components/my-project/modules/ROOT/{pages,partials,attachments,images,examples}
+mkdir -p components/ods-project/modules/ROOT/{pages,partials,attachments,images,examples}
 ----
 
 Создайте файл конфигурации компонента:
 
 [source,yaml]
 ----
-# components/my-project/antora.yml
-name: my-project
+# components/ods-project/antora.yml
+name: ods-project
 title: Мой проект
 version: 1
 ----
@@ -66,7 +66,7 @@ version: 1
 
 [source,asciidoc]
 ----
-# components/my-project/modules/ROOT/partials/attr_common.adoc
+# components/ods-project/modules/ROOT/partials/attr_common.adoc
 :docinfo: shared
 :!chapter-signifier:
 :!section-refsig:
@@ -83,7 +83,7 @@ version: 1
 
 [source,asciidoc]
 ----
-# components/my-project/modules/ROOT/pages/index.adoc
+# components/ods-project/modules/ROOT/pages/index.adoc
 include::../partials/attr_common.adoc[]
 :doctype: book
 :custom_title_page: original
@@ -116,7 +116,7 @@ include::../partials/attr_common.adoc[]
 
 [source,asciidoc]
 ----
-# components/my-project/modules/ROOT/nav.adoc
+# components/ods-project/modules/ROOT/nav.adoc
 * xref:index.adoc[Главная страница]
 ----
 
@@ -129,12 +129,12 @@ include::../partials/attr_common.adoc[]
 # antora-playbook.yml
 site:
   title: ODS Documentation
-  url: https://vvvnik.gitlab.io/my-project
+  url: https://vvvnik.gitlab.io/ods-project
 content:
   sources:
     - url: .
       branches: [main]
-      start_path: components/my-project
+      start_path: components/ods-project
       edit_url: '{web_url}/-/edit/{refname}/{path}'
 ----
 
@@ -152,7 +152,7 @@ docker-compose run --rm pdf
 [source,bash]
 ----
 docker run --rm -v $(pwd):/app \
-  registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1 \
+  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1 \
   ruby tools/start.rb
 ----
 
@@ -170,7 +170,7 @@ docker-compose run --rm site
 [source,bash]
 ----
 docker run --rm -v $(pwd):/app \
-  registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1 \
+  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1 \
   antora antora-playbook.yml
 ----
 
@@ -234,10 +234,10 @@ docker-compose logs
 [source,bash]
 ----
 # Проверьте права доступа
-ls -la components/my-project/
+ls -la components/ods-project/
 
 # Убедитесь, что файлы созданы
-ls -la components/my-project/modules/ROOT/pages/
+ls -la components/ods-project/modules/ROOT/pages/
 ----
 
 === Проблемы с отображением

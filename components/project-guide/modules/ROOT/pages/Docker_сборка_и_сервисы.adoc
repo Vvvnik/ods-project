@@ -8,11 +8,11 @@ include::../partials/attr_common.adoc[]
 
 == Образы
 
-* **Универсальный образ**: registry.gitlab.com/vvvnik/my-project/ruby-node-antora:1:
+* **Универсальный образ**: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1:
 ** Содержит Ruby 3.2 + Node.js 20 + Asciidoctor + Antora + все необходимые пакеты;
 ** Используется в CI для сборки PDF и сайта;
 ** Собирается из `docker/Dockerfile.universal`.
-* **Kroki сервис**: registry.gitlab.com/vvvnik/my-project/kroki:0.28.0:
+* **Kroki сервис**: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0:
 ** Отдельный контейнер для рендеринга диаграмм;
 ** Подключается как сервис в CI;
 ** Базовый образ: yuzutech/kroki:0.28.0.
