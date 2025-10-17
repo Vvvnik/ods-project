@@ -54,8 +54,8 @@ mkdir -p components/ods-project/modules/ROOT/{pages,partials,attachments,images,
 
 [source,yaml]
 ----
-# components/ods-project/antora.yml
-name: ods-project
+# components/my-project/antora.yml
+name: my-project
 title: Мой проект
 version: 1
 ----
