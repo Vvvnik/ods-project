@@ -1,0 +1,87 @@
+:doctype: book
+include::../partials/attr_common.adoc[]
+
+= Пример документации схемы данных
+
+:sectnums:
+== Общее описание
+
+=== Назначение сервиса
+
+Сервис аэропортов предназначен для управления данными аэропортов, воздушных судов, рейсов, бронирований и билетов.
+
+Основные функции:
+
+* Управление информацией об аэропортах;
+* Управление данными воздушных судов;
+* Планирование и управление рейсами;
+* Система бронирования билетов;
+* Управление посадочными талонами.
+
+=== Архитектура данных
+
+Система построена на основе реляционной модели данных с четкой структурой связей между сущностями.
+
+Основные сущности:
+
+* Аэропорты и их данные;
+* Воздушные суда и их характеристики;
+* Рейсы и маршруты;
+* Бронирования и билеты;
+* Посадочные талоны.
+
+=== Организация данных
+
+include::../partials/docs-db/schemas_index.adoc[]
+
+== Диаграммы
+
+=== ERD диаграмма базы данных
+
+:num_i: {counter:figure-number}
+
+ERD диаграмма базы данных представлена на <<id_i_{num_i}, Рисунке {num_i}>>.
+
+[.landscape]
+<<<<
+
+[#id_i_{num_i}]
+.Рисунок {num_i}. ERD диаграмма базы данных
+// image::images-db/erd_bookings.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
+
+[plantuml, erd-bookings]
+----
+include::../partials/docs-db/erd_bookings.puml[plantuml, erd-bookings]
+----
+[.portrait]
+<<<<
+
+=== Логическая диаграмма
+
+:num_i: {counter:figure-number}
+
+Логическая диаграмма базы данных представлена на <<id_i_{num_i}, Рисунке {num_i}>>.
+
+[.landscape]
+<<<<
+
+[#id_i_{num_i}]
+.Рисунок {num_i}. Логическая диаграмма базы данных
+// image::images-db/logical_bookings.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
+
+[plantuml, logical_bookings]
+----
+include::../partials/docs-db/logical_bookings.puml[plantuml, logical-bookings]
+----
+[.portrait]
+<<<<
+
+=== Детальная логическая схема
+
+include::../partials/docs-db/bookings_logical.adoc[]
+
+== Описание таблиц
+
+include::../partials/docs-db/bookings_tables.adoc[] 
+
+

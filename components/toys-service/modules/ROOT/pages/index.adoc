@@ -75,58 +75,7 @@
 * POST /products – добавление нового товара;
 * POST /auth/login – аутентификация пользователя;
 
-== Документация API
-
-include::api-documentation.adoc[]
-
-== Тестовый API
-
-include::test-api.adoc[]
-
-== Примеры использования
-
-=== Получение списка товаров
-
-[source,http]
-----
-GET /api/v1/products?page=1&limit=10&category=toys HTTP/1.1
-Host: api.toys-service.com
-Authorization: Bearer <token>
-Content-Type: application/json
-----
-
-=== Создание нового пользователя
-
-[source,http]
-----
-POST /api/v1/users HTTP/1.1
-Host: api.toys-service.com
-Content-Type: application/json
-
-{
-  "name": "Иван Иванов",
-  "email": "ivan@example.com",
-  "password": "secure_password"
-}
-----
-
-=== Аутентификация
-
-[source,http]
-----
-POST /api/v1/auth/login HTTP/1.1
-Host: api.toys-service.com
-Content-Type: application/json
-
-{
-  "email": "ivan@example.com",
-  "password": "secure_password"
-}
-----
-
-== Пример описания такого сервиса
-
-=== Источники данных
+== Источники данных
 
 Демонстрационный сервис использует следующие источники для генерации документации:
 
@@ -134,7 +83,7 @@ Content-Type: application/json
 * examples/api/toys-api.json – OpenAPI спецификация в JSON формате;
 * examples/sources.yml – конфигурация источников API.
 
-=== Процесс генерации
+== Процесс генерации
 
 Система ODS автоматически:
 
@@ -144,7 +93,7 @@ Content-Type: application/json
 * Создает интерактивные схемы данных;
 * Формирует навигацию по API эндпоинтам.
 
-=== Результат
+== Результат
 
 В результате получается полноценная документация API, включающая:
 
@@ -152,6 +101,10 @@ Content-Type: application/json
 * Схемы данных и модели;
 * Примеры запросов и ответов;
 * Интерактивные элементы для тестирования.
+
+Пример документации сервиса игрушек представлен в файле xref:api-documentation.adoc[«Документация API сервиса игрушек»].
+
+Пример тестового API сервиса игрушек представлен в файле xref:test-api.adoc[«Тестовый API сервиса игрушек»].
 
 == Заключение
 
