@@ -20,6 +20,8 @@ include::../partials/attr_common.adoc[]
 
 === Секция db в config.yml
 
+Пример секции db в config.yml:
+
 [source,yaml]
 ----
 db:
@@ -33,6 +35,8 @@ db:
 
 === Структура файла database.yml
 
+Пример файла database.yml:
+
 [source,yaml]
 ----
 profiles:
@@ -44,6 +48,8 @@ profiles:
     password: "demo_password"
     schema: "public"
 ----
+
+Для подключения к базе данных используются параметры из профиля БД pg_demo. Для использования другого профиля, нужно изменить имя профиля в секции db в config.yml. В файле database.yml установите параметры для подключения к своей базе данных. Файл database.yml должен находиться в папке компонента в папке examples.
 
 == Используемые технологии
 
