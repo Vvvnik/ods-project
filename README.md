@@ -1,5 +1,7 @@
 # ODS – Open Documentation Standard
 
+*(Не связан с форматом OpenDocument Spreadsheet (.ods) или проектами Open Data)*  
+
 [![License Code](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE-CODE.md)
 [![License Docs](https://img.shields.io/badge/license-CC--BY--4.0-yellow)](LICENSE-DOCS.md)
 
