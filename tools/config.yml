@@ -78,9 +78,9 @@ defaults: &defaults
 components:
   - name: airport-service
     <<: *defaults
-    # db:
-    #   enabled: true #TODO: включить генерацию БД
-    #   profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
+    db:
+      enabled: true #TODO: включить генерацию БД
+      profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
 

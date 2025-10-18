@@ -220,12 +220,12 @@ schemata.each do |schema_row|
 
   # сущности
   logical_body << <<~ENTITIES
-    :num_l: {counter:logical-number}
+    :num_t: {counter:logical-number}
 
-    Описание сущностей схемы «#{schema}» приведено в <<id_l_{num_l}, Таблице {num_l}>>.
+    Описание сущностей схемы «#{schema}» приведено в <<id_l_{num_t}, Таблице {num_t}>>.
 
-    [#id_l_{num_l}]
-    .Таблица {num_l}. Сущности схемы «#{schema}»
+    [#id_l_{num_t}]
+    .Таблица {num_t}. Сущности схемы «#{schema}»
     [cols="2,4",options="header,breakable"]
     |===
     ^|Сущность ^|Описание
@@ -241,12 +241,12 @@ schemata.each do |schema_row|
   # связи
   if relations.any?
     logical_body << <<~RELATIONS
-      :num_l: {counter:logical-number}
+      :num_t: {counter:logical-number}
 
-      Описание связей между сущностями схемы «#{schema}» приведено в <<id_l_{num_l}, Таблице {num_l}>>.
+      Описание связей между сущностями схемы «#{schema}» приведено в <<id_l_{num_t}, Таблице {num_t}>>.
 
-      [#id_l_{num_l}]
-      .Таблица {num_l}. Связи между сущностями схемы «#{schema}»
+      [#id_l_{num_t}]
+      .Таблица {num_t}. Связи между сущностями схемы «#{schema}»
       [cols="2,4,2,4",options="header,breakable"]
       |===
       ^|Источник ^|Ключ ^|Приёмник ^|Ключ

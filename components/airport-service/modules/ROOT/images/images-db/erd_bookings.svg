@@ -24,14 +24,14 @@
 <!-- aircrafts_data -->
 <g id="node2" class="node">
 <title>aircrafts_data</title>
-<polygon fill="lightblue" stroke="black" points="1429.75,-0.5 1429.75,-36.5 1925,-36.5 1925,-0.5 1429.75,-0.5"/>
-<text xml:space="preserve" text-anchor="middle" x="1474.5" y="-13.45" font-family="Times,serif" font-size="14.00">aircrafts_data</text>
-<polyline fill="none" stroke="black" points="1519.25,-0.5 1519.25,-36.5"/>
-<text xml:space="preserve" text-anchor="middle" x="1603.38" y="-13.45" font-family="Times,serif" font-size="14.00">aircraft_code * NOT NULL</text>
-<polyline fill="none" stroke="black" points="1687.5,-0.5 1687.5,-36.5"/>
-<text xml:space="preserve" text-anchor="middle" x="1748" y="-13.45" font-family="Times,serif" font-size="14.00">model NOT NULL</text>
-<polyline fill="none" stroke="black" points="1808.5,-0.5 1808.5,-36.5"/>
-<text xml:space="preserve" text-anchor="middle" x="1866.75" y="-13.45" font-family="Times,serif" font-size="14.00">range NOT NULL</text>
+<polygon fill="lightblue" stroke="black" points="1432.75,-0.5 1432.75,-36.5 1928,-36.5 1928,-0.5 1432.75,-0.5"/>
+<text xml:space="preserve" text-anchor="middle" x="1477.5" y="-13.45" font-family="Times,serif" font-size="14.00">aircrafts_data</text>
+<polyline fill="none" stroke="black" points="1522.25,-0.5 1522.25,-36.5"/>
+<text xml:space="preserve" text-anchor="middle" x="1606.38" y="-13.45" font-family="Times,serif" font-size="14.00">aircraft_code * NOT NULL</text>
+<polyline fill="none" stroke="black" points="1690.5,-0.5 1690.5,-36.5"/>
+<text xml:space="preserve" text-anchor="middle" x="1751" y="-13.45" font-family="Times,serif" font-size="14.00">model NOT NULL</text>
+<polyline fill="none" stroke="black" points="1811.5,-0.5 1811.5,-36.5"/>
+<text xml:space="preserve" text-anchor="middle" x="1869.75" y="-13.45" font-family="Times,serif" font-size="14.00">range NOT NULL</text>
 </g>
 <!-- airports -->
 <g id="node3" class="node">
@@ -96,30 +96,30 @@
 <!-- boarding_passes&#45;&gt;ticket_flights -->
 <g id="edge1" class="edge">
 <title>boarding_passes&#45;&gt;ticket_flights</title>
-<path fill="none" stroke="black" d="M1495.23,-248.29C1478.34,-243.5 1464.66,-237.55 1458.88,-230.25 1452.95,-222.78 1451.42,-216.5 1453.21,-211.23"/>
-<polygon fill="black" stroke="black" points="1455.92,-213.44 1459.49,-203.47 1450.48,-209.04 1455.92,-213.44"/>
-<text xml:space="preserve" text-anchor="middle" x="1498.62" y="-222.65" font-family="Times,serif" font-size="8.00">flight_id u2192 ticket_no</text>
+<path fill="none" stroke="black" d="M1510.27,-248.27C1493.59,-243.38 1479.89,-237.4 1474.38,-230.25 1468.09,-222.11 1467.38,-215.42 1470.61,-209.92"/>
+<polygon fill="black" stroke="black" points="1472.76,-212.7 1477.59,-203.27 1467.94,-207.63 1472.76,-212.7"/>
+<text xml:space="preserve" text-anchor="middle" x="1508.88" y="-222.65" font-family="Times,serif" font-size="8.00">flight_id → ticket_no</text>
 </g>
 <!-- boarding_passes&#45;&gt;ticket_flights -->
 <g id="edge2" class="edge">
 <title>boarding_passes&#45;&gt;ticket_flights</title>
-<path fill="none" stroke="black" d="M1573.39,-248.42C1562.86,-240.92 1555.57,-231.35 1561.12,-220.5 1563.06,-216.71 1565.62,-213.24 1568.54,-210.07"/>
-<polygon fill="black" stroke="black" points="1570.82,-212.73 1575.86,-203.41 1566.11,-207.55 1570.82,-212.73"/>
-<text xml:space="preserve" text-anchor="middle" x="1599.75" y="-222.65" font-family="Times,serif" font-size="8.00">flight_id u2192 flight_id</text>
+<path fill="none" stroke="black" d="M1581.54,-248.5C1575.52,-243.43 1569.99,-237.31 1566.62,-230.25 1563.17,-222.99 1565.31,-216.17 1570.12,-210.13"/>
+<polygon fill="black" stroke="black" points="1572.24,-212.95 1576.97,-203.47 1567.36,-207.93 1572.24,-212.95"/>
+<text xml:space="preserve" text-anchor="middle" x="1600" y="-222.65" font-family="Times,serif" font-size="8.00">flight_id → flight_id</text>
 </g>
 <!-- boarding_passes&#45;&gt;ticket_flights -->
 <g id="edge3" class="edge">
 <title>boarding_passes&#45;&gt;ticket_flights</title>
-<path fill="none" stroke="black" d="M1627.8,-248.38C1632.09,-243.01 1636.11,-236.78 1638.38,-230.25 1640.59,-223.88 1639.26,-217.46 1636.23,-211.54"/>
-<polygon fill="black" stroke="black" points="1639.21,-209.7 1630.7,-203.39 1633.42,-213.63 1639.21,-209.7"/>
-<text xml:space="preserve" text-anchor="middle" x="1680.35" y="-222.65" font-family="Times,serif" font-size="8.00">ticket_no u2192 ticket_no</text>
+<path fill="none" stroke="black" d="M1624.48,-248.32C1628.1,-242.86 1631.5,-236.59 1633.38,-230.25 1635.16,-224.23 1634.16,-218.05 1631.8,-212.28"/>
+<polygon fill="black" stroke="black" points="1635,-210.83 1627.11,-203.76 1628.87,-214.2 1635,-210.83"/>
+<text xml:space="preserve" text-anchor="middle" x="1669.91" y="-222.65" font-family="Times,serif" font-size="8.00">ticket_no → ticket_no</text>
 </g>
 <!-- boarding_passes&#45;&gt;ticket_flights -->
 <g id="edge4" class="edge">
 <title>boarding_passes&#45;&gt;ticket_flights</title>
-<path fill="none" stroke="black" d="M1705.12,-248.26C1712.94,-243.55 1719.92,-237.65 1725.38,-230.25 1731.68,-221.7 1731.25,-214.77 1726.45,-209.15"/>
-<polygon fill="black" stroke="black" points="1728.69,-206.46 1718.62,-203.18 1724.45,-212.03 1728.69,-206.46"/>
-<text xml:space="preserve" text-anchor="middle" x="1769.12" y="-222.65" font-family="Times,serif" font-size="8.00">ticket_no u2192 flight_id</text>
+<path fill="none" stroke="black" d="M1689.31,-248.29C1697.14,-243.62 1704.12,-237.72 1709.38,-230.25 1715.42,-221.67 1714.18,-214.68 1708.53,-208.99"/>
+<polygon fill="black" stroke="black" points="1710.67,-206.22 1700.47,-203.34 1706.65,-211.95 1710.67,-206.22"/>
+<text xml:space="preserve" text-anchor="middle" x="1747.73" y="-222.65" font-family="Times,serif" font-size="8.00">ticket_no → flight_id</text>
 </g>
 <!-- bookings -->
 <g id="node6" class="node">
@@ -162,23 +162,23 @@
 <!-- flights&#45;&gt;aircrafts_data -->
 <g id="edge5" class="edge">
 <title>flights&#45;&gt;aircrafts_data</title>
-<path fill="none" stroke="black" d="M961.42,-82.75C1110.97,-69.54 1315.74,-51.45 1467.99,-38"/>
-<polygon fill="black" stroke="black" points="1468.16,-41.5 1477.81,-37.13 1467.54,-34.52 1468.16,-41.5"/>
-<text xml:space="preserve" text-anchor="middle" x="1330.22" y="-57.15" font-family="Times,serif" font-size="8.00">aircraft_code u2192 aircraft_code</text>
+<path fill="none" stroke="black" d="M962.07,-82.75C1112.11,-69.54 1317.55,-51.45 1470.3,-38"/>
+<polygon fill="black" stroke="black" points="1470.5,-41.49 1480.16,-37.13 1469.89,-34.52 1470.5,-41.49"/>
+<text xml:space="preserve" text-anchor="middle" x="1326.65" y="-57.15" font-family="Times,serif" font-size="8.00">aircraft_code → aircraft_code</text>
 </g>
 <!-- flights&#45;&gt;airports_data -->
 <g id="edge6" class="edge">
 <title>flights&#45;&gt;airports_data</title>
-<path fill="none" stroke="black" d="M710.62,-82.95C698.26,-75.87 690.46,-66.57 697.38,-55 699.85,-50.85 703,-47.16 706.57,-43.88"/>
-<polygon fill="black" stroke="black" points="708.57,-46.76 714.35,-37.88 704.3,-41.22 708.57,-46.76"/>
-<text xml:space="preserve" text-anchor="middle" x="752.88" y="-57.15" font-family="Times,serif" font-size="8.00">arrival_airport u2192 airport_code</text>
+<path fill="none" stroke="black" d="M720.38,-82.77C713.37,-77.98 707.05,-72.04 702.88,-64.75 698.34,-56.83 700.74,-49.87 706.65,-43.93"/>
+<polygon fill="black" stroke="black" points="708.73,-46.75 714.54,-37.89 704.47,-41.19 708.73,-46.75"/>
+<text xml:space="preserve" text-anchor="middle" x="753.12" y="-57.15" font-family="Times,serif" font-size="8.00">arrival_airport → airport_code</text>
 </g>
 <!-- flights&#45;&gt;airports_data -->
 <g id="edge7" class="edge">
 <title>flights&#45;&gt;airports_data</title>
-<path fill="none" stroke="black" d="M793.48,-82.76C799.49,-77.76 804.99,-71.73 808.38,-64.75 811.93,-57.42 809.73,-50.56 804.78,-44.51"/>
-<polygon fill="black" stroke="black" points="807.39,-42.17 797.72,-37.84 802.58,-47.25 807.39,-42.17"/>
-<text xml:space="preserve" text-anchor="middle" x="870.12" y="-57.15" font-family="Times,serif" font-size="8.00">departure_airport u2192 airport_code</text>
+<path fill="none" stroke="black" d="M789.37,-82.97C795.03,-77.83 800.25,-71.69 803.38,-64.75 806.55,-57.68 804.56,-50.92 800.12,-44.89"/>
+<polygon fill="black" stroke="black" points="802.67,-42.49 793.23,-37.69 797.62,-47.33 802.67,-42.49"/>
+<text xml:space="preserve" text-anchor="middle" x="859.68" y="-57.15" font-family="Times,serif" font-size="8.00">departure_airport → airport_code</text>
 </g>
 <!-- flights_v -->
 <g id="node8" class="node">
@@ -267,16 +267,16 @@
 <!-- seats&#45;&gt;aircrafts_data -->
 <g id="edge8" class="edge">
 <title>seats&#45;&gt;aircrafts_data</title>
-<path fill="none" stroke="black" d="M1777.13,-82.93C1758.72,-71.22 1734.18,-55.62 1714.06,-42.82"/>
-<polygon fill="black" stroke="black" points="1716.17,-40.02 1705.85,-37.61 1712.41,-45.93 1716.17,-40.02"/>
-<text xml:space="preserve" text-anchor="middle" x="1803.6" y="-57.15" font-family="Times,serif" font-size="8.00">aircraft_code u2192 aircraft_code</text>
+<path fill="none" stroke="black" d="M1777.77,-82.93C1759.88,-71.27 1736.06,-55.76 1716.46,-43"/>
+<polygon fill="black" stroke="black" points="1718.49,-40.14 1708.2,-37.62 1714.67,-46.01 1718.49,-40.14"/>
+<text xml:space="preserve" text-anchor="middle" x="1799.67" y="-57.15" font-family="Times,serif" font-size="8.00">aircraft_code → aircraft_code</text>
 </g>
 <!-- ticket_flights&#45;&gt;flights -->
 <g id="edge9" class="edge">
 <title>ticket_flights&#45;&gt;flights</title>
 <path fill="none" stroke="black" d="M1426.85,-165.5C1288.54,-152.32 1099.26,-134.27 958.26,-120.83"/>
 <polygon fill="black" stroke="black" points="958.71,-117.36 948.42,-119.89 958.04,-124.33 958.71,-117.36"/>
-<text xml:space="preserve" text-anchor="middle" x="1276.21" y="-139.9" font-family="Times,serif" font-size="8.00">flight_id u2192 flight_id</text>
+<text xml:space="preserve" text-anchor="middle" x="1270.96" y="-139.9" font-family="Times,serif" font-size="8.00">flight_id → flight_id</text>
 </g>
 <!-- tickets -->
 <g id="node12" class="node">
@@ -299,14 +299,14 @@
 <title>ticket_flights&#45;&gt;tickets</title>
 <path fill="none" stroke="black" d="M1793.9,-165.5C1932.21,-152.32 2121.49,-134.27 2262.49,-120.83"/>
 <polygon fill="black" stroke="black" points="2262.71,-124.33 2272.33,-119.89 2262.04,-117.36 2262.71,-124.33"/>
-<text xml:space="preserve" text-anchor="middle" x="2125.46" y="-139.9" font-family="Times,serif" font-size="8.00">ticket_no u2192 ticket_no</text>
+<text xml:space="preserve" text-anchor="middle" x="2120.21" y="-139.9" font-family="Times,serif" font-size="8.00">ticket_no → ticket_no</text>
 </g>
 <!-- tickets&#45;&gt;bookings -->
 <g id="edge11" class="edge">
 <title>tickets&#45;&gt;bookings</title>
 <path fill="none" stroke="black" d="M2457.38,-83.13C2457.38,-73.02 2457.38,-59.98 2457.38,-48.33"/>
 <polygon fill="black" stroke="black" points="2460.88,-48.39 2457.38,-38.39 2453.88,-48.39 2460.88,-48.39"/>
-<text xml:space="preserve" text-anchor="middle" x="2497.5" y="-57.15" font-family="Times,serif" font-size="8.00">book_ref u2192 book_ref</text>
+<text xml:space="preserve" text-anchor="middle" x="2492.25" y="-57.15" font-family="Times,serif" font-size="8.00">book_ref → book_ref</text>
 </g>
 </g>
 </svg>
