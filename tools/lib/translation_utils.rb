@@ -24,8 +24,7 @@ class TranslationUtils
     # Исправляем слипшиеся слова (добавляем пробелы между заглавными буквами)
     cleaned_translation = cleaned_translation.gsub(/([а-я])([А-Я])/, '\1 \2')
 
-    # Исправляем заглавную букву
-    cleaned_translation = cleaned_translation.capitalize if cleaned_translation.length > 0
+    # Не применяем capitalize - переводы должны приходить уже правильно отформатированными
 
     # Читаем существующие переводы
     existing_translations = load_existing_translations

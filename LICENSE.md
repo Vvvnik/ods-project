@@ -19,5 +19,22 @@ The demo data included in this project (such as the toys service API and databas
 - Is intended to showcase ODS documentation capabilities
 - Should not be used in production environments
 
+## LLM Components Notice
+
+This project includes LLM (Large Language Model) integration for automatic translations:
+
+- **Ollama** is used under MIT License for local LLM server
+- **LLM Models** are used under various licenses:
+  - **gpt-oss:20b** - Apache License 2.0
+       - **Gemma3 4B** - Gemma Terms of Use (Google)
+       - **Gemma** - Gemma Terms of Use (Google)
+  - **Mistral 7B** - Apache License 2.0
+  - **Qwen2.5** - Tongyi Qianwen License (Alibaba)
+- **LLM functionality** is optional and requires local installation
+- **Translations** are generated locally and not sent to external services
+- **Dictionary** contains pre-translated terms to reduce LLM usage
+       - **Fastest model**: `gemma3:4b` for optimal speed and quality
+       - **Recommended model**: `gemma:latest` for best balance of quality and speed
+
 By contributing to this project, you agree that your contributions will be distributed under these licenses.
 

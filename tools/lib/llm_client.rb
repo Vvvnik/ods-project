@@ -174,7 +174,7 @@ class LLMClient
       # Постобработка
       translated = translated.gsub(/^["']|["']$/, '') # убираем кавычки
       translated = translated.gsub(/\.$/, '') # убираем точки в конце
-      translated = translated.capitalize if translated.length > 0
+      # Не применяем capitalize - переводы должны приходить уже правильно отформатированными
       
       translated
     else
@@ -202,7 +202,8 @@ class LLMClient
     # Убираем постфиксы типа " - это перевод" и т.д.
     cleaned = cleaned.gsub(/\s*-\s*(это|is)\s*(перевод|translation).*$/i, '')
     
-    cleaned.capitalize if cleaned.length > 0
+    # Не применяем capitalize - переводы должны приходить уже правильно отформатированными
+    cleaned
   end
 
   def is_bad_translation?(translation)
@@ -222,6 +223,6 @@ class LLMClient
   end
 
   def create_fallback_translation(attribute_name)
-    attribute_name.gsub(/_/, ' ').capitalize
+    attribute_name.gsub(/_/, ' ')
   end
 end

@@ -76,7 +76,7 @@ defaults: &defaults
     host: "${OLLAMA_HOST:-http://localhost:11434}" # ← Адрес Ollama сервера (автоматически)
     timeout: 30                   # ← Таймаут запроса в секундах
     retry_attempts: 3             # ← Количество попыток при ошибке
-    model: "gpt-oss:20b"        # ← Модель LLM (gpt-oss:20b)
+    model: "gemma:latest"       # ← Модель LLM (gemma:latest)
 # uml и plantuml не конвертируем это делает kroki
 # Список компонентов и параметров сборки
 # ******************************************************
@@ -91,7 +91,7 @@ components:
     db:
       enabled: true #TODO: включить генерацию БД
       profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
-      translate: "en" #TODO: включить перевод комментариев из БД на русский язык
+      translate: false #TODO: включить перевод комментариев из БД на русский язык
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
 

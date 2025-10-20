@@ -212,7 +212,6 @@ def translate_field(name, comment = nil, translate_comments = false, llm_client 
     fallback = name
       .gsub(/([a-z])([A-Z])/, '\1 \2')
       .tr('_', ' ')
-      .capitalize
     TRANSLATION_CACHE[cache_key] = fallback
     return fallback
   end
@@ -264,10 +263,10 @@ puts "🚀 Генерация полной документации базы д�
 puts "📁 Выходная папка: #{OUT_DIR}"
 
 # =============================================================================
-# 1. ГЕНЕРАЦИЯ ТАБЛИЧНОЙ ДОКУМЕНТАЦИИ
+# 0. ПРЕДВАРИТЕЛЬНЫЙ СБОР ДАННЫХ И ПОЛЕЙ ДЛЯ ПЕРЕВОДА
 # =============================================================================
 
-puts "\n📊 Генерация табличной документации..."
+puts "\n📋 Сбор данных и полей для перевода..."
 
 # SQL: только таблицы (без представлений) с комментариями
 sql = <<~SQL
@@ -292,6 +291,81 @@ puts "   Получено колонок: #{rows.size}"
 # группируем данные: {schema => {table => [cols]}}
 schemas = Hash.new { |h, k| h[k] = Hash.new { |t, n| t[n] = [] } }
 rows.each { |r| schemas[r['table_schema']][r['table_name']] << r }
+
+# Собираем поля для перевода (без генерации документации)
+puts "   🔍 Сбор полей для перевода..."
+schemas.each do |schema, tables|
+  # получаем комментарии к таблицам
+  table_comments = conn.exec(
+    "SELECT t.table_name, COALESCE(pgd.description, '') AS comment FROM information_schema.tables t JOIN pg_class pgc ON pgc.relname = t.table_name JOIN pg_namespace pgn ON pgn.oid = pgc.relnamespace AND pgn.nspname = t.table_schema LEFT JOIN pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0 WHERE t.table_schema = $1 AND pgc.relkind = 'r' ORDER BY t.table_name;",
+    [schema]
+  ).to_a
+  
+  # создаем хэш комментариев для быстрого поиска
+  comments_hash = table_comments.map { |tc| [tc['table_name'], tc['comment']] }.to_h
+
+  tables.each do |table, cols|
+    # Собираем поля таблицы для перевода
+    cols.each do |c|
+      translate_field(c['column_name'], c['comment'], translate_comments, llm_client, translation_utils)
+    end
+    
+    # Собираем названия таблиц для перевода
+    table_comment = comments_hash[table] || ''
+    translate_field(table, table_comment, translate_comments, llm_client, translation_utils)
+  end
+end
+
+# Также собираем поля для логической документации
+puts "   🔍 Сбор полей для логической документации..."
+
+# выборка всех пользовательских схем
+schemata = conn.exec(
+  <<~SQL
+    SELECT schema_name
+    FROM information_schema.schemata
+    WHERE schema_name NOT IN ('pg_catalog', 'information_schema')
+      AND schema_name NOT LIKE 'pg_temp_%'
+      AND schema_name NOT LIKE 'pg_toast%'
+    ORDER BY schema_name;
+  SQL
+).to_a
+
+schemata.each do |schema_row|
+  schema = schema_row['schema_name']
+  
+  # выборка таблиц схемы
+  tables = conn.exec(
+    "SELECT t.table_name, COALESCE(pgd.description, '') AS comment FROM information_schema.tables t JOIN pg_class pgc ON pgc.relname = t.table_name JOIN pg_namespace pgn ON pgn.oid = pgc.relnamespace AND pgn.nspname = t.table_schema LEFT JOIN pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0 WHERE t.table_schema = $1 AND pgc.relkind = 'r' ORDER BY t.table_name;",
+    [schema]
+  ).to_a
+
+  next if tables.empty?
+
+  tables.each do |table_row|
+    table_name = table_row['table_name']
+    table_comment = table_row['comment']
+    translate_field(table_name, table_comment, translate_comments, llm_client, translation_utils)
+  end
+end
+
+puts "   ✅ Собрано полей для перевода: #{MISSING_FIELDS.length}"
+
+# =============================================================================
+# 0.5. ПЕРЕВОД ЧЕРЕЗ LLM (ЕСЛИ НУЖНО)
+# =============================================================================
+
+# Обрабатываем переводы батчево (только для полей, которые действительно используются)
+if llm_client && !MISSING_FIELDS.empty?
+  puts "\n🔄 Обрабатываем переводы через LLM..."
+  process_batch_translation(llm_client, translation_utils, translate_comments)
+end
+
+# =============================================================================
+# 1. ГЕНЕРАЦИЯ ТАБЛИЧНОЙ ДОКУМЕНТАЦИИ (ПОСЛЕ ПЕРЕВОДА)
+# =============================================================================
+
+puts "\n📊 Генерация табличной документации..."
 
 # создаем табличную документацию
 master_index_path = File.join(OUT_DIR, 'schemas_index.adoc')
@@ -366,20 +440,6 @@ puts "   ✅ Табличная документация создана"
 # =============================================================================
 
 puts "\n🔗 Генерация логической документации..."
-
-# выборка всех пользовательских схем
-schemata = conn.exec(
-  <<~SQL
-    SELECT schema_name
-    FROM information_schema.schemata
-    WHERE schema_name NOT IN ('pg_catalog', 'information_schema')
-      AND schema_name NOT LIKE 'pg_temp_%'
-      AND schema_name NOT LIKE 'pg_toast%'
-    ORDER BY schema_name;
-  SQL
-).to_a
-
-abort 'Запрос не вернул ни одной схемы!' if schemata.empty?
 
 # создаем логическую документацию
 logical_index_path = File.join(OUT_DIR, 'schemas_logical_index.adoc')
@@ -747,12 +807,6 @@ puts "   - images/erd_*.svg (ERD диаграммы)"
 puts "   - images/logical_*.svg (логические диаграммы)"
 puts "   - logical_*.puml (PlantUML диаграммы)"
 puts "   - #{images_archive_name} (архив только SVG изображений)"
-
-# Обрабатываем оставшиеся переводы батчево
-if llm_client && !MISSING_FIELDS.empty?
-  puts "\n🔄 Обрабатываем оставшиеся переводы..."
-  process_batch_translation(llm_client, translation_utils, translate_comments)
-end
 
 puts "\n✅ Генерация документации БД завершена!"
 
