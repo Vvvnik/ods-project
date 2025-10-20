@@ -1,0 +1,7 @@
+[%breakable]
+==== Логическая схема «bookings»
+
+Логическая схема представлена на рисунке «logical_bookings.svg» в архиве «bd_images_2025-10-19.zip», являющемся приложением к данному документу.
+
+include::bookings_logical.adoc[]
+

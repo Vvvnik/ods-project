@@ -38,12 +38,15 @@ defaults: &defaults
   
   # База данных
   db:
-    enabled: false                # ← Включить/отключить генерацию DB документации
+    enabled: true                 # ← Включить/отключить генерацию DB документации
     images_dir: "components/{name}/modules/ROOT/images/images-db" # ← Папка для изображений схем БД
     dst: "components/{name}/modules/ROOT/partials/docs-db"       # ← Куда сохранять DB документацию
     database_connect_file: "components/{name}/modules/ROOT/examples/database.yml"  # ← Файл подключения к БД
     erase_destination_folder: false # ← НЕ очищать папку назначения (сохранять существующие)
     profile: "pg_demo"            # ← Профиль БД для подключения
+    translate: "ru"              # ← Переводить комментарии из БД на русский язык
+    dictionary: "tools/dictionary/database_translations.yml"  # ← Путь к словарю переводов БД
+    prompt: "database_translations"  # ← Имя промпта (папка tools/prompts)
   
   # PDF генерация
   pdf:
@@ -66,8 +69,15 @@ defaults: &defaults
     adoc_src: "components/{name}/modules/*/pages"     # ← Откуда брать .adoc
     pdf_src: "components/{name}/modules/ROOT/attachments"  # ← Откуда брать PDF
     dst: "components/{name}/modules/ROOT/partials/lists"  # ← Куда сохранять списки
+  
+  # LLM сервис через Ollama - универсальный инструмент
+  ollama:
+    enabled: true                 # ← Включить/отключить LLM сервис (ВКЛЮЧЕНО для работы)
+    host: "${OLLAMA_HOST:-http://localhost:11434}" # ← Адрес Ollama сервера (автоматически)
+    timeout: 30                   # ← Таймаут запроса в секундах
+    retry_attempts: 3             # ← Количество попыток при ошибке
+    model: "gpt-oss:20b"        # ← Модель LLM (gpt-oss:20b)
 # uml и plantuml не конвертируем это делает kroki
-# ******************************************************  
 # Список компонентов и параметров сборки
 # ******************************************************
 # часть компонентов отключена для ускорения сборки
@@ -81,30 +91,39 @@ components:
     db:
       enabled: true #TODO: включить генерацию БД
       profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
+      translate: "en" #TODO: включить перевод комментариев из БД на русский язык
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
 
   - name: data-processing-engine
     <<: *defaults
+    db:
+      enabled: false  # Отключаем генерацию БД для этого компонента
     # bpmn: #TODO: включить генерацию BPMN диаграмм
     #   enabled: true #TODO: включить генерацию BPMN диаграмм
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
   
-  - name: information-system
+  - name: information-system-ed
     <<: *defaults
+    db:
+      enabled: false  # Отключаем генерацию БД для этого компонента
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true
     #   dst: "components/{name}/modules/ed/images/drawio"
 
-  - name: information-system
+  - name: information-system-trd
     <<: *defaults
+    db:
+      enabled: false  # Отключаем генерацию БД для этого компонента
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     #   dst: "components/{name}/modules/trd/images/drawio" #TODO: указать путь к изображениям Draw.io
 
-  - name: information-system
+  - name: information-system-root
     <<: *defaults
+    db:
+      enabled: false  # Отключаем генерацию БД для этого компонента
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     #   dst: "components/{name}/modules/ROOT/images/drawio" #TODO: указать путь к изображениям Draw.io
@@ -113,11 +132,15 @@ components:
 
   - name: toys-service
     <<: *defaults
+    db:
+      enabled: false  # Отключаем генерацию БД для этого компонента
     # api: #TODO: включить генерацию API документации
     #   enabled: true  #TODO: включить генерацию API документации
 
   - name: project-guide
     <<: *defaults
+    db:
+      enabled: false  # Отключаем генерацию БД для этого компонента
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     # pdf: #TODO: включить генерацию PDF документации

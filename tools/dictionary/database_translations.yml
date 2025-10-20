@@ -1,0 +1,10 @@
+# Словарь переводов атрибутов базы данных
+# Формат: оригинальное_имя: "перевод"
+
+---
+translations:
+  user_id: Идентификатор пользователя
+  created_at: Дата создания
+  updated_at: Дата обновления
+  aircrafts_data: Aircrafts data
+  airports_data: Airports data

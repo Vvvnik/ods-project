@@ -6,20 +6,16 @@ require 'date'
 require 'graphviz'
 require 'zip'
 require 'yaml'
-require_relative 'translations_one'
-# --- словарь переводов ---
-TRANSLATIONS = EXTRA_TRANSLATIONS
+require_relative '../lib/config_loader'
+require_relative '../lib/llm_client'
+require_relative '../lib/translation_utils'
 
-def translate_field(name)
-  key = name.downcase
-  return TRANSLATIONS[key] if TRANSLATIONS.key?(key)
+# --- кэш переводов для избежания повторных вызовов LLM ---
+TRANSLATION_CACHE = {}
 
-  # fallback: camelCase / snake_case → читаемая строка
-  name
-    .gsub(/([a-z])([A-Z])/, '\1 \2')
-    .tr('_', ' ')
-    .capitalize
-end
+# --- глобальные переменные для батчевого перевода ---
+MISSING_FIELDS = []
+BATCH_SIZE = 50  # Размер батча для перевода
 
 # =============================================================================
 # ПАРСИНГ АРГУМЕНТОВ КОМАНДНОЙ СТРОКИ
@@ -58,7 +54,173 @@ OptionParser.new do |opts|
   opts.on("--images IMAGES_DIR", "Images directory") do |images|
     options[:images] = images
   end
+
+  opts.on("--use-llm", "Enable LLM translation") do
+    options[:use_llm] = true
+  end
+
+  opts.on("--component COMPONENT", "Component name") do |component|
+    options[:component] = component
+  end
 end.parse!
+
+# --- загрузка конфигурации ---
+if options[:component]
+  config = ConfigLoader.load_config_for_component(options[:component])
+else
+  config = ConfigLoader.load_config
+end
+translate_comments = config.dig('db', 'translate') || false
+
+# --- инициализация LLM клиента ---
+llm_client = nil
+translation_utils = nil
+ollama_config = config.dig('ollama') || {}
+
+# Создаем translation_utils для работы со словарем
+dictionary_path = config.dig('db', 'dictionary') || 'tools/dictionary/database_translations.yml'
+translation_utils = TranslationUtils.new(dictionary_path)
+
+if ollama_config['enabled'] && options[:use_llm]
+  # Очищаем лог переводов только один раз в начале
+  translation_utils.clear_log
+  
+  prompt_name = config.dig('db', 'prompt') || 'db_translate_attribute'
+  llm_client = LLMClient.new(
+    ollama_config['host'] || 'http://localhost:11434',
+    ollama_config['model'] || 'gpt-oss:20b',
+    'tools/prompts',
+    prompt_name
+  )
+  puts "🤖 LLM клиент инициализирован для перевода атрибутов"
+elsif ollama_config['enabled'] && !options[:use_llm]
+  puts "⚠️  LLM включен в конфигурации, но флаг --use-llm не передан"
+else
+  puts "⚠️  LLM отключен в конфигурации"
+end
+
+puts "🔧 Конфигурация загружена:"
+puts "   translate_comments: #{translate_comments}"
+puts "   dictionary: #{dictionary_path}"
+puts "   prompt: #{config.dig('db', 'prompt') || 'db_translate_attribute'}"
+puts "   llm_enabled: #{ollama_config['enabled']}"
+
+def russian_text?(text)
+  # Простая проверка на русский текст
+  text.match?(/[а-яё]/i)
+end
+
+def correct_language?(translation, translate_comments)
+  # Проверяем, соответствует ли язык перевода настройке
+  return false if translation.nil? || translation.empty?
+  
+  case translate_comments
+  when "ru", true
+    # Должен быть русский - проверяем наличие русских букв
+    russian_text?(translation)
+  when "en"
+    # Должен быть английский - проверяем отсутствие русских букв
+    !russian_text?(translation)
+  else
+    # Для других случаев считаем корректным
+    true
+  end
+end
+
+def collect_missing_field(name, translate_comments, translation_utils)
+  # Собираем поля, которых нет в словаре
+  key = name.downcase
+  
+  if translation_utils
+    existing_translations = translation_utils.send(:load_existing_translations)
+    
+    # Если поля нет в словаре или язык не совпадает
+    if !existing_translations.key?(key) || !correct_language?(existing_translations[key], translate_comments)
+      MISSING_FIELDS << name unless MISSING_FIELDS.include?(name)
+    end
+  end
+end
+
+def process_batch_translation(llm_client, translation_utils, translate_comments)
+  # Обрабатываем батч переводов
+  return if MISSING_FIELDS.empty?
+  
+  puts "🔄 Обрабатываем батч из #{MISSING_FIELDS.length} полей..."
+  
+  # Разбиваем на батчи
+  batches = MISSING_FIELDS.each_slice(BATCH_SIZE).to_a
+  
+  batches.each_with_index do |batch, index|
+    puts "📦 Батч #{index + 1}/#{batches.length}: #{batch.length} полей"
+    
+    # Переводим батч
+    translations = llm_client.translate_batch(batch, translate_comments)
+    
+    # Сохраняем переводы
+    translations.each do |field, translation|
+      translation_utils.add_translation(field, translation)
+      TRANSLATION_CACHE["#{field}_#{translate_comments}"] = translation
+    end
+  end
+  
+  # Очищаем список
+  MISSING_FIELDS.clear
+end
+
+def translate_field(name, comment = nil, translate_comments = false, llm_client = nil, translation_utils = nil)
+  # Если есть комментарий - НИКОГДА не переводим, используем как есть
+  if comment && !comment.empty?
+    return comment
+  end
+  
+  # Проверяем кэш
+  cache_key = "#{name}_#{translate_comments}"
+  return TRANSLATION_CACHE[cache_key] if TRANSLATION_CACHE.key?(cache_key)
+  
+  # Если нет комментария - переводим в зависимости от настройки translate_comments
+  key = name.downcase
+  
+  # При translate_comments = false - НЕ ТРОГАЕМ ВООБЩЕ, возвращаем как есть
+  if translate_comments == false
+    TRANSLATION_CACHE[cache_key] = name
+    return name
+  end
+  
+  # СНАЧАЛА проверяем словарь (для всех режимов перевода)
+  if translation_utils
+    existing_translations = translation_utils.send(:load_existing_translations)
+    if existing_translations.key?(key)
+      dictionary_translation = existing_translations[key]
+      
+      # Проверяем, соответствует ли язык перевода настройке
+      if correct_language?(dictionary_translation, translate_comments)
+        puts "📖 Перевод из словаря: '#{name}' → '#{dictionary_translation}'"
+        TRANSLATION_CACHE[cache_key] = dictionary_translation
+        return dictionary_translation
+      else
+        puts "⚠️ Перевод в словаре на другом языке (#{dictionary_translation}), добавляем в батч"
+        collect_missing_field(name, translate_comments, translation_utils)
+      end
+    else
+      # Поля нет в словаре - добавляем в батч
+      collect_missing_field(name, translate_comments, translation_utils)
+    end
+  end
+  
+  # Если LLM недоступен - используем fallback
+  unless llm_client
+    fallback = name
+      .gsub(/([a-z])([A-Z])/, '\1 \2')
+      .tr('_', ' ')
+      .capitalize
+    TRANSLATION_CACHE[cache_key] = fallback
+    return fallback
+  end
+  
+  # Возвращаем имя как есть - перевод будет обработан батчево
+  TRANSLATION_CACHE[cache_key] = name
+  name
+end
 
 # ---------- настройки подключения ----------
 # Используем аргументы командной строки или значения по умолчанию
@@ -77,9 +239,20 @@ conn = PG.connect(
 )
 
 # ---------- каталоги вывода ----------
-OUT_DIR = options[:out] || 'output'
+# Используем настройку dst из конфигурации, подставляя имя компонента
+if options[:component] && config.dig('db', 'dst')
+  OUT_DIR = config['db']['dst'].gsub('{name}', options[:component])
+else
+  OUT_DIR = options[:out] || 'output'
+end
+
 # SVG изображения в отдельную директорию (переданную через --images или по умолчанию)
-IMAGES_DIR = options[:images] || File.join(File.dirname(OUT_DIR), 'images', 'bd-images')
+if options[:component] && config.dig('db', 'images_dir')
+  IMAGES_DIR = config['db']['images_dir'].gsub('{name}', options[:component])
+else
+  IMAGES_DIR = options[:images] || File.join(File.dirname(OUT_DIR), 'images', 'bd-images')
+end
+
 FileUtils.mkdir_p(OUT_DIR)
 FileUtils.mkdir_p(IMAGES_DIR)
 
@@ -96,15 +269,20 @@ puts "📁 Выходная папка: #{OUT_DIR}"
 
 puts "\n📊 Генерация табличной документации..."
 
-# SQL: все пользовательские схемы
+# SQL: только таблицы (без представлений) с комментариями
 sql = <<~SQL
-  SELECT table_schema, table_name, column_name, data_type,
-         CASE is_nullable WHEN 'NO' THEN 'Да' ELSE 'Нет' END AS notnull
-  FROM information_schema.columns
-  WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
-    AND table_name   NOT LIKE 'pg_%'
-    AND table_name   NOT LIKE 'sql_%'
-  ORDER BY table_schema, table_name, ordinal_position;
+  SELECT c.table_schema, c.table_name, c.column_name, c.data_type,
+         CASE c.is_nullable WHEN 'NO' THEN 'Да' ELSE 'Нет' END AS notnull,
+         COALESCE(pgd.description, '') AS comment
+  FROM information_schema.columns c
+  LEFT JOIN pg_class pgc ON pgc.relname = c.table_name
+  LEFT JOIN pg_namespace pgn ON pgn.oid = pgc.relnamespace AND pgn.nspname = c.table_schema
+  LEFT JOIN pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = c.ordinal_position
+  WHERE c.table_schema NOT IN ('pg_catalog', 'information_schema')
+    AND c.table_name   NOT LIKE 'pg_%'
+    AND c.table_name   NOT LIKE 'sql_%'
+    AND pgc.relkind = 'r'  -- только таблицы (r = relation/table)
+  ORDER BY c.table_schema, c.table_name, c.ordinal_position;
 SQL
 
 rows = conn.exec(sql).to_a
@@ -123,6 +301,15 @@ schemas.each do |schema, tables|
   agg_path = File.join(OUT_DIR, "#{schema}_tables.adoc")
   agg_body = +""
 
+  # получаем комментарии к таблицам
+  table_comments = conn.exec(
+    "SELECT t.table_name, COALESCE(pgd.description, '') AS comment FROM information_schema.tables t JOIN pg_class pgc ON pgc.relname = t.table_name JOIN pg_namespace pgn ON pgn.oid = pgc.relnamespace AND pgn.nspname = t.table_schema LEFT JOIN pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0 WHERE t.table_schema = $1 AND pgc.relkind = 'r' ORDER BY t.table_name;",
+    [schema]
+  ).to_a
+  
+  # создаем хэш комментариев для быстрого поиска
+  comments_hash = table_comments.map { |tc| [tc['table_name'], tc['comment']] }.to_h
+
   tables.each do |table, cols|
     agg_body << <<~TABLE
       :num_t: {counter:table-number}
@@ -137,7 +324,7 @@ schemas.each do |schema, tables|
     TABLE
 
     cols.each do |c|
-      desc = translate_field(c['column_name'])
+      desc = translate_field(c['column_name'], c['comment'], translate_comments, llm_client, translation_utils)
       agg_body << "|#{c['column_name']} |#{c['data_type']} |#{c['notnull']} |#{desc}\n"
     end
 
@@ -163,7 +350,8 @@ schemas.each do |schema, tables|
   SCHEMA
   
   tables.keys.each do |table|
-    desc = translate_field(table)
+    table_comment = comments_hash[table] || ''
+    desc = translate_field(table, table_comment, translate_comments, llm_client, translation_utils)
     master_index << "|#{table} |#{desc}\n"
   end
   master_index << "|===\n\n"
@@ -202,7 +390,7 @@ schemata.each do |schema_row|
   
   # выборка таблиц схемы
   tables = conn.exec(
-    "SELECT table_name FROM information_schema.tables WHERE table_schema = $1 ORDER BY table_name;",
+    "SELECT t.table_name, COALESCE(pgd.description, '') AS comment FROM information_schema.tables t JOIN pg_class pgc ON pgc.relname = t.table_name JOIN pg_namespace pgn ON pgn.oid = pgc.relnamespace AND pgn.nspname = t.table_schema LEFT JOIN pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0 WHERE t.table_schema = $1 AND pgc.relkind = 'r' ORDER BY t.table_name;",
     [schema]
   ).to_a
 
@@ -233,7 +421,8 @@ schemata.each do |schema_row|
 
   tables.each do |table_row|
     table_name = table_row['table_name']
-    desc = translate_field(table_name)
+    table_comment = table_row['comment']
+    desc = translate_field(table_name, table_comment, translate_comments, llm_client, translation_utils)
     logical_body << "|#{table_name} |#{desc}\n"
   end
   logical_body << "|===\n\n"
@@ -286,7 +475,7 @@ schemata.each do |schema_row|
   
   # выборка таблиц схемы
   tables = conn.exec(
-    "SELECT table_name FROM information_schema.tables WHERE table_schema = $1 ORDER BY table_name;",
+    "SELECT t.table_name, COALESCE(pgd.description, '') AS comment FROM information_schema.tables t JOIN pg_class pgc ON pgc.relname = t.table_name JOIN pg_namespace pgn ON pgn.oid = pgc.relnamespace AND pgn.nspname = t.table_schema LEFT JOIN pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0 WHERE t.table_schema = $1 AND pgc.relkind = 'r' ORDER BY t.table_name;",
     [schema]
   ).to_a
 
@@ -322,12 +511,8 @@ schemata.each do |schema_row|
   puml_lines << "left to right direction"
 
   relevant_tables.each do |tbl|
-    display = translate_field(tbl)
-    if display == tbl
-      puml_lines << "class #{tbl}"
-    else
-      puml_lines << "class \"#{display}\" as #{tbl}"
-    end
+    # В PlantUML используем оригинальные английские названия таблиц
+    puml_lines << "class #{tbl}"
   end
 
   fks.each do |fk|
@@ -354,7 +539,7 @@ schemata.each do |schema_row|
   
   # выборка таблиц схемы
   tables = conn.exec(
-    "SELECT table_name FROM information_schema.tables WHERE table_schema = $1 ORDER BY table_name;",
+    "SELECT t.table_name, COALESCE(pgd.description, '') AS comment FROM information_schema.tables t JOIN pg_class pgc ON pgc.relname = t.table_name JOIN pg_namespace pgn ON pgn.oid = pgc.relnamespace AND pgn.nspname = t.table_schema LEFT JOIN pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0 WHERE t.table_schema = $1 AND pgc.relkind = 'r' ORDER BY t.table_name;",
     [schema]
   ).to_a
 
@@ -389,12 +574,8 @@ schemata.each do |schema_row|
   puml_lines << "left to right direction"
 
   relevant_tables.each do |tbl|
-    display = translate_field(tbl)
-    if display == tbl
-      puml_lines << "class #{tbl}"
-    else
-      puml_lines << "class \"#{display}\" as #{tbl}"
-    end
+    # В PlantUML используем оригинальные английские названия таблиц
+    puml_lines << "class #{tbl}"
   end
 
   fks.each do |fk|
@@ -428,7 +609,7 @@ schemata.each do |schema_row|
   
   # выборка таблиц и их колонок
   tables_data = conn.exec(
-    "SELECT t.table_name, c.column_name, c.data_type, c.is_nullable, CASE WHEN pk.column_name IS NOT NULL THEN 'YES' ELSE 'NO' END AS is_primary_key FROM information_schema.tables t LEFT JOIN information_schema.columns c ON t.table_name = c.table_name AND t.table_schema = c.table_schema LEFT JOIN (SELECT ku.table_name, ku.column_name FROM information_schema.table_constraints tc JOIN information_schema.key_column_usage ku ON tc.constraint_name = ku.constraint_name WHERE tc.constraint_type = 'PRIMARY KEY' AND tc.table_schema = $1) pk ON t.table_name = pk.table_name AND c.column_name = pk.column_name WHERE t.table_schema = $1 ORDER BY t.table_name, c.ordinal_position;",
+    "SELECT t.table_name, c.column_name, c.data_type, c.is_nullable, CASE WHEN pk.column_name IS NOT NULL THEN 'YES' ELSE 'NO' END AS is_primary_key FROM information_schema.tables t JOIN pg_class pgc ON pgc.relname = t.table_name JOIN pg_namespace pgn ON pgn.oid = pgc.relnamespace AND pgn.nspname = t.table_schema LEFT JOIN information_schema.columns c ON t.table_name = c.table_name AND t.table_schema = c.table_schema LEFT JOIN (SELECT ku.table_name, ku.column_name FROM information_schema.table_constraints tc JOIN information_schema.key_column_usage ku ON tc.constraint_name = ku.constraint_name WHERE tc.constraint_type = 'PRIMARY KEY' AND tc.table_schema = $1) pk ON t.table_name = pk.table_name AND c.column_name = pk.column_name WHERE t.table_schema = $1 AND pgc.relkind = 'r' ORDER BY t.table_name, c.ordinal_position;",
     [schema]
   ).to_a
   
@@ -566,5 +747,13 @@ puts "   - images/erd_*.svg (ERD диаграммы)"
 puts "   - images/logical_*.svg (логические диаграммы)"
 puts "   - logical_*.puml (PlantUML диаграммы)"
 puts "   - #{images_archive_name} (архив только SVG изображений)"
+
+# Обрабатываем оставшиеся переводы батчево
+if llm_client && !MISSING_FIELDS.empty?
+  puts "\n🔄 Обрабатываем оставшиеся переводы..."
+  process_batch_translation(llm_client, translation_utils, translate_comments)
+end
+
+puts "\n✅ Генерация документации БД завершена!"
 
 conn.close

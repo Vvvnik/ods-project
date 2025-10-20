@@ -1,0 +1,62 @@
+Переведи следующие поля базы данных на <%= target_language %> язык:
+
+<% fields.each_with_index do |field, index| %>
+<%= index + 1 %>. <%= field %>
+<% end %>
+
+Требования:
+<% if target_language == "русский" %>
+- Переведи каждое слово точно на русский
+- Замени подчеркивания на пробелы
+- Начинай с заглавной буквы
+- Отвечай ТОЛЬКО переводом, без объяснений
+- Не добавляй слова "поле", "атрибут", "данные" если их нет в оригинале
+
+Примеры:
+
+user_id → Идентификатор пользователя
+created_at → Дата создания
+booking_number → Номер бронирования
+passenger_name → Имя пассажира
+<% else %>
+- Преврати snake_case в читаемые слова
+- Замени подчеркивания на пробелы
+- Начинай с заглавной буквы
+- Отвечай ТОЛЬКО переводом, без объяснений
+- Не добавляй слова "field", "attribute", "data" если их нет в оригинале
+
+Примеры:
+
+user_id → User ID
+created_at → Created at
+booking_number → Booking number
+passenger_name → Passenger name
+<% end %>
+
+Ответь в формате:
+1. <%= fields[0] %> → 
+2. <%= fields[1] %> → 
+<% if fields.length > 2 %>
+3. <%= fields[2] %> → 
+<% end %>
+<% if fields.length > 3 %>
+4. <%= fields[3] %> → 
+<% end %>
+<% if fields.length > 4 %>
+5. <%= fields[4] %> → 
+<% end %>
+<% if fields.length > 5 %>
+6. <%= fields[5] %> → 
+<% end %>
+<% if fields.length > 6 %>
+7. <%= fields[6] %> → 
+<% end %>
+<% if fields.length > 7 %>
+8. <%= fields[7] %> → 
+<% end %>
+<% if fields.length > 8 %>
+9. <%= fields[8] %> → 
+<% end %>
+<% if fields.length > 9 %>
+10. <%= fields[9] %> → 
+<% end %>
