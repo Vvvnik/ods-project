@@ -95,7 +95,7 @@ cfg['components'].each do |comp|
     Utils.prepare_destination_dir(db_settings[:dst], db_settings[:erase_folder])
     Utils.prepare_destination_dir(db_settings[:images_dir], db_settings[:erase_folder])
     
-    system(%(ruby "#{bd_rb}" --host "#{db_settings[:connection]['host']}" --port "#{db_settings[:connection]['port']}" --db "#{db_settings[:connection]['db']}" --user "#{db_settings[:connection]['user']}" --pass "#{db_settings[:connection]['pass']}" --out "#{db_settings[:dst]}" --images "#{db_settings[:images_dir]}"))
+    system(%(ruby "#{bd_rb}" --component "#{name}" --host "#{db_settings[:connection]['host']}" --port "#{db_settings[:connection]['port']}" --db "#{db_settings[:connection]['db']}" --user "#{db_settings[:connection]['user']}" --pass "#{db_settings[:connection]['pass']}" --out "#{db_settings[:dst]}" --images "#{db_settings[:images_dir]}" --use-llm))
     
     # Изображения созданы в docs-db/, Antora будет использовать их оттуда
     puts "  -> images: PNG файлы созданы в #{db_settings[:images_dir]}"

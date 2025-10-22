@@ -17,7 +17,7 @@ class PDFConverterCustomTitlePage < (Asciidoctor::Converter.for 'pdf')
   
   def initialize(*args)
     super(*args)
-    @config = load_config
+    @config = ConfigLoader.load_config
   end
 
   def init_pdf(doc)
@@ -153,7 +153,7 @@ class PDFConverterWithFullPageBorder < (Asciidoctor::Converter.for 'pdf')
 
   def initialize(*args)
     super(*args)
-    @config = load_config
+    @config = ConfigLoader.load_config
   end
 
   def init_pdf(doc)
@@ -254,7 +254,7 @@ class CustomPDFConverter < (Asciidoctor::Converter.for 'pdf')
   
   def initialize(*args)
     super(*args)
-    @config = load_config
+    @config = ConfigLoader.load_config
     @list_converter_module = nil
   end
   

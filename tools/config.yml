@@ -38,12 +38,15 @@ defaults: &defaults
   
   # База данных
   db:
-    enabled: false                # ← Включить/отключить генерацию DB документации
+    enabled: false                 # ← Включить/отключить генерацию DB документации
     images_dir: "components/{name}/modules/ROOT/images/images-db" # ← Папка для изображений схем БД
     dst: "components/{name}/modules/ROOT/partials/docs-db"       # ← Куда сохранять DB документацию
     database_connect_file: "components/{name}/modules/ROOT/examples/database.yml"  # ← Файл подключения к БД
     erase_destination_folder: false # ← НЕ очищать папку назначения (сохранять существующие)
     profile: "pg_demo"            # ← Профиль БД для подключения
+    translate: "ru"              # ← Переводить комментарии из БД на русский язык
+    dictionary: "tools/dictionary/database_translations.yml"  # ← Путь к словарю переводов БД
+    prompt: "database_translations"  # ← Имя промпта (папка tools/prompts)
   
   # PDF генерация
   pdf:
@@ -66,8 +69,15 @@ defaults: &defaults
     adoc_src: "components/{name}/modules/*/pages"     # ← Откуда брать .adoc
     pdf_src: "components/{name}/modules/ROOT/attachments"  # ← Откуда брать PDF
     dst: "components/{name}/modules/ROOT/partials/lists"  # ← Куда сохранять списки
+  
+  # LLM сервис через Ollama - универсальный инструмент
+  ollama:
+    enabled: false                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
+    host: "${OLLAMA_HOST:-http://localhost:11434}" # ← Адрес Ollama сервера (автоматически)
+    timeout: 30                   # ← Таймаут запроса в секундах
+    retry_attempts: 3             # ← Количество попыток при ошибке
+    model: "gemma:latest"       # ← Модель LLM (gemma:latest)
 # uml и plantuml не конвертируем это делает kroki
-# ******************************************************  
 # Список компонентов и параметров сборки
 # ******************************************************
 # часть компонентов отключена для ускорения сборки
@@ -81,6 +91,7 @@ components:
     # db:
     #   enabled: true #TODO: включить генерацию БД
     #   profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
+    #   translate: false #TODO: включить перевод комментариев из БД на русский язык
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
 
@@ -91,19 +102,19 @@ components:
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
   
-  - name: information-system
+  - name: information-system-ed
     <<: *defaults
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true
     #   dst: "components/{name}/modules/ed/images/drawio"
 
-  - name: information-system
+  - name: information-system-trd
     <<: *defaults
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     #   dst: "components/{name}/modules/trd/images/drawio" #TODO: указать путь к изображениям Draw.io
 
-  - name: information-system
+  - name: information-system-root
     <<: *defaults
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io

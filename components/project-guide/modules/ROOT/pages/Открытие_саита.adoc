@@ -29,8 +29,15 @@ include::../partials/warning_point.adoc[]
 Сборка сайта производится командой:
 [source,bash]
 ----
-npx antora antora-playbook.yml
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
 ----
+
+:warning-caption: Важно
+
+[NOTE]
+Для локального запуска используется CLI параметр `--attribute kroki-server-url=http://localhost:8000`, 
+который переопределяет значение из `antora-playbook.yml`. Это позволяет не менять файл конфигурации 
+вручную при переключении между локальной разработкой и CI.
 
 === Открытие сайта
 
