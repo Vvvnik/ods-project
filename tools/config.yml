@@ -38,7 +38,7 @@ defaults: &defaults
   
   # База данных
   db:
-    enabled: true                 # ← Включить/отключить генерацию DB документации
+    enabled: false                 # ← Включить/отключить генерацию DB документации
     images_dir: "components/{name}/modules/ROOT/images/images-db" # ← Папка для изображений схем БД
     dst: "components/{name}/modules/ROOT/partials/docs-db"       # ← Куда сохранять DB документацию
     database_connect_file: "components/{name}/modules/ROOT/examples/database.yml"  # ← Файл подключения к БД
@@ -72,7 +72,7 @@ defaults: &defaults
   
   # LLM сервис через Ollama - универсальный инструмент
   ollama:
-    enabled: true                 # ← Включить/отключить LLM сервис (ВКЛЮЧЕНО для работы)
+    enabled: false                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
     host: "${OLLAMA_HOST:-http://localhost:11434}" # ← Адрес Ollama сервера (автоматически)
     timeout: 30                   # ← Таймаут запроса в секундах
     retry_attempts: 3             # ← Количество попыток при ошибке
@@ -88,17 +88,15 @@ defaults: &defaults
 components:
   - name: airport-service
     <<: *defaults
-    db:
-      enabled: true #TODO: включить генерацию БД
-      profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
-      translate: false #TODO: включить перевод комментариев из БД на русский язык
+    # db:
+    #   enabled: true #TODO: включить генерацию БД
+    #   profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
+    #   translate: false #TODO: включить перевод комментариев из БД на русский язык
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
 
   - name: data-processing-engine
     <<: *defaults
-    db:
-      enabled: false  # Отключаем генерацию БД для этого компонента
     # bpmn: #TODO: включить генерацию BPMN диаграмм
     #   enabled: true #TODO: включить генерацию BPMN диаграмм
     # pdf: #TODO: включить генерацию PDF документации
@@ -106,24 +104,18 @@ components:
   
   - name: information-system-ed
     <<: *defaults
-    db:
-      enabled: false  # Отключаем генерацию БД для этого компонента
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true
     #   dst: "components/{name}/modules/ed/images/drawio"
 
   - name: information-system-trd
     <<: *defaults
-    db:
-      enabled: false  # Отключаем генерацию БД для этого компонента
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     #   dst: "components/{name}/modules/trd/images/drawio" #TODO: указать путь к изображениям Draw.io
 
   - name: information-system-root
     <<: *defaults
-    db:
-      enabled: false  # Отключаем генерацию БД для этого компонента
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     #   dst: "components/{name}/modules/ROOT/images/drawio" #TODO: указать путь к изображениям Draw.io
@@ -132,15 +124,11 @@ components:
 
   - name: toys-service
     <<: *defaults
-    db:
-      enabled: false  # Отключаем генерацию БД для этого компонента
     # api: #TODO: включить генерацию API документации
     #   enabled: true  #TODO: включить генерацию API документации
 
   - name: project-guide
     <<: *defaults
-    db:
-      enabled: false  # Отключаем генерацию БД для этого компонента
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     # pdf: #TODO: включить генерацию PDF документации

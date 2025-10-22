@@ -311,7 +311,7 @@ pdf:
 ruby ./tools/start.rb
 
 # Запуск локального сайта
-npx antora antora-playbook.yml
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
 ----
 
 === Варианты запуска Antora
@@ -322,7 +322,7 @@ npx antora antora-playbook.yml
 
 [source,bash]
 ----
-npx antora antora-playbook.yml
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
 ----
 
 Преимущества NPX:
@@ -331,6 +331,12 @@ npx antora antora-playbook.yml
 * Использует локальную версию из node_modules;
 * Больше совместимости между разными средами;
 * Стандартный подход в Node.js экосистеме.
+
+:warning-caption: Важно
+
+[NOTE]
+CLI параметр `--attribute kroki-server-url=http://localhost:8000` переопределяет значение из `antora-playbook.yml`. 
+Это позволяет оставить в конфигурации URL для CI (`http://kroki:8000`) и не менять файл вручную при локальной разработке.
 
 
 === Использование глобальной установки Antora

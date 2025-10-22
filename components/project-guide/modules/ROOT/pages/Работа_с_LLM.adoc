@@ -265,7 +265,7 @@ curl http://localhost:11434/api/generate -d '{
 === Требования к локальной среде
 
 1. **Установленный Ollama**: Локальный сервер Ollama
-2. **Загруженная модель**: `gpt-oss:20b` или аналогичная
+2. **Загруженная модель**: `gemma:latest` или аналогичная
 3. **Запущенный сервер**: `ollama serve` должен работать
 4. **Ruby окружение**: Все необходимые гемы установлены
 
@@ -280,7 +280,7 @@ ollama serve &
 ollama pull gemma:latest
 
 # Запуск генерации документации
-ruby tools/start.rb --component airport-service
+ruby tools/start.rb
 ----
 
 === Сравнение моделей LLM

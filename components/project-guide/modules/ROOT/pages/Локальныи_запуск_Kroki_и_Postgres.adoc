@@ -23,6 +23,27 @@ docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 * Локально: `http://localhost:8000`;
 * В CI: `http://kroki:8000`.
 
+=== Конфигурация Antora
+
+В файле `antora-playbook.yml` настроен URL для CI:
+
+[source,yaml]
+----
+kroki-server-url: http://kroki:8000  # для CI
+----
+
+:warning-caption: Важно
+
+[NOTE]
+Для локального запуска Antora используйте CLI параметр, который переопределяет значение из YAML:
+
+[source,bash]
+----
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+----
+
+Это позволяет не менять `antora-playbook.yml` вручную при переключении между локальной разработкой и CI.
+
 == Postgres
 
 PostgreSQL используется как источник данных для генерации документации БД.
