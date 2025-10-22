@@ -1,5 +1,9 @@
 This project includes the following third-party software:
 
+- RubyGems (MIT License)
+  Copyright (c) Chad Fowler, Rich Kilmer, Jim Weirich and others
+  https://github.com/ruby/rubygems/blob/master/LICENSE.txt
+
 - Asciidoctor Project (MIT License)
   Copyright (C) 2014-present OpenDevise Inc. and the Asciidoctor Project
   https://github.com/asciidoctor/asciidoctor-pdf
@@ -63,16 +67,20 @@ This project includes the following third-party software:
 
 - gpt-oss:20b model (Apache License 2.0)
   Copyright (c) 2024-present GPT-OSS contributors
-  https://huggingface.co/microsoft/DialoGPT-medium
+  Available through Ollama: ollama pull gpt-oss:20b
 
 - Gemma3 4B model (Gemma Terms of Use)
   Copyright (c) 2024-present Google LLC
-  https://huggingface.co/google/gemma-2-4b-it
+  Available through Ollama: ollama pull gemma3:4b
+
+- Gemma model (Gemma Terms of Use)
+  Copyright (c) 2024-present Google LLC
+  Available through Ollama: ollama pull gemma:latest
 
 - Mistral 7B model (Apache License 2.0)
   Copyright (c) 2023-present Mistral AI
-  https://huggingface.co/mistralai/Mistral-7B-v0.1
+  Available through Ollama: ollama pull mistral:7b
 
 - Qwen2.5 model (Tongyi Qianwen License)
   Copyright (c) 2024-present Alibaba Cloud
-  https://huggingface.co/Qwen/Qwen2.5-7B
+  Available through Ollama: ollama pull qwen2.5:latest

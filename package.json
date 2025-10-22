@@ -7,18 +7,17 @@
     "puppeteer": "^24.7.1",
     "xml2js": "^0.6.2"
   },
-  "name": "my-progect",
+  "name": "ods-project",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "description": "ODS - Open Documentation Standard. Open standard and tools for automating technical documentation in IT projects.",
   "scripts": {
+    "build": "ruby tools/start.rb",
+    "site": "npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml",
+    "build-all": "npm run build && npm run site",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["documentation", "asciidoc", "antora", "automation", "technical-docs"],
+  "author": "ODS Project Contributors",
+  "license": "Apache-2.0",
   "type": "commonjs"
 }

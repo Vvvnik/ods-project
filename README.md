@@ -17,13 +17,13 @@ npm install
 # Установка и запуск Ollama (для LLM переводов)
 curl -fsSL https://ollama.ai/install.sh | sh
 ollama serve &
-       ollama pull gemma3:4b  # Самая быстрая модель (3.3 GB)
+       ollama pull gemma:latest  # Рекомендуемая модель (5 GB)
 
 # Сборка документации (диаграммы, БД, API, PDF)
 ruby tools/start.rb
 
 # Сборка сайта документации (Antora)
-npx antora --fetch antora-playbook.yml
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
 ```
 
 ## Два независимых процесса
@@ -38,8 +38,8 @@ npx antora --fetch antora-playbook.yml
 Для автоматических переводов атрибутов базы данных требуется:
 
 - **Ollama** — локальный сервер для запуска LLM моделей
-       - **Самая быстрая**: `gemma3:4b` (3.3 GB) — оптимальная скорость и качество
        - **Рекомендуемая модель**: `gemma:latest` (5 GB) — лучший баланс качества и скорости
+       - **Самая быстрая**: `gemma3:4b` (3.3 GB) — оптимальная скорость и качество
        - **Альтернативные модели**: `mistral:7b`, `qwen2.5:latest`, `gpt-oss:20b`
 - **Локальное использование** — LLM работает только на машине разработчика
 
@@ -59,3 +59,7 @@ npx antora --fetch antora-playbook.yml
 ODS — полностью открытый проект (Apache 2.0 / CC-BY 4.0).  
 
 Дополнительные платные возможности, поддержка и премиум-шаблоны описаны в [COMMERCIAL.md](./COMMERCIAL.md).
+
+## Благодарности
+
+Этот проект был создан с использованием ИИ-инструментов для генерации кода и руководства по документированию.
