@@ -83,7 +83,7 @@ ODS полезен для:
 * инструменты сборки и публикации, 
 * примеры различных типов документов на страницах сайта и pdf документах.
 
-Проект размещен на GitLab и доступен по ссылке: link:https://vvvnik.gitlab.io/ods-project/[ODS-Project].
+Проект размещен на GitLab и доступен по ссылке: link:https://gitlab.com/vvvnik/ods-project[ODS-Project].
 
 === Структура проекта
 

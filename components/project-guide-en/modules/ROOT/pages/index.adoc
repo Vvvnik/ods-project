@@ -82,7 +82,7 @@ For practical application of the standard, a project environment has been create
 * build and publication tools;
 * examples of various document types on website pages and PDF documents.
 
-The project is hosted on GitLab and is available at: link:https://vvvnik.gitlab.io/ods-project/[ODS-Project].
+The project is hosted on GitLab and is available at: link:https://gitlab.com/vvvnik/ods-project[ODS-Project].
 
 === Project Structure
 
