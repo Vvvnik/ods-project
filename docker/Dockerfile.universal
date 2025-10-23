@@ -25,7 +25,7 @@ RUN npm install -g @antora/cli @antora/site-generator-default @antora/site-gener
 RUN ruby -v && node -v && npm -v && asciidoctor -v && antora -v
 
 # Рабочая директория
-WORKDIR /builds
+WORKDIR /app
 
 # Команда по умолчанию
 CMD ["bash"]
