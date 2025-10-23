@@ -20,7 +20,7 @@ variables:
 # Объединенная сборка: PDF + сайт
 build_all:
   stage: build
-  image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1
+  image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
   services:
     - name: $KROKI_IMAGE
       alias: kroki
