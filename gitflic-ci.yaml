@@ -3,7 +3,7 @@ stages: [build, deploy]
 variables:
   # В CI Kroki доступен как сервис по алиасу 'kroki'
   KROKI_SERVER_URL: "http://kroki:8000"
-  KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"  # pinned mirror in your registry
+  KROKI_IMAGE: "yuzutech/kroki:0.28.0"  # публичный образ Kroki
   GIT_DEPTH: "20"
   # Технические файлы, которые влияют на генерацию контента
   TECHNICAL_FILES: "tools/**,gitflic-ci.yaml,modules/**,antora-playbook.yml,components/*/antora.yml,resources/**"
@@ -11,34 +11,27 @@ variables:
 # Объединенная сборка: PDF + сайт
 build_all:
   stage: build
-  image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
+  image: node:18-alpine
   services:
     - name: $KROKI_IMAGE
       alias: kroki
   rules:
     - if: "$CI_COMMIT_TAG"
       when: never
-    - if: '$CI_COMMIT_REF_NAME == "main"'
-      changes:
-        - $TECHNICAL_FILES
-        - antora-*.yml
-    - if: '$CI_COMMIT_REF_NAME == "main"'
-      when: on_success
+    - when: on_success
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
       - .npm/
   script:
-    - ruby -v
     - node --version && npm --version
-    - echo "=== PDF build START ==="
-    - ruby tools/start.rb
-    - echo "=== PDF build END ==="
+    - echo "=== Site build START ==="
     - npm config set cache .npm --global
     - if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi
     - antora antora-playbook.yml
     - if [ ! -d public ]; then mkdir -p public && cp -a build/site/. public/; fi
+    - echo "=== Site build END ==="
   artifacts:
     when: always
     paths: [public]
@@ -50,11 +43,7 @@ pages:
   rules:
     - if: "$CI_COMMIT_TAG"
       when: never
-    - if: '$CI_COMMIT_REF_NAME == "main"'
-      changes:
-        - $TECHNICAL_FILES
-    - if: '$CI_COMMIT_REF_NAME == "main"'
-      when: on_success
+    - when: on_success
   script: ['echo "Deploy GitFlic Pages"']
   artifacts:
     paths: [public]
@@ -126,23 +115,11 @@ prepare_release_notes:
 
 release:
   stage: deploy
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  image: alpine:latest
   needs: [prepare_release_notes]
   rules:
     - if: "$CI_COMMIT_TAG"
       when: on_success
   script:
     - echo "Creating GitFlic Release for tag $CI_COMMIT_TAG"
-    - |
-      set -e
-      export RELEASE_NOTES="$(cat dist/release-notes.adoc 2>/dev/null || echo "Release $CI_COMMIT_TAG")"
-  release:
-    tag_name: "$CI_COMMIT_TAG"
-    name: "Release $CI_COMMIT_TAG"
-    description: "$RELEASE_NOTES"
-    assets:
-      links:
-        - name: "release-notes.adoc"
-          url: "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_TAG}/raw/dist/release-notes.adoc?job=prepare_release_notes"
-          filepath: "/release-notes.adoc"
-          link_type: other
+    - echo "Release notes prepared in previous job"
