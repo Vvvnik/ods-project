@@ -1,10 +1,4 @@
-stages: [test]
-
-# Максимально простой тест
-simple_test:
-  stage: test
+# Максимально простая конфигурация без stages
+hello_world:
   script:
     - echo "Hello from GitFlic CI!"
-    - echo "This is a simple test job"
-    - echo "Current directory:"
-    - ls -laте
