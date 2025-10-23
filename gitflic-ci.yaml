@@ -1,41 +1,10 @@
-stages: [test, build, deploy]
+stages: [test]
 
-variables:
-  GIT_DEPTH: "20"
-
-# Простой тест для проверки работы CI
-test_job:
+# Максимально простой тест
+simple_test:
   stage: test
-  image: alpine:latest
   script:
-    - echo "Testing GitFlic CI pipeline"
-    - echo "Current branch: $CI_COMMIT_REF_NAME"
-    - echo "Commit SHA: $CI_COMMIT_SHA"
-    - echo "Pipeline source: $CI_PIPELINE_SOURCE"
-
-# Простая сборка сайта
-build_site:
-  stage: build
-  image: node:18-alpine
-  script:
-    - node --version && npm --version
-    - echo "=== Site build START ==="
-    - npm config set cache .npm --global
-    - if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi
-    - antora antora-playbook.yml
-    - if [ ! -d public ]; then mkdir -p public && cp -a build/site/. public/; fi
-    - echo "=== Site build END ==="
-  artifacts:
-    when: always
-    paths: [public]
-    expire_in: 3 days
-
-# Простое развертывание
-deploy_site:
-  stage: deploy
-  needs: [build_site]
-  script: 
-    - echo "Deploying site to GitFlic Pages"
-  artifacts:
-    paths: [public]
-    expire_in: never
+    - echo "Hello from GitFlic CI!"
+    - echo "This is a simple test job"
+    - echo "Current directory:"
+    - ls -laте
