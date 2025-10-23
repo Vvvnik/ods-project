@@ -1,10 +1,10 @@
 :doctype: book
-:!title-page:
+:title-page:
 :custom_title_page: original
 :custom_other_page: original
 :approval-page: true
 // этот аттрибут указан в файле attr_common.adoc
-// :custom_list_type: alphabetic 
+:custom_list_type: alphabetic 
 // name_dokument_master – название документа 1
 :name_dokument_master: Описание программы
 // name_dokument_slave – название документа 2

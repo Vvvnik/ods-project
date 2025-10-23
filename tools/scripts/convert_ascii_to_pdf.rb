@@ -18,6 +18,7 @@ class PDFConverterCustomTitlePage < (Asciidoctor::Converter.for 'pdf')
   def initialize(*args)
     super(*args)
     @config = ConfigLoader.load_config
+    @page_config = ConfigLoader.load_page_config
   end
 
   def init_pdf(doc)
@@ -124,7 +125,7 @@ class PDFConverterCustomTitlePage < (Asciidoctor::Converter.for 'pdf')
   private
   
   def load_title_page_module
-    title_page_config = @config['title_pages'] || {}
+    title_page_config = @page_config['title_pages'] || {}
     module_name = title_page_config[@custom_title_page]
     
     
@@ -154,6 +155,7 @@ class PDFConverterWithFullPageBorder < (Asciidoctor::Converter.for 'pdf')
   def initialize(*args)
     super(*args)
     @config = ConfigLoader.load_config
+    @page_config = ConfigLoader.load_page_config
   end
 
   def init_pdf(doc)
@@ -255,6 +257,7 @@ class CustomPDFConverter < (Asciidoctor::Converter.for 'pdf')
   def initialize(*args)
     super(*args)
     @config = ConfigLoader.load_config
+    @page_config = ConfigLoader.load_page_config
     @list_converter_module = nil
   end
   
@@ -271,7 +274,7 @@ class CustomPDFConverter < (Asciidoctor::Converter.for 'pdf')
     return unless custom_list_type
     
     # Получаем конфигурацию типов списков
-    list_types = @config['list_types'] || {}
+    list_types = @page_config['list_types'] || {}
     module_name = list_types[custom_list_type]
     return unless module_name
     

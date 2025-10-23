@@ -1,9 +1,9 @@
 
-
+include::../../ROOT/partials/attr_common.adoc[]
 :doctype: book
-:!title-page:
-:custom_title_page: original
-:custom_other_page: original
+:title-page:
+:custom_title_page: original_frame
+:custom_other_page: original_frame
 :approval-page: true
 // name_dokument_master - название документа 1
 :name_dokument_master: Описание постановки задачи
@@ -19,7 +19,7 @@
 // ramka: 4 - рамка документа
 :data_report: {localdate}
 include::../../ROOT/partials/contract.adoc[]
-include::../../ROOT/partials/attr_common.adoc[]
+
 :!toc:
 
 = Описание постановки задачи

@@ -1,6 +1,40 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+# =============================================================================
+# ConfigLoader - Модуль для загрузки и обработки конфигурационных файлов
+# =============================================================================
+#
+# НАЗНАЧЕНИЕ:
+#   Централизованная загрузка и обработка конфигурационных файлов проекта ODS
+#
+# ОСНОВНЫЕ ФУНКЦИИ:
+#   - load_config() - загрузка основной конфигурации из tools/config.yml
+#   - load_page_config() - загрузка конфигурации PDF конвертеров из tools/config_type_page.yml
+#   - load_config_for_component() - загрузка конфигурации для конкретного компонента
+#   - Обработка переменных окружения в YAML файлах
+#   - Поиск конфигурации компонента по имени
+#
+# ИСПОЛЬЗОВАНИЕ:
+#   require_relative 'tools/lib/config_loader'
+#   
+#   # Загрузка основной конфигурации
+#   config = ConfigLoader.load_config
+#   
+#   # Загрузка конфигурации PDF конвертеров
+#   page_config = ConfigLoader.load_page_config
+#   
+#   # Загрузка конфигурации компонента
+#   component_config = ConfigLoader.load_config_for_component('information-system')
+#
+# ФАЙЛЫ КОНФИГУРАЦИИ:
+#   - tools/config.yml - основная конфигурация проекта (компоненты, API, БД, etc.)
+#   - tools/config_type_page.yml - конфигурация PDF конвертеров (титульные страницы, списки)
+#
+# АВТОР: ODS Project Team
+# ДАТА: 2025
+# =============================================================================
+
 require 'yaml'
 
 module ConfigLoader
@@ -55,6 +89,29 @@ module ConfigLoader
       component_config || {}
     rescue => e
       puts "❌ Ошибка загрузки конфигурации: #{e.message}"
+      {}
+    end
+  end
+
+  
+  def self.load_page_config(config_path = 'tools/config_type_page.yml')
+    config_file = File.expand_path(config_path)
+    
+    unless File.exist?(config_file)
+      puts "⚠️  Файл конфигурации страниц не найден: #{config_file}"
+      return {}
+    end
+    
+    begin
+      config_content = File.read(config_file, encoding: 'utf-8')
+      
+      # Заменяем переменные окружения в YAML
+      config_content = expand_env_vars(config_content)
+      
+      # Загружаем YAML с поддержкой алиасов
+      YAML.load(config_content, aliases: true) || {}
+    rescue => e
+      puts "❌ Ошибка загрузки конфигурации страниц: #{e.message}"
       {}
     end
   end

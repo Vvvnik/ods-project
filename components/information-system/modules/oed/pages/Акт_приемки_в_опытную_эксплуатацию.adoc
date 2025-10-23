@@ -14,8 +14,6 @@ include::../../ROOT/partials/attr_common.adoc[]
 :code: ABC.0001-01
 :code_document: АП
 :version: 4
-// pdf-theme: act – тема для актов
-:pdf-theme: act-theme
 :data_report: {localdate}
 :plan:
 :type_test: предварительных

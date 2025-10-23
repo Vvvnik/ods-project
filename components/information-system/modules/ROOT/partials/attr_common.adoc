@@ -16,4 +16,5 @@
 // toc-title - название содержания
 :toc-title: Содержание 
 :custom_list_type: alphabetic
+:title-page:
 

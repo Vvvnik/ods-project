@@ -1,7 +1,7 @@
 
 
 :doctype: book
-:!title-page:
+:title-page:
 :custom_title_page: contract
 :custom_other_page: contract
 

@@ -1,10 +1,10 @@
 :doctype: book
-:!title-page:
+:title-page:
 :custom_title_page: original_frame
 :custom_other_page: original_frame
 :approval-page: true
 // этот аттрибут указан в файле attr_common.adoc
-// :custom_list_type: alphabetic 
+:custom_list_type: alphabetic 
 // name_dokument_master – название документа 1
 :name_dokument_master: Описание языка программирования
 // name_dokument_slave – название документа 2
