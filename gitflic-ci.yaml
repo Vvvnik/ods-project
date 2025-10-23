@@ -1,12 +1,3 @@
-workflow:
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: always
-    - if: '$CI_COMMIT_TAG'
-      when: always
-    - when: never
 stages: [build, deploy]
 
 variables:
@@ -15,7 +6,7 @@ variables:
   KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"  # pinned mirror in your registry
   GIT_DEPTH: "20"
   # Технические файлы, которые влияют на генерацию контента
-  TECHNICAL_FILES: "tools/**,.gitlab-ci.yml,modules/**,antora-playbook.yml,components/*/antora.yml,resources/**"
+  TECHNICAL_FILES: "tools/**,gitflic-ci.yaml,modules/**,antora-playbook.yml,components/*/antora.yml,resources/**"
 
 # Объединенная сборка: PDF + сайт
 build_all:
@@ -27,11 +18,11 @@ build_all:
   rules:
     - if: "$CI_COMMIT_TAG"
       when: never
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
       changes:
         - $TECHNICAL_FILES
         - antora-*.yml
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
       when: on_success
   cache:
     key: ${CI_COMMIT_REF_SLUG}
@@ -59,17 +50,17 @@ pages:
   rules:
     - if: "$CI_COMMIT_TAG"
       when: never
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
       changes:
         - $TECHNICAL_FILES
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
       when: on_success
-  script: ['echo "Deploy GitLab Pages"']
+  script: ['echo "Deploy GitFlic Pages"']
   artifacts:
     paths: [public]
     expire_in: never
 
-# 4) Подготовка release notes по тегу
+# Подготовка release notes по тегу
 prepare_release_notes:
   stage: deploy
   image: alpine:latest
@@ -141,7 +132,7 @@ release:
     - if: "$CI_COMMIT_TAG"
       when: on_success
   script:
-    - echo "Creating GitLab Release for tag $CI_COMMIT_TAG"
+    - echo "Creating GitFlic Release for tag $CI_COMMIT_TAG"
     - |
       set -e
       export RELEASE_NOTES="$(cat dist/release-notes.adoc 2>/dev/null || echo "Release $CI_COMMIT_TAG")"
