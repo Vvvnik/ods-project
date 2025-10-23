@@ -132,7 +132,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * openapi-swagger-adoc.rb – конвертер API в AsciiDoc;
 * generate_lists.rb – генератор списков файлов;
 * translations_one.rb – переводы;
-* viewer.html – просмотрщик;
+* viewer.html – просмотрщик.
 
 === Библиотеки (lib/)
 
