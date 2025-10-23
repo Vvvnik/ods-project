@@ -1,0 +1,411 @@
+include::../partials/attr_common.adoc[]
+= Start.rb Script
+:sectnums:
+
+== Purpose
+
+The `tools/start.rb` script is the main coordinator for documentation generation in the project. It reads configuration from `tools/config.yml`, processes all documentation components, and launches corresponding generation processes in the correct order.
+
+// insertion of common warning block for several pages
+include::../partials/warning_point.adoc[]
+
+== Configuration Structure
+
+Settings for all documentation components are defined in the tools/config.yml file. The start.rb script processes these settings and launches corresponding generation processes.
+
+=== defaults Section
+
+The defaults section contains default settings for all components:
+
+.YAML structure of defaults section
+----
+defaults: &defaults
+  # BPMN diagrams
+  bpmn:
+    enabled: false                # ← Enable/disable BPMN generation
+    src: "components/{name}/modules/ROOT/examples/bpmn"           # ← Where to get .bpmn files
+    dst: "components/{name}/modules/ROOT/images/bpmn"            # ← Where to save images
+    erase_destination_folder: true # ← Clear destination folder before generation
+  
+  # Draw.io diagrams  
+  drawio:
+    enabled: false                # ← Enable/disable Draw.io generation
+    src: "components/{name}/modules/ROOT/examples/drawio"        # ← Where to get .drawio files
+    dst: "components/{name}/modules/ROOT/images/drawio"          # ← Where to save images
+    erase_destination_folder: true # ← Clear destination folder before generation
+  
+  # API documentation
+  api:
+    enabled: false                # ← Enable/disable API documentation generation
+    dst: "components/{name}/modules/ROOT/partials/docs-api"       # ← Where to save API documentation
+    api_sources_file: "components/{name}/modules/ROOT/examples/sources.yml"  # ← API sources file
+    erase_destination_folder: true # ← Clear destination folder before generation
+  
+  # Database
+  db:
+    enabled: false                # ← Enable/disable DB documentation generation
+    images_dir: "components/{name}/modules/ROOT/images/images-db" # ← Folder for DB schema images
+    dst: "components/{name}/modules/ROOT/partials/docs-db"       # ← Where to save DB documentation
+    database_connect_file: "components/{name}/modules/ROOT/examples/database.yml"  # ← Database connection file
+    erase_destination_folder: false # ← DON'T clear destination folder (preserve existing)
+    profile: "pg_demo"            # ← Database profile for connection
+  
+  # PDF generation
+  pdf:
+    enabled: false                # ← Enable/disable PDF generation
+    src: "components/{name}/modules/*/pages"                   # ← Where to get .adoc files
+    dst: "components/{name}/modules/ROOT/attachments"          # ← Where to save PDF files
+    converter: "tools/scripts/convert_ascii_to_pdf.rb"     # ← Unified converter with automatic theme selection
+    theme: "report"               # ← PDF styling theme
+    themes_dir: "resources/themes" # ← Themes folder
+    fonts_dir: "resources/fonts"  # ← Fonts folder
+    exclude_files: ["index.adoc"] # ← Files excluded from generation
+    erase_destination_folder: true # ← Clear destination folder before generation
+    use_title_pages: false        # ← Use title pages
+  
+  # File list generation
+  list:
+    enabled: true                    # ← Enabled by default
+    adoc_lists: true                # ← .adoc file lists (everywhere)
+    pdf_lists: false                # ← PDF lists (only where needed)
+    # Directories
+    adoc_src: "components/{name}/modules/*/pages"     # ← Where to get .adoc
+    pdf_src: "components/{name}/modules/ROOT/attachments"  # ← Where to get PDF
+    dst: "components/{name}/modules/ROOT/partials/lists"  # ← Where to save lists
+    # Generation types
+----
+
+=== components Section
+
+Each component can override any settings from defaults:
+
+.YAML structure of components section
+----
+components:
+  - name: information-system
+    <<: *defaults
+    drawio:
+      enabled: true
+    pdf:
+      enabled: true
+      use_title_pages: true
+      pdf_lists: true
+
+  - name: data-processing-engine
+    <<: *defaults
+    bpmn:
+      enabled: true
+----
+
+== Processing Architecture
+
+=== ConfigParser Module
+
+The ConfigParser module contains methods for getting settings for each type:
+
+==== BPMN/Draw.io Settings Method
+
+[source,ruby]
+----
+def self.get_diagram_settings(comp, defaults)
+  bpmn_settings = comp['bpmn'] || defaults.dig('defaults', 'bpmn') || {}
+  drawio_settings = comp['drawio'] || defaults.dig('defaults', 'drawio') || {}
+  
+  {
+    bpmn_enabled: bpmn_settings['enabled'] || false,
+    bpmn_src: Utils.expand(bpmn_settings['src'] || defaults.dig('defaults', 'bpmn', 'src'), comp),
+    bpmn_dst: Utils.expand(bpmn_settings['dst'] || defaults.dig('defaults', 'bpmn', 'dst'), comp),
+    bpmn_erase_folder: bpmn_settings['erase_destination_folder'] || defaults.dig('defaults', 'bpmn', 'erase_destination_folder') || false,
+    drawio_enabled: drawio_settings['enabled'] || false,
+    drawio_src: Utils.expand(drawio_settings['src'] || defaults.dig('defaults', 'drawio', 'src'), comp),
+    drawio_dst: Utils.expand(drawio_settings['dst'] || defaults.dig('defaults', 'drawio', 'dst'), comp),
+    drawio_erase_folder: drawio_settings['erase_destination_folder'] || defaults.dig('defaults', 'drawio', 'erase_destination_folder') || false
+  }
+end
+----
+
+==== API Settings Method
+
+[source,ruby]
+----
+def self.get_api_settings(comp, defaults, name) 
+  api_settings = comp['api'] || defaults.dig('defaults', 'api') || {}
+  
+  {
+    enabled: api_settings['enabled'] || false,
+    dst: Utils.expand(api_settings['dst'] || defaults.dig('defaults', 'api', 'dst'), comp),
+    sources_file: Utils.expand(api_settings['api_sources_file'] || defaults.dig('defaults', 'api', 'api_sources_file'), comp),
+    erase_folder: api_settings['erase_destination_folder'] || defaults.dig('defaults', 'api', 'erase_destination_folder') || false
+  }
+end
+----
+
+==== Database Settings Method
+
+[source,ruby]
+----
+def self.get_db_settings(comp, defaults, name)
+  db_settings = comp['db'] || defaults.dig('defaults', 'db') || {}
+  db_config_path = Utils.expand(db_settings['database_connect_file'] || defaults.dig('defaults', 'db', 'database_connect_file'), comp)
+  return nil unless File.exist?(db_config_path)
+  
+  db_config = YAML.safe_load(File.read(db_config_path))
+  default_profile = db_config['default_profile'] || 'pg_demo'
+  prof = db_config['profiles'][default_profile] || {}
+  
+  {
+    enabled: db_settings['enabled'] || false,
+    profile: default_profile,
+    connection: prof,
+    dst: Utils.expand(db_settings['dst'] || defaults.dig('defaults', 'db', 'dst'), comp),
+    images_dir: Utils.expand(db_settings['images_dir'] || defaults.dig('defaults', 'db', 'images_dir'), comp),
+    erase_folder: db_settings['erase_destination_folder'] || defaults.dig('defaults', 'db', 'erase_destination_folder') || false
+  }
+end
+----
+
+=== Runtime Environment Check
+
+The script automatically detects runtime environment and disables generation in CI:
+
+[source,ruby]
+----
+# In CI, disable diagram generation (no Chrome and Draw.io)
+if ENV['CI']
+  diagram_settings[:bpmn_enabled] = false
+  diagram_settings[:drawio_enabled] = false
+end
+
+# In CI, disable API generation (no access to sources)
+if ENV['CI']
+  api_settings[:enabled] = false
+end
+
+# In CI, disable DB generation (no database access)
+if ENV['CI'] && db_settings
+  db_settings[:enabled] = false
+end
+----
+
+Result:
+* Locally: works as configured in config.yml;
+* In CI: automatically disables diagram, API, and DB generation.
+
+=== Main Processing Loop
+
+In start.rb, a loop through all components is executed:
+
+[source,ruby]
+----
+cfg['components'].each do |comp|
+  name = comp['name']
+  puts "=== Processing component: #{name} ==="
+  
+  # 1. BPMN conversion
+  diagram_settings = ConfigParser.get_diagram_settings(comp, cfg)
+  if diagram_settings[:bpmn_enabled]
+    puts "  -> bpmn: #{diagram_settings[:bpmn_src]} -> #{diagram_settings[:bpmn_dst]}"
+    Utils.prepare_destination_dir(diagram_settings[:bpmn_dst], diagram_settings[:bpmn_erase_folder])
+    system(%(node "#{bpmn_js}" --in "#{diagram_settings[:bpmn_src]}" --out "#{diagram_settings[:bpmn_dst]}" --format svg))
+  end
+
+  # 2. Drawio conversion
+  if diagram_settings[:drawio_enabled]
+    puts "  -> drawio: #{diagram_settings[:drawio_src]} -> #{diagram_settings[:drawio_dst]}"
+    Utils.prepare_destination_dir(diagram_settings[:drawio_dst], diagram_settings[:drawio_erase_folder])
+    system(%(node "#{drawio_js}" --in "#{diagram_settings[:drawio_src]}" --out "#{diagram_settings[:drawio_dst]}" --format svg))
+  end
+
+  # 3. API conversion
+  api_settings = ConfigParser.get_api_settings(comp, cfg, name)
+  if api_settings[:enabled]
+    puts "  -> api: #{api_settings[:dst]}"
+    puts "  -> sources: #{api_settings[:sources_file]}"
+    
+    Utils.prepare_destination_dir(api_settings[:dst], api_settings[:erase_folder])
+    
+    if File.exist?(api_settings[:sources_file])
+      sources_abs_path = File.expand_path(api_settings[:sources_file])
+      system(%(ruby "#{api_rb}" --sources "#{sources_abs_path}" --out "#{api_settings[:dst]}"))
+    else
+      puts "  ❌ API sources file not found: #{api_settings[:sources_file]}"
+    end
+  end
+
+  # 4. DB conversion
+  db_settings = ConfigParser.get_db_settings(comp, cfg, name)
+  if db_settings && db_settings[:enabled]
+    puts "  -> bd(#{db_settings[:profile]}): #{db_settings[:connection]['host']}:#{db_settings[:connection]['port']}/#{db_settings[:connection]['db']} -> #{db_settings[:dst]}"
+    puts "  -> bd_images: -> #{db_settings[:images_dir]}"
+    
+    Utils.prepare_destination_dir(db_settings[:dst], db_settings[:erase_folder])
+    Utils.prepare_destination_dir(db_settings[:images_dir], db_settings[:erase_folder])
+    
+    system(%(ruby "#{bd_rb}" --host "#{db_settings[:connection]['host']}" --port "#{db_settings[:connection]['port']}" --db "#{db_settings[:connection]['db']}" --user "#{db_settings[:connection]['user']}" --pass "#{db_settings[:connection]['pass']}" --out "#{db_settings[:dst]}" --images "#{db_settings[:images_dir]}"))
+  end
+
+  # 5. PDF generation
+  PdfGenerator.generate_pdfs(comp, KROKI_URL, cfg)
+end
+----
+
+== Execution Order
+
+=== Component Processing Stages
+
+The script executes operations in the following order for each component:
+
+1. BPMN diagram conversion
+   * Source files: components/{name}/modules/ROOT/examples/bpmn/*.bpmn
+   * Result: SVG images in components/{name}/modules/ROOT/images/bpmn/
+   * Script: tools/scripts/bpmn_to_img.js
+
+2. Draw.io diagram conversion
+   * Source files: components/{name}/modules/ROOT/examples/drawio/*.drawio
+   * Result: SVG images in components/{name}/modules/ROOT/images/drawio/
+   * Script: tools/scripts/drawio_to_img.js
+
+3. API documentation conversion
+   * Sources: components/{name}/modules/ROOT/examples/sources.yml
+   * Result: AsciiDoc files in components/{name}/modules/ROOT/partials/docs-api/
+   * Script: tools/scripts/openapi-swagger-adoc.rb
+
+4. Database documentation conversion
+   * Sources: components/{name}/modules/ROOT/examples/database.yml
+   * Result: AsciiDoc files in components/{name}/modules/ROOT/partials/docs-db/
+   * Result: SVG schemas in components/{name}/modules/ROOT/images/images-db/
+   * Script: tools/scripts/db_to_adoc.rb
+
+5. PDF document generation
+   * Source files: components/{name}/modules/*/pages/*.adoc
+   * Result: PDF files in components/{name}/modules/ROOT/attachments/
+   * Script: tools/lib/pdf_generator.rb
+
+6. File list generation (planned)
+   * Source files: components/{name}/modules/*/pages/*.adoc
+   * Result: navigation file components/{name}/modules/ROOT/partials/list-pages-component.adoc
+   * Script: tools/scripts/generate_lists.rb
+
+== Usage
+
+=== Script Launch
+
+[source,bash]
+----
+# Using default configuration
+ruby tools/start.rb
+
+# Using custom configuration
+ruby tools/start.rb custom_config.yml
+----
+
+=== Environment Variables
+
+The script supports the following environment variables:
+
+.start.rb environment variables
+
+[cols="1,2,2", options="header, breakable"]
+|===
+^|Variable ^|Default Value ^|Description
+
+|KROKI_SERVER_URL
+|http://localhost:8000
+|Kroki server URL for diagram generation
+
+|DB_HOST
+|nil
+|Database host override (for DB converter)
+
+|DB_PORT
+|nil
+|Database port override
+
+|DB_NAME
+|nil
+|Database name override
+
+|DB_USER
+|nil
+|Database user override
+
+|DB_PASS
+|nil
+|Database password override
+
+|===
+
+== Functionality Extension
+
+=== Adding New Generation Type
+
+To add a new generation type (e.g., file lists), you need to:
+
+1. Add method to ConfigParser
+   [source,ruby]
+   ----
+   def self.get_list_settings(comp, defaults)
+     list_settings = comp['list'] || defaults.dig('defaults', 'list') || {}
+     
+     {
+       enabled: list_settings['enabled'] || false,
+       adoc_lists: list_settings['adoc_lists'] || false,
+       adoc_src: Utils.expand(list_settings['adoc_src'] || defaults.dig('defaults', 'list', 'adoc_src'), comp),
+       dst: Utils.expand(list_settings['dst'] || defaults.dig('defaults', 'list', 'dst'), comp)
+     }
+   end
+   ----
+
+2. Add processing to start.rb
+   [source,ruby]
+   ----
+   # 6. File list generation
+   list_settings = ConfigParser.get_list_settings(comp, cfg)
+   if list_settings[:enabled] && list_settings[:adoc_lists]
+     puts "  -> list: navigation generation"
+     system(%(ruby "tools/scripts/generate_lists.rb"))
+   end
+   ----
+
+3. Create executable script
+   * Script must be executable and located in tools/scripts/
+   * Script must accept necessary parameters via command line arguments
+
+=== Settings Processing Principles
+
+. Settings priority: Component settings override default settings
+. Path expansion: Utils.expand() is used for variable substitution in paths
+. Existence check: Source file existence is checked before launch
+. Directory preparation: Utils.prepare_destination_dir() is used for destination folder preparation
+. Logging: All operations are logged with input and output file paths
+
+== config.yml Selection Logic
+
+Component settings are obtained using the following logic:
+
+[source,ruby]
+----
+# Settings retrieval path:
+settings = comp['[section]'] || defaults.dig('defaults', '[section]') || {}
+
+# Parameter processing with fallback:
+param_value = settings['param'] || defaults.dig('defaults', '[section]', 'param') || default_value
+
+# Path expansion:
+expanded_path = Utils.expand(path_template, comp)
+----
+
+Example of list settings retrieval:
+
+[source,ruby]
+----
+list_settings = comp['list'] || defaults.dig('defaults', 'list') || {}
+enabled = list_settings['enabled'] || false  # Returns component value or false from defaults
+adoc_lists = list_settings['adoc_lists'] || defaults.dig('defaults', 'list', 'adoc_lists') || false
+----
+
+This logic allows:
+
+* Override any settings at component level;
+* Use reasonable default values;
+* Easily add new parameters to existing sections.

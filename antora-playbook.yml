@@ -1,7 +1,7 @@
 site:
   title: ODS - Open Documentation Standard
   # на GitHub Pages можно не указывать url, либо указать свой домен
-  start_page: project-guide::index.adoc
+  start_page: project-guide-en::index.adoc
   
 content:
   sources:
@@ -25,6 +25,10 @@ content:
       branches: HEAD
       worktrees: true
       start_path: components/project-guide
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/project-guide-en
 
 ui:
   bundle:

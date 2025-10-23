@@ -1,0 +1,141 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Project Root Documents
+:sectnums:
+
+Important documents describing the project, its licenses, participation rules, and support are located in the ODS project root.
+
+== Main Documents
+
+=== README.md
+Main project file containing:
+
+* ODS (Open Documentation Standard) description;
+* Quick start with installation and launch commands;
+* License information;
+* Links to main resources.
+
+=== MANIFESTO.adoc
+Project manifesto including:
+
+* ODS principles and goals;
+* Standard application areas;
+* Profile ecosystem (ODS-API, ODS-DB, ODS-UML, etc.);
+* License table for all components.
+
+=== readme.adoc
+Alternative README version in AsciiDoc format containing:
+
+* Project description in AsciiDoc format;
+* Structured project information;
+* Compatibility with Antora documentation system.
+
+=== package.json and package-lock.json
+Node.js dependency configuration for the project:
+
+* package.json – dependency and script descriptions;
+* package-lock.json – exact dependency versions for reproducible builds;
+* Contains dependencies for Antora, Kroki, and other tools.
+
+=== NOTICE.adoc
+Third-party software notice including:
+
+* List of all used libraries and their licenses;
+* Author and source information;
+* Project repository links;
+* License condition details for each component.
+
+== Licenses
+
+The project uses a dual licensing model:
+
+=== LICENSE.md
+Summary file explaining the project's licensing policy.
+
+=== LICENSE-CODE.md
+Apache License 2.0 for:
+
+* Code and scripts;
+* Parsers and converters;
+* CI/CD configurations;
+* Generation tools.
+
+=== LICENSE-DOCS.md
+Creative Commons Attribution 4.0 International (CC-BY 4.0) for:
+
+* Documentation, templates, and demo data;
+* GOST-like forms;
+* AsciiDoc examples;
+* Text materials.
+
+== Project Participation
+
+=== CONTRIBUTING.md
+Detailed participation guide including:
+
+* Ways to help the project;
+* Pull Request formatting rules;
+* Project and component structure;
+* Documentation work (AsciiDoc, Antora);
+* Local development;
+* Code of conduct.
+
+=== CODE_OF_CONDUCT.md
+Project participant code of conduct based on Contributor Covenant:
+
+* Participant obligations;
+* Acceptable behavior standards;
+* Conflict resolution procedures.
+
+== Support and Security
+
+=== SUPPORT.md
+Project support information:
+
+* Where to find help (Issues, community chat);
+* Frequently asked questions;
+* Contact information.
+
+=== SECURITY.md
+Security policy:
+
+* Vulnerability reporting procedures;
+* Supported versions;
+* Contact information for security issues.
+
+== Change History
+
+=== CHANGELOG.md
+Project change log following Keep a Changelog standard:
+
+* Format based on SemVer;
+* All notable changes documented;
+* Includes information about added features, fixes, and changes.
+
+== Document Relationships
+
+All documents are interconnected through cross-references:
+
+* README links to licenses and main documents;
+* CONTRIBUTING links to CODE_OF_CONDUCT and SECURITY;
+* SUPPORT links to CONTRIBUTING and CHANGELOG;
+* SECURITY links to Issues for vulnerability reports.
+
+== Usage Recommendations
+
+* Start with README.md for general project understanding;
+* Study MANIFESTO.adoc to understand ODS philosophy;
+* Review CONTRIBUTING.md before starting participation;
+* Use SUPPORT.md when questions arise;
+* Follow SECURITY.md when vulnerabilities are discovered.
+
+== Demo Data Notice
+
+Demo data included in the project (e.g., toys API and database schemas) is provided exclusively for documentation and demonstration purposes. This demo data:
+
+* Is fictional and created only for examples;
+* Does not represent real products, services, or business data;
+* Is intended to demonstrate ODS capabilities;
+* Should not be used in production.

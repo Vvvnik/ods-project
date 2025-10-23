@@ -1,0 +1,243 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Config.yml Setup
+:sectnums:
+The project is configured through the central file tools/config.yml.
+
+== Configuration Sections
+
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Section ^|Parameter ^|Description
+
+|themes_dir
+|PDF Themes Path
+|Directory with theme files for PDF generation
+
+|defaults
+|Default Settings
+|Common parameters for all components (bpmn, drawio, api, db, pdf, list)
+
+|components
+|Component List
+|Configuration for each component with defaults override
+|===
+
+=== Database and API Settings
+
+Database and API source settings are located in components:
+
+* components/{name}/modules/ROOT/examples/database.yml – database profiles;
+* components/{name}/modules/ROOT/examples/sources.yml – API sources.
+
+The path to database and API source settings is specified in the tools/config.yml file in the defaults section through parameters:
+* `database_connect_file` – path to database connection file;
+* `api_sources_file` – path to API sources file.
+
+=== Section Order
+
+The order of sections in config.yml is not important:
+
+[source,yaml]
+----
+# Any of these options works the same way:
+
+# Option 1
+pdf:
+  enabled: true
+drawio:
+  enabled: true
+list:
+  pdf_lists: true
+
+# Option 2  
+list:
+  pdf_lists: true
+pdf:
+  enabled: true
+drawio:
+  enabled: true
+----
+
+Reason: YAML structure is a dictionary where key order does not affect functionality. Ruby code reads configuration regardless of section order.
+
+== Component Configuration Example
+
+[source,yaml]
+----
+- name: airport-service
+  <<: *defaults
+  db:
+    enabled: true
+    profile: "pg_demo"
+  pdf:
+    enabled: true
+
+- name: toys-service
+  <<: *defaults
+  api:
+    enabled: true
+    api_sources_file: "components/{name}/modules/ROOT/examples/sources.yml"
+----
+
+:tip-caption: Note
+
+[TIP]
+In real configuration, most components are commented out to speed up builds. To enable a component, uncomment the corresponding sections.
+
+== Main Configuration Parameters
+
+=== Global Parameters
+
+* `themes_dir` – path to PDF themes directory (default: "resources/themes")
+
+=== Defaults Section Parameters
+
+==== BPMN Diagrams (bpmn:)
+
+* `enabled` – enable/disable BPMN generation
+* `src` – source directory with .bpmn files
+* `dst` – target directory for images
+* `erase_destination_folder` – clear destination folder
+
+==== Draw.io Diagrams (drawio:)
+
+* `enabled` – enable/disable Draw.io generation
+* `src` – source directory with .drawio files
+* `dst` – target directory for images
+* `erase_destination_folder` – clear destination folder
+
+==== API Documentation (api:)
+
+* `enabled` – enable/disable API documentation generation
+* `dst` – target directory for API documentation
+* `api_sources_file` – path to API sources file
+* `erase_destination_folder` – clear destination folder
+
+==== Database (db:)
+
+* `enabled` – enable/disable DB documentation generation
+* `images_dir` – folder for DB schema images
+* `dst` – target directory for DB documentation
+* `database_connect_file` – path to database connection file
+* `profile` – database profile for connection
+* `erase_destination_folder` – clear destination folder
+
+==== PDF Generation (pdf:)
+
+* `enabled` – enable/disable PDF generation
+* `src` – source directory with .adoc files
+* `dst` – target directory for PDF files
+* `converter` – path to PDF converter
+* `theme` – PDF styling theme
+* `themes_dir` – themes folder
+* `fonts_dir` – fonts folder
+* `exclude_files` – files excluded from generation
+* `use_title_pages` – use title pages
+
+==== File Lists (list:)
+
+* `enabled` – enable/disable list generation
+* `adoc_lists` – .adoc file lists
+* `pdf_lists` – PDF lists (only when PDF generation is enabled)
+* `adoc_src` – source directory with .adoc files
+* `pdf_src` – source directory with PDF files
+* `dst` – target directory for lists
+
+== Recommendations
+
+* Do not enable database and API parsing by default;
+* Use nested sections (bpmn:, drawio:, api:, db:, pdf:, list:) to control generation;
+* Configure kroki_url for PlantUML diagram processing.
+
+== Diagram Build Configuration
+
+=== Image Path Issues
+
+When using diagrams in different component modules, there's an issue with image paths:
+
+* ROOT module is suitable for images needed in both PDF and Antora, BUT ONLY if the AsciiDoc file referencing them is in the ROOT module;
+* The problem occurs when the AsciiDoc file is in the ed module, but images are in the ROOT module;
+* The path image::drawio/diagrams_diagram-1.svg[] doesn't work for both PDF and Antora because :imagesdir: ../images points to modules/ed/images/, not to modules/ROOT/images/.
+
+=== Solutions
+
+==== Solution 1: Placing Images in the Same Module
+
+Place images in the same module where the AsciiDoc file is located, and configure diagram generation for each module separately:
+
+[source,yaml]
+----
+- name: information-system
+  <<: *defaults
+  drawio:
+    enabled: true
+    dst: "components/{name}/modules/ed/images/drawio"
+
+- name: information-system
+  <<: *defaults
+  drawio:
+    enabled: true
+    dst: "components/{name}/modules/trd/images/drawio"
+
+- name: information-system
+  <<: *defaults
+  drawio:
+    enabled: true
+    dst: "components/{name}/modules/ROOT/images/drawio"
+----
+
+Advantages:
+
+* Simple paths image::drawio/diagrams_diagram-1.svg[];
+* Works in both PDF and Antora;
+* No conditional logic required.
+
+==== Solution 2: Conditional Logic with env-antora
+
+Use conditional logic in modules for different paths in PDF and Antora:
+
+[source,adoc]
+----
+:imagesdir: ../images
+\ifdef::env-antora[]
+image::ROOT:drawio/diagrams_diagram-1.svg[] # ROOT or module name
+\endif::[]
+\ifndef::env-antora[]
+image::../../ROOT/images/drawio/diagrams_diagram-1.svg[] 
+\endif::[]
+----
+
+The env-antora variable:
+
+* Defined in antora-playbook.yml;
+* Active during Antora build;
+* Allows using different paths for PDF and Antora.
+
+=== Global Settings
+
+PDF and lists work for all component modules automatically:
+
+[source,yaml]
+----
+- name: information-system
+  <<: *defaults
+  pdf:
+    enabled: true
+    use_title_pages: true
+  list:
+    pdf_lists: true
+----
+
+Result:
+
+* PDF is generated from all modules (ed, trd, oed) and saved in ROOT/attachments/;
+* Lists create navigation for all modules and save in ROOT/partials/.
+
+=== Diagram Recommendations
+
+* For diagrams in different modules: use Solution 1 – separate configuration for each module;
+* For common diagrams: use Solution 2 – conditional logic with env-antora;
+* PDF and lists: configure once for the entire component.

@@ -1,0 +1,533 @@
+include::../partials/attr_common.adoc[]
+= List Converter Setup
+:sectnums:
+This document describes the selective converter system for processing lists in PDF generation.
+
+== System Overview
+
+The system allows selecting various list numbering styles in PDF documents through the :custom_list_type: attribute.
+
+Additionally, the system automatically selects appropriate PDF theme:
+
+* Frame theme – for documents with frames (page types with _frame suffix);
+* Report theme – for regular documents.
+
+This ensures optimal document styling considering their type.
+
+Theme files frame-theme.yml and report-theme.yml are located in resources/themes directory.
+
+=== Connection with Other Converters
+
+The list system is part of the general modular architecture of PDF converters. For more details on the system architecture, see xref:Page_Theme_Setup.adoc#converter-system-architecture[Converter System Architecture].
+
+=== Supported List Types
+
+Both list types use the same numbering logic:
+
+dash::
+Style with dashes on second level.
+
++
+
+Numbering logic:
+
+. Level 1: 1) 2) 3).
+. Level 2: dash –.
+. Level 3+: dash –.
+
+alphabetic::
+Style with letters on second level.
+
++
+
+Numbering logic:
+
+. Level 1: 1) 2) 3).
+. Level 2: а) б) в).
+. Level 3+: dash –.
+
+Note: Types `dash` and `alphabetic` differ in numbering logic on second level: `dash` uses dashes (–), while `alphabetic` uses letters (а) б) в)).
+
+== Document Configuration
+
+=== Individual Document Configuration
+
+To select list type, add to your document:
+
+[source]
+----
+:custom_list_type: dash
+----
+
+Or for alternative style:
+
+[source]
+----
+:custom_list_type: alphabetic
+----
+
+=== Centralized Configuration for Entire Component
+
+For documentation consistency, we recommend setting the attribute in component's attr_common.adoc file.
+
+File modules/ROOT/partials/attr_common.adoc:
+
+[source]
+----
+:custom_list_type: alphabetic
+----
+
+This guarantees that all documents in the component will use the same list numbering style.
+
+Settings override at document level is still possible.
+
+=== List Examples
+
+This is how a list with dash style looks:
+
+[source]
+----
+. First item;
+.. Subitem;
+.. Subitem;
+.. Subitem;
+... Additional dash;
+... Another dash;
+. Second item.
+----
+
+Result:
+
+[literal]
+----
+1) First item;
+    а) Subitem;
+    б) Subitem;
+    в) Subitem;
+        – Additional dash;
+        – Another dash;
+2) Second item.
+----
+
+== System Architecture
+
+=== Configuration
+
+Converter type settings in tools/config_type_page.yml:
+
+[source,yaml]
+----
+list_types:
+  alphabetic: "convert_list_alphabetic"
+  dash: "convert_list_dash"
+----
+
+==== Alternative Configuration
+
+For large projects with multiple list converters, configuration can be moved to separate file tools/config_type_list.yml:
+
+[source,yaml]
+----
+# tools/config_type_list.yml
+list_types:
+  # Standard styles
+  alphabetic: "convert_list_alphabetic"
+  dash: "convert_list_dash"
+  
+  # Specialized styles
+  gost: "convert_list_gost"
+  legal: "convert_list_legal"
+  academic: "convert_list_academic"
+  roman: "convert_list_roman"
+----
+
+Advantages of separate file:
+
+* Better configuration organization;
+* Simplification of main config_type_page.yml file;
+* Possibility to version list converters separately;
+* Convenience for team work.
+
+Connection in main converter:
+[source,ruby]
+----
+def load_config
+  # Load main configuration
+  @config = YAML.load_file('tools/config_type_page.yml')
+  
+  # Load list configuration if file exists
+  list_config_path = 'tools/config_type_list.yml'
+  if File.exist?(list_config_path)
+    list_config = YAML.load_file(list_config_path)
+    @config['list_types'] = list_config['list_types'] if list_config['list_types']
+  end
+end
+----
+
+=== File Structure
+
+*kernel converter* convert_ascii_to_pdf.rb::
+Main converter with module selection logic.
+
+*alphabetic module* convert_list_alphabetic.rb::
+Module for alphabetic list style.
+
+*dash module* convert_list_dash.rb::
+Module for dash list style.
+
+=== Work Algorithm
+
+. Document loads with :custom_list_type: attribute.
+. CustomPDFConverter reads configuration from config_type_page.yml.
+. Corresponding module is dynamically loaded and included.
+. All list processing methods are overridden by module.
+. PDF is generated with selected numbering style.
+
+== Technical Details
+
+=== Dynamic Module Loading
+
+The system uses dynamic Ruby module loading:
+
+[source,ruby]
+----
+def load_list_converter_module(doc)
+  custom_list_type = doc.attr('custom_list_type')
+  list_types = @config['list_types'] || {}
+  module_name = list_types[custom_list_type]
+  
+  case module_name
+  when "convert_list_alphabetic"
+    require_relative 'convert_list_alphabetic'
+    @list_converter_module = ConvertListAlphabetic
+  when "convert_list_dash"
+    require_relative 'convert_list_dash'  
+    @list_converter_module = ConvertListDash
+  end
+  
+  self.class.include(@list_converter_module)
+end
+----
+
+=== Overrideable Methods
+
+Each module overrides the following methods:
+
+* convert_ulist(node)::
+
+Processing unordered lists.
+
+* convert_olist(node)::
+
+Processing ordered lists with marker selection.
+
+* convert_list(node)::
+
+General list processing logic.
+
+* convert_list_item(node, list, opts)::
+
+Forming markers for list items.
+
+== Usage Examples
+
+=== Dash Style for Technical Documents
+
+For documents with deep nesting, dash is preferred:
+
+[source]
+----
+:custom_list_type: dash
+
+== Main Requirements
+
+. Functional requirements;
+.. Data loading;
+.. Request processing;
+.. Result saving;
+. Non-functional requirements;
+.. Performance;
+.. Reliability;
+. System limitations;
+.. Compatibility;
+.. Security.
+----
+
+=== Alphabetic Style for Structured Documents
+
+For documents with simple structure, alphabetic is suitable:
+
+[source]
+----
+:custom_list_type: alphabetic
+
+== Program Algorithm
+
+. Converter initialization;
+. Load list module based on :custom_list_type:;
+. Automatic PDF theme selection:
+.. If custom_other_page ends with _frame → frame theme;
+.. Otherwise → report theme;
+. Document processing;
+. PDF formation with selected theme and list style;
+. Completion.
+----
+
+== Compatibility
+
+The system is fully compatible with existing documents. Documents without :custom_list_type: attribute use standard Asciidoctor PDF logic.
+
+== Recommendations
+
+* For GOST technical documents, dash is recommended;
+* For simple lists, alphabetic is suitable;
+* Styles can be switched between documents in one project.
+
+== Converter System Extension
+
+=== Creating Custom List Converters
+
+The system allows creating custom list converters for various numbering styles.
+
+==== Converter Module Structure
+
+Create new file in tools/scripts/ with name convert_list_[name].rb:
+
+[source,ruby]
+----
+module ConvertListCustom
+  def convert_ulist(node)
+    # Logic for unordered lists
+  end
+
+  def convert_olist(node)
+    # Logic for ordered lists
+  end
+
+  def convert_list(node)
+    # General list processing logic
+  end
+
+  def convert_list_item(node, list, opts = {})
+    # Forming markers for list items
+    # node.level – nesting level (1, 2, 3...)
+    # node.text – list item text
+  end
+end
+----
+
+==== Converter Registration
+
+Add new type to tools/config_type_page.yml:
+
+[source,yaml]
+----
+list_types:
+  alphabetic: "convert_list_alphabetic"
+  dash: "convert_list_dash"
+  custom: "convert_list_custom"  # ← New converter
+----
+
+==== Usage in Documents
+
+Set attribute in document or in attr_common.adoc:
+
+[source]
+----
+:custom_list_type: custom
+----
+
+=== Specialized Converter Examples
+
+==== GOST Document Converter
+
+[source,ruby]
+----
+module ConvertListGost
+  def convert_list_item(node, list, opts = {})
+    case node.level
+    when 1
+      marker = "#{@list_numerals.size + 1})"
+    when 2
+      marker = "#{('а'.ord + (@list_numerals.size % 32)).chr})"
+    else
+      marker = "–"
+    end
+    
+    "#{marker} #{node.text}"
+  end
+end
+----
+
+==== Legal Document Converter
+
+[source,ruby]
+----
+module ConvertListLegal
+  def convert_list_item(node, list, opts = {})
+    case node.level
+    when 1
+      marker = "#{@list_numerals.size + 1}."
+    when 2
+      marker = "#{('а'.ord + (@list_numerals.size % 32)).chr}."
+    when 3
+      marker = "#{@list_numerals.size + 1})"
+    else
+      marker = "–"
+    end
+    
+    "#{marker} #{node.text}"
+  end
+end
+----
+
+=== Converter Reuse
+
+==== Centralized Configuration
+
+Create converter profiles in tools/config_type_page.yml:
+
+[source,yaml]
+----
+list_types:
+  # Standard styles
+  alphabetic: "convert_list_alphabetic"
+  dash: "convert_list_dash"
+  
+  # Specialized styles
+  gost: "convert_list_gost"
+  legal: "convert_list_legal"
+  academic: "convert_list_academic"
+----
+
+==== Application in Different Documents
+
+Technical documentation:
+[source]
+----
+:custom_list_type: gost
+----
+
+Legal documents:
+[source]
+----
+:custom_list_type: legal
+----
+
+Academic works:
+[source]
+----
+:custom_list_type: academic
+----
+
+=== Development Recommendations
+
+* Naming: use descriptive module names (ConvertListGost, ConvertListLegal);
+* Documentation: add comments describing numbering logic;
+* Testing: check work on different nesting levels;
+* Compatibility: ensure converter works with existing documents.
+
+== Working with Attributes in Converters
+
+=== Important Limitation
+
+Ruby converters have critical limitation when working with AsciiDoc attributes:
+
+Converters can only read attributes defined directly in the processed file.
+
+Attributes from files included via include:: are not accessible to Ruby converters.
+
+=== Two Ways of Reading Attributes
+
+==== Direct File Reading
+
+Used in pdf_generator.rb for extracting :pdf-theme: and :custom_other_page: attributes:
+
+[source,ruby]
+----
+def self.extract_pdf_theme_from_document(adoc_file)
+  File.readlines(adoc_file, encoding: 'UTF-8').each do |line|
+    line = line.strip
+    if line.start_with?(':pdf-theme:')
+      theme = line.sub(':pdf-theme:', '').strip
+      return theme unless theme.empty?
+    end
+  end
+  nil
+end
+----
+
+Limitation: only reads attributes defined in the file itself.
+
+==== Reading Through Document Object
+
+Used in approval_page_generator.rb for extracting attributes from processed document:
+
+[source,ruby]
+----
+def self.extract_attributes_from_doc(doc)
+  attrs = {}
+  attrs['name_dokument_master'] = doc.attr('name_dokument_master') || ''
+  attrs['code'] = doc.attr('code') || ''
+  # ... other attributes
+  attrs
+end
+----
+
+Advantage: reads attributes after processing all include:: files.
+
+=== Practical Examples
+
+==== Example 1: Attributes in Main File
+
+[source,asciidoc]
+----
+:pdf-theme: act
+:custom_other_page: original_frame
+:name_dokument_master: Technical Specification
+
+// include::../../ROOT/partials/contract.adoc[]
+----
+
+Result: converters can read :pdf-theme:, :custom_other_page:, :name_dokument_master:.
+
+==== Example 2: Attributes in Include File
+
+[source,asciidoc]
+----
+// include::../../ROOT/partials/contract.adoc[]
+
+= Document
+----
+
+Where contract.adoc contains:
+[source,asciidoc]
+----
+:year: 2025
+:signer_1_name: I.I. Ivanov
+----
+
+Result: converters CANNOT read :year: and :signer_1_name: when using method 1.
+
+=== Recommendations
+
+* For converters: use only attributes defined in main document file;
+* For include files: use attributes only for substitution in document text;
+* For complex logic: use method 2 (through document object) in special generators.
+
+=== Workarounds
+
+If converter needs attributes from include files:
+
+* Duplicate attributes in main file;
+* Use generators (like approval_page_generator.rb) instead of converters;
+* Pre-process files to extract attributes.
+
+== Support
+
+The system automatically:
+
+* Loads needed modules;
+* Checks configuration correctness;
+* Outputs debug information during loading;
+* Handles errors when modules are missing.

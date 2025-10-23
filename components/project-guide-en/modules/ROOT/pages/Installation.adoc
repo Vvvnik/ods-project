@@ -1,0 +1,86 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+= Installation
+
+== Technology Stack
+
+[cols="1,2", options="header, breakable"]
+|===
+^|Technology ^|Purpose
+
+|AsciiDoc
+|Documentation markup
+
+|Antora
+|Documentation site generation
+
+|Asciidoctor PDF
+|PDF document creation
+
+|Kroki
+|Diagram processing
+
+|PlantUML
+|Architecture diagrams (SVG)
+
+|Graphviz
+|ERD diagrams (SVG)
+
+|PostgreSQL
+|Data source for DB documentation
+
+|Docker
+|Containerization and ready-made image with dependencies
+|===
+
+== Docker (Recommended Method)
+
+The project provides a ready-made Docker image with all necessary dependencies:
+
+[source,bash]
+----
+# Using the ready-made image
+docker pull registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1
+
+# PDF generation
+docker-compose -f docker/docker-compose.yml run --rm pdf
+
+# Documentation site build
+docker-compose -f docker/docker-compose.yml run --rm site
+----
+
+=== Docker Image Contents
+
+* **Ruby 3.2** + gems: `asciidoctor`, `asciidoctor-pdf`, `asciidoctor-diagram`, `asciidoctor-kroki`, `prawn`, `pg`, `hexapdf`
+* **Node.js 20** + packages: `@antora/cli`, `@antora/site-generator`, `@antora/lunr-extension`, `puppeteer`, `xml2js`
+* **System dependencies**: build-essential, git, curl, fonts
+
+== Local Installation
+
+=== Windows
+
+* Install Git, Node.js (LTS), Ruby, Graphviz;
+* Install Java (for PlantUML if needed);
+* Install Docker Desktop;
+* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
+* Node: npm install.
+
+=== Linux
+
+* Install Git, Node.js (LTS), Ruby, Graphviz;
+* Install Docker Engine and Docker Compose;
+* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
+* Node: npm install.
+
+=== macOS
+
+* Install Homebrew;
+* brew install node ruby graphviz;
+* Install Docker Desktop;
+* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
+* Node: npm install.
+
+include::../partials/prereqs.adoc[]

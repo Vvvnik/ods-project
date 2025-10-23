@@ -1,0 +1,98 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Local Kroki and Postgres Launch
+:sectnums:
+
+== Kroki
+
+Kroki is used for rendering diagrams (PlantUML, Mermaid, Graphviz) in the project.
+
+=== Local Launch (Docker)
+
+[source,bash]
+----
+docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
+----
+
+=== Environment Variables
+
+The project uses the `KROKI_SERVER_URL` variable to specify the Kroki server address:
+
+* Local: `http://localhost:8000`;
+* In CI: `http://kroki:8000`.
+
+=== Antora Configuration
+
+The `antora-playbook.yml` file is configured with URL for CI:
+
+[source,yaml]
+----
+kroki-server-url: http://kroki:8000  # for CI
+----
+
+:warning-caption: Important
+
+[NOTE]
+For local Antora launch, use CLI parameter that overrides YAML value:
+
+[source,bash]
+----
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+----
+
+This allows not manually changing `antora-playbook.yml` when switching between local development and CI.
+
+== Postgres
+
+PostgreSQL is used as a data source for database documentation generation.
+
+=== Local Launch (Docker)
+
+[source,bash]
+----
+docker run --rm -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15
+----
+
+=== Database Connection
+
+After launching PostgreSQL, it's available at:
+
+* Host: `localhost`;
+* Port: `5432`;
+* User: `postgres`;
+* Password: `postgres`.
+
+== Docker Compose
+
+For convenience, you can use a docker-compose file:
+
+[source,yaml]
+----
+version: '3.8'
+services:
+  kroki:
+    image: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
+    ports: ['8000:8000']
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports: ['5432:5432']
+----
+
+Launch:
+[source,bash]
+----
+docker-compose up -d
+----
+
+== Project Integration
+
+These services are used in:
+
+* **CI/CD** - Kroki runs as service in GitLab CI;
+* **Local development** - for testing diagram and database documentation generation;
+* **db_to_adoc.rb script** - connects to PostgreSQL to extract database schema;
+* **Antora** - uses Kroki for rendering PlantUML diagrams.

@@ -1,0 +1,12 @@
+:warning-caption: Warning!
+[WARNING]
+====
+The `tools/start.rb` script should be run **before each Antora site build** if:
+
+* Database schemas have changed;
+* API specifications have been updated;
+* New component pages have been added;
+* Diagrams have changed (BPMN, Draw.io, PlantUML).
+
+Without running `start.rb` first, the Antora site will contain outdated information.
+====

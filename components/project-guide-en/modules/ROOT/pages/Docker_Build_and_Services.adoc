@@ -1,0 +1,85 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+
+= Docker Build and Services
+
+== Images
+
+* **Universal Image**: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1:
+** Contains Ruby 3.2 + Node.js 20 + Asciidoctor + Antora + all necessary packages;
+** Used in CI for PDF and site builds;
+** Built from `docker/Dockerfile.universal`.
+* **Kroki Service**: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0:
+** Separate container for diagram rendering;
+** Connected as service in CI;
+** Base image: yuzutech/kroki:0.28.0.
+
+== Build Scripts
+
+=== Universal Image Build
+
+[source,bash]
+----
+# Build and push to registry
+./docker/build-images.sh [tag]
+
+# Example with tag
+./docker/build-images.sh 2
+----
+
+=== Kroki Image Build
+
+[source,bash]
+----
+# Build and push to registry
+./docker/build-kroki.sh [tag]
+
+# Example with tag
+./docker/build-kroki.sh 0.29.0
+----
+
+== Local Development
+
+=== Using Ready-made Images
+
+[source,bash]
+----
+# PDF generation
+docker-compose -f docker/docker-compose.yml run --rm pdf
+
+# Documentation site build
+docker-compose -f docker/docker-compose.yml run --rm site
+
+# With specific component
+docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+----
+
+== docker Folder Structure
+
+[source,text]
+----
+docker/
+├── Dockerfile.universal     # Universal image
+├── docker-compose.yml       # Local development
+├── build-images.sh         # Universal image build
+├── build-kroki.sh          # Kroki image build
+└── README.md               # Docker documentation
+----
+
+== Architecture
+
+The project uses a **universal approach** with one main image:
+
+* **ruby-node-antora:1** – main image for all build operations;
+* **kroki:0.28.0** – service for diagrams (PlantUML, Mermaid, Graphviz).
+
+This provides:
+
+* Fast builds (one image instead of two);
+* Reliability (all dependencies in one place);
+* Easy maintenance (fewer images to manage).
+
+include::../partials/docker-compose-snippets.adoc[]

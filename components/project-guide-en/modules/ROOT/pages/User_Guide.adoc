@@ -1,0 +1,261 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: original
+:custom_other_page: none
+:sectnums:
+
+
+= ODS User Guide
+
+== Создание нового компонента документации
+
+Данное руководство содержит пошаговые инструкции по созданию нового компонента документации в системе ODS. В качестве примера создадим компонент `my-new-project`.
+
+=== Шаг 1: Создание структуры папок
+
+Создайте базовую структуру компонента:
+
+[source,bash]
+----
+mkdir -p components/my-new-project/modules/ROOT/{pages,partials,attachments,images,examples}
+----
+
+Структура должна выглядеть так:
+
+[source,text]
+----
+components/my-new-project/
+└── modules/
+    └── ROOT/
+        ├── pages/           # AsciiDoc файлы документации
+        ├── partials/        # Части AsciiDoc файлов  
+        ├── attachments/     # Сгенерированные PDF файлы
+        ├── images/          # Изображения и диаграммы
+        └── examples/        # Исходные файлы для генерации
+----
+
+=== Шаг 2: Создание основных файлов
+
+==== Главная страница (index.adoc)
+
+[source,adoc]
+----
+:doctype: book
+:custom_title_page: original
+:custom_other_page: none
+include::../partials/attr_common.adoc[]
+
+= Мой новый проект
+
+== Описание проекта
+
+Краткое описание вашего проекта.
+
+== Основные разделы
+
+=== Архитектура
+
+Описание архитектуры системы.
+
+=== Функциональность
+
+Основные функции системы.
+
+== Заключение
+
+Выводы по проекту.
+----
+
+==== Файл навигации (nav.adoc)
+
+[source,adoc]
+----
+* xref:index.adoc[Мой новый проект]
+----
+
+=== Шаг 3: Настройка конфигурации
+
+==== Добавление в config.yml
+
+Добавьте новый компонент в `tools/config.yml`:
+
+[source,yaml]
+----
+components:
+  - name: my-new-project
+    <<: *defaults
+    drawio:
+      enabled: true
+    pdf:
+      enabled: true
+----
+
+For more details on config.yml setup, see xref:Config_YML_Setup.adoc[Config.yml Setup].
+
+==== Добавление в antora-playbook.yml
+
+Добавьте источник контента в `antora-playbook.yml`:
+
+[source,yaml]
+----
+content:
+  sources:
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/my-new-project
+----
+
+==== Настройка UI и стилей
+
+Для настройки пользовательского интерфейса и стилей используйте секцию `ui` в `antora-playbook.yml`:
+
+[source,yaml]
+----
+ui:
+  bundle:
+    url: ./ui-files/ui-bundle.zip
+    snapshot: true
+  supplemental_files: ./ui-files/ui-bundle-style
+----
+
+Где:
+
+* `bundle.url` – путь к основному UI bundle (архив с темами);
+* `bundle.snapshot: true` – использовать локальную версию без проверки обновлений;
+* `supplemental_files` – путь к дополнительным файлам стилей для кастомизации внешнего вида сайта.
+
+Файлы в `supplemental_files` переопределяют стили из основного bundle, позволяя настроить:
+
+* Цветовую схему сайта;
+* Шрифты и типографику;
+* Макет и отступы;
+* Дополнительные CSS стили.
+
+=== Шаг 4: Использование шаблонов
+
+Система предоставляет готовые шаблоны в папке `templates/`:
+
+[source,text]
+----
+templates/
+├── diagrams/puml/           # PlantUML диаграммы
+├── glossary/               # Словари и термины  
+├── snippets/               # Фрагменты кода
+└── templates_doc/modules/  # Шаблоны документов
+    ├── approval-page/      # Листы утверждения
+    ├── oed/                # Опытно-эксплуатационная документация
+    ├── ROOT/               # Основные шаблоны
+    └── trd/                # Техническая документация
+----
+
+Пример копирования шаблона:
+
+[source,bash]
+----
+# Копирование шаблона технического задания
+cp templates/templates_doc/modules/trd/pages/Частное_техническое_задание.adoc \
+   components/my-new-project/modules/ROOT/pages/technical-spec.adoc
+----
+
+=== Шаг 5: Настройка генерации
+
+==== Атрибуты PDF
+
+Для корректной генерации PDF добавьте атрибуты в начало файлов:
+
+[source,adoc]
+----
+:doctype: book
+:custom_title_page: original      # Тип титульной страницы
+:custom_other_page: none         # Тип обычных страниц
+----
+
+Доступные типы:
+
+* `original` – стандартная титульная страница;
+* `contract` – титульная страница для контрактов;
+* `original_frame` – титульная страница с рамками;
+* `none` – без титульной страницы.
+
+For more details, see xref:Page_Theme_Setup.adoc[Page Theme Setup].
+
+==== Диаграммы
+
+Для включения диаграмм создайте файлы в `examples/`:
+
+[source,text]
+----
+components/my-new-project/modules/ROOT/examples/
+├── drawio/                   # Draw.io диаграммы
+│   └── system-architecture.drawio
+├── bpmn/                     # BPMN диаграммы  
+│   └── business-process.bpmn
+└── plantuml/                 # PlantUML диаграммы
+    └── class-diagram.puml
+----
+
+=== Шаг 6: Запуск генерации
+
+==== Локальная генерация
+
+Запустите генерацию всех компонентов:
+
+[source,bash]
+----
+ruby tools/start.rb
+----
+
+For more details on the script's operation, see xref:Start_RB_Script.adoc[Start.rb Script].
+
+==== Проверка результатов
+
+После генерации проверьте созданные файлы:
+
+[source,bash]
+----
+# Проверка PDF файлов
+ls -la components/my-new-project/modules/ROOT/attachments/
+
+# Проверка веб-версии
+antora antora-playbook.yml
+----
+
+Результат будет в папке `public/my-new-project/1/`.
+
+=== Шаг 7: Интеграция в проект
+
+==== Обновление навигации
+
+Добавьте новый компонент в главную навигацию проекта, обновив соответствующие файлы списков в `project-guide`.
+
+==== Перекрестные ссылки
+
+Используйте перекрестные ссылки для связи между документами:
+
+[source,adoc]
+----
+См. также xref:index.adoc[Главная страница] для получения дополнительной информации.
+----
+
+=== Дополнительные ресурсы
+
+* xref:Repository_Preparation.adoc[Repository Preparation] – project structure;
+* xref:Installation.adoc[Installation] – technology stack and installation;
+* xref:Config_YML_Setup.adoc[Config.yml Setup] – configuration;
+* xref:Start_RB_Script.adoc[Start.rb Script] – generation automation;
+* xref:Page_Theme_Setup.adoc[Page Theme Setup] – PDF formatting.
+
+=== Заключение
+
+Создание нового компонента включает:
+
+. Создание структуры папок;
+. Создание основных файлов (index.adoc, nav.adoc);
+. Настройку конфигурации (config.yml, antora-playbook.yml);
+. Использование шаблонов при необходимости;
+. Настройку генерации PDF и диаграмм;
+. Запуск генерации и проверку результатов;
+. Интеграцию в общую навигацию проекта.
+
+Следуя данному руководству, вы сможете создать полноценный компонент документации, интегрированный в систему ODS.

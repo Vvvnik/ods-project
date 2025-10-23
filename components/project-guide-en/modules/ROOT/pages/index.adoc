@@ -1,0 +1,193 @@
+include::../partials/attr_common.adoc[] 
+:doctype: book
+:title-page:
+:custom_title_page: original
+:custom_other_page: none
+:toc: macro
+:toc-title: Table of Contents
+:toclevels: 2
+:sectnums:
+
+= Documentation Guide
+
+Welcome to the ODS project!
+
+{nbsp}
+
+toc::[]
+
+== What is ODS?
+ODS (Open Documentation Standard) is an open standard and toolkit for automating the processes of creating and maintaining technical documentation in IT and other projects.
+
+The main advantages of ODS are:
+
+* Ability for team collaboration with versioning and change control;
+* Automatic generation of documentation from various sources;
+* Conversion of diagrams (BPMN, Draw.io, PlantUML) into documents;
+* Documenting APIs and databases;
+* Creation of PDF documents and HTML sites;
+* Integration with CI/CD (GitLab CI).
+
+:tip-caption: Note:
+
+[TIP]
+ODS is not an official standard and does not replace GOST or ISO. It is a technical approach to documentation management, based on versioning, templates, and automation.
+
+The project aims to become a template for implementing the "Docs as Code" approach in an organization and ensuring the automation of documentation processes.
+
+Using ODS, you get:
+
+. 📄 Documentation that is always up-to-date and reflects the actual state of the project.
+. 🤝 The ability for team collaboration with versioning and change control.
+. 🔄 An automated process for building documentation into a ready-made website or a set of PDF documents.
+
+== Who is it for?
+ODS is useful for:
+
+* Developers who need to automate documentation;
+* Agile and DevOps teams;
+* Projects with requirements for high-quality technical documentation;
+* Organizations implementing documentation standards.
+
+This guide describes the main principles of ODS, the project architecture, component structure, build and publication tools, and examples of various document types. The guide contains all the necessary information to get started with the ODS project.
+
+=== Key Principles of ODS
+The key principles of ODS are:
+
+* 🧩 Modularity — documentation is broken down into independent components.
+
+* 📁 Integration — support for various data sources (API, DB, diagrams, BPMN, UML, Draw.io, PlantUML).
+
+* 🤝 Collaboration — convenient team collaboration on documentation.
+
+* 📅 Versioning — full change control via Git.
+
+* 🔄 Automation — generation of documentation from source files.
+
+* 📚 Standardization — unified documentation formats and structures.
+
+=== Technologies Used
+The project is built on the following technologies:
+
+* link:https://antora.org/[Antora] – static site generator;
+* link:https://docs.asciidoctor.org/[Asciidoctor] – AsciiDoc processor;
+* link:https://developer.mozilla.org/en-US/docs/Web/JavaScript[JavaScript] – programming language for creating interactive elements and automation;
+* link:https://www.ruby-lang.org/[Ruby] with the link:https://github.com/prawnpdf/prawn[Prawn] library – for generating PDF documents and automating document management processes;
+
+== Project Architecture
+For practical application of the standard, a project environment has been created that includes:
+
+* a ready-made documentation structure;
+* examples with source file templates;
+* build and publication tools;
+* examples of various document types on website pages and PDF documents.
+
+The project is hosted on GitLab and is available at: link:https://vvvnik.gitlab.io/ods-project/[ODS-Project].
+
+=== Project Structure
+
+:num_t: {counter:table-number}
+The project structure is shown in <<id_t_{num_t}, Table {num_t}>>.
+
+[#id_t_{num_t}]
+.Table {num_t}. Project Structure
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Folder ^|Purpose ^|Description
+|components/
+|Documentation Components
+|Contains all project components, each with its own structure
+|tools/
+|Build Tools
+|Scripts and configurations for automation
+|resources/
+|Styling Resources
+|Themes, fonts, and other resources for PDF
+|docker/
+|Docker Configurations
+|Images for local development and CI/CD
+|ui-files/
+|User Interface
+|Custom themes and styles for Antora
+|templates/
+|Templates and Examples
+|Ready-made document and diagram templates
+|public/
+|Generated Site
+|HTML documentation site (build result)
+|===
+
+=== Documentation Components
+
+Each result in the components/ folder represents a separate part of the documentation:
+
+. *airport-service/* – airport service documentation component. Contains examples of database documentation with automatic generation of ERD diagrams and DB schemas.
+
+. *data-processing-engine/* – data processing engine documentation component. Includes hardware-complex and user-guide modules with examples of documenting business processes, BPMN, and UML diagrams.
+
+. *information-system/* – information system documentation component. Contains ed (operational documentation), oed (pilot operation), trd (technical specification) modules with examples of project and operational documentation according to GOST.
+
+. *project-guide/* – project and documentation guide component (this guide). Contains a complete description of the ODS system architecture, setup, and usage.
+
+. *toys-service/* – toy service documentation component. Provides examples of automatic API documentation generation from OpenAPI specifications with UML diagrams.
+
+More about the project architecture and component structure can be found in the section xref:Architecture_and_System_Composition.adoc[Architecture and System Composition of ODS].
+
+More about the repository structure and its components can be found in the section xref:Repository_Preparation.adoc[Repository Preparation].
+
+=== Build Tools
+
+The *tools/* folder contains all necessary tools for automation:
+
+* *scripts/* – Ruby scripts for documentation generation;
+* *lib/* – libraries and modules;
+* *config.yml* – main configuration;
+* *start.rb* – main launch script.
+
+== Navigation Guide
+
+This guide contains detailed information about all aspects of working with ODS. Select the section you are interested in:
+
+=== Basics
+
+* xref:Architecture_and_System_Composition.adoc[System Architecture] – project and component structure
+* xref:Repository_Preparation.adoc[Repository Preparation] – setting up the project from scratch
+
+=== Installation and Setup
+
+* xref:Installation.adoc[Installation] – technology stack and dependencies
+* xref:Config_YML_Setup.adoc[Config.yml Setup] – project configuration
+* xref:Local_Kroki_and_Postgres_Launch.adoc[Local Kroki and Postgres Launch] – service setup
+
+=== Build and Automation
+
+* xref:Start_RB_Script.adoc[Start.rb Script] – documentation build process
+* xref:CI_CD.adoc[CI/CD] – build and deploy automation
+* xref:Docker_Build_and_Services.adoc[Docker Build and Services] – containerization
+
+=== Additional Features
+
+* xref:Automated_File_List_Generation.adoc[Automated File List Generation] – automating navigation and file lists
+* xref:List_Converter_Setup.adoc[List Converter Setup] – list automation
+* xref:Page_Theme_Setup.adoc[Page Theme Setup] – custom PDF converters
+* xref:Approval_Sheet_System.adoc[Approval Sheet System] – special pages
+* xref:API_Documentation_Parsing.adoc[API Documentation Parsing] – automatic API documentation generation
+* xref:Database_Parsing.adoc[Database Parsing] – automatic DB documentation generation
+* xref:Working_with_LLM.adoc[Working with LLM] – automatic translations using language models
+
+=== Practical Guides
+
+* xref:Quick_Start.adoc[Quick Start] – creating your first component in 15 minutes
+* xref:User_Guide.adoc[User Guide] – step-by-step instructions
+* xref:Editing_and_Verification.adoc[Editing and Verification] – debugging and troubleshooting
+* xref:CI_CD.adoc[CI/CD] – monitoring build and deploy automation
+
+== Links
+
+* https://vvvnik.gitlab.io/ods-project/data-processing-engine/1/index.html[Our Documentation Site]
+* https://docs.antora.org/[Antora Documentation]
+* https://asciidoctor.org/[AsciiDoc Documentation]
+* https://plantuml.com/[PlantUML for SVG diagrams]
+* https://graphviz.org/[Graphviz for ERD diagrams]
+* https://docs.docker.com/[Docker Documentation]
+* https://docs.gitlab.com/ee/ci/[GitLab CI/CD]

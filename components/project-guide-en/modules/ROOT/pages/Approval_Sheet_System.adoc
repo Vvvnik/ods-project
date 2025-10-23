@@ -1,0 +1,280 @@
+include::../partials/attr_common.adoc[]
+= Approval Sheet System (AS)
+:sectnums:
+== Overview
+
+Approval Sheet (AS) is an automatically generated PDF document in GOST style, created based on the main document. AS contains document information, signatories, and a frame in accordance with GOST requirements.
+
+== Automatic Generation
+
+AS is generated automatically when the :approval-page: attribute is present in the main document.
+
+=== :approval-page: Attribute Logic
+
+The system checks the :approval-page: attribute value and decides on AS generation:
+
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Attribute Value ^|AS Generation ^|Description
+
+|Attribute absent
+|❌ NOT generated
+|By default AS is not created
+
+|:approval-page: false
+|❌ NOT generated
+|Explicit AS generation disable
+
+|:approval-page: true
+|✅ Generated
+|Standard AS generation
+
+|:approval-page: gost
+|✅ Generated
+|GOST style AS generation
+
+|:approval-page: custom
+|✅ Generated
+|Custom AS generation
+
+|Any other value
+|✅ Generated
+|Any value except false enables generation
+|===
+
+=== Usage Recommendations
+
+* If AS is not needed – remove :approval-page: attribute completely from document;
+* If AS is needed – use :approval-page: true or any other value except false;
+* For explicit disable – use :approval-page: false (e.g., in templates).
+
+Example:
+[source,asciidoc]
+----
+:approval-page: true
+:name_dokument_master: Technical Specification
+:code: TS
+:version: 1
+----
+
+== System Architecture
+
+=== Components
+
+Components:
+
+. ApprovalPageGenerator – extracts attributes and creates temporary files with embedded template;
+. convert_approval_page_gost.rb – draws AS in GOST style;
+. contract.adoc – default signatory and AS attributes.
+
+=== Generation Process
+
+Generation process:
+
+. Extract attributes from main document;
+. Create temporary file with embedded template and merged attributes;
+. Convert temporary file to PDF;
+. Delete temporary file.
+
+=== Embedded Template
+
+AS uses embedded template in ApprovalPageGenerator code, which provides:
+
+* Reliability – no dependency on external files;
+* CI compatibility – works in any environment;
+* Simplicity – all settings in one place.
+
+== Attribute Configuration
+
+=== Main Document Attributes
+
+Required:
+[source,asciidoc]
+----
+:approval-page: true
+:name_dokument_master: Document title
+:code: Document code
+:version: Document version
+----
+
+Optional (signatories):
+[source,asciidoc]
+----
+:signer_1_position: First signatory position
+:signer_1_name: First signatory full name
+:signer_2_position: Second signatory position
+:signer_2_name: Second signatory full name
+# ... up to signer_6
+----
+
+=== Default Attributes
+
+In components/information-system/modules/ROOT/partials/contract.adoc:
+
+[source,asciidoc]
+----
+:year: 2025
+
+// Customer signature
+:iof_customer: A.V. Petrov
+:iof_customer_2: Petrov A.V.
+:job_customer_1: Deputy Director
+:job_customer_2: Customer Organization LLC
+:job_customer_all: {job_customer_1} {job_customer_2}
+
+// Executor signature
+:iof_executor: M.S. Ivanov
+:iof_executor_2: Ivanov M.S.
+:job_executor_1: Project Manager
+:job_executor_2: Executor Organization LLC
+:job_executor_all: {job_executor_1} {job_executor_2}
+----
+
+=== Attribute Priority
+
+Attribute priority:
+
+. Main document (highest priority);
+. Temporary file (added by ApprovalPageGenerator);
+. contract.adoc (defaults).
+
+== AS Structure
+
+=== Blocks
+
+Blocks:
+
+. Page frame – main frame with prefix;
+. AGREED – left signature block;
+. APPROVED – right signature block;
+. Document information – central block;
+. Additional signatories – right blocks;
+
+=== Positioning
+
+Fixed positions (in cm):
+
+* AGREED: 2.0 cm from left edge, 3.0 cm from top;
+* APPROVED: 12.0 cm from left edge, 3.0 cm from top;
+* Document information: 6.0 cm from left edge, 8.0 cm from top;
+* Additional signatories: 12.0 cm from left edge, 12.0+ cm from top.
+
+== File Naming
+
+AS is created with unique name: {module_name}_{document_name}_AS.pdf
+
+Examples:
+
+* trd_Private_Technical_Specification_AS.pdf
+* oed_Data_Elements_Description_AS.pdf
+
+== Block Configuration
+
+=== Changing Positions
+
+In tools/lib/convert_approval_page_gost.rb:
+
+[source,ruby]
+----
+signature_block_left = TitlePageBlocks::SignatureBlock.new(
+  page_width, page_height,
+  title: 'AGREED',
+  left_position: 2.0,      # 2 cm from left edge
+  top_position: 3.0,       # 3 cm from top edge
+  width: 8.0,              # 8 cm width
+  height: 4.0,             # 4 cm height
+  custom_line_spacing: 0.7,  # 0.7 cm line spacing
+  custom_font_size: 12
+)
+----
+
+=== Adding New Attributes
+
+In main document:
+[source,asciidoc]
+----
+:new_attribute: value
+----
+
+In ApprovalPageGenerator (embedded template):
+[source,ruby]
+----
+:lu_new_attribute: #{main_attrs['new_attribute'] || 'default'}
+----
+
+In convert_approval_page_gost.rb:
+[source,ruby]
+----
+doc.attr('lu_new_attribute') || 'default'
+----
+
+== Usage Examples
+
+=== Basic Example
+
+[source,asciidoc]
+----
+:approval-page: true
+:name_dokument_master: Technical Specification
+:code: TS
+:version: 1
+----
+
+=== With Custom Signatories
+
+[source,asciidoc]
+----
+:approval-page: true
+:name_dokument_master: Technical Specification
+:code: TS
+:version: 1
+:signer_1_position: Project Manager
+:signer_1_name: A.A. Alekseev
+:signer_2_position: Chief Architect
+:signer_2_name: B.B. Borisov
+----
+
+== System Files
+
+- tools/lib/approval_page_generator.rb – AS generator with embedded template
+- tools/lib/convert_approval_page_gost.rb – GOST converter
+- components/information-system/modules/ROOT/partials/contract.adoc – defaults
+
+== Troubleshooting
+
+=== Include File Errors
+
+Problem: include file not found
+
+Solution: Check paths in ApprovalPageGenerator embedded template:
+
+[source,ruby]
+----
+# include::../../ROOT/partials/contract.adoc[]
+# include::../../ROOT/partials/attr_common.adoc[]
+----
+
+Ensure contract.adoc file exists at specified path.
+
+=== AS Not Generated
+
+Check:
+
+1. Presence of :approval-page: attribute and its value (should not be false)
+2. Correctness of include file paths in embedded template
+3. Existence of contract.adoc and attr_common.adoc files
+
+Common causes:
+
+- :approval-page: false attribute – AS explicitly disabled
+- :approval-page: attribute absent – AS disabled by default
+- Error in include file paths in embedded template
+- Missing contract.adoc file
+
+=== Incorrect Data in AS
+
+Check:
+
+1. Attributes in main document
+2. Defaults in contract.adoc
+3. Logic in ApprovalPageGenerator

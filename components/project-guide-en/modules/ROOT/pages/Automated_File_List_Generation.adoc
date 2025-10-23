@@ -1,0 +1,438 @@
+include::../partials/attr_common.adoc[]
+= Automated File List Generation
+:sectnums:
+
+The system automatically generates file lists and navigation for Antora components.
+
+== Description
+
+This system automatically:
+
+* Scans all .adoc files in component modules;
+* Finds PDF files in attachments directory;
+* Creates hierarchical navigation by modules and pages;
+* Generates lists for downloading PDF files;
+* Updates navigation files automatically.
+
+== Architecture
+
+=== System Components
+
+.Scripts and modules
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Component ^|Path ^|Description
+
+|Generation script
+|tools/scripts/generate_lists.rb
+|Main script for launching generation
+
+|List generator
+|tools/lib/list_generator.rb
+|Main logic for scanning and creating lists
+
+|Configuration parser
+|tools/lib/config_parser.rb
+|Reading settings from config.yml
+
+|Main script
+|tools/start.rb
+|Integration with general build process
+
+|===
+
+=== File Structure
+
+[source,text]
+----
+components/{name}/modules/ROOT/
+├── partials/lists/
+│   ├── list-pages-component.adoc    # ← .adoc file list
+│   └── list-pdf-component.adoc     # ← PDF file list
+├── attachments/                    # ← PDF file source
+└── nav.adoc                        # ← Navigation file (updated automatically)
+----
+
+
+=== Configuration
+
+The system is configured through the list section in config.yml:
+
+[source,yaml]
+----
+defaults:
+  list:
+    enabled: true                           # ← Enable/disable generation
+    adoc_lists: true                       # ← Generate .adoc file lists
+    pdf_lists: true                        # ← Generate PDF file lists
+    
+    # Scanning directories
+    adoc_src: "components/{name}/modules/*/pages"     # ← Where to get .adoc
+    pdf_src: "components/{name}/modules/ROOT/attachments"  # ← Where to get PDF
+    
+    # Destination directory
+    dst: "components/{name}/modules/ROOT/partials/lists"  # ← Where to save
+----
+
+=== Execution Order
+
+[source,ruby]
+----
+# In start.rb (step 6)
+list_settings = ConfigParser.get_list_settings(comp, cfg)
+if list_settings[:enabled] && (list_settings[:adoc_lists] || list_settings[:pdf_lists])
+  puts "  -> list: file list generation"
+  system(%(ruby "tools/scripts/generate_lists.rb"))
+end
+----
+
+== Generated Files
+
+=== list-pages-component.adoc
+
+Contains hierarchical navigation for all modules and pages:
+
+[source,asciidoc]
+----
+// Automatically generated navigation
+* Information System
+ Module "Pilot Operation"
+* xref:index.adoc[Pilot Operation]
+
+ Module "Technical Specification (TS)"
+   
+* xref:index.adoc[Technical Specification (TS)]
+* xref:architecture.adoc[System Architecture]
+* xref:requirements.adoc[System Requirements]
+----
+
+Features:
+
+* Uses file names for forming lists and navigation
+* Creates module and page hierarchy
+* Uses Russian component names
+* Special module order for some components
+
+=== list-pdf-component.adoc  
+
+Contains list of available PDF files for download:
+
+[source,asciidoc]
+----
+. xref:attachment$oed_test-results.pdf[oed_test-results]
+. xref:attachment$trd_architecture.pdf[trd_architecture]
+. xref:attachment$trd_requirements.pdf[trd_requirements]
+----
+
+Features:
+
+* Format: attachment$file.pdf[name] (without xref prefix)
+* Extracts title from PDF metadata (Title)
+* Always created (empty if no PDF files)
+* Compatible with ROOT:attachment$ Antora mechanism
+
+=== Automatic Navigation Update
+
+The system automatically adds to nav.adoc:
+
+[source,asciidoc]
+----
+// Automatically generated navigation
+//  include::partials/lists/list-pages-component.adoc[]
+----
+
+Logic:
+
+* Checks existing include
+* Removes old includes for lists
+* Adds new one with correct path relative to dst
+
+=== Dynamic Paths
+
+Paths are included automatically depending on dst setting:
+
+[source,ruby]
+----
+# Example: dst: "components/{name}/modules/ROOT/partials/lists"
+# In nav.adoc will be: include::partials/lists/list-pages-component.adoc[]
+----
+
+
+Calculation:
+
+* Relative part from ROOT module is extracted
+* Used for correct include path
+
+== File Naming Conventions
+
+=== Letters "й" and "ё" in File Names
+
+According to recommendations, letters "й" and "ё" should be avoided in file names, replacing them with "и" and "е" respectively.
+
+Examples of correct naming:
+
+* Local_Kroki_and_Postgres_Launch.adoc;
+* Approval_Sheet_System.adoc;
+* Config_YML_Setup.adoc.
+
+Reasons for recommendation:
+
+* Compatibility with file systems in various operating systems;
+* Preventing encoding issues in CI/CD systems;
+* Simplifying file work in Linux/Unix command line.
+
+=== Spaces in File Names
+
+Spaces SHOULD NOT be used in file names. Instead of spaces, use underscores (_) or hyphens (-).
+
+Examples of correct naming:
+
+* Local_Kroki_and_Postgres_Launch.adoc (with underscores);
+* Approval-Sheet-System.adoc (with hyphens);
+* Config_YML_Setup.adoc (mixed style).
+
+Examples of incorrect naming:
+
+* Local Kroki and Postgres Launch.adoc (with spaces);
+* Approval Sheet System.adoc (with spaces);
+* Config YML Setup.adoc (with spaces).
+
+Reasons for prohibiting spaces:
+
+* Command line compatibility – spaces require escaping in bash/zsh;
+* URL issues – spaces in file names create problems when generating links;
+* CI/CD systems – many build systems poorly handle spaces in paths;
+* Cross-platform compatibility – some file systems have limitations on spaces;
+* Automation – scripts and tools work more reliably without spaces.
+
+Display in documents:
+
+When creating links in documents, original names can be used in link text:
+
+[source,asciidoc]
+----
+// File is called: Local_Kroki_and_Postgres_Launch.adoc
+// But link can look beautiful:
+xref:Local_Kroki_and_Postgres_Launch.adoc[Local Kroki and Postgres Launch]
+----
+
+Thus, technical file name remains compatible, while user interface remains readable.
+
+:warning-caption: Warning
+
+[WARNING]
+When automatically regenerating the system (e.g., through ruby tools/scripts/generate_lists.rb), all automatically generated list files will be overwritten. This means any manual changes in list-pages-component.adoc and list-pdf-component.adoc files will be lost.
+
+For permanent changes to generation logic, modify source code in tools/lib/list_generator.rb, not the generated files themselves.
+
+== Usage in Documentation
+
+=== Including Lists in Documents
+
+Automatically generated lists can be inserted into any .adoc files:
+
+[source,asciidoc]
+----
+== Sections
+
+include::../partials/lists/list-pages-component.adoc[]
+
+== Downloads
+
+include::../partials/lists/list-pdf-component.adoc[]
+----
+
+:warning-caption: Warning  
+
+[WARNING]
+Use relative path from current file!
+
+=== Conditional PDF List Display
+
+The system automatically manages display of sections with PDF files. If PDF files are absent, the script creates files with list_pdf_file_is_empty attribute, allowing to hide download sections:
+
+[source,text]
+----
+\ifndef::list_pdf_file_is_empty[]
+== Downloads
+
+include::../partials/lists/list-pdf-component.adoc[]
+
+== File Table
+
+include::../partials/lists/list-pdf-component-table.adoc[]
+\endif::list_pdf_file_is_empty[]
+----
+
+Work logic:
+
+* If PDF files exist → lists generated without attribute → sections displayed;
+* If no PDF files → list_pdf_file_is_empty attribute created → sections hidden.
+
+This ensures clean interface without empty "Downloads" sections.
+
+=== Example List Usage
+
+[source,asciidoc]
+----
+= Documentation Guide
+
+== Sections
+include::../partials/lists/list-pages-component.adoc[]
+
+\ifndef::list_pdf_file_is_empty[]
+== Files for Download
+include::../partials/lists/list-pdf-component.adoc[]
+\endif::list_pdf_file_is_empty[]
+----
+
+If component has no PDF files, "Files for Download" section will be hidden.
+
+
+== Component Configuration
+
+=== Settings Override
+
+For specific component, default settings can be overridden:
+
+[source,yaml]
+----
+components:
+  - name: information-system
+    list:
+      pdf_lists: true          # ← Only for this component
+----
+
+=== File Exclusion
+
+Some files are automatically excluded from lists:
+
+* index.adoc if doesn't contain level 1 header;
+* Files without headers displayed as processed file names.
+
+=== Module Order
+
+For some components, special module order is set:
+
+[source,ruby]
+----
+case component_name
+when 'information-system'
+  module_order = %w[ROOT oed trd test-results]
+  # ROOT module added to beginning of list
+when 'data-processing-engine'  
+  module_order = %w[ROOT hardware-complex user-guide system-programmer-guide program-description]
+end
+----
+
+== PDF Metadata Support
+
+=== PDF Title Extraction
+
+The system automatically extracts titles from PDF metadata:
+
+[source,ruby]
+----
+def extract_pdf_title(pdf_file)
+  require 'hexapdf'
+  doc = HexaPDF::Document.open(pdf_file)
+  
+  if doc.trailer[:Info]
+    title = doc.trailer[:Info][:Title]
+    return title && !title.empty? ? title.to_s.strip : nil
+  end
+  
+  nil
+rescue => e
+  puts "⚠️  PDF reading error #{pdf_file}: #{e.message}"
+  nil
+end
+----
+
+Advantages:
+
+* Uses existing PDF titles;
+* Fallback to file name if title absent;
+* Error handling for reading.
+
+== CI/CD Compatibility
+
+=== GitLab CI
+
+The system is fully compatible with automated builds:
+
+[source,yaml]
+----
+# .gitlab-ci.yml
+script:
+  - ruby tools/start.rb
+  - npx antora antora-playbook.yml
+  - antora antora-playbook.yml
+----
+
+
+=== Automatic Lists
+
+* Created every time during build;
+* Updated when files change;
+* Don't require manual intervention.
+
+== Diagnostic Logs
+
+=== Example Output
+
+[source,text]
+----
+🚀 File list generator for Antora
+==================================================
+🔄 Generating lists for all components...
+
+📁 Processing component: information-system
+📄 Found title for index: Information System
+📄 Found title for architecture: System Architecture
+✅ Generated navigation file: components/information-system/modules/ROOT/partials/lists/list-pages-component.adoc
+
+📄 Processed PDF: oed_test-results -> xref:attachment$oed_test-results.pdf[oed_test-results]
+📄 Processed PDF: trd_architecture -> xref:attachment$trd_architecture.pdf[trd_architecture]
+✅ Generated PDF list file: components/information-system/modules/ROOT/partials/lists/list-pdf-component.adoc
+
+🔍 Path calculation:
+  dst: components/information-system/modules/ROOT/partials/lists
+  include:: partials/lists/list-pages-component.adoc[]
+✅ Added include to components/information-system/modules/ROOT/nav.adoc
+----
+
+== Functionality Extension
+
+=== Adding New List Types
+
+To add new list type:
+
+. Extend list_generator.rb with new method;
+. Add setting to config.yml;
+. Update ConfigParser.get_list_settings;
+. Add condition to start.rb.
+
+=== Custom Formats
+
+List generation format can be changed:
+
+[source,text]
+----
+def generate_custom_list(files)
+  lines = ["[cols=\"1,2\", options=\"header\"]", "|==="]
+  lines << "|File |Description"
+  
+  files.each do |file|
+    lines << "|#{file.name} |#{file.description}"
+  end
+  
+  lines << "|==="
+  lines.join("\n")
+end
+----
+
+== Related Components
+
+* xref:Config_YML_Setup.adoc[Config.yml Setup] - system configuration;
+* xref:Start_RB_Script.adoc[Start.rb Script] – build integration.

@@ -1,0 +1,133 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+
+= CI/CD
+
+== Build Stages
+
+:num_i: {counter:image-number}
+The documentation build schema is shown in <<id_{num_i}, Figure {num_i}>>.
+
+[#id_{num_i}]
+.Figure {num_i}. Documentation Build Schema
+[plantuml, schema]
+----
+include::../examples/schema.puml[plantuml, schema]
+----
+
+:num_t: {counter:table-number}
+Build stage descriptions are shown in <<id_t_{num_t}, Table {num_t}>>.
+
+[#id_t_{num_t}]
+.Table {num_t}. Build Stage Descriptions
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Stage ^|Action ^|Result
+
+|build_all
+|PDF generation + Node.js installation + Antora build + copying to public/
+|public/ folder with ready site (artifact for 3 days)
+
+|pages
+|Deploy build_all artifacts to GitLab Pages
+|Online documentation site (permanent)
+
+|prepare_release_notes
+|Generate dist/release-notes.adoc with commits between tags
+|dist/release-notes.adoc file (artifact for 3 days)
+
+|release
+|Create GitLab Release with notes from prepare_release_notes
+|Official release with change descriptions
+|===
+
+== Environment Variables
+
+The following variables are used in CI/CD:
+
+* `KROKI_SERVER_URL: "http://kroki:8000"` – Kroki service URL for diagram generation
+* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` – Kroki service image
+* `GIT_DEPTH: "20"` – Git repository cloning depth
+* `TECHNICAL_FILES` – pattern of files affecting content generation
+
+== Detailed Stage Descriptions
+
+=== build_all
+Main documentation build stage with sequential command execution:
+
+. **Image**: `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1`
+. **Services**: Kroki (`registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`) for diagram generation
+. **Cache**: `node_modules/` and `.npm/` to speed up builds (key: `${CI_COMMIT_REF_SLUG}`)
+. **Execution sequence**:
+.. Ruby and Node.js version check
+.. PDF document generation via `ruby tools/start.rb`
+.. Node.js dependency installation (`npm ci` or `npm install`)
+.. Site generation via `antora antora-playbook.yml`
+.. Result copying: `cp -a build/site/. public/` (if public/ doesn't exist)
+. **Artifacts**: `public/` folder (expires in 3 days)
+. **Triggers**:
+.. Changes in technical files (`tools/**`, `antora-playbook.yml`, `components/*/antora.yml`, `resources/**`)
+.. Every push to main (if no changes in technical files)
+.. NOT executed when creating tags
+.. Merge Request events
+
+=== pages
+Site publication stage on GitLab Pages:
+
+. **Dependencies**: requires `build_all` completion
+. **Stage**: `deploy`
+. **Action**: deploy artifacts to GitLab Pages
+. **Script**: `echo "Deploy GitLab Pages"` (symbolic command)
+. **Result**: documentation site available online
+. **Artifacts**: `public/` folder (doesn't expire)
+. **Triggers**: same as `build_all`, but NOT executed when creating tags
+
+=== prepare_release_notes
+Release notes preparation stage (only when creating tags):
+
+. **Trigger**: tag creation in repository
+. **Image**: `alpine:latest`
+. **Stage**: `deploy`
+. **Preparation**:
+.. Git installation (`apk add --no-cache git`)
+.. Safe directory setup
+.. Getting all tags from repository
+.. Unpacking shallow repository (if necessary)
+. **Generation logic**:
+.. Determining previous tag (3 search strategies: tag parent, previous by version, previous by date)
+.. Creating commit range between tags
+.. Generating `dist/release-notes.adoc` file with commits
+. **Result**: `dist/release-notes.adoc` file
+. **Artifacts**: `dist/release-notes.adoc` (expires in 3 days)
+
+=== release
+Official release creation stage:
+
+. **Dependencies**: requires `prepare_release_notes` completion
+. **Image**: `registry.gitlab.com/gitlab-org/release-cli:latest`
+. **Stage**: `deploy`
+. **Action**: create GitLab Release with notes
+. **Process**:
+.. Reading notes from `dist/release-notes.adoc`
+.. Creating release with name and description
+.. Adding link to notes file as asset
+. **Result**: official release with change descriptions
+. **Assets**: link to `release-notes.adoc` from `prepare_release_notes` artifacts
+
+== Dependencies
+Dependencies between build stages:
+
+* pages depends on build_all
+* prepare_release_notes executes only when creating tags
+* release depends on prepare_release_notes
+
+== Change Tracking
+Add to changes:
+
+* tools/ – generation scripts and configuration
+* components/*/modules/ – documentation content
+* antora-playbook.yml – site build settings
+* resources/ – PDF themes and fonts

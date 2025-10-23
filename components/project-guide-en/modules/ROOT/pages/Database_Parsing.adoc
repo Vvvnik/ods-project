@@ -1,0 +1,123 @@
+include::../partials/attr_common.adoc[]
+= Database Parsing
+:sectnums:
+
+== Purpose
+
+The database converter is designed for automatic generation of AsciiDoc documentation from PostgreSQL database schema.
+
+== How It Works
+
+The converter connects to PostgreSQL database and generates documentation in AsciiDoc format:
+
+. Connects to database using parameters from database.yml;
+. Extracts metadata about tables, columns, and relationships;
+. Generates ERD diagrams using Graphviz;
+. Creates AsciiDoc files with database structure description;
+. Saves result in partials/docs-db folder.
+
+== Configuration
+
+=== db Section in config.yml
+
+Example db section in config.yml:
+
+[source,yaml]
+----
+db:
+  enabled: true                 # Enable/disable DB documentation generation
+  images_dir: "components/{name}/modules/ROOT/images/images-db" # Folder for DB schema images
+  dst: "components/{name}/modules/ROOT/partials/docs-db"       # Where to save DB documentation
+  database_connect_file: "components/{name}/modules/ROOT/examples/database.yml"  # Database connection file
+  erase_destination_folder: false # DON'T clear destination folder (preserve existing)
+  profile: "pg_demo"            # Database profile for connection
+----
+
+=== database.yml File Structure
+
+Example database.yml file:
+
+[source,yaml]
+----
+profiles:
+  pg_demo:
+    host: "localhost"
+    port: 5432
+    database: "demo_db"
+    username: "demo_user"
+    password: "demo_password"
+    schema: "public"
+----
+
+To connect to the database, parameters from the pg_demo database profile are used. To use a different profile, change the profile name in the db section in config.yml. In the database.yml file, set parameters for connecting to your database. The database.yml file should be located in the component folder in the examples folder.
+
+== Technologies Used
+
+* Ruby - main script language;
+* PostgreSQL - database for connection;
+* Graphviz - ERD diagram generation;
+* YAML - connection configuration;
+* AsciiDoc - output documentation format;
+* translations_one.rb - dictionary for translating DB fields to Russian.
+
+The translations_one.rb file contains a dictionary for translating database fields from English to Russian and is used in the db_to_adoc.rb script for automatic translation of DB field names during documentation generation. If translation is missing from the dictionary, automatic field name format conversion is applied.
+
+The db_to_adoc.rb script can be enhanced to check field comment content in Russian and use it instead of field name if available. If not, use field name from translation dictionary.
+
+== Work Result
+
+The converter creates the following files:
+
+. schemas_index.adoc - main DB documentation page;
+. bookings_tables.adoc - bookings tables description;
+. bookings_logical.adoc - logical data schema;
+. schemas_logical_index.adoc - logical schemas index;
+. erd_bookings.puml - PlantUML ERD diagram;
+. logical_bookings.puml - logical diagram.
+
+== Usage Examples
+
+=== Converter Launch
+
+In the project, the script runs automatically through the main script `tools/start.rb`, which uses configuration from `tools/config.yml` and connection parameters from the component's database file (e.g., `components/{name}/modules/ROOT/examples/database.yml`).
+
+[source,bash]
+----
+# Automatic launch through main script
+ruby tools/start.rb
+
+# Manual launch with default parameters
+ruby tools/scripts/db_to_adoc.rb
+
+# Manual launch with specified connection parameters
+ruby tools/scripts/db_to_adoc.rb --host localhost --port 5432 --db demo_db --user demo_user --pass demo_password --out output --images images/bd-images
+----
+
+Parameters:
+* `--host` - database host (default: localhost)
+* `--port` - database port (default: 5432)  
+* `--db` - database name (default: demo)
+* `--user` - database user (default: postgres)
+* `--pass` - database password (default: postgres)
+* `--out` - output directory (default: output)
+* `--images` - images directory (default: images/bd-images)
+
+When launched through `tools/start.rb`, the `--out` and `--images` parameters are taken from `tools/config.yml` configuration (db section, `dst` and `images_dir` fields).
+
+=== Documentation Integration
+
+[source,asciidoc]
+----
+\include::../partials/docs-db/schemas_index.adoc[]
+----
+
+== Limitations
+
+* Only PostgreSQL is supported;
+* Database access is required to extract metadata;
+* Only basic ERD diagrams are generated;
+* Complex data types and indexes are not supported.
+
+== Related Sections
+
+* xref:Working_with_LLM.adoc[Working with LLM] – automatic translations of DB attributes using language models

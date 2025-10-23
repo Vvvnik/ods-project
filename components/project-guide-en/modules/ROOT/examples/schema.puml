@@ -1,0 +1,40 @@
+@startuml schema
+title GitLab CI/CD: ODS Documentation Pipeline
+
+start
+:Developer pushes to main branch;
+note right: Triggers build_all job
+
+:build_all job starts;
+note right: Uses ruby-node-antora:1 image + Kroki service
+
+:Ruby scripts generate PDF from .adoc;
+note right: tools/start.rb
+
+:Install Node.js dependencies;
+note right: npm ci/install
+
+:Run Antora site generation;
+note right: antora antora-playbook.yml
+
+:Copy build/site to public/;
+note right: if public/ doesn't exist
+
+:Save public/ as artifact;
+note right: Expires in 3 days
+
+:pages job starts;
+note right: Depends on build_all
+
+:Deploy to GitLab Pages;
+note right: Site becomes available online
+
+stop
+
+note right
+**Release Process (on tag creation):**
+1. prepare_release_notes - generates dist/release-notes.adoc
+2. release - creates GitLab Release with notes
+end note
+
+@enduml

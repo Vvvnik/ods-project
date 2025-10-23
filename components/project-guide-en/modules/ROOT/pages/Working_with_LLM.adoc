@@ -1,0 +1,561 @@
+= Working with LLM for Translations
+:toc: left
+:toclevels: 3
+:sectnums:
+:imagesdir: ../../../images
+:source-highlighter: highlight.js
+:icons: font
+:experimental:
+
+== Overview
+
+The system uses LLM (Large Language Model) for automatic translation of database attributes. Translation to Russian and English is supported using the local Ollama model.
+
+== System Architecture
+
+=== Components
+
+* **LLMClient** - client for working with Ollama
+* **TranslationUtils** - utilities for working with dictionary and log
+* **PromptLoader** - prompt loader
+* **ConfigLoader** - configuration loader
+
+=== File Structure
+
+[source,text]
+----
+tools/
+├── log/
+│   └── database_translations_log.txt    # LLM translation log
+├── dictionary/
+│   └── database_translations.yml       # Translation dictionary
+├── prompts/
+│   └── database_translations.prompt    # Universal prompt
+└── lib/
+    ├── llm_client.rb                   # LLM client
+    ├── translation_utils.rb            # Translation utilities
+    └── prompt_loader.rb                # Prompt loader
+----
+
+== Configuration
+
+=== Settings in config.yml
+
+[source,yaml]
+----
+db:
+  translate: "ru"                        # Translation language: "ru", "en", false
+  dictionary: "tools/dictionary/database_translations.yml"
+  prompt: "database_translations"
+----
+
+=== Supported Languages
+
+* `"ru"` or `true` - translate to Russian
+* `"en"` - translate to English  
+* `false` - disable translations
+
+== Work Logic
+
+=== Translation Algorithm
+
+1. **Preliminary collection**: Collect all database fields for translation (without generating documentation)
+2. **Batch translation**: Translate all collected fields through LLM in one request
+3. **Documentation generation**: Create documentation with already translated names
+4. **Comment check**: If field has comment in database - use it as is
+5. **Dictionary check**: Look for translation in dictionary (priority over LLM)
+6. **Language check**: If translation is in different language - ignore and translate again
+7. **Save**: Results are saved to dictionary and log
+
+=== Batch Processing
+
+The system uses "super acceleration" - instead of individual LLM requests, it collects fields in batches of 50:
+
+**New work sequence:**
+1. **Field collection**: Go through all database tables and collect fields for translation
+2. **Batch translation**: Translate all fields in one LLM request
+3. **Documentation generation**: Create documentation with already translated names
+
+[source,ruby]
+----
+# Collecting fields for translation
+MISSING_FIELDS = []
+
+# Batch processing
+def process_batch_translation(llm_client, translation_utils, translate_comments)
+  batches = MISSING_FIELDS.each_slice(50).to_a
+  batches.each do |batch|
+    translations = llm_client.translate_batch(batch, translate_comments)
+    # Save results
+  end
+end
+----
+
+== Usage
+
+=== Launch with LLM
+
+[source,bash]
+----
+ruby tools/scripts/db_to_adoc.rb --component airport-service --use-llm
+----
+
+=== Ollama Setup
+
+[source,bash]
+----
+# Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Start server
+ollama serve
+
+# Load model
+ollama pull gemma:latest
+----
+
+== Translation Dictionary
+
+=== File Format
+
+[source,yaml]
+----
+# Database attribute translation dictionary
+# Format: original_name: "translation"
+
+---
+translations:
+  user_id: User ID
+  created_at: Created at
+  updated_at: Updated at
+----
+
+=== Automatic Population
+
+The dictionary is automatically populated with new translations on each run. Repeated translations are not performed.
+
+== Translation Log
+
+=== Log Format
+
+[source,text]
+----
+# LLM translation log
+# Updated on each run
+
+2025-10-21 00:50:08 | aircrafts_data → Aircraft data
+2025-10-21 00:50:08 | airports_data → Airport data
+----
+
+=== Log Cleanup
+
+The log is cleared on each script run with `--use-llm` flag.
+
+== Prompt
+
+=== Universal Prompt
+
+A single prompt `database_translations.prompt` is used for all translation cases:
+
+[source,text]
+----
+Translate the following database fields to <%= target_language %>:
+
+<% fields.each_with_index do |field, index| %>
+<%= index + 1 %>. <%= field %>
+<% end %>
+
+Requirements:
+<% if target_language == "Russian" %>
+- Translate each word exactly to Russian
+- Replace underscores with spaces
+- Start with capital letter
+- Answer ONLY with translation, no explanations
+- Don't add words "field", "attribute", "data" if they're not in original
+
+Examples:
+user_id → User ID
+created_at → Created at
+<% else %>
+- Convert snake_case to readable words
+- Replace underscores with spaces
+- Start with capital letter
+- Answer ONLY with translation, no explanations
+- Don't add words "field", "attribute", "data" if they're not in original
+
+Examples:
+user_id → User ID
+created_at → Created at
+<% end %>
+----
+
+== Performance
+
+=== Speed Comparison
+
+* **Individual translation**: 50 fields = 50 LLM requests (~50-100 seconds)
+* **Batch translation**: 50 fields = 1 LLM request (~2-5 seconds)
+* **Time savings**: 45-95 seconds
+
+=== Caching
+
+The system uses translation cache to avoid repeated requests:
+
+[source,ruby]
+----
+TRANSLATION_CACHE = {}
+
+def translate_field(name, comment, translate_comments, llm_client, translation_utils)
+  cache_key = "#{name}_#{translate_comments}"
+  return TRANSLATION_CACHE[cache_key] if TRANSLATION_CACHE.key?(cache_key)
+  # ... translation logic
+end
+----
+
+== Limitations
+
+=== LLM Requirements
+
+* Local Ollama installation
+* `gemma:latest` model or compatible
+* Server availability on `http://localhost:11434`
+
+=== Fallback Mechanism
+
+When LLM is unavailable, the system uses simple conversion:
+
+[source,ruby]
+----
+def create_fallback_translation(text)
+  text.gsub(/([a-z])([A-Z])/, '\1 \2')
+      .tr('_', ' ')
+end
+----
+
+== Debugging
+
+=== Connection Check
+
+[source,bash]
+----
+curl http://localhost:11434/api/generate -d '{
+  "model": "gemma:latest",
+  "prompt": "test",
+  "stream": false
+}'
+----
+
+=== Logs
+
+All operations are logged with emoji indicators:
+* 🤖 - LLM requests
+* 📖 - dictionary translations
+* ⚠️ - warnings and fallback
+* ✅ - successful operations
+
+== Local Usage
+
+The LLM system is designed for **local use** on developer machine. This provides:
+
+* **Fast access** to Ollama without network delays
+* **Full control** over models and settings
+* **Security** - data not transmitted to external services
+* **Stability** - doesn't depend on external API availability
+
+=== Local Environment Requirements
+
+1. **Installed Ollama**: Local Ollama server
+2. **Loaded model**: `gemma:latest` or similar
+3. **Running server**: `ollama serve` must be working
+4. **Ruby environment**: All necessary gems installed
+
+=== System Launch
+
+[source,bash]
+----
+# Start Ollama server
+ollama serve &
+
+# Load model (if not loaded)
+ollama pull gemma:latest
+
+# Start documentation generation
+ruby tools/start.rb
+----
+
+=== LLM Model Comparison
+
+Various models can be used for LLM system work. Below is a comparison of tested models:
+
+[cols="1,1,1,1,1,1,1"]
+|===
+|Model |Size |Execution Time |Translation Quality |Naturalness |Recommendation |Status
+
+|**gemma3:4b**
+|3.3 GB
+|~4 sec
+|⭐⭐⭐⭐⭐
+|⭐⭐⭐⭐
+|🥇 **Fastest**
+|✅ Tested
+
+|**gemma:latest**
+|5 GB
+|~6 sec
+|⭐⭐⭐⭐⭐
+|⭐⭐⭐⭐⭐
+|🥈 **Recommended**
+|✅ Tested
+
+|**mistral:7b**
+|4.4 GB
+|~6.7 sec
+|⭐⭐⭐⭐⭐
+|⭐⭐⭐⭐⭐
+|🥉 Alternative
+|✅ Tested
+
+|**qwen2.5:latest**
+|4.7 GB
+|~6 sec
+|⭐⭐⭐⭐⭐
+|⭐⭐⭐⭐
+|⚠️ Short translations
+|✅ Tested
+
+|**gpt-oss:20b**
+|13 GB
+|~8 sec
+|⭐⭐⭐⭐⭐
+|⭐⭐⭐⭐⭐
+|⚠️ Slow
+|✅ Tested
+|===
+
+=== Model Selection Recommendations
+
+* **For production**: `gemma:latest` - best balance of quality and speed
+* **For quick tests**: `gemma3:4b` - fastest and most compact
+* **For high quality**: `gpt-oss:20b` - best quality, but slow
+* **Alternative**: `mistral:7b` - good quality, compact
+
+=== Translation Examples
+
+[cols="2,2,2,2,2"]
+|===
+|Original |Gemma3:4b |Gemma |Mistral |Qwen2.5
+
+|`aircrafts_data`
+|Aircraft data
+|Aircraft data
+|Aircraft data
+|Aircraft data
+
+|`airports_data`
+|Airport data
+|Airport data
+|Airport data
+|Airport data
+|===
+
+== LLM Functionality Extension
+
+The LLM system is designed modularly and can be easily extended for other translation and text processing tasks.
+
+=== Architecture for Extension
+
+==== System Components
+
+* **LLMClient** (`tools/lib/llm_client.rb`) - main client for working with Ollama
+* **PromptLoader** (`tools/lib/prompt_loader.rb`) - prompt loading and processing
+* **TranslationUtils** (`tools/lib/translation_utils.rb`) - dictionary and log work
+* **ConfigLoader** (`tools/lib/config_loader.rb`) - configuration loading
+
+==== File Structure
+
+```
+tools/
+├── lib/
+│   ├── llm_client.rb          # Main LLM client
+│   ├── prompt_loader.rb       # Prompt loading
+│   ├── translation_utils.rb   # Translation utilities
+│   └── config_loader.rb       # Configuration loading
+├── prompts/
+│   └── database_translations.prompt  # Database prompt
+├── dictionary/
+│   └── database_translations.yml     # Database dictionary
+└── log/
+    └── database_translations_log.txt # Database log
+```
+
+=== Adding New Functionality
+
+==== Creating New Prompt
+
+Create prompt file in `tools/prompts/`:
+
+[source,erb]
+----
+# tools/prompts/api_documentation.prompt
+
+Translate the following API documentation to <%= target_language %>:
+
+<%= api_doc %>
+
+Requirements:
+- Preserve documentation structure
+- Translate only descriptions, keep method names in English
+- Answer in Markdown format
+
+Translation:
+----
+
+==== Creating New Dictionary
+
+Create YAML dictionary file:
+
+[source,yaml]
+----
+# tools/dictionary/api_translations.yml
+
+---
+translations:
+  get_user: Get user
+  create_user: Create user
+  update_user: Update user
+----
+
+==== Configuration Update
+
+Add new section to `tools/config.yml`:
+
+[source,yaml]
+----
+api:
+  enabled: true
+  translate: "ru"
+  dictionary: "tools/dictionary/api_translations.yml"
+  prompt: "api_documentation"
+  log: "tools/log/api_translations_log.txt"
+----
+
+==== Creating New Script
+
+Create script for API documentation processing:
+
+[source,ruby]
+----
+# tools/scripts/api_to_adoc.rb
+
+require_relative '../lib/config_loader'
+require_relative '../lib/llm_client'
+require_relative '../lib/translation_utils'
+
+# Load configuration
+config = ConfigLoader.load_config
+
+# Initialize LLM client
+llm_client = LLMClient.new(
+  config.dig('ollama', 'host'),
+  config.dig('ollama', 'model'),
+  config.dig('api', 'prompts'),
+  config.dig('api', 'prompt')
+)
+
+# Initialize translation utilities
+translation_utils = TranslationUtils.new(
+  config.dig('api', 'dictionary'),
+  config.dig('api', 'log')
+)
+
+# Main processing logic
+def translate_api_doc(api_doc, translate_comments, llm_client, translation_utils)
+  # Check dictionary
+  if translation_utils.has_translation?(api_doc)
+    return translation_utils.get_translation(api_doc)
+  end
+  
+  # Translate through LLM
+  translation = llm_client.translate_batch([api_doc], translate_comments)
+  
+  # Save to dictionary
+  translation_utils.add_translation(api_doc, translation[api_doc])
+  
+  translation[api_doc]
+end
+
+# Usage
+api_doc = "Get user information"
+translated = translate_api_doc(api_doc, "ru", llm_client, translation_utils)
+puts translated  # "Get user information"
+----
+
+==== Integration into Main Script
+
+Add call to new script in `tools/start.rb`:
+
+[source,ruby]
+----
+# tools/start.rb
+
+components.each do |component|
+  # ... existing code ...
+  
+  if component['api'] && component['api']['enabled']
+    system("ruby tools/scripts/api_to_adoc.rb --component #{component['name']}")
+  end
+end
+----
+
+=== Extension Examples
+
+==== API Documentation Translation
+- **Prompt**: `api_documentation.prompt`
+- **Dictionary**: `api_translations.yml`
+- **Log**: `api_translations_log.txt`
+
+==== Code Comment Translation
+- **Prompt**: `code_comments.prompt`
+- **Dictionary**: `code_translations.yml`
+- **Log**: `code_translations_log.txt`
+
+==== User Interface Translation
+- **Prompt**: `ui_text.prompt`
+- **Dictionary**: `ui_translations.yml`
+- **Log**: `ui_translations_log.txt`
+
+==== Technical Specification Translation
+- **Prompt**: `tech_specs.prompt`
+- **Dictionary**: `specs_translations.yml`
+- **Log**: `specs_translations_log.txt`
+
+=== Extension Recommendations
+
+==== Following Patterns
+- Use existing architecture
+- Follow naming conventions
+- Apply modular approach
+
+==== Configuration
+- All settings in `config.yml`
+- Use sections for grouping
+- Provide default values
+
+==== Logging
+- Log all translations
+- Use unified log format
+- Provide log cleanup
+
+==== Testing
+- Test on small data volumes
+- Check translation quality
+- Validate dictionary work
+
+==== Documentation
+- Document new prompts
+- Describe dictionary structure
+- Update configuration
+
+== Related Sections
+
+* xref:Database_Parsing.adoc[Database Parsing] – automatic DB documentation generation

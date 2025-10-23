@@ -1,0 +1,252 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+
+= Quick Start
+
+This guide will help you quickly get started with the ODS project and create your first documentation component in 15 minutes.
+
+== Prerequisites
+
+To work with the project you will need:
+
+* Docker and Docker Compose
+* Git
+* Text editor (VS Code, Sublime Text, or any other)
+
+== Step 1: Getting the Project
+
+Clone the project repository:
+
+[source,bash]
+----
+git clone https://gitlab.com/vvvnik/ods-project.git
+cd ods-project
+----
+
+== Step 2: Starting the Project
+
+Start the project using Docker Compose:
+
+[source,bash]
+----
+docker-compose up -d
+----
+
+This will launch:
+* Kroki service for diagram generation (if configured)
+* PostgreSQL database (if configured)
+
+For local development, you can use ready-made commands from docker-compose.yml.
+
+== Step 3: Creating a New Component
+
+Create the structure for your component:
+
+[source,bash]
+----
+mkdir -p components/ods-project/modules/ROOT/{pages,partials,attachments,images,examples}
+----
+
+Create the component configuration file:
+
+[source,yaml]
+----
+# components/my-project/antora.yml
+name: my-project
+title: My Project
+version: 1
+----
+
+== Step 4: Creating the First Page
+
+Create the common attributes file:
+
+[source,asciidoc]
+----
+# components/ods-project/modules/ROOT/partials/attr_common.adoc
+:docinfo: shared
+:!chapter-signifier:
+:!section-refsig:
+:table-caption!: 
+:figure-caption!: 
+:imagesdir: ../images
+:section-refsig: section
+:toc: macro
+:toc-title: Contents
+:custom_list_type: alphabetic
+----
+
+Create the main page of your component:
+
+[source,asciidoc]
+----
+# components/ods-project/modules/ROOT/pages/index.adoc
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: original
+:toc: macro
+
+= My Project
+
+== Project Description
+
+A brief description of your project.
+
+== Main Sections
+
+=== Architecture
+
+Description of the system architecture.
+
+=== Functionality
+
+Main functions of the system.
+
+== Conclusion
+
+Project conclusions.
+----
+
+== Step 6: Creating Navigation
+
+Create the navigation file:
+
+[source,asciidoc]
+----
+# components/ods-project/modules/ROOT/nav.adoc
+* xref:index.adoc[Main Page]
+----
+
+== Step 7: Adding the Component to the Build
+
+Add your component to the `antora-playbook.yml` file:
+
+[source,yaml]
+----
+# antora-playbook.yml
+site:
+  title: ODS Documentation
+  url: https://vvvnik.gitlab.io/ods-project
+content:
+  sources:
+    - url: .
+      branches: [main]
+      start_path: components/ods-project
+      edit_url: '{web_url}/-/edit/{refname}/{path}'
+----
+
+== Step 8: Building Documentation
+
+Run the documentation build:
+
+[source,bash]
+----
+docker-compose run --rm pdf
+----
+
+Or use a direct Docker call:
+
+[source,bash]
+----
+docker run --rm -v $(pwd):/app \
+  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1 \
+  ruby tools/start.rb
+----
+
+== Step 9: Generating Site
+
+Generate the HTML site:
+
+[source,bash]
+----
+docker-compose run --rm site
+----
+
+Or use a direct Docker call:
+
+[source,bash]
+----
+docker run --rm -v $(pwd):/app \
+  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1 \
+  antora antora-playbook.yml
+----
+
+// insert a common warning block for several pages
+include::../partials/warning_point.adoc[]
+
+== Step 10: Viewing the Result
+
+Open the generated site:
+
+[source,bash]
+----
+# On macOS
+open public/index.html
+
+# On Linux
+xdg-open public/index.html
+
+# On Windows
+start public/index.html
+----
+
+Or simply open the `public/index.html` file in your browser.
+
+== Next Steps
+
+After successfully creating your first component, you can:
+
+* Add more pages to `pages/`;
+* Create PDF documents using `tools/start.rb`;
+* Add diagrams to `examples/` and generate them in `images/`;
+* Configure automatic generation from API or DB;
+* Explore additional features in the xref:User_Guide.adoc[User Guide] section.
+
+== Useful Links
+
+* xref:Installation.adoc[Installation] – detailed installation instructions;
+* xref:Config_YML_Setup.adoc[Config.yml Setup] – project configuration;
+* xref:User_Guide.adoc[User Guide] – complete guide;
+* xref:Editing_and_Verification.adoc[Editing and Verification] – troubleshooting.
+
+== Troubleshooting
+
+=== Docker Issues
+
+If you encounter Docker issues:
+
+[source,bash]
+----
+# Check container status
+docker-compose ps
+
+# Restart services
+docker-compose restart
+
+# View logs
+docker-compose logs
+----
+
+=== Build Issues
+
+If the build fails:
+
+[source,bash]
+----
+# Check permissions
+ls -la components/ods-project/
+
+# Ensure files are created
+ls -la components/ods-project/modules/ROOT/pages/
+----
+
+=== Display Issues
+
+If the site does not display correctly:
+
+* Check AsciiDoc file syntax;
+* Ensure all include files exist;
+* Check Antora logs in the console.

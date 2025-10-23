@@ -1,0 +1,378 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Architecture and System Composition of ODS
+:sectnums:
+
+This document describes the ODS project architecture, structure of all folders and files, as well as the logic of the documentation generation system.
+
+== System Architecture Diagram
+
+[plantuml, architecture-diagram]
+----
+include::../partials/architecture.puml[plantuml, architecture-diagram]
+----
+
+== Project Root Structure
+
+Project root structure:
+
+* components/ – folder with documentation components;
+* tools/ – tools and scripts for generation;
+* resources/ – resources (themes, fonts);
+* ui-files/ – user interface for Antora;
+* docker/ – Docker configuration and images;
+* templates/ – templates and examples;
+* public/ – generated documentation site (Antora);
+* .gitlab-ci.yml – CI/CD configuration;
+* antora-playbook.yml – Antora configuration;
+* .gitignore – Git exclusions.
+
+== components/ Folder
+
+Contains all project documentation components.
+
+=== Component Structure
+
+Each component has a modular structure:
+
+* modules/ – documentation modules;
+** ROOT/ – main module;
+*** pages/ – documentation pages (.adoc files);
+*** partials/ – partial files;
+*** attachments/ – attachments (PDF files);
+*** images/ – images;
+*** examples/ – source files;
+** ed/, trd/, oed/ – additional modules.
+
+Detailed ROOT module structure:
+
+* nav.adoc – module navigation;
+* pages/ – documentation pages (.adoc files);
+* partials/ – partial files;
+** lists/ – automatically generated lists;
+** docs-api/ – API documentation (if enabled);
+** docs-db/ – database documentation (if enabled);
+* attachments/ – attachments (PDF files);
+* images/ – images;
+** bpmn/ – BPMN diagrams (if enabled);
+** drawio/ – Draw.io diagrams (if enabled);
+** images-db/ – database schemas (if enabled);
+* examples/ – source files;
+** bpmn/ – BPMN diagram sources;
+** drawio/ – Draw.io diagram sources;
+** sources.yml – API sources;
+** database.yml – database profiles.
+
+=== Project Components
+
+Project components:
+
+* airport-service – airport service;
+* data-processing-engine – data processing engine;
+* information-system – information system;
+* toys-service – toys service;
+* project-guide – project guide.
+
+== docker/ Folder
+
+Contains Docker configuration and image build scripts.
+
+=== Structure
+
+* Dockerfile.universal – universal image with Ruby + Node.js + all dependencies;
+* docker-compose.yml – configuration for local development;
+* build-images.sh – universal image build script;
+* build-kroki.sh – Kroki image build script;
+* README.md – Docker documentation.
+
+=== Purpose
+
+* Containerization of all generation tools;
+* Simplification of deployment and development;
+* Ready-made images for CI/CD.
+
+== templates/ Folder
+
+Contains templates and examples for documentation.
+
+=== Structure
+
+* diagrams/ – diagram templates (PlantUML);
+* glossary/ – glossary template;
+* snippets/ – code snippets for editors;
+* templates_doc/ – document templates.
+
+== public/ Folder
+
+Generated documentation site (created by Antora).
+
+=== Structure
+
+* _/ – static resources (CSS, JS, images);
+* {component}/ – pages for each component;
+* index.html – main page;
+* search-index.js – search index.
+
+== tools/ Folder
+
+Contains all tools for documentation generation.
+
+=== Main Script
+
+* start.rb – main script coordinating all generation.
+
+=== Generation Scripts (scripts/)
+
+* convert_ascii_to_pdf.rb – universal PDF converter;
+* bpmn_to_img.js – BPMN diagram to SVG converter;
+* drawio_to_img.js – Draw.io diagram to SVG converter;
+* db_to_adoc.rb – database to AsciiDoc converter;
+* openapi-swagger-adoc.rb – API to AsciiDoc converter;
+* generate_lists.rb – file list generator;
+* translations_one.rb – translations;
+* viewer.html – viewer;
+
+=== Libraries (lib/)
+
+* list_generator.rb – file list generator;
+* pdf_generator.rb – PDF generator;
+* approval_page_generator.rb – approval sheet generator;
+* config_loader.rb – configuration loader;
+* config_parser.rb – configuration parser;
+* title_page_blocks.rb – title page blocks;
+* ordinal_word_ru.rb – Russian ordinal numbers;
+* utils.rb – utility functions;
+
+=== Converters
+
+* convert_title_page_original.rb – standard title page;
+* convert_title_page_contract.rb – contract title page;
+* convert_title_page_original_frame.rb – title page with frame;
+* convert_approval_page_gost.rb – GOST approval sheet;
+* convert_other_page_original.rb – regular pages (standard);
+* convert_other_page_original_frame.rb – regular pages (with frame);
+* convert_list_alphabetic.rb – list converter (alphabetic);
+* convert_list_dash.rb – list converter (dash);
+
+=== Configuration
+
+* config.yml – main project configuration;
+* config_type_page.yml – page types and lists configuration;
+
+== resources/ Folder
+
+Contains resources for document styling.
+
+=== Themes
+
+* themes/ – PDF themes folder;
+** report-theme.yml – main report theme;
+** frame-theme.yml – theme for documents with frames;
+** act-theme.yml – theme for acts;
+** base-theme.yml – base theme;
+** default-theme.yml – default theme;
+
+=== Fonts
+
+* fonts/ – fonts folder (if used);
+
+== ui-files/ Folder
+
+Contains user interface for Antora site.
+
+=== Structure
+
+* ui-bundle.zip – main UI bundle (archive with Antora themes);
+* ui-bundle-style/ – additional style files for customization;
+** css/ – custom CSS styles;
+** font/ – additional fonts;
+** img/ – interface images;
+** js/ – JavaScript files;
+** layouts/ – layout templates;
+** partials/ – partial templates.
+
+=== Purpose
+
+The `ui-files/` folder is used for:
+* Documentation site appearance settings;
+* Overriding standard Antora styles;
+* Adding custom interface elements;
+* Color scheme and typography settings.
+
+UI configuration happens through the `ui` section in `antora-playbook.yml`:
+* `bundle.url` – link to main UI bundle;
+* `supplemental_files` – path to additional style files.
+
+== Configuration Files
+
+=== CI/CD
+
+* .gitlab-ci.yml – GitLab CI/CD configuration;
+** Contains PDF and site build stages;
+** Environment variable settings;
+** Pipeline run rules.
+
+=== Antora
+
+* antora-playbook.yml – Antora configuration;
+** Documentation site build settings;
+** Kroki server configuration;
+** Attributes for Antora;
+** UI bundle and supplemental_files for custom styles.
+
+=== Git
+
+* .gitignore – Git exclusions;
+** Ignores temporary files;
+** Excludes generated images;
+** Preserves necessary scripts.
+
+== start.rb Logic
+
+=== Main Stages
+
+* Reading configuration from config.yml;
+* Processing each component;
+* Diagram generation (BPMN, Draw.io);
+* API documentation generation;
+* Database documentation generation;
+* PDF document generation;
+* File list generation.
+
+=== Conditional Logic
+
+* Checking ENV['CI'] variable;
+** In CI, diagram generation is disabled;
+** In CI, API generation is disabled;
+** In CI, database generation is disabled;
+* Locally, full generation works.
+
+== config.yml Configuration
+
+=== Defaults Section
+
+Contains default settings for all components.
+
+* bpmn – BPMN diagram settings;
+** enabled – enable/disable generation;
+** src – source folder;
+** dst – destination folder;
+** erase_destination_folder – folder cleanup;
+
+* drawio – Draw.io diagram settings;
+** enabled – enable/disable generation;
+** src – source folder;
+** dst – destination folder;
+** erase_destination_folder – folder cleanup;
+
+* api – API documentation settings;
+** enabled – enable/disable generation;
+** dst – destination folder;
+** api_sources_file – sources file;
+** erase_destination_folder – folder cleanup;
+
+* db – database documentation settings;
+** enabled – enable/disable generation;
+** images_dir – images folder;
+** dst – destination folder;
+** database_connect_file – connection file;
+** profile – database profile;
+
+* pdf – PDF generation settings;
+** enabled – enable/disable generation;
+** src – source folder;
+** dst – destination folder;
+** converter – converter path;
+** theme – styling theme;
+** use_title_pages – title pages;
+
+* list – list generation settings;
+** enabled – enable/disable generation;
+** adoc_lists – .adoc file lists;
+** pdf_lists – PDF file lists;
+** dst – destination folder.
+
+=== Components Section
+
+Contains list of components with individual settings.
+
+* Each component inherits settings from defaults;
+* Any parameters can be overridden;
+* Section order is not important.
+
+== Modular Converter Architecture
+
+=== Universal Converter
+
+* convert_ascii_to_pdf.rb – main converter;
+** Loads configuration from config_type_page.yml;
+** Dynamically connects modules;
+** Automatically selects PDF theme.
+
+=== Title Page Modules
+
+* convert_title_page_original.rb – standard title page;
+* convert_title_page_contract.rb – for contracts;
+* convert_title_page_original_frame.rb – with frames;
+* convert_approval_page_gost.rb – GOST approval sheet.
+
+=== Regular Page Modules
+
+* convert_other_page_original.rb – with full frames;
+* convert_other_page_original_frame.rb – with frames and prefix.
+
+=== List Modules
+
+* convert_list_alphabetic.rb – alphabetic style;
+* convert_list_dash.rb – dash style.
+
+== Automatic Generation
+
+=== File Lists
+
+* Generated automatically;
+* Created in modules/ROOT/partials/lists/;
+* Updated with each build;
+* Contain document navigation.
+
+=== PDF Documents
+
+* Generated from .adoc files;
+* Saved in modules/ROOT/attachments/;
+* Use configured themes;
+* Support title pages.
+
+=== Diagrams
+
+* BPMN converted to SVG via Puppeteer;
+* Draw.io converted to SVG via Desktop application;
+* PlantUML processed via Kroki;
+* Saved in corresponding images/ folders.
+
+== Data Flows
+
+=== Diagram Generation
+
+* Sources in examples/ → conversion scripts → images in images/.
+
+=== Documentation Generation
+
+* Database/API sources → conversion scripts → partial files in partials/.
+
+=== PDF Generation
+
+* AsciiDoc files in pages/ → universal converter → PDF files in attachments/.
+
+=== List Generation
+
+* File scanning → list generator → partial files in partials/lists/.
+
+== Diagram Color Scheme
+
+* Blue – configuration files;
+* Purple – generation scripts;
+* Green – libraries and modules;
+* Orange – resources (themes, fonts);
+* Pink – documentation components.

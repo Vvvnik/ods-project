@@ -1,0 +1,83 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam component {
+  BackgroundColor #E6F3FF
+  BorderColor #0066CC
+  FontColor #003366
+}
+skinparam package {
+  BackgroundColor #F0F8FF
+  BorderColor #4682B4
+  FontColor #2F4F4F
+}
+
+title Архитектура программного обеспечения ODS
+
+package "Корневой уровень" {
+  [.gitlab-ci.yml] as CI
+  [antora-playbook.yml] as PLAYBOOK
+  [.gitignore] as GITIGNORE
+  [readme.adoc] as README
+}
+
+package "tools/" {
+  [start.rb] as START
+  [config.yml] as CONFIG
+  [config_type_page.yml] as CONFIG_TYPES
+  
+  package "scripts/" {
+    [convert_ascii_to_pdf.rb] as CONVERTER
+    [bpmn_to_img.js] as BPMN
+    [drawio_to_img.js] as DRAWIO
+    [db_to_adoc.rb] as DB
+    [openapi-swagger-adoc.rb] as API
+  }
+  
+  package "lib/" {
+    [pdf_generator.rb] as PDF_GEN
+    [list_generator.rb] as LIST_GEN
+    [approval_page_generator.rb] as APPROVAL
+  }
+}
+
+package "resources/" {
+  [themes/] as THEMES
+  [fonts/] as FONTS
+}
+
+package "components/" {
+  package "ROOT Module" {
+    [pages/] as PAGES
+    [partials/] as PARTIALS
+    [attachments/] as ATTACHMENTS
+    [images/] as IMAGES
+    [examples/] as EXAMPLES
+  }
+}
+
+START --> CONFIG : "Читает конфигурацию"
+START --> CONVERTER : "Запускает конвертер"
+START --> BPMN : "Генерирует BPMN"
+START --> DRAWIO : "Генерирует Draw.io"
+START --> DB : "Генерирует БД документацию"
+START --> API : "Генерирует API документацию"
+
+CONVERTER --> CONFIG_TYPES : "Загружает типы страниц"
+CONVERTER --> THEMES : "Применяет темы"
+
+EXAMPLES --> BPMN : "Исходные файлы"
+EXAMPLES --> DRAWIO : "Исходные файлы"
+EXAMPLES --> DB : "SQL схемы"
+EXAMPLES --> API : "OpenAPI спецификации"
+
+BPMN --> IMAGES : "SVG диаграммы"
+DRAWIO --> IMAGES : "SVG диаграммы"
+DB --> PARTIALS : "AsciiDoc документация"
+API --> PARTIALS : "AsciiDoc документация"
+
+PAGES --> CONVERTER : "AsciiDoc файлы"
+CONVERTER --> ATTACHMENTS : "PDF файлы"
+
+@enduml
+

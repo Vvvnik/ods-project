@@ -1,0 +1,149 @@
+include::../partials/attr_common.adoc[]
+= API Documentation Parsing
+:sectnums:
+
+== Purpose
+
+The API documentation converter is designed for automatic generation of AsciiDoc documentation from OpenAPI/Swagger specifications.
+
+== How It Works
+
+The converter reads API source configuration from the sources.yml file and generates documentation in AsciiDoc format:
+
+. Loads source configuration from sources.yml file;
+. Connects to each specified API endpoint;
+. Parses OpenAPI/Swagger specification;
+. Generates AsciiDoc files with API description;
+. Saves result in partials/docs-api folder.
+
+== Configuration
+
+=== api Section in config.yml
+
+[source,yaml]
+----
+api:
+  enabled: true # Enable/disable API documentation generation
+  dst: "components/{name}/modules/ROOT/partials/docs-api" # Where to save API documentation
+  api_sources_file: "components/{name}/modules/ROOT/examples/sources.yml"  # API sources file
+  erase_destination_folder: true # Clear destination folder before generation
+----
+
+In the sources.yml file, set parameters for connecting to your APIs. The sources.yml file should be located in the component folder in the examples folder.
+
+=== sources.yml File Structure
+
+The sources.yml file contains a list of API endpoints for parsing:
+
+[source,yaml]
+----
+sources:
+  - name: "API Service 1"
+    url: "https://api.example.com/swagger.json"
+    description: "First API description"
+  - name: "API Service 2" 
+    url: "https://api2.example.com/openapi.yaml"
+    description: "Second API description"
+----
+
+=== Source Attributes
+
+Each API source can contain the following attributes:
+
+==== `description` Attribute
+**Purpose:** Source description for logging and console display
+
+**Usage:**
+* Displayed in logs during processing: `📝 Processing: {description}`
+* Shown in list of found sources
+* If not specified, source path is used
+
+**Example:**
+[source,yaml]
+----
+- type: directory
+  path: "components/toys-service/modules/ROOT/examples/api/"
+  description: "All files from api folder"
+----
+
+==== `patterns` Attribute
+**Purpose:** File masks for searching in folders (only for `type: directory`)
+
+**Usage:**
+* Filters files by extensions in specified folder
+* Default: `["*.json", "*.yaml", "*.yml"]`
+* Used in `Dir.glob()` for file searching
+
+**Example:**
+[source,yaml]
+----
+- type: directory
+  path: "components/toys-service/modules/ROOT/examples/api/"
+  description: "All files from api folder"
+  patterns: ["*.json", "*.yaml", "*.yml"]
+----
+
+:warning-caption: Warning!
+[WARNING]
+====
+The `patterns` and `description` attributes are actively used by the `openapi-swagger-adoc.rb` script for file filtering and information display in logs:
+
+* `patterns` - **critically important** for file filtering in folders. If not set, default is used: `["*.json", "*.yaml", "*.yml"]`;
+* `description` - **useful** for log informativeness and debugging.
+
+Without `patterns`, the script won't be able to find needed files in folders, and without `description` it will be harder to understand which source is being processed in logs.
+====
+
+== Technologies Used
+
+* Ruby – main script language;
+* JSON/YAML – configuration parsing;
+* OpenAPI/Swagger – API documentation standards;
+* AsciiDoc – output documentation format.
+
+== Work Result
+
+The converter creates the following files:
+
+. test-api-yml.adoc – main API documentation page;
+. test-api.adoc – alternative documentation version;
+. swagger.adoc – documentation in Swagger format.
+
+== Usage Examples
+
+=== Converter Launch
+
+In the project, the script runs automatically through the main script `tools/start.rb`, which uses configuration from `tools/config.yml` and the component's API sources file.
+
+[source,bash]
+----
+# Automatic launch through main script
+ruby tools/start.rb
+
+# Manual launch with specified sources file and output directory
+ruby tools/scripts/openapi-swagger-adoc.rb --sources sources.yml --out output
+
+# Manual launch with additional parameters
+ruby tools/scripts/openapi-swagger-adoc.rb --sources sources.yml --in input_dir --out output
+----
+
+Parameters:
+
+* `--sources` - path to sources.yml file with API configuration (required)
+* `--in` - input directory (optional)
+* `--out` - output directory (required)
+
+When launched through `tools/start.rb`, the `--sources` and `--out` parameters are taken from `tools/config.yml` configuration (api section, `api_sources_file` and `dst` fields).
+
+=== Documentation Integration
+
+[source,asciidoc]
+----
+\include::../partials/docs-api/test-api-yml.adoc[]
+----
+
+== Limitations
+
+* Only OpenAPI 3.0 and Swagger 2.0 are supported;
+* Access to API endpoint is required to get specification;
+* Only basic documentation is generated without customization.

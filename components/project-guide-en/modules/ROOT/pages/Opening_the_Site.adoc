@@ -1,0 +1,60 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Opening the Site
+:sectnums:
+
+== GitLab Pages
+
+After successful build, open GitLab Pages URL from `pages` artifacts.
+
+== Local Launch
+
+=== Prerequisites
+
+Before launching, ensure Kroki server is running locally:
+
+[source,bash]
+----
+# Launch Kroki server (in separate terminal)
+docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
+----
+
+=== Site Build
+
+// insertion of common warning block for several pages
+include::../partials/warning_point.adoc[]
+
+Site build is performed with the command:
+[source,bash]
+----
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+----
+
+:warning-caption: Important
+
+[NOTE]
+For local launch, CLI parameter `--attribute kroki-server-url=http://localhost:8000` is used, 
+which overrides value from `antora-playbook.yml`. This allows not manually changing configuration file 
+when switching between local development and CI.
+
+=== Opening Site
+
+After build, open the main page:
+
+[source,bash]
+----
+open public/index.html
+----
+
+Site is generated in `public/` folder with `index.html` start page.
+
+== Note about antora command
+
+For local launch, it's recommended to use `npx antora antora-playbook.yml` instead of `antora antora-playbook.yml`:
+
+. NPX provides better compatibility between different environments
+. Uses local Antora version from project
+. Doesn't require global package installation
+. Standard approach in modern development

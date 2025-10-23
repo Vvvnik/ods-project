@@ -133,5 +133,11 @@ components:
     #   enabled: true #TODO: включить генерацию Draw.io
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
+
+  - name: project-guide-en
+    <<: *defaults
+    drawio: #TODO: включить генерацию Draw.io
+      enabled: true #TODO: включить генерацию Draw.io
+
   
 # ******************************************************

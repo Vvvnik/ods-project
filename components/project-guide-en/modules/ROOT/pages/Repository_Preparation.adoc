@@ -1,0 +1,191 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+= Repository Preparation
+
+== Repository Structure
+
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Folder ^|Purpose ^|Description
+
+|components/
+|Antora Components
+|Contains all documentation components (airport-service, data-processing-engine, information-system, toys-service, project-guide)
+
+|tools/
+|Build Tools
+|Scripts and configurations for automation
+
+|resources/
+|Styling Resources
+|Themes, fonts for PDF
+
+|docker/
+|Docker Configuration
+|Dockerfile, docker-compose, image build scripts
+
+|templates/
+|Templates and Examples
+|Document templates, diagrams, glossary
+
+|ui-files/
+|User Interface
+|UI components for Antora (themes, styles, scripts)
+
+|public/
+|Ready Site
+|Generated static site
+|===
+
+:num_i: {counter:figure-number}
+The Antora project diagram is shown in <<id_i_{num_i}, Figure {num_i}>>.
+
+[.landscape]
+<<<<
+
+[#id_i_{num_i}]
+.Figure {num_i}. Antora Project Diagram
+image::drawio/Проект_диаграмма_классов_antora_project.svg[]
+
+[.portrait]
+<<<<
+
+
+
+== Component Structure
+
+[cols="2,2,4", options="header, breakable"]
+|===
+^|Folder ^|File Types ^|Purpose
+
+|examples/
+|Source Files
+|Source files for documentation generation
+
+|examples/api/
+|JSON, YAML
+|API specification source files
+
+|examples/bpmn/
+|BPMN
+|Business process diagrams
+
+|examples/drawio/
+|Draw.io
+|Architecture diagrams and schemas
+
+|images/
+|SVG, PNG
+|Images and diagrams
+
+|images/puml/
+|PlantUML
+|Diagrams processed by Kroki
+
+|partials/
+|AsciiDoc
+|Partial files and generated documentation
+
+|partials/docs-api/
+|AsciiDoc
+|Generated API documentation
+
+|partials/docs-db/
+|AsciiDoc, SVG
+|Database documentation + SVG diagrams
+
+|attachments/
+|PDF
+|Generated PDF documents
+
+|modules/
+|Antora Modules
+|Structure for Antora documentation (ROOT, ed, trd, oed, etc.)
+|===
+
+:num_i: {counter:figure-number}
+The component diagram is shown in <<id_i_{num_i}, Figure {num_i}>>.
+
+[.landscape]
+<<<<
+
+[#id_i_{num_i}]
+.Figure {num_i}. Component Diagram
+image::drawio/Проект_диаграмма_классов_config.svg[]
+
+[.portrait]
+<<<<
+
+== Repository Root Documents
+
+Important documents describing the project and rules for working with it are located in the project root:
+
+[cols="1,2,3", options="header, breakable"]
+|===
+^|File ^|Purpose ^|Description
+
+|README.md
+|Main Project File
+|ODS description, quick start, license links
+
+|readme.adoc
+|Alternative README
+|Project description in AsciiDoc format
+
+|MANIFESTO.adoc
+|Project Manifest
+|Principles, applications, ODS profile ecosystem
+
+|NOTICE.adoc
+|Third-party Software Notice
+|List of used libraries and their licenses
+
+|LICENSE.md
+|Summary License
+|Explanation of the project's dual licensing model
+
+|LICENSE-CODE.md
+|Code License
+|Apache 2.0 for code, scripts, tools
+
+|LICENSE-DOCS.md
+|Documentation License
+|CC-BY 4.0 for documentation, templates, texts
+
+|package.json
+|Node.js Dependencies
+|Description of dependencies and scripts
+
+|package-lock.json
+|Exact Dependency Versions
+|Reproducible builds
+
+|antora-playbook.yml
+|Antora Configuration
+|Documentation site build settings
+
+|CONTRIBUTING.md
+|Contribution Guide
+|Participation rules, project structure, documentation work
+
+|CODE_OF_CONDUCT.md
+|Code of Conduct
+|Standards of behavior for project participants
+
+|SUPPORT.md
+|Project Support
+|Where to find help, FAQ, contacts
+
+|SECURITY.md
+|Security Policy
+|Vulnerability reporting procedures
+
+|CHANGELOG.md
+|Change History
+|Change log following Keep a Changelog standard
+|===
+
+For detailed description of all root documents, see xref:Project_Root_Documents.adoc[Project Root Documents].

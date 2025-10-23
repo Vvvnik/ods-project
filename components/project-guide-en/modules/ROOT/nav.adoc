@@ -1,0 +1,47 @@
+// * xref:index.adoc[ODS Project Overview]
+// ** xref:index.adoc[What is ODS]
+// ** xref:index.adoc[Project Architecture]
+// ** xref:index.adoc[Quick Start]
+// ** xref:index.adoc[Configuration]
+// ** xref:index.adoc[Integrations]
+// ** xref:index.adoc[Development]
+// ** xref:index.adoc[CI/CD]
+
+// * xref:title-pages.adoc[Title Page System]
+// ** xref:title-pages.adoc[System Overview]
+// ** xref:title-pages.adoc[Architecture]
+// ** xref:title-pages.adoc[Configuration]
+// ** xref:title-pages.adoc[Title Pages]
+// ** xref:title-pages.adoc[Universal Blocks]
+// ** xref:title-pages.adoc[Creating New Blocks]
+// ** xref:title-pages.adoc[Debugging and Testing]
+
+// * xref:overview.adoc[Documentation Guide]
+// ** xref:overview.adoc[Description]
+// ** xref:Project_Root_Documents.adoc[Project Root Documents]
+// ** xref:Repository_Preparation.adoc[Repository Preparation]
+// ** xref:Config_YML_Setup.adoc[Config.yml Setup]
+// ** xref:Installation.adoc[Installation]
+// ** xref:Docker_Build_and_Services.adoc[Docker: Build and Services]
+// ** xref:Local_Kroki_and_Postgres_Launch.adoc[Local Kroki and Postgres Launch]
+// ** xref:Editing_and_Verification.adoc[Editing and Verification]
+// ** xref:CI_CD.adoc[CI/CD]
+// ** xref:GitLab_Stage_Verification.adoc[GitLab Stage Verification]
+// ** xref:Opening_the_Site.adoc[Opening the Site]
+
+
+
+// Auto-generated navigation
+
+
+// Auto-generated navigation
+
+
+// Auto-generated navigation
+
+
+// Auto-generated navigation
+
+
+// Auto-generated navigation
+include::partials/lists/list-pages-component.adoc[]

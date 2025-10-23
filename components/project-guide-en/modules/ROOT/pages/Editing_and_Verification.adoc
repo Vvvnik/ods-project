@@ -1,0 +1,355 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+= Editing and Verification
+:sectnums:
+== Documentation Generation Stages
+
+All documentation generation stages are performed automatically through the start.rb script.
+
+However, if necessary, documentation generation can be performed manually.
+
+:num_t: {counter:table-number}
+Automatic documentation generation stages are shown in <<id_t_{num_t}, Table {num_t}>>.
+
+[#id_t_{num_t}]
+.Table {num_t}. Automatic Documentation Generation Stages
+[cols="1,2,3,4", options="header, breakable"]
+|===
+^|Stage ^|Tool ^|Result ^|Environment
+
+|BPMN → SVG
+|Node.js script
+|Process SVG diagrams
+|Local only
+
+|Draw.io → SVG
+|Node.js script
+|Architecture SVG diagrams
+|Local only
+
+|API → AsciiDoc
+|Ruby script
+|API documentation
+|Local only
+
+|DB → AsciiDoc
+|Ruby script
+|Database documentation
+|Local only
+
+|AsciiDoc → PDF
+|Asciidoctor PDF
+|PDF documents
+|CI and local
+|===
+
+== Working with Diagrams
+
+=== Generation via start.rb
+
+To generate BPMN and Draw.io diagrams through the main script:
+
+. Enable generation in tools/config.yml:
+.. Run generation:
+
+Result:
+
+* BPMN: sources in modules/ROOT/examples/bpmn/ → modules/ROOT/images/bpmn/*.svg;
+* Draw.io: sources in modules/ROOT/examples/drawio/ → modules/ROOT/images/drawio/*.svg.
+
+=== Manual Diagram Generation
+
+For manual BPMN and Draw.io diagram generation, use scripts:
+
+[source,bash]
+----
+# BPMN diagram generation
+node tools/scripts/bpmn_to_img.js --in components/component-name/modules/ROOT/examples/bpmn --out components/component-name/modules/ROOT/images/bpmn --format svg
+
+# Draw.io diagram generation  
+node tools/scripts/drawio_to_img.js --in components/component-name/modules/ROOT/examples/drawio --out components/component-name/modules/ROOT/images/drawio --format svg
+----
+
+=== Kroki Diagrams
+
+For PlantUML diagrams, use Kroki (works automatically):
+
+
+[kroki-plantuml, format=svg]
+----
+@startuml
+A --> B
+@enduml
+----
+
+
+=== Rendering Dependencies
+Required dependencies for diagram rendering:
+
+* BPMN: Puppeteer + Chrome/Chromium (local only);
+* Draw.io: Draw.io Desktop application (local only);
+* PlantUML: Kroki server (automatically in CI and local).
+
+:tip-caption: Note
+
+[TIP]
+In CI/CD, BPMN and Draw.io diagram generation is automatically disabled.
+
+See details in the <<Installation, Installation>> section.
+
+== PDF Generation with Title Pages
+
+To generate PDF documents with custom title pages, use the command:
+
+[source,bash]
+----
+asciidoctor-pdf \
+  -r asciidoctor-kroki \
+  -r ./tools/scripts/convert_ascii_to_pdf.rb \
+  -a kroki-default-format=png \
+  -a kroki-server-url=http://localhost:8000 \
+  -a pdf-theme=report \
+  -a pdf-themesdir=resources/themes \
+  -a pdf-fontsdir=resources/fonts \
+  -a allow-uri-read \
+  components/information-system/modules/trd/pages/Описание_постановки_задачи.adoc
+----
+
+=== Command Parameters
+
+* -r asciidoctor-kroki - Kroki connection for diagrams;
+* -r ./tools/scripts/convert_ascii_to_pdf.rb - unified converter with automatic theme and list type selection;
+* -a kroki-server-url=http://localhost:8000 - local Kroki server URL;
+* -a pdf-theme=report - PDF theme (automatically selected: frame for _frame types, report for others);
+* -a pdf-themesdir=resources/themes - themes directory;
+* -a pdf-fontsdir=resources/fonts - fonts directory;
+* -a allow-uri-read - permission to read external resources.
+
+=== Title Page Types
+
+* :custom_title_page: *original* - for regular documents;
+* :custom_title_page: *contract* - for contract documents;
+* :custom_title_page: *original_frame* - with frames and prefix;
+* :custom_title_page: *approval_page_gost* - approval sheet in GOST style;
+* :custom_title_page: *none* - without title page.
+
+=== Disabling Title Page
+
+To completely disable title page, use:
+
+[source,asciidoc]
+----
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:notitle:
+
+== Document Title
+----
+
+:warning-caption: Warning  
+
+[WARNING]
+Use level 2 header (==) instead of level 1 (=) to avoid creating a title page.
+
+=== Proper Header Usage
+
+If title page type is NOT set (:custom_title_page: not specified or empty):
+
+[source,asciidoc]
+----
+:doctype: book
+:custom_other_page: none
+
+== Document Title
+
+Document content starts immediately after header...
+----
+
+If title page type is set (:custom_title_page: contract, :custom_title_page: original, :custom_title_page: original_frame or :custom_title_page: approval_page_gost):
+
+[source,asciidoc]
+----
+:doctype: book
+:custom_title_page: original
+:custom_other_page: none
+
+== Document Title
+
+Document content starts after title page...
+----
+
+Key rule:
+
+* = (level 1) + :custom_title_page: = title page + content;
+* == (level 2) + no :custom_title_page: = content only without title page.
+
+:warning-caption: Warning  
+
+[WARNING]
+If :custom_title_page: is not set or empty, the system automatically uses type none and doesn't create a title page. This default behavior is safe for most documents.
+
+=== Title Page System Logic
+
+What happens with different :custom_title_page: values:
+
+. :custom_title_page: contract → ConvertTitlePageContract module loaded
+. :custom_title_page: original → ConvertTitlePageOriginal module loaded
+. :custom_title_page: original_frame → ConvertTitlePageOriginalFrame module loaded
+. :custom_title_page: approval_page_gost → ConvertApprovalPageGost module loaded
+. :custom_title_page: none → module not loaded, title page disabled
+. :custom_title_page: (empty) → system uses default value 'none' → module not loaded, title page disabled
+. Attribute not set → system uses default value 'none' → module not loaded, title page disabled
+
+Page type configuration is in tools/config_type_page.yml:
+
+[source,yaml]
+----
+title_pages:
+  original: "convert_title_page_original"
+  contract: "convert_title_page_contract"
+  original_frame: "convert_title_page_original_frame"
+  approval_page_gost: "convert_approval_page_gost"
+  none: null
+----
+
+=== Behavior with Disabled Title Pages
+
+When :custom_title_page: none or attribute not set:
+
+. Custom converters not loaded - ConvertTitlePageContract, ConvertTitlePageOriginal, ConvertTitlePageOriginalFrame and ConvertApprovalPageGost modules not included
+. Standard Asciidoctor PDF used - super(doc) called instead of custom processing
+. Standard Asciidoctor title page - if level 1 header (=) exists, standard title page created
+. Theme settings - all styles, fonts, colors, margins taken from report-theme.yml or other theme
+
+:warning-caption: Warning  
+
+[WARNING]
+When using custom_title_page: none attribute, level 1 header (=) still creates standard Asciidoctor title page. To avoid this, use level 2 header (==) or add :notitle: attribute.
+
+Theme configuration example:
+
+[source,yaml]
+----
+# resources/themes/report-theme.yml
+extends: default
+
+font:
+  catalog:
+    Times:
+      normal: times-new-roman-normal.ttf
+      bold: times-new-roman-bold.ttf
+      italic: times-new-roman-italic.ttf
+      bold_italic: times-new-roman-bold-italic.ttf
+
+page:
+  margin: [15mm, 7mm, 25mm, 20mm]
+  size: A4
+
+footer:
+  recto:
+    right: '{page-number}'
+  verso:
+    left: '{page-number}'
+----
+
+Proper usage examples:
+
+Incorrect (will create standard Asciidoctor title page):
+
+[source,asciidoc]
+----
+= Document Title
+:custom_title_page: none
+
+== Document
+----
+
+Correct (without title page):
+
+[source,asciidoc]
+----
+:custom_title_page: none
+:notitle:
+
+== Document
+----
+
+
+Or use level 2 header:
+
+[source,asciidoc]
+----
+:custom_title_page: none
+
+== Document
+----
+
+:warning-caption: Warning  
+
+[WARNING]
+When using custom_title_page: none attribute, the system completely relies on theme settings. 
+
+Make sure config.yml correctly specifies the theme:
+
+[source,yaml]
+----
+pdf:
+  theme: "report"  # or your custom theme
+  themes_dir: "resources/themes"
+----
+
+== Full Verification
+
+=== Running Commands
+
+[source,bash]
+----
+# Generate all documentation
+ruby ./tools/start.rb
+
+# Run local site
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+----
+
+=== Antora Launch Options
+
+There are two ways to run Antora:
+
+=== Using NPX (Recommended)
+
+[source,bash]
+----
+npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+----
+
+NPX advantages:
+
+* Works even if Antora is not installed globally;
+* Uses local version from node_modules;
+* Better compatibility between different environments;
+* Standard approach in Node.js ecosystem.
+
+:warning-caption: Important
+
+[NOTE]
+CLI parameter `--attribute kroki-server-url=http://localhost:8000` overrides value from `antora-playbook.yml`. 
+This allows keeping CI URL (`http://kroki:8000`) in configuration and not manually changing file during local development.
+
+
+=== Using Global Antora Installation
+
+[source,bash]
+----
+antora antora-playbook.yml
+----
+
+Direct command disadvantages:
+
+* Requires global Antora installation (npm install -g @antora/cli);
+* User must have permissions for global package installation;
+* Possible version conflicts between projects.
+
+Recommendation: Use npx antora antora-playbook.yml – it's more reliable and will work for more users.

@@ -1,0 +1,15 @@
+== Docker Compose Examples
+
+[source,yaml]
+----
+version: '3.8'
+services:
+  kroki:
+    image: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
+    ports: ['8000:8000']
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports: ['5432:5432']
+----

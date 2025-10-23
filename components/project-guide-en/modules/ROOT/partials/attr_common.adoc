@@ -1,0 +1,18 @@
+// docinfo: shared - макрос для css стилей файлаdocinfo.html
+:docinfo: shared
+// !chapter-signifier: - макрос для нумерации разделов
+:!chapter-signifier:
+// !section-refsig: - макрос для нумерации разделов
+:!section-refsig:
+// table-caption!: - макрос для таблиц
+:table-caption!: 
+:figure-caption!: 
+// imagesdir: ../images - макрос для директории с изображениями
+:imagesdir: ../images
+// section-refsig: разделе - макрос для нумерации разделов
+:section-refsig: section
+// toc: macro - макрос для содержания
+:toc: macro
+// toc-title - название содержания
+:toc-title: Table of Contents 
+:custom_list_type: alphabetic

@@ -1,0 +1,83 @@
+== Additional Requirements
+
+* Git — version control system
+* Node.js (LTS) — for Antora and generation scripts
+* Ruby — for Asciidoctor PDF
+* Docker — for Kroki and PostgreSQL
+* Graphviz — for ERD diagrams
+* Java — for PlantUML (optional)
+* Chrome/Chromium — for BPMN diagram rendering
+* Draw.io Desktop — for Draw.io diagram rendering
+
+== Dependency Installation
+
+[source,bash]
+----
+# Ruby dependencies
+gem install asciidoctor asciidoctor-pdf asciidoctor-kroki
+
+# Node.js dependencies
+npm install
+
+# Additional dependencies for diagram rendering
+npm install puppeteer
+----
+
+== Installing Diagram Rendering Tools
+
+=== BPMN Diagrams
+
+For BPMN diagram rendering, the following are used:
+* **Puppeteer** — Node.js library for browser control
+* **Chrome/Chromium** — browser for rendering
+
+[source,bash]
+----
+# Install Chrome (Ubuntu/Debian)
+wget -q -O – https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+sudo apt update
+sudo apt install google-chrome-stable
+
+# Install Chrome (macOS)
+brew install --cask google-chrome
+
+# Install Chromium (alternative)
+sudo apt install chromium-browser  # Ubuntu/Debian
+brew install chromium              # macOS
+----
+
+=== Draw.io Diagrams
+
+For Draw.io diagram rendering, the following are used:
+* **Draw.io Desktop** — application for creating diagrams
+* **Command line** — for automatic conversion
+
+[source,bash]
+----
+# Install Draw.io Desktop (Ubuntu/Debian)
+wget https://github.com/jgraph/drawio-desktop/releases/latest/download/drawio-amd64-*.deb
+sudo dpkg -i drawio-amd64-*.deb
+
+# Install Draw.io Desktop (macOS)
+brew install --cask drawio
+
+# Install Draw.io Desktop (Windows)
+# Download from https://github.com/jgraph/drawio-desktop/releases
+----
+
+=== Installation Verification
+
+[source,bash]
+----
+# Check Chrome
+google-chrome --version
+# or
+chromium --version
+
+# Check Draw.io
+drawio --version
+
+# Check Puppeteer
+node -e "console.log(require('puppeteer').executablePath())"
+----
