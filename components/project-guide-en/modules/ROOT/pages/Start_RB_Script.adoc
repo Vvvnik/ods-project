@@ -188,6 +188,7 @@ end
 ----
 
 Result:
+
 * Locally: works as configured in config.yml;
 * In CI: automatically disables diagram, API, and DB generation.
 

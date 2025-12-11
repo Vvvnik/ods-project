@@ -248,19 +248,20 @@ curl http://localhost:11434/api/generate -d '{
 === Logs
 
 All operations are logged with emoji indicators:
-* 🤖 - LLM requests
-* 📖 - dictionary translations
-* ⚠️ - warnings and fallback
-* ✅ - successful operations
+
+* 🤖 - LLM requests;
+* 📖 - dictionary translations;
+* ⚠️ - warnings and fallback;
+* ✅ - successful operations.
 
 == Local Usage
 
 The LLM system is designed for **local use** on developer machine. This provides:
 
-* **Fast access** to Ollama without network delays
-* **Full control** over models and settings
-* **Security** - data not transmitted to external services
-* **Stability** - doesn't depend on external API availability
+* **Fast access** to Ollama without network delays;
+* **Full control** over models and settings;
+* **Security** - data not transmitted to external services;
+* **Stability** - doesn't depend on external API availability.
 
 === Local Environment Requirements
 

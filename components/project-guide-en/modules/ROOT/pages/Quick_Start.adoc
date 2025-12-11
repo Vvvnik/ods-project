@@ -12,9 +12,9 @@ This guide will help you quickly get started with the ODS project and create you
 
 To work with the project you will need:
 
-* Docker and Docker Compose
-* Git
-* Text editor (VS Code, Sublime Text, or any other)
+* Docker and Docker Compose;
+* Git;
+* Text editor (VS Code, Sublime Text, or any other).
 
 == Step 1: Getting the Project
 
@@ -36,8 +36,9 @@ docker-compose up -d
 ----
 
 This will launch:
-* Kroki service for diagram generation (if configured)
-* PostgreSQL database (if configured)
+
+* Kroki service for diagram generation (if configured);
+* PostgreSQL database (if configured).
 
 For local development, you can use ready-made commands from docker-compose.yml.
 

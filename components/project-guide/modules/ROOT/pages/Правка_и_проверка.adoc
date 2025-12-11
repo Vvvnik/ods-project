@@ -193,15 +193,15 @@ asciidoctor-pdf \
 
 === Логика работы системы титульных страниц
 
-Что происходит при разных значениях :custom_title_page::
+Что происходит при разных значениях :custom_title_page:
 
-. :custom_title_page: contract → загружается модуль ConvertTitlePageContract
-. :custom_title_page: original → загружается модуль ConvertTitlePageOriginal
-. :custom_title_page: original_frame → загружается модуль ConvertTitlePageOriginalFrame
-. :custom_title_page: approval_page_gost → загружается модуль ConvertApprovalPageGost
-. :custom_title_page: none → модуль не загружается, титульная страница отключена
-. :custom_title_page: (пустой) → система использует значение по умолчанию 'none' → модуль не загружается, титульная страница отключена
-. Атрибут не задан → система использует значение по умолчанию 'none' → модуль не загружается, титульная страница отключена
+. :custom_title_page: contract → загружается модуль ConvertTitlePageContract;
+. :custom_title_page: original → загружается модуль ConvertTitlePageOriginal;
+. :custom_title_page: original_frame → загружается модуль ConvertTitlePageOriginalFrame;
+. :custom_title_page: approval_page_gost → загружается модуль ConvertApprovalPageGost;
+. :custom_title_page: none → модуль не загружается, титульная страница отключена;
+. :custom_title_page: (пустой) → система использует значение по умолчанию 'none' → модуль не загружается, титульная страница отключена;
+. Атрибут не задан → система использует значение по умолчанию 'none' → модуль не загружается, титульная страница отключена.
 
 Конфигурация типов страниц находится в файле tools/config_type_page.yml:
 
@@ -219,10 +219,10 @@ title_pages:
 
 Когда :custom_title_page: none или атрибут не задан:
 
-. Кастомные конвертеры не загружаются - модули ConvertTitlePageContract, ConvertTitlePageOriginal, ConvertTitlePageOriginalFrame и ConvertApprovalPageGost не включаются
-. Используется стандартный Asciidoctor PDF - вызывается super(doc) вместо кастомной обработки
-. Стандартная титульная страница Asciidoctor - если есть заголовок уровня 1 (=), создается стандартная титульная страница
-. Настройки из темы - все стили, шрифты, цвета, отступы берутся из report-theme.yml или другой темы
+. Кастомные конвертеры не загружаются - модули ConvertTitlePageContract, ConvertTitlePageOriginal, ConvertTitlePageOriginalFrame и ConvertApprovalPageGost не включаются;
+. Используется стандартный Asciidoctor PDF - вызывается super(doc) вместо кастомной обработки;
+. Стандартная титульная страница Asciidoctor - если есть заголовок уровня 1 (=), создается стандартная титульная страница;
+. Настройки из темы - все стили, шрифты, цвета, отступы берутся из report-theme.yml или другой темы.
 
 :warning-caption: Внимание  
 

@@ -28,8 +28,9 @@ npm install puppeteer
 === BPMN Diagrams
 
 For BPMN diagram rendering, the following are used:
-* **Puppeteer** — Node.js library for browser control
-* **Chrome/Chromium** — browser for rendering
+
+* **Puppeteer** — Node.js library for browser control;
+* **Chrome/Chromium** — browser for rendering.
 
 [source,bash]
 ----
@@ -50,8 +51,9 @@ brew install chromium              # macOS
 === Draw.io Diagrams
 
 For Draw.io diagram rendering, the following are used:
-* **Draw.io Desktop** — application for creating diagrams
-* **Command line** — for automatic conversion
+
+* **Draw.io Desktop** — application for creating diagrams;
+* **Command line** — for automatic conversion.
 
 [source,bash]
 ----
