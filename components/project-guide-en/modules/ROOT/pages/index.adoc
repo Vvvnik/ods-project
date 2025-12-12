@@ -51,6 +51,13 @@ ODS is useful for:
 
 This guide describes the main principles of ODS, the project architecture, component structure, build and publication tools, and examples of various document types. The guide contains all the necessary information to get started with the ODS project.
 
+=== Project Introduction Video
+This video demonstrates the capabilities of the project and how it can be used to automate the documentation process.
+
+video::https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[width=100%]
+
+Download project link:https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[introduction video].
+
 === Key Principles of ODS
 The key principles of ODS are:
 

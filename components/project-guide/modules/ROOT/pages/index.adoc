@@ -56,7 +56,7 @@ ODS полезен для:
 
 video::https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[width=100%]
 
-Загрузить link:https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[ознакомительное видео проекта] проекта.
+Загрузить link:https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[ознакомительное видео] проекта.
 
 === Основные принципы ODS
 Основными принципами ODS являются:

@@ -131,3 +131,66 @@ Add to changes:
 * components/*/modules/ – documentation content
 * antora-playbook.yml – site build settings
 * resources/ – PDF themes and fonts
+
+== Working with Media Files in GitLab Package Registry
+
+To host videos and other media files in documentation, you can use GitLab Package Registry. This allows storing large files separately from the repository and referencing them in documentation.
+
+=== Uploading Videos to Package Registry
+
+To upload a video to GitLab Package Registry, use the GitLab API:
+
+[source,bash]
+----
+curl --header "PRIVATE-TOKEN: <your_token>" \
+     --upload-file video.mov \
+     "https://gitlab.com/api/v4/projects/<project_id>/packages/generic/videos/<version>/<filename>"
+----
+
+**Parameters:**
+
+* `PRIVATE-TOKEN` – GitLab personal access token (created in Settings → Access Tokens)
+* `project_id` – Project ID (found in Settings → General, or use `namespace%2Fproject-name`)
+* `videos` – Package name (you can use any name)
+* `<version>` – Package version (e.g., `1.0.0`)
+* `<filename>` – File name to upload
+
+**Example:**
+
+[source,bash]
+----
+curl --header "PRIVATE-TOKEN: xxxxxxxxxxxxxxxxxxxx" \
+     --upload-file video.mov \
+     "https://gitlab.com/api/v4/projects/vvvnik%2Fods-project/packages/generic/videos/1.0.0/video.mov"
+----
+
+:tip-caption: Tip
+
+[TIP]
+For security, store the token in environment variables or use GitLab CI/CD variables. In the command, you can use `$GITLAB_TOKEN` instead of directly specifying the token.
+
+=== Using Videos in Documentation
+
+After uploading a video to Package Registry, get a direct link to the file through the GitLab web interface:
+
+. Go to the project's Package Registry: `Packages & Registries → Package Registry`
+. Find the uploaded file and copy the download link
+
+In AsciiDoc, use the `video::` directive to embed videos:
+
+[source,asciidoc]
+----
+video::https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[width=100%]
+
+Download the link:https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[introductory video] of the project.
+----
+
+**Parameters:**
+
+* `width=100%` – Video width (can be specified in pixels or percentages)
+* Download link – Used for direct link to the file
+
+:warning-caption: Important
+
+[WARNING]
+The file link in Package Registry contains a file ID that can only be obtained through the GitLab web interface after uploading the file.

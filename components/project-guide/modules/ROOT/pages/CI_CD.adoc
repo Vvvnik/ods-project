@@ -66,7 +66,7 @@ include::../examples/schema.puml[plantuml, schema]
 .. Установка Node.js зависимостей (`npm ci` или `npm install`)
 .. Генерация сайта через `antora antora-playbook.yml`
 .. Копирование результата: `cp -a build/site/. public/` (если public/ не существует)
-. **Артефакты**: папка `public/` (истекает через 3 дня)
+. **Артефакты**: папка `public/` 
 . **Триггеры**:
 .. Изменения в технических файлах (`tools/**`, `antora-playbook.yml`, `components/*/antora.yml`, `resources/**`)
 .. Каждый push в main (если нет изменений в технических файлах)
@@ -81,7 +81,7 @@ include::../examples/schema.puml[plantuml, schema]
 . **Действие**: деплой артефактов на GitLab Pages
 . **Скрипт**: `echo "Deploy GitLab Pages"` (символическая команда)
 . **Результат**: сайт документации доступен онлайн
-. **Артефакты**: папка `public/` (не истекает)
+. **Артефакты**: папка `public/` 
 . **Триггеры**: аналогично `build_all`, но НЕ выполняется при создании тега
 
 === prepare_release_notes
@@ -100,7 +100,7 @@ include::../examples/schema.puml[plantuml, schema]
 .. Создание диапазона коммитов между тегами
 .. Генерация файла `dist/release-notes.adoc` с коммитами
 . **Результат**: файл `dist/release-notes.adoc`
-. **Артефакты**: `dist/release-notes.adoc` (истекает через 3 дня)
+. **Артефакты**: `dist/release-notes.adoc` 
 
 === release
 Этап создания официального релиза:
@@ -130,3 +130,66 @@ include::../examples/schema.puml[plantuml, schema]
 * components/*/modules/ – содержимое документации
 * antora-playbook.yml – настройки сборки сайта
 * resources/ – темы и шрифты для PDF
+
+== Работа с медиа-файлами в GitLab Package Registry
+
+Для размещения видео и других медиа-файлов в документации можно использовать GitLab Package Registry. Это позволяет хранить большие файлы отдельно от репозитория и ссылаться на них в документации.
+
+=== Загрузка видео в Package Registry
+
+Для загрузки видео в GitLab Package Registry используйте API GitLab:
+
+[source,bash]
+----
+curl --header "PRIVATE-TOKEN: <ваш_токен>" \
+     --upload-file video.mov \
+     "https://gitlab.com/api/v4/projects/<project_id>/packages/generic/videos/<версия>/<имя_файла>"
+----
+
+**Параметры:**
+
+* `PRIVATE-TOKEN` – персональный токен доступа GitLab (создается в Settings → Access Tokens)
+* `project_id` – ID проекта (можно найти в Settings → General проекта, или использовать `namespace%2Fproject-name`)
+* `videos` – имя пакета (можно использовать любое имя)
+* `<версия>` – версия пакета (например, `1.0.0`)
+* `<имя_файла>` – имя файла для загрузки
+
+**Пример:**
+
+[source,bash]
+----
+curl --header "PRIVATE-TOKEN: xxxxxxxxxxxxxxxxxxxx" \
+     --upload-file video.mov \
+     "https://gitlab.com/api/v4/projects/vvvnik%2Fods-project/packages/generic/videos/1.0.0/video.mov"
+----
+
+:tip-caption: Совет
+
+[TIP]
+Для безопасности храните токен в переменных окружения или используйте GitLab CI/CD переменные. В команде можно использовать `$GITLAB_TOKEN` вместо прямого указания токена.
+
+=== Использование видео в документации
+
+После загрузки видео в Package Registry получите прямую ссылку на файл через веб-интерфейс GitLab:
+
+. Перейдите в Package Registry проекта: `Packages & Registries → Package Registry`
+. Найдите загруженный файл и скопируйте ссылку на скачивание
+
+В AsciiDoc используйте директиву `video::` для встраивания видео:
+
+[source,asciidoc]
+----
+video::https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[width=100%]
+
+Загрузить link:https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[ознакомительное видео] проекта.
+----
+
+**Параметры:**
+
+* `width=100%` – ширина видео (можно указать в пикселях или процентах)
+* Ссылка на скачивание – используется для прямой ссылки на файл
+
+:warning-caption: Важно
+
+[WARNING]
+Ссылка на файл в Package Registry содержит ID файла, который можно получить только через веб-интерфейс GitLab после загрузки файла.
