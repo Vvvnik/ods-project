@@ -13,9 +13,9 @@ require_relative '../lib/translation_utils'
 # --- кэш переводов для избежания повторных вызовов LLM ---
 TRANSLATION_CACHE = {}
 
-# --- глобальные переменные для батчевого перевода ---
+# --- глобальные переменные для пакетного перевода ---
 MISSING_FIELDS = []
-BATCH_SIZE = 50  # Размер батча для перевода
+BATCH_SIZE = 50  # Размер пакета для перевода
 
 # =============================================================================
 # ПАРСИНГ АРГУМЕНТОВ КОМАНДНОЙ СТРОКИ
@@ -142,18 +142,18 @@ def collect_missing_field(name, translate_comments, translation_utils)
 end
 
 def process_batch_translation(llm_client, translation_utils, translate_comments)
-  # Обрабатываем батч переводов
+  # Обрабатываем пакет переводов
   return if MISSING_FIELDS.empty?
   
-  puts "🔄 Обрабатываем батч из #{MISSING_FIELDS.length} полей..."
+  puts "🔄 Обрабатываем пакет из #{MISSING_FIELDS.length} полей..."
   
-  # Разбиваем на батчи
+  # Разбиваем на пакеты
   batches = MISSING_FIELDS.each_slice(BATCH_SIZE).to_a
   
   batches.each_with_index do |batch, index|
-    puts "📦 Батч #{index + 1}/#{batches.length}: #{batch.length} полей"
+    puts "📦 Пакет #{index + 1}/#{batches.length}: #{batch.length} полей"
     
-    # Переводим батч
+    # Переводим пакет
     translations = llm_client.translate_batch(batch, translate_comments)
     
     # Сохраняем переводы
@@ -198,11 +198,11 @@ def translate_field(name, comment = nil, translate_comments = false, llm_client 
         TRANSLATION_CACHE[cache_key] = dictionary_translation
         return dictionary_translation
       else
-        puts "⚠️ Перевод в словаре на другом языке (#{dictionary_translation}), добавляем в батч"
+        puts "⚠️ Перевод в словаре на другом языке (#{dictionary_translation}), добавляем в пакет"
         collect_missing_field(name, translate_comments, translation_utils)
       end
     else
-      # Поля нет в словаре - добавляем в батч
+      # Поля нет в словаре - добавляем в пакет
       collect_missing_field(name, translate_comments, translation_utils)
     end
   end
@@ -216,7 +216,7 @@ def translate_field(name, comment = nil, translate_comments = false, llm_client 
     return fallback
   end
   
-  # Возвращаем имя как есть - перевод будет обработан батчево
+  # Возвращаем имя как есть - перевод будет обработан пакетным
   TRANSLATION_CACHE[cache_key] = name
   name
 end
@@ -355,7 +355,7 @@ puts "   ✅ Собрано полей для перевода: #{MISSING_FIELDS
 # 0.5. ПЕРЕВОД ЧЕРЕЗ LLM (ЕСЛИ НУЖНО)
 # =============================================================================
 
-# Обрабатываем переводы батчево (только для полей, которые действительно используются)
+# Обрабатываем переводы пакетным (только для полей, которые действительно используются)
 if llm_client && !MISSING_FIELDS.empty?
   puts "\n🔄 Обрабатываем переводы через LLM..."
   process_batch_translation(llm_client, translation_utils, translate_comments)

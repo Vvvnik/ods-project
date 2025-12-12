@@ -21,7 +21,7 @@ note right: antora antora-playbook.yml
 note right: if public/ doesn't exist
 
 :Save public/ as artifact;
-note right: Expires in 3 days
+note right: Save site as artifact
 
 :pages job starts;
 note right: Depends on build_all

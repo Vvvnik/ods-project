@@ -54,9 +54,9 @@ ODS полезен для:
 === Ознакомительное видео проекта
 Пример рассказывает о возможностях проекта и о том, как его можно использовать для автоматизации процессов документирования.
 
-video::https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[width=100%]
+video::https://gitlab.com/vvvnik/ods-project/-/package_files/253970508/download[width=100%]
 
-Загрузить link:https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[ознакомительное видео] проекта.
+Загрузить link:https://gitlab.com/vvvnik/ods-project/-/package_files/253970508/download[ознакомительное видео] проекта.
 
 === Основные принципы ODS
 Основными принципами ODS являются:

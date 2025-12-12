@@ -22,7 +22,7 @@ class LLMClient
     # Проверяем, не на русском ли уже имя атрибута
     return attribute_name if russian_text?(attribute_name)
 
-    # Используем батчевый промпт для одного поля
+    # Используем пакетный промпт для одного поля
     translations = translate_batch([attribute_name], "ru")
     return translations[attribute_name] if translations[attribute_name]
 
@@ -36,7 +36,7 @@ class LLMClient
   def translate_to_english(text)
     return text if text.nil? || text.empty?
 
-    # Используем батчевый промпт для одного поля
+    # Используем пакетный промпт для одного поля
     translations = translate_batch([text], "en")
     return translations[text] if translations[text]
 
@@ -55,13 +55,13 @@ class LLMClient
                       else "английский"
                       end
 
-      # Загружаем промпт для батчевого перевода
+      # Загружаем промпт для пакетного перевода
       prompt = @prompt_loader.load_prompt('database_translations', {
         fields: fields,
         target_language: target_language
       })
 
-      puts "🤖 Отправляем батч из #{fields.length} полей в LLM..."
+      puts "🤖 Отправляем пакет из #{fields.length} полей в LLM..."
       response = make_request(prompt)
       
       if response && !response.empty?
@@ -70,7 +70,7 @@ class LLMClient
         return translations
       end
     rescue => e
-      puts "⚠️  Ошибка батчевого перевода: #{e.message}"
+      puts "⚠️  Ошибка пакетного перевода: #{e.message}"
     end
 
     # fallback - переводим по одному
