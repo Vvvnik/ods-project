@@ -1,4 +1,0 @@
-# Максимально простая конфигурация без stages
-hello_world:
-  script:
-    - echo "Hello from GitFlic CI!"
