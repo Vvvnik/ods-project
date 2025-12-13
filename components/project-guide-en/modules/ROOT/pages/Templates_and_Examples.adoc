@@ -1,0 +1,248 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: original
+:custom_other_page: none
+:sectnums:
+
+= Templates and Examples
+
+The `templates/` folder contains ready-made templates and examples for quick start with documentation in the ODS system. All templates can be copied and adapted for a specific project.
+
+== Structure of templates/ Folder
+
+[source,text]
+----
+templates/
+├── diagrams/              # Diagram templates and examples
+│   ├── puml/             # PlantUML diagram examples
+│   └── drawio/           # Draw.io diagram examples
+├── glossary/             # Glossary template
+├── snippets/             # Code snippets for editors
+└── templates_doc/        # Document templates
+    └── modules/          # Modules with document templates
+        ├── ed/           # Operational documentation
+        ├── oed/          # Trial operation
+        ├── ROOT/         # Main templates
+        └── trd/          # Technical documentation
+----
+
+== Diagram Templates
+
+The `templates/diagrams/` folder contains examples of diagrams in various formats that can be used as a basis for creating your own diagrams.
+
+=== PlantUML Diagrams (puml/)
+
+The `templates/diagrams/puml/` folder contains examples of diagrams in PlantUML language:
+
+==== kts.puml — Hardware Complex Architecture Example
+
+An example diagram of hardware complex architecture (КТС), demonstrating:
+
+* System level structure (computation, storage, network, management)
+* Relationships between components
+* Use of styles and colors for visualization
+* Formatting according to standards
+
+Usage:
+
+[source,bash]
+----
+# Copying the example to your project
+cp templates/diagrams/puml/kts.puml \
+   components/my-project/modules/ROOT/partials/diagrams/kts.puml
+----
+
+Then include the diagram in the document:
+
+[source,adoc]
+----
+[plantuml, hardware-architecture]
+----
+\include::partials/diagrams/kts.puml[plantuml, hardware-architecture]
+----
+----
+
+==== net.puml — Network Interaction Diagram Example
+
+An example network interaction diagram showing:
+
+* Network architecture with different zones (DMZ, internal network, management network)
+* Security components (WAF, DDoS Protection, VPN Gateway)
+* Data flows between components
+* Use of cloud elements for visualization
+
+Usage is similar to `kts.puml`.
+
+=== Draw.io Diagrams (drawio/)
+
+The `templates/diagrams/drawio/` folder contains examples of diagrams in Draw.io format.
+
+==== Проект_диаграмма_классов.drawio — Class Diagram Example
+
+A project class diagram example demonstrating:
+
+* ODS project structure with components and modules
+* Relationships between system elements
+* Use of various element types (swimlane, components, files)
+* Organization of diagrams on multiple pages
+
+Usage:
+
+[source,bash]
+----
+# Copying the example to your project
+cp templates/diagrams/drawio/Проект_диаграмма_классов.drawio \
+   components/my-project/modules/ROOT/examples/drawio/class-diagram.drawio
+----
+
+After copying, the diagram will be automatically converted to SVG during documentation generation (if Draw.io converter is configured in `config.yml`).
+
+== Glossary Template
+
+The `templates/glossary/` folder contains a glossary file template.
+
+=== glossary.adoc
+
+Glossary template with predefined attributes for terms and definitions.
+
+Template structure:
+
+[source,adoc]
+----
+:glossary-title: Glossary
+:glossary-name: Glossary
+:name-term-1: Component
+:name-term-2: Component definition
+----
+
+Usage:
+
+[source,bash]
+----
+# Copying the template
+cp templates/glossary/glossary.adoc \
+   components/my-project/modules/ROOT/pages/Glossary.adoc
+----
+
+Then fill the template with your terms and definitions.
+
+== Editor Snippets
+
+The `templates/snippets/` folder contains ready-made code snippets for editors (VS Code, Cursor, etc.) that speed up document creation in AsciiDoc format.
+
+=== asciidoc.code-snippets
+
+Snippets for quick creation of standard blocks:
+
+* `num-t` — table block with automatic numbering
+* `num-i` — figure block with automatic numbering
+* `num-e` — equation block with automatic numbering
+* And other useful snippets
+
+Installation:
+
+1. Copy the file to the `.vscode/` folder of your project or to the global snippets folder of the editor
+2. Restart the editor
+3. Use snippet prefixes when typing
+
+Usage example:
+
+Type `num-t` and press Tab — a ready-made table block with numbering will appear.
+
+=== asciidoc-table.code-snippets
+
+Specialized snippets for creating tables:
+
+* `table` — ready-made table block with data description
+
+Usage is similar to `asciidoc.code-snippets`.
+
+== Document Templates
+
+The `templates/templates_doc/modules/` folder contains complete document templates organized by documentation type.
+
+=== ROOT Module
+
+Main templates and examples:
+
+* `pages/index.adoc` — example of component main page
+* `partials/` — common document parts:
+  ** `attr_common.adoc` — common attributes
+  ** `diagrams/` — diagram examples
+  ** `docs-db/` — database documentation examples
+  ** `lists/` — list templates
+  ** `t_*.adoc` — title page and signature templates
+* `examples/` — example configuration files:
+  ** `database.yml` — database configuration example
+  ** `sources.yml` — API configuration example
+  ** `drawio/` — Draw.io diagram examples
+* `attachments/` — example PDF files
+
+=== TRD Module (Technical Documentation)
+
+Technical specification document templates:
+
+* `pages/Частное_техническое_задание.adoc` — private technical specification template
+* `pages/Описание_постановки_задачи.adoc` — task description template
+* `pages/Описание_автоматизируемых_функции.adoc` — function description template
+* `pages/Спецификация.adoc` — specification template
+* `partials/tables/specification-table.adoc` — specification table template
+
+Usage:
+
+[source,bash]
+----
+# Copying technical specification template
+cp templates/templates_doc/modules/trd/pages/Частное_техническое_задание.adoc \
+   components/my-project/modules/trd/pages/Частное_техническое_задание.adoc
+----
+
+=== ED Module (Operational Documentation)
+
+Operational documentation templates:
+
+* `pages/Описание_программы.adoc` — program description template
+* `pages/Описание_языка.adoc` — language description template
+* `pages/Спецификация.adoc` — specification template
+* `pages/Ведомость_эксплуатационных_документов.adoc` — document list template
+* `partials/tables/` — table templates for specifications and lists
+
+=== OED Module (Trial Operation)
+
+Trial operation document templates:
+
+* `pages/Акт_приемки_в_опытную_эксплуатацию.adoc` — trial operation acceptance certificate template
+* `pages/Протокол_опытнои_эксплуатации.adoc` — trial operation protocol template
+
+== Usage Recommendations
+
+=== Copying Templates
+
+1. Determine what type of document you need
+2. Find the corresponding template in `templates/templates_doc/modules/`
+3. Copy the file to your component
+4. Adapt the content for your project
+
+=== Adapting Templates
+
+After copying a template:
+
+1. Update document attributes (name, version, date)
+2. Replace examples with real data
+3. Check paths to include files
+4. Update navigation (`nav.adoc`)
+
+=== Using Diagram Examples
+
+Diagram examples (`kts.puml`, `net.puml`, `Проект_диаграмма_классов.drawio`) can be:
+
+1. Used as a basis for creating your own diagrams
+2. Studied to understand syntax and styles
+3. Adapted for your project architecture
+
+== See Also
+
+* xref:User_Guide.adoc[User Guide] — step-by-step guide for creating a component
+* xref:Architecture_and_System_Composition.adoc[Architecture and System Composition] — general project structure
+* xref:Config_YML_Setup.adoc[Config.yml Setup] — documentation generation configuration
+

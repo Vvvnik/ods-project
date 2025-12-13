@@ -133,7 +133,7 @@ Each result in the components/ folder represents a separate part of the document
 
 . *toys-service/* – toy service documentation component. Provides examples of automatic API documentation generation from OpenAPI specifications with UML diagrams.
 
-More about the project architecture and component structure can be found in the section xref:Architecture_and_System_Composition.adoc[Architecture and System Composition of ODS].
+More about the project architecture and component structure can be found in the section xref:Architecture_and_System_Composition.adoc[Architecture and System Composition].
 
 More about the repository structure and its components can be found in the section xref:Repository_Preparation.adoc[Repository Preparation].
 

@@ -2,7 +2,7 @@ include::../partials/attr_common.adoc[]
 :doctype: book
 :custom_title_page: none
 :custom_other_page: none
-= Architecture and System Composition of ODS
+= Architecture and System Composition
 :sectnums:
 
 This document describes the ODS project architecture, structure of all folders and files, as well as the logic of the documentation generation system.
@@ -97,9 +97,13 @@ Contains Docker configuration and image build scripts.
 
 Contains templates and examples for documentation.
 
+For detailed description of all templates and usage examples, see xref:Templates_and_Examples.adoc[Templates and Examples].
+
 === Structure
 
-* diagrams/ – diagram templates (PlantUML);
+* diagrams/ – diagram examples:
+  ** puml/ – PlantUML diagram examples (hardware complex architecture, network diagrams);
+  ** drawio/ – Draw.io diagram examples (class diagrams);
 * glossary/ – glossary template;
 * snippets/ – code snippets for editors;
 * templates_doc/ – document templates.

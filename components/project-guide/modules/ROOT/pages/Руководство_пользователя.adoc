@@ -5,7 +5,7 @@ include::../partials/attr_common.adoc[]
 :sectnums:
 
 
-= Руководство пользователя ODS
+= Руководство пользователя
 
 == Создание нового компонента документации
 
@@ -139,11 +139,12 @@ ui:
 [source,text]
 ----
 templates/
-├── diagrams/puml/           # PlantUML диаграммы
+├── diagrams/               # Примеры диаграмм
+│   ├── puml/              # Примеры PlantUML диаграмм
+│   └── drawio/            # Примеры Draw.io диаграмм
 ├── glossary/               # Словари и термины  
 ├── snippets/               # Фрагменты кода
 └── templates_doc/modules/  # Шаблоны документов
-    ├── approval-page/      # Листы утверждения
     ├── oed/                # Опытно-эксплуатационная документация
     ├── ROOT/               # Основные шаблоны
     └── trd/                # Техническая документация
@@ -157,6 +158,8 @@ templates/
 cp templates/templates_doc/modules/trd/pages/Частное_техническое_задание.adoc \
    components/my-new-project/modules/ROOT/pages/technical-spec.adoc
 ----
+
+Подробное описание всех шаблонов, примеров диаграмм и рекомендации по использованию см. xref:Шаблоны_и_примеры.adoc[Шаблоны и примеры].
 
 === Шаг 5: Настройка генерации
 
