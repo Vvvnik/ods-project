@@ -104,7 +104,7 @@ cfg['components'].each do |comp|
 
   # 4.1. Генерация таблиц спецификации и ведомости (до генерации PDF, чтобы таблицы были готовы для включения в документы)
   pdf_settings = ConfigParser.get_pdf_settings(comp, cfg)
-  if pdf_settings[:enabled]
+  if pdf_settings[:enabled] && pdf_settings[:generate_specification]
     SpecificationGenerator.generate_for_component(comp, cfg)
   end
 

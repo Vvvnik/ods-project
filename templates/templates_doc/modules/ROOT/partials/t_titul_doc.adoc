@@ -65,7 +65,7 @@ include::contract.adoc[]
 // данные из документа
 [cols="1*", grid=none, frame=none]
 |===
-^|[.my-title-table]#*Версия {code_gk}{code}.01*# +
+^|[.my-title-table]#*Версия {code_gk}{code}.{tom}*# +
 |===
 [cols="1,10,1,10,1", grid=none, frame=none]
 |===

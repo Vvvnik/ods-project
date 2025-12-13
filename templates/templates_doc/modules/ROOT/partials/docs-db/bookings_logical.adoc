@@ -1,0 +1,41 @@
+:num_t: {counter:logical-number}
+
+Описание сущностей схемы «bookings» приведено в <<id_l_{num_t}, Таблице {num_t}>>.
+
+[#id_l_{num_t}]
+.Таблица {num_t}. Сущности схемы «bookings»
+[cols="2,4",options="header,breakable"]
+|===
+^|Сущность ^|Описание
+|aircrafts_data |Данные самолетов
+|airports_data |Данные аэропортов
+|boarding_passes |Boarding passes
+|bookings |Bookings
+|flights |Flights
+|seats |Seats
+|ticket_flights |Flight segment
+|tickets |Tickets
+|===
+
+:num_t: {counter:logical-number}
+
+Описание связей между сущностями схемы «bookings» приведено в <<id_l_{num_t}, Таблице {num_t}>>.
+
+[#id_l_{num_t}]
+.Таблица {num_t}. Связи между сущностями схемы «bookings»
+[cols="2,4,2,4",options="header,breakable"]
+|===
+^|Источник ^|Ключ ^|Приёмник ^|Ключ
+|boarding_passes |flight_id |ticket_flights |ticket_no
+|boarding_passes |flight_id |ticket_flights |flight_id
+|boarding_passes |ticket_no |ticket_flights |ticket_no
+|boarding_passes |ticket_no |ticket_flights |flight_id
+|flights |aircraft_code |aircrafts_data |aircraft_code
+|flights |arrival_airport |airports_data |airport_code
+|flights |departure_airport |airports_data |airport_code
+|seats |aircraft_code |aircrafts_data |aircraft_code
+|ticket_flights |flight_id |flights |flight_id
+|ticket_flights |ticket_no |tickets |ticket_no
+|tickets |book_ref |bookings |book_ref
+|===
+

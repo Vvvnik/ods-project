@@ -266,7 +266,7 @@ module SpecificationGenerator
 
   # Генерация спецификации для модуля компонента
   def self.generate_specification(comp, module_name, pdf_settings)
-    return unless pdf_settings[:enabled]
+    return unless pdf_settings[:enabled] && pdf_settings[:generate_specification]
 
     comp_name = comp['name']
     pages_dir = File.join('components', comp_name, 'modules', module_name, 'pages')
@@ -372,7 +372,7 @@ module SpecificationGenerator
   # Генерация спецификации для компонента (для всех модулей)
   def self.generate_for_component(comp, defaults)
     pdf_settings = ConfigParser.get_pdf_settings(comp, defaults)
-    return unless pdf_settings[:enabled]
+    return unless pdf_settings[:enabled] && pdf_settings[:generate_specification]
 
     comp_name = comp['name']
     modules_dir = File.join('components', comp_name, 'modules')

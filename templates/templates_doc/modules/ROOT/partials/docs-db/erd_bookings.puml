@@ -1,0 +1,76 @@
+@startuml
+hide stereotype
+hide circle
+skinparam class {
+  BackgroundColor LightBlue
+  BorderColor Black
+  ArrowColor Black
+  FontColor Black
+}
+skinparam classAttributeIconSize 0
+left to right direction
+class aircrafts_data {
+  aircraft_code : character ** NOT NULL
+  model : jsonb NOT NULL
+  range : integer NOT NULL
+}
+class airports_data {
+  airport_code : character ** NOT NULL
+  airport_name : jsonb NOT NULL
+  city : jsonb NOT NULL
+  coordinates : point NOT NULL
+  timezone : text NOT NULL
+}
+class boarding_passes {
+  ticket_no : character ** NOT NULL
+  flight_id : integer ** NOT NULL
+  boarding_no : integer NOT NULL
+  seat_no : character varying NOT NULL
+}
+class bookings {
+  book_ref : character ** NOT NULL
+  book_date : timestamp with time zone NOT NULL
+  total_amount : numeric NOT NULL
+}
+class flights {
+  flight_id : integer ** NOT NULL
+  flight_no : character NOT NULL
+  scheduled_departure : timestamp with time zone NOT NULL
+  scheduled_arrival : timestamp with time zone NOT NULL
+  departure_airport : character NOT NULL
+  arrival_airport : character NOT NULL
+  status : character varying NOT NULL
+  aircraft_code : character NOT NULL
+  actual_departure : timestamp with time zone
+  actual_arrival : timestamp with time zone
+}
+class seats {
+  aircraft_code : character ** NOT NULL
+  seat_no : character varying ** NOT NULL
+  fare_conditions : character varying NOT NULL
+}
+class ticket_flights {
+  ticket_no : character ** NOT NULL
+  flight_id : integer ** NOT NULL
+  fare_conditions : character varying NOT NULL
+  amount : numeric NOT NULL
+}
+class tickets {
+  ticket_no : character ** NOT NULL
+  book_ref : character NOT NULL
+  passenger_id : character varying NOT NULL
+  passenger_name : text NOT NULL
+  contact_data : jsonb
+}
+boarding_passes ||--o{ ticket_flights : "flight_id → ticket_no"
+boarding_passes ||--o{ ticket_flights : "flight_id → flight_id"
+boarding_passes ||--o{ ticket_flights : "ticket_no → ticket_no"
+boarding_passes ||--o{ ticket_flights : "ticket_no → flight_id"
+flights ||--o{ aircrafts_data : "aircraft_code → aircraft_code"
+flights ||--o{ airports_data : "arrival_airport → airport_code"
+flights ||--o{ airports_data : "departure_airport → airport_code"
+seats ||--o{ aircrafts_data : "aircraft_code → aircraft_code"
+ticket_flights ||--o{ flights : "flight_id → flight_id"
+ticket_flights ||--o{ tickets : "ticket_no → ticket_no"
+tickets ||--o{ bookings : "book_ref → book_ref"
+@enduml

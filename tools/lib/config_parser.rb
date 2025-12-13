@@ -35,7 +35,8 @@ module ConfigParser
       dst: Utils.expand(pdf_config['dst'] || defaults.dig('defaults', 'pdf', 'dst'), comp),
       erase_folder: pdf_config['erase_destination_folder'] || defaults.dig('defaults', 'pdf', 'erase_destination_folder') || false,
       exclude_files: pdf_config['exclude_files'] || defaults.dig('defaults', 'pdf', 'exclude_files') || [],
-      use_title_pages: pdf_config['use_title_pages'] || defaults.dig('defaults', 'pdf', 'use_title_pages') || false
+      use_title_pages: pdf_config['use_title_pages'] || defaults.dig('defaults', 'pdf', 'use_title_pages') || false,
+      generate_specification: pdf_config['generate_specification'] != nil ? pdf_config['generate_specification'] : (defaults.dig('defaults', 'pdf', 'generate_specification') != nil ? defaults.dig('defaults', 'pdf', 'generate_specification') : true)
     }
   end
 

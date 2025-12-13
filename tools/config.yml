@@ -60,6 +60,7 @@ defaults: &defaults
     exclude_files: ["index.adoc"] # ← Файлы исключаемые из генерации
     erase_destination_folder: true # ← Очищать папку назначения перед генерацией
     use_title_pages: true        # ← Использовать титульные страницы
+    generate_specification: true # ← Генерировать таблицы спецификации и ведомости
   # Генерация списков файлов
   list:
     enabled: true                    # ← По умолчанию ВКЛЮЧЕНО

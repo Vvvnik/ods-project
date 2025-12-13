@@ -61,12 +61,32 @@ The system works only when PDF generation is enabled in config.yml:
 defaults:
   pdf:
     enabled: true                       # ← Must be enabled
+    generate_specification: true        # ← Generate specification and statement tables
 
 components:
   - name: information-system
     pdf:
       enabled: true                     # ← For specific component
+      generate_specification: true      # ← Can be disabled for specific component
 ----
+
+To control specification and statement table generation, use the `generate_specification` parameter:
+
+* Default: `true` (generation enabled);
+* Can be disabled for specific component by setting `generate_specification: false`;
+* Generation runs only if both `enabled: true` and `generate_specification: true` are set.
+
+[NOTE]
+====
+If you enable PDF generation (`pdf.enabled: true`) but do not use automatic specification and statement table generation, it is recommended to set `generate_specification: false` in the `defaults` section or in specific component settings. This prevents unnecessary table generation and speeds up the build process.
+====
+
+:warning-caption: Warning
+
+[WARNING]
+When generation is disabled (`generate_specification: false`), existing table files (`specification-table.adoc` and `statement-table.adoc`) are **not automatically deleted**.
+
+If you delete these files manually, specification and statement documents from the `pages` folder that reference these tables via `include` directive will require correction or deletion, otherwise PDF generation will fail due to missing files.
 
 === Execution Order
 
@@ -370,50 +390,9 @@ Examples:
 
 == Approval Sheet Processing
 
-=== Conditions for Adding Approval Sheet
+The system automatically adds approval sheet (ЛУ) entries to the specification table based on the `approval-page` attribute and other document conditions. Approval sheets receive a code with `-ЛУ` suffix (e.g., `ABC.0001-01 П3 01-ЛУ`).
 
-Approval sheet (ЛУ) is added to specification if:
-
-1. `approval-page` attribute equals `true`;
-2. `tom` attribute is empty or equals `'01'`;
-3. `code_document` equals `'12'` and `tom` equals `'02'`.
-
-[source,ruby]
-----
-should_add_approval = false
-
-if attrs['approval-page'] == 'true' || attrs['approval-page'] == true
-  should_add_approval = true
-elsif attrs['tom'].nil? || attrs['tom'].strip.empty? || attrs['tom'] == '01'
-  should_add_approval = true
-elsif attrs['code_document'] == '12' && attrs['tom'] == '02'
-  should_add_approval = true
-end
-----
-
-=== Approval Sheet Code Formation
-
-Approval sheet code is formed by adding `-ЛУ` suffix to full document code:
-
-[source,asciidoc]
-----
-// For document with code: ABC.0001-01 П3 01
-// Approval sheet will get code: ABC.0001-01 П3 01-ЛУ
-----
-
-=== Approval Sheet Row Format
-
-[source,asciidoc]
-----
-| ABC.0001-01 П3 01-ЛУ | Description of Automated Functions |
-|                      | Approval Sheet |
-----
-
-Row contains:
-
-* Document code with `-ЛУ` suffix;
-* Document name;
-* "Approval Sheet" text on second line.
+Detailed information about the approval sheet system, generation conditions, and attribute configuration is described in a separate guide: xref:Approval_Sheet_System.adoc[Approval Sheet System].
 
 == Document Integration
 
@@ -440,6 +419,27 @@ Important:
 * Use relative path from current file;
 * Tables must be ready before PDF generation;
 * Tables are automatically overwritten on each generation.
+
+=== Requirements for Automatic Generation
+
+Automatic generation of specification and statement tables requires documents in the `pages` folder that include these tables via `include` directive.
+
+The system automatically creates tables only if:
+
+* PDF generation is enabled (`pdf.enabled: true`);
+* Specification generation is enabled (`pdf.generate_specification: true`);
+* Specification or statement documents exist in the module (determined by `name_document_master` attribute or file name).
+
+=== Manual Table Creation
+
+You can create your own specification and statement files that do not use automatic functionality:
+
+* Create table files manually in `partials/tables/` folder;
+* Write table content yourself;
+* Include them in documents via `include` directive;
+* Disable automatic generation for the component (`generate_specification: false`) to prevent your files from being overwritten.
+
+When creating tables manually, they will not be automatically updated when documents in the module change.
 
 === Usage Examples
 

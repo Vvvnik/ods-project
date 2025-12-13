@@ -1,0 +1,125 @@
+:num_t: {counter:table-number}
+
+Описание данных «aircrafts_data» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «aircrafts_data»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|aircraft_code |character |Да |Aircraft code, IATA
+|model |jsonb |Да |Aircraft model
+|range |integer |Да |Maximal flying distance, km
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «airports_data» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «airports_data»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|airport_code |character |Да |Airport code
+|airport_name |jsonb |Да |Airport name
+|city |jsonb |Да |City
+|coordinates |point |Да |Airport coordinates (longitude and latitude)
+|timezone |text |Да |Airport time zone
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «boarding_passes» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «boarding_passes»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|ticket_no |character |Да |Ticket number
+|flight_id |integer |Да |Flight ID
+|boarding_no |integer |Да |Boarding pass number
+|seat_no |character varying |Да |Seat number
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «bookings» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «bookings»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|book_ref |character |Да |Booking number
+|book_date |timestamp with time zone |Да |Booking date
+|total_amount |numeric |Да |Total booking cost
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «flights» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «flights»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|flight_id |integer |Да |Flight ID
+|flight_no |character |Да |Flight number
+|scheduled_departure |timestamp with time zone |Да |Scheduled departure time
+|scheduled_arrival |timestamp with time zone |Да |Scheduled arrival time
+|departure_airport |character |Да |Airport of departure
+|arrival_airport |character |Да |Airport of arrival
+|status |character varying |Да |Flight status
+|aircraft_code |character |Да |Aircraft code, IATA
+|actual_departure |timestamp with time zone |Нет |Actual departure time
+|actual_arrival |timestamp with time zone |Нет |Actual arrival time
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «seats» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «seats»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|aircraft_code |character |Да |Aircraft code, IATA
+|seat_no |character varying |Да |Seat number
+|fare_conditions |character varying |Да |Travel class
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «ticket_flights» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «ticket_flights»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|ticket_no |character |Да |Ticket number
+|flight_id |integer |Да |Flight ID
+|fare_conditions |character varying |Да |Travel class
+|amount |numeric |Да |Travel cost
+|===
+
+:num_t: {counter:table-number}
+
+Описание данных «tickets» приведено в <<id_t_{num_t}, Таблице {num_t}>>.
+
+[#id_t_{num_t}]
+.Таблица {num_t}. Описание таблицы «tickets»
+[cols="2, 2, 2, 4", options="header, breakable"]
+|===
+^|Название ^|Тип данных ^|Обязательность ^|Описание
+|ticket_no |character |Да |Ticket number
+|book_ref |character |Да |Booking number
+|passenger_id |character varying |Да |Passenger ID
+|passenger_name |text |Да |Passenger name
+|contact_data |jsonb |Нет |Passenger contact information
+|===
+

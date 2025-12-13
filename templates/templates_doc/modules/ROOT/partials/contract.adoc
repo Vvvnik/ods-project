@@ -1,21 +1,29 @@
 // Данные договора
 :year: 2025
+
+// Названия документов (переопределяются в каждом документе)
 :city: Санкт-Петербург
-:сontract_name: Договор
+:contract_name: Договор
 :contract_number: от 15.03.2024 года № СПБ-9876543
 :state_name: Государственный контракт
-:state_сontract_number: от 15.03.2024 года № СПБ-9876543
+:state_сontract_number: АИТ-9876543
 :stage: 1 
 :stage_gk:
 :start_period: 30.06.2025
-:end_period: 30.06.2025
+:end_period: 30.09.2025
 :period: с {start_period} по {end_period}
 
+:code_gk: Версия 00123.02.0{version}.045.01
+:code_contract: ABC.0001-01
+:main_point_contract: п. 2.2
+:folder_number_contract: Папка №1
+
 // Наименование компонента
-:name_system: Информационная система «Проект» 
-:name_subsystem: Подсистема документооборота
-:name_component: Компонент
-:name_component_4: автоматизации процессов документооборота
+:name_system: Информационная система управления предприятием «Проект»
+:name_subsystem: Подсистема документооборота 
+:name_component: Компонент автоматизации процессов документооборота
+// :name_component_4: 
+
 
 // Подпись заказчик
 :iof_customer: А.В. Петров
@@ -39,6 +47,18 @@
 :job_concordant_all: {job_concordant_1} {job_concordant_2}
 
 :fio_responsible: Козлова А.И.
-:code_gk: 00123.02.0{version}.045.01
 
-:main_point_contract: п. 2.2
+// Подписанты для листа утверждения (по умолчанию)
+:signer_1_position: Начальник отдела
+:signer_1_name: И.И. Иванов
+:signer_2_position: Главный инженер
+:signer_2_name: П.П. Петров
+:signer_3_position: Ведущий специалист
+:signer_3_name: С.С. Сидоров
+:signer_4_position: Руководитель проекта
+:signer_4_name: А.А. Алексеев
+:signer_5_position: Исполнитель
+:signer_5_name: В.Н. Лихачев
+:signer_6_position: Нормоконтролер
+:signer_6_name: В.Н. Державин
+

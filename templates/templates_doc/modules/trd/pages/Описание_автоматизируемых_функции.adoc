@@ -1,0 +1,85 @@
+
+
+include::../../ROOT/partials/contract.adoc[]
+include::../../ROOT/partials/attr_common.adoc[]
+:doctype: book
+:title-page:
+:custom_title_page: contract
+:custom_other_page: contract
+:name_document_main: {name_component}
+// name_document_master - название документа 1
+:name_document_master: Описание автоматизируемых функций
+// name_document_slave - название документа 2 печатается на титульном листе под name_document_master
+:name_document_slave: 
+// Кол-во страниц соответствует пдф и версия
+:version: 4
+// page_all - кол-во страниц в документе, применяется для расчета нумерации страниц в документе. Может считаться вручную или автоматически при сборке документа
+:page_all: 22
+// code - код документа
+:code_document: П3
+:tom: 01
+:full_code: {code_contract} {code_document} {tom}
+// ramka: 4 - рамка документа
+:data_report: {localdate}
+
+
+
+= {name_document_master}
+
+// sectnums: - макрос для выключения нумерации разделов
+:sectnums!:
+
+// этот файл t_titul_doc.adoc нужно редактировать и он применяется если в данном документе «Частное техническое задание» есть раздел титульной страницы (аттрибута :title-page: ) и этот файл находится в папке template/template_doc
+// include::../../ROOT/partials/t_titul_doc.adoc[]
+
+<<<<
+toc::[]
+<<<<
+
+
+
+// этот файл t_terms_and_abbreviations.adoc нужно редактировать и он применяется если в данном документе «Частное техническое задание» есть раздела «Термины и определения» и этот файл находится в папке template/template_doc
+== Термины и определения
+include::../partials/t_terms_and_abbreviations.adoc[]
+
+// sectnums: - макрос для включения нумерации разделов
+
+:sectnums:
+
+// Разделы документа в соответствии с ГОСТ 34.602-2020
+
+<<<<
+// Общие сведения
+== Общие сведения
+
+. Наименование АС и ее условное обозначение {name_system} {name_subsystem} {name_component} {name_component_4}
+. Наименование организации — заказчика АС, наименование организации-разработчика (при наличии сведений о ней) {job_customer_1} {job_customer_2}
+. Перечень документов, на основании которых создается АС, кем и когда утверждены эти документы {job_customer_1} {job_customer_2}
+. Плановые сроки начала и окончания работ по созданию АС {start_period} {end_period}
+. Общие сведения об источниках и порядке финансирования работ {job_customer_1} {job_customer_2}
+
+<<<<
+== Основная часть
+
+[source,asciidoc]
+----
+Пример включения алгоритма в документ:
+
+\include::../../ROOT/partials/common_files/algorithms.adoc[tag=algorithm-1]
+----
+
+include::../../ROOT/partials/common_files/algorithms.adoc[tag=algorithm-1]
+
+// В разделе «Источники разработки» должны быть перечислены документы и информационные материалы (технико-экономическое обоснование, отчеты о законченных научно-исследовательских работах, информационные материалы на отечественные, зарубежные системы-аналоги и др.), на
+// основании которых разрабатывалось ТЗ и которые должны быть использованы при создании АС.
+
+// этот файл t_podpis.adoc нужно редактировать и он применяется если в данном документе «Частное техническое задание» есть раздел «Подписи» и этот файл находится в папке template/template_doc
+
+ifeval::['{custom_title_page}' == 'contract']
+<<<<
+include::../../ROOT/partials/t_signature_trd.adoc[]
+endif::[]
+
+// этот файл t_list_change.adoc можно редактировать и он применяется если в данном документе «Частное техническое задание» есть раздела «Лист регистрации изменений» и этот файл находится в папке template/template_doc
+<<<<
+include::../../ROOT/partials/t_list_change.adoc[]

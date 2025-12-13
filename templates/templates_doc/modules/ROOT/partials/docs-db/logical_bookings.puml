@@ -1,0 +1,27 @@
+@startuml
+hide stereotype
+hide circle
+skinparam class {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+  FontColor Black
+}
+skinparam classAttributeIconSize 0
+left to right direction
+class boarding_passes
+class ticket_flights
+class flights
+class aircrafts_data
+class airports_data
+class seats
+class tickets
+class bookings
+boarding_passes ||--o{ ticket_flights : "flight_id → flight_id"
+flights ||--o{ aircrafts_data : "aircraft_code → aircraft_code"
+flights ||--o{ airports_data : "arrival_airport → airport_code"
+seats ||--o{ aircrafts_data : "aircraft_code → aircraft_code"
+ticket_flights ||--o{ flights : "flight_id → flight_id"
+ticket_flights ||--o{ tickets : "ticket_no → ticket_no"
+tickets ||--o{ bookings : "book_ref → book_ref"
+@enduml

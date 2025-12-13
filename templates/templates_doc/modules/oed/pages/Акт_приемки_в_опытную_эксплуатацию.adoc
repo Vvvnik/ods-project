@@ -1,17 +1,20 @@
 include::../../ROOT/partials/contract.adoc[] 
 include::../../ROOT/partials/attr_common.adoc[]
-// name1_dokument - название документа 1
+:pdf-theme: act
+:custom_title_page: none
+:custom_other_page: none
+:custom_list_type: alphabetic
+:name_document_main: {name_component}
+// name1_dokument – название документа 1
 :name1_dokument: Акт
-// name5_dokument - название документа 2
+// name5_dokument – название документа 2
 :name5_dokument: приемки в опытную эксплуатацию
 // Кол-во страниц соответствует пдф и версия
 :page_all: 22
-// code - код документа
+// code – код документа
+:code: ABC.0001-01
 :code_document: АП
-// ramka: 4 - рамка документа
 :version: 4
-// ramka: 4 - рамка документа
-:custom_other_page: act
 :data_report: {localdate}
 :plan:
 :type_test: предварительных
@@ -30,6 +33,8 @@ include::../../ROOT/partials/attr_common.adoc[]
 // стиль текста из файла resources/themes/report-theme.yml если такой определен в файле tools/config.yml
 [.text-center]
 {name5_dokument}
+
+{nbsp}
 
 [cols="1, 1", grid=none, frame=none]
 |===
