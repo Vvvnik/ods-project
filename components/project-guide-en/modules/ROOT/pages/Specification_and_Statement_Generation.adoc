@@ -1,0 +1,576 @@
+include::../partials/attr_common.adoc[]
+= Specification and Statement Generation
+:sectnums:
+
+== Purpose
+
+The `SpecificationGenerator` module automatically generates specification and operational documents statement tables based on attributes from .adoc files.
+
+The system automatically:
+
+* Scans all .adoc files in component modules;
+* Extracts document attributes (codes, names, parts);
+* Creates specification tables (`specification-table.adoc`);
+* Creates operational documents statement tables (`statement-table.adoc`);
+* Processes approval sheets (ЛУ);
+* Integrates with PDF generation process.
+
+== Architecture
+
+=== System Components
+
+.Scripts and modules
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Component ^|Path ^|Description
+
+|Specification generator
+|tools/lib/specification_generator.rb
+|Main logic for table generation
+
+|Configuration parser
+|tools/lib/config_parser.rb
+|Reading PDF settings from config.yml
+
+|Main script
+|tools/start.rb
+|Integration with general build process
+
+|===
+
+=== File Structure
+
+[source,text]
+----
+components/{name}/modules/{module_name}/
+├── pages/
+│   ├── Specification.adoc              # ← Specification document
+│   ├── Statement_of_Operational_Documents.adoc
+│   └── *.adoc                          # ← Other documents
+└── partials/tables/
+    ├── specification-table.adoc        # ← Automatically generated table
+    └── statement-table.adoc             # ← Automatically generated table
+----
+
+=== Configuration
+
+The system works only when PDF generation is enabled in config.yml:
+
+[source,yaml]
+----
+defaults:
+  pdf:
+    enabled: true                       # ← Must be enabled
+
+components:
+  - name: information-system
+    pdf:
+      enabled: true                     # ← For specific component
+----
+
+=== Execution Order
+
+Table generation is executed in start.rb before PDF generation (step 4.1):
+
+[source,ruby]
+----
+# 4.1. Generation of specification and statement tables
+# (before PDF generation, so tables are ready for inclusion in documents)
+pdf_settings = ConfigParser.get_pdf_settings(comp, cfg)
+if pdf_settings[:enabled]
+  SpecificationGenerator.generate_for_component(comp, cfg)
+end
+
+# 5. PDF generation
+PdfGenerator.generate_pdfs(comp, KROKI_URL, cfg)
+----
+
+== Generated Tables
+
+=== specification-table.adoc
+
+The specification table contains a list of all module documents with their codes and names.
+
+Table format:
+
+[cols="5,8,3", options="header, breakable"]
+|===
+^|Designation ^|Name ^|Note
+
+|{nbsp} |{nbsp} |{nbsp}
+|===
+
+Example content:
+
+[source,asciidoc]
+----
+| ABC.0001-01 | Specification |
+|             | {name_component} |
+| {nbsp} |  |
+| ABC.0001-01-ЛУ | Specification |
+|                | Approval Sheet |
+| {nbsp} |  |
+| ABC.0001-01 П3 01 | Description of Automated Functions |
+| {nbsp} |  |
+| ABC.0001-01 П3 01-ЛУ | Description of Automated Functions |
+|                      | Approval Sheet |
+----
+
+Features:
+
+* For all documents except the specification itself, full document code (`full_code`) is used;
+* For specification document, only the first part of code (`code_contract`) is used;
+* Approval sheets (ЛУ) are automatically added with `-ЛУ` suffix;
+* Multi-line entries are aligned with spaces by code length;
+* Separators `{nbsp}` are added between entries.
+
+=== statement-table.adoc
+
+The operational documents statement table contains a list of documents with number of copies and location.
+
+Table format:
+
+[cols="4,7,1,2", options="header, breakable"]
+|===
+^|Designation ^|Name ^|Copies ^|Location
+
+|{nbsp} |{nbsp} |{nbsp} |{nbsp}
+|===
+
+Example content:
+
+[source,asciidoc]
+----
+| ABC.0001-01 20 01 | Statement of Operational Documents ^| 1 | {folder_number_contract} |
+| ABC.0001-01 13 01 | Program Description ^| 1 | {folder_number_contract} |
+| ABC.0001-01 35 01 | Programming Language Description ^| 1 | {folder_number_contract} |
+----
+
+Features:
+
+* Specification is automatically excluded from statement;
+* Full document code (`full_code`) is used;
+* Text part is formed with line breaks (`+`);
+* Number of copies is always 1;
+* Location is taken from `folder_number` attribute.
+
+== Working with Document Attributes
+
+=== Used Attributes
+
+The system extracts the following attributes from .adoc files:
+
+.Document attributes
+[cols="2,3", options="header, breakable"]
+|===
+^|Attribute ^|Description
+
+|`name_document_master`
+|Document name (used to determine document type)
+
+|`name_document_slave`
+|Document subtitle (document name 2)
+
+|`name_component`
+|Component name (main name)
+
+|`name_document_main`
+|Main document name (for specification)
+
+|`code_contract`
+|Contract code (extracted from contract.adoc or file)
+
+|`code_document`
+|Document code (document number according to GOST)
+
+|`tom`
+|Document part/volume number
+
+|`full_code`
+|Full document code (template with substitution)
+
+|`folder_number`
+|Folder number (for statement)
+
+|`approval-page`
+|Presence of approval sheet (true/false)
+
+|===
+
+=== Document Code Resolution
+
+The system automatically resolves nested attributes in `full_code`:
+
+[source,asciidoc]
+----
+// In document:
+:full_code: {code_contract} {code_document} {tom}
+
+// System substitutes values:
+// {code_contract} → ABC.0001-01 (from contract.adoc)
+// {code_document} → П3 (from file itself)
+// {tom} → 01 (from file itself)
+
+// Result: ABC.0001-01 П3 01
+----
+
+Resolution logic:
+
+1. `full_code` is extracted from document;
+2. Presence of nested attributes `{code_contract}`, `{code_document}`, `{tom}` is checked;
+3. `code_contract` is searched in file itself, then in `contract.adoc`;
+4. Values are substituted into template;
+5. Extra spaces are removed.
+
+=== code_contract Extraction
+
+The system searches for `code_contract` in the following order:
+
+1. In the .adoc file itself;
+2. In file `modules/ROOT/partials/contract.adoc`;
+3. If not found, empty string is returned.
+
+[source,ruby]
+----
+def self.extract_code_contract(adoc_file)
+  # First check in file itself
+  attrs = extract_attributes(adoc_file)
+  return attrs['code_contract'] if attrs['code_contract']
+  
+  # If not, search in contract.adoc
+  file_dir = File.dirname(adoc_file)
+  contract_path = File.join(file_dir, '../../ROOT/partials/contract.adoc')
+  if File.exist?(contract_path)
+    contract_attrs = extract_attributes(contract_path)
+    return contract_attrs['code_contract'] if contract_attrs['code_contract']
+  end
+  
+  ''
+end
+----
+
+== Table Generation Logic
+
+=== Document Presence Detection
+
+The system checks for presence of specification and statement documents:
+
+[source,ruby]
+----
+def self.has_specification_document(adoc_files)
+  adoc_files.any? do |adoc_file|
+    attrs = extract_attributes(adoc_file)
+    name_doc = attrs['name_document_master'] || ''
+    filename = File.basename(adoc_file, '.adoc').downcase
+    
+    name_doc.downcase.include?('спецификация') || 
+    name_doc.downcase.include?('specification') ||
+    filename.include?('спецификация') ||
+    filename.include?('specification')
+  end
+end
+----
+
+Check is performed by:
+
+* `name_document_master` attribute (contains "спецификация" or "specification");
+* File name (contains "спецификация" or "specification").
+
+Statement presence is checked similarly.
+
+=== File Sorting
+
+Before processing, files are sorted by priority:
+
+1. Specification (priority 0);
+2. Statement (priority 1);
+3. Other documents (priority 2).
+
+This ensures correct order of rows in tables.
+
+=== Specification Row Formation
+
+For each document, one or more rows are formed:
+
+[source,ruby]
+----
+# Main document row
+text_elements = [name_doc, tom_phrase, name_prog_main].compact.reject(&:empty?)
+
+# For specification, additional row is added
+if is_specification && !name_document_main.to_s.strip.empty?
+  # Row with name_document_main is added
+end
+----
+
+Features:
+
+* For specification, only first part of `full_code` (contract code) is used;
+* For other documents, full resolved `full_code` is used;
+* Document parts are displayed as "Часть первая", "Часть вторая", etc.;
+* Multi-line entries are aligned with spaces.
+
+=== Statement Row Formation
+
+For each document (except specification), one row is formed:
+
+[source,ruby]
+----
+text_part = [name_doc, tom_phrase, name_prog].compact.reject(&:empty?).join(" +\n")
+
+row = "| #{code_part} | #{text_part} ^| 1 | #{folder_number} |{nbsp}  |  |  |"
+----
+
+Features:
+
+* Specification is automatically excluded;
+* Text part is formed with line breaks (`+`);
+* Number of copies is always 1;
+* Location is taken from `folder_number` or default value "Папка №1" is used.
+
+=== Document Part Processing
+
+The system determines whether to show document part:
+
+[source,ruby]
+----
+excluded_keywords = %w[specification спецификация statement ведомость]
+show_part = name_prog != name_prog_main &&
+            !tom.to_s.strip.empty? &&
+            !excluded_keywords.any? { |w| name_doc.to_s.downcase.include?(w) }
+tom_phrase = "Часть #{ordinal_word_ru(tom.to_i)}" if show_part
+----
+
+Part is shown if:
+
+* `name_prog` differs from `name_prog_main`;
+* `tom` is not empty;
+* Document name does not contain excluded keywords.
+
+=== Number to Ordinal Conversion
+
+The system converts numbers to ordinal words in Russian:
+
+[source,ruby]
+----
+def self.ordinal_word_ru(n)
+  units = {
+    1 => 'первая', 2 => 'вторая', 3 => 'третья', ...
+  }
+  # Processing units, tens, hundreds
+end
+----
+
+Examples:
+
+* 1 → "первая";
+* 2 → "вторая";
+* 21 → "двадцать первая";
+* 30 → "тридцатая".
+
+== Approval Sheet Processing
+
+=== Conditions for Adding Approval Sheet
+
+Approval sheet (ЛУ) is added to specification if:
+
+1. `approval-page` attribute equals `true`;
+2. `tom` attribute is empty or equals `'01'`;
+3. `code_document` equals `'12'` and `tom` equals `'02'`.
+
+[source,ruby]
+----
+should_add_approval = false
+
+if attrs['approval-page'] == 'true' || attrs['approval-page'] == true
+  should_add_approval = true
+elsif attrs['tom'].nil? || attrs['tom'].strip.empty? || attrs['tom'] == '01'
+  should_add_approval = true
+elsif attrs['code_document'] == '12' && attrs['tom'] == '02'
+  should_add_approval = true
+end
+----
+
+=== Approval Sheet Code Formation
+
+Approval sheet code is formed by adding `-ЛУ` suffix to full document code:
+
+[source,asciidoc]
+----
+// For document with code: ABC.0001-01 П3 01
+// Approval sheet will get code: ABC.0001-01 П3 01-ЛУ
+----
+
+=== Approval Sheet Row Format
+
+[source,asciidoc]
+----
+| ABC.0001-01 П3 01-ЛУ | Description of Automated Functions |
+|                      | Approval Sheet |
+----
+
+Row contains:
+
+* Document code with `-ЛУ` suffix;
+* Document name;
+* "Approval Sheet" text on second line.
+
+== Document Integration
+
+=== Including Tables in Documents
+
+Tables are included in documents via `include` directive:
+
+[source,asciidoc]
+----
+[cols= "5,8,3", options="header, breakable"]
+|===
+^| Designation ^| Name ^| Note
+|                                   ^| {nbsp}  |
+|                                   ^| [underline]#*Documentation*#  |
+|{nbsp} ||
+
+include::../partials/tables/specification-table.adoc[]
+
+|===
+----
+
+Important:
+
+* Use relative path from current file;
+* Tables must be ready before PDF generation;
+* Tables are automatically overwritten on each generation.
+
+=== Usage Examples
+
+Specification document example:
+
+[source,asciidoc]
+----
+include::../../ROOT/partials/contract.adoc[]
+:name_document_master: Specification
+:full_code: {code_contract}
+
+[cols= "5,8,3", options="header, breakable"]
+|===
+^| Designation ^| Name ^| Note
+|                                   ^| {nbsp}  |
+|                                   ^| [underline]#*Documentation*#  |
+|{nbsp} ||
+
+include::../partials/tables/specification-table.adoc[]
+
+|===
+----
+
+Statement document example:
+
+[source,asciidoc]
+----
+include::../../ROOT/partials/contract.adoc[]
+:name_document_master: Statement of Operational Documents
+:code_document: 20
+:tom: 01
+:full_code: {code_contract} {code_document} {tom}
+
+[cols= "4,7,1,2",options="header, breakable"]
+|===
+^| Designation ^| Name ^| Copies ^| Location
+| ^|Documents | |
+|{nbsp} |||
+include::../partials/tables/statement-table.adoc[]
+|===
+----
+
+== Exception Handling
+
+=== Checks and Validation
+
+The system performs the following checks:
+
+* Existence of `pages/` directory;
+* Presence of .adoc files (except `index.adoc`);
+* Presence of at least one specification or statement document;
+* Existence of table directory (created automatically).
+
+=== Error Handling
+
+When necessary data is missing, the system:
+
+* Outputs warnings to console;
+* Skips modules without specification/statement documents;
+* Creates empty tables if no documents to process.
+
+=== Old Table Cleanup
+
+Before generation, old tables are deleted:
+
+[source,ruby]
+----
+File.delete(spec_table_path) if File.exist?(spec_table_path) && has_spec
+File.delete(statement_table_path) if File.exist?(statement_table_path) && has_stmt
+----
+
+This ensures data freshness in tables.
+
+== Logging
+
+=== Information Output
+
+The system outputs information about generation process:
+
+[source,text]
+----
+📋 Generating tables for module trd (5 files)
+  - Specification: yes
+  - Statement: no
+✅ Specification table created: components/information-system/modules/trd/partials/tables/specification-table.adoc
+----
+
+=== Warnings
+
+When data is missing, warnings are output:
+
+[source,text]
+----
+⚠️  No .adoc files found for table generation in components/.../pages
+⚠️  No specification or statement documents found in module ...
+----
+
+== Functionality Extension
+
+=== Adding New Table Types
+
+To add new table type:
+
+1. Add document presence check method (e.g., `has_custom_document`);
+2. Add table generation method (e.g., `append_to_custom_table`);
+3. Add call in `generate_specification`;
+4. Update table type determination logic.
+
+=== Changing Table Format
+
+Table format can be changed by modifying row formation methods:
+
+[source,ruby]
+----
+def self.append_to_specification_table(adoc_file, module_index_path, table_path, is_approval: false)
+  # Change row format
+  row = "| #{code_part} | #{element} | #{custom_column} |"
+  # ...
+end
+----
+
+:warning-caption: Warning
+
+[WARNING]
+When automatically regenerating the system (through `ruby tools/start.rb`), all automatically generated tables will be overwritten. This means any manual changes in `specification-table.adoc` and `statement-table.adoc` files will be lost.
+
+For permanent changes to generation logic, modify source code in `tools/lib/specification_generator.rb`, not the generated files themselves.
+
+== Related Components
+
+* xref:Start_RB_Script.adoc[Start.rb Script] – build integration;
+* xref:Config_YML_Setup.adoc[Config.yml Setup] – system configuration;
+* xref:Approval_Sheet_System.adoc[Approval Sheet System] – information about approval sheets.
+

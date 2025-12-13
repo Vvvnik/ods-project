@@ -9,6 +9,7 @@ require 'pathname'
 require_relative 'lib/utils'
 require_relative 'lib/config_parser'
 require_relative 'lib/pdf_generator'
+require_relative 'lib/specification_generator'
 
 # Настройки
 KROKI_URL = ENV.fetch('KROKI_SERVER_URL', 'http://localhost:8000')
@@ -99,6 +100,12 @@ cfg['components'].each do |comp|
     
     # Изображения созданы в docs-db/, Antora будет использовать их оттуда
     puts "  -> images: PNG файлы созданы в #{db_settings[:images_dir]}"
+  end
+
+  # 4.1. Генерация таблиц спецификации и ведомости (до генерации PDF, чтобы таблицы были готовы для включения в документы)
+  pdf_settings = ConfigParser.get_pdf_settings(comp, cfg)
+  if pdf_settings[:enabled]
+    SpecificationGenerator.generate_for_component(comp, cfg)
   end
 
   # 5. Генерация PDF

@@ -1,9 +1,9 @@
 include::../../ROOT/partials/contract.adoc[]
 include::../../ROOT/partials/attr_common.adoc[]
-// name_dokument_master - название документа 1
-:name_dokument_master: Частное техническое задание
-// name_dokument_slave - название документа 2
-:name_dokument_slave: 
+// name_document_master - название документа 1
+:name_document_master: Частное техническое задание
+// name_document_slave - название документа 2 печатается на титульном листе под name_document_master
+:name_document_slave: 
 // Кол-во страниц соответствует пдф и версия
 :version: 4
 // page_all - кол-во страниц в документе, применяется для расчета нумерации страниц в документе. Может считаться вручную или автоматически при сборке документа

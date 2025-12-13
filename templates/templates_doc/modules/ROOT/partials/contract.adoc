@@ -12,9 +12,9 @@
 :period: с {start_period} по {end_period}
 
 // Наименование компонента
-:name_component_1: Информационная система «Проект» 
-:name_component_2: Подсистема документооборота
-:name_component_3: Компонент
+:name_system: Информационная система «Проект» 
+:name_subsystem: Подсистема документооборота
+:name_component: Компонент
 :name_component_4: автоматизации процессов документооборота
 
 // Подпись заказчик
@@ -39,6 +39,6 @@
 :job_concordant_all: {job_concordant_1} {job_concordant_2}
 
 :fio_responsible: Козлова А.И.
-:cod_gk: 00123.02.0{version}.045.01
+:code_gk: 00123.02.0{version}.045.01
 
 :main_point_contract: п. 2.2

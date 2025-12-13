@@ -467,7 +467,7 @@ Used in approval_page_generator.rb for extracting attributes from processed docu
 ----
 def self.extract_attributes_from_doc(doc)
   attrs = {}
-  attrs['name_dokument_master'] = doc.attr('name_dokument_master') || ''
+  attrs['name_document_master'] = doc.attr('name_document_master') || ''
   attrs['code'] = doc.attr('code') || ''
   # ... other attributes
   attrs
@@ -484,12 +484,12 @@ Advantage: reads attributes after processing all include:: files.
 ----
 :pdf-theme: act
 :custom_other_page: original_frame
-:name_dokument_master: Technical Specification
+:name_document_master: Technical Specification
 
 // include::../../ROOT/partials/contract.adoc[]
 ----
 
-Result: converters can read :pdf-theme:, :custom_other_page:, :name_dokument_master:.
+Result: converters can read :pdf-theme:, :custom_other_page:, :name_document_master:.
 
 ==== Example 2: Attributes in Include File
 

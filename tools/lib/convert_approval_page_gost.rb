@@ -195,10 +195,11 @@ module ConvertApprovalPageGost
     # Формируем текст с информацией о документе
     # ВНИМАНИЕ: Здесь можно легко добавлять/удалять атрибуты из основного документа
     document_text = []
-    document_text << "#{doc.attr('name_component_3') || ''} #{doc.attr('name_component_4') || ''}" # Название документа
-    document_text << (doc.attr('name_dokument_master') || '')  # Название документа
+    document_text << (doc.attr('name_component') || '') # Название документа
+    document_text << (doc.attr('name_document_master') || '')  # Название документа
     document_text << "Лист утверждения"  # Название документа
-    document_text << "#{doc.attr('code') || ''} #{doc.attr('code_document') || ''} 01-ЛУ"        # Код документа
+    full_code = doc.attr('full_code') || ''
+    document_text << "#{full_code}-ЛУ"        # Код документа
     
     document_info_block.set_text(document_text.join("\n"))
     blocks << document_info_block

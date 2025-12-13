@@ -1,3 +1,5 @@
+include::../../ROOT/partials/contract.adoc[]
+include::../../ROOT/partials/attr_common.adoc[]
 :doctype: book
 :title-page:
 :custom_title_page: original_frame
@@ -5,24 +7,24 @@
 :approval-page: true
 // этот аттрибут указан в файле attr_common.adoc
 :custom_list_type: alphabetic 
-// name_dokument_master – название документа 1
-:name_dokument_master: Описание языка программирования
-// name_dokument_slave – название документа 2
-:name_dokument_slave: 
+:name_document_main: {name_component}
+// name_document_master – название документа 1
+:name_document_master: Описание языка программирования
+// name_document_slave - название документа 2 печатается на титульном листе под name_document_master
+:name_document_slave: 
 // Кол-во страниц соответствует пдф и версия
 :version: 1
 // page_all – кол-во страниц в документе, применяется для расчета нумерации страниц в документе. Может считаться вручную или автоматически при сборке документа
 :page_all: 24
 // code – код документа
-:code: ABC.0001-01
 :code_document: 35
+:tom: 01
+:full_code: {code_contract} {code_document} {tom}
 // ramka: 4 – рамка документа
 :data_report: {localdate}
-include::../../ROOT/partials/contract.adoc[]
-include::../../ROOT/partials/attr_common.adoc[]
-:toc!:
+:folder_number: {folder_number_contract}
 
-= Описание языка программирования C#
+= {name_document_master}
 
 :sectnums:
 

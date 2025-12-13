@@ -1,28 +1,28 @@
-
-
+include::../../ROOT/partials/contract.adoc[]
+include::../../ROOT/partials/attr_common.adoc[]
 :doctype: book
 :title-page:
 :custom_title_page: original_frame
 :custom_other_page: original_frame
 :approval-page: true
-// name_dokument_master - название документа 1
-:name_dokument_master: Частное техническое задание
-// name_dokument_slave - название документа 2
-:name_dokument_slave: 
+:name_document_main: {name_component}
+// name_document_master - название документа 1
+:name_document_master: Частное техническое задание
+// name_document_slave - название документа 2 печатается на титульном листе под name_document_master
+:name_document_slave: 
 // Кол-во страниц соответствует пдф и версия
-:version: 4
+:version: 1
 // page_all - кол-во страниц в документе, применяется для расчета нумерации страниц в документе. Может считаться вручную или автоматически при сборке документа
 :page_all: 22
 // code - код документа
-:code: ABC.0001-01
+// :code: ABC.0001-01
 :code_document: ТЗ
+:tom: 01
+:full_code: {code_contract} {code_document} {tom}
 // ramka: 4 - рамка документа
 :data_report: {localdate}
-include::../../ROOT/partials/contract.adoc[]
-include::../../ROOT/partials/attr_common.adoc[]
 
-
-= Частное техническое задание
+= {name_document_master}
 
 // sectnums: - макрос для выключения нумерации разделов
 :sectnums!:
@@ -50,7 +50,7 @@ include::../partials/t_terms_and_abbreviations.adoc[]
 // Общие сведения
 == Общие сведения
 
-. Наименование АС и ее условное обозначение {name_component_1} {name_component_2} {name_component_3} {name_component_4}
+. Наименование АС и ее условное обозначение {name_system} {name_subsystem} {name_component} {name_component_4}
 . Наименование организации — заказчика АС, наименование организации-разработчика (при наличии сведений о ней) {job_customer_1} {job_customer_2}
 . Перечень документов, на основании которых создается АС, кем и когда утверждены эти документы {job_customer_1} {job_customer_2}
 . Плановые сроки начала и окончания работ по созданию АС: {period}

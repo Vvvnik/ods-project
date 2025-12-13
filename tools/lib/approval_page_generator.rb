@@ -79,9 +79,12 @@ module ApprovalPageGenerator
     attrs = {}
     
     # Основные атрибуты документа
-    attrs['name_dokument_master'] = doc.attr('name_dokument_master') || ''
+    attrs['name_document_master'] = doc.attr('name_document_master') || ''
+    attrs['name_document_slave'] = doc.attr('name_document_slave') || ''
     attrs['code_document'] = doc.attr('code_document') || ''
     attrs['code'] = doc.attr('code') || ''
+    attrs['tom'] = doc.attr('tom') || ''
+    attrs['full_code'] = doc.attr('full_code') || ''
     attrs['version'] = doc.attr('version') || ''
     attrs['year'] = doc.attr('year') || ''
     
@@ -118,10 +121,14 @@ module ApprovalPageGenerator
       :noheader:
       
       // Атрибуты из основного документа
-      :name_dokument_master: #{main_attrs['name_dokument_master'] || ''}
-      :code: #{main_attrs['code'] || 'ТЗ'}
-      :version: #{main_attrs['version'] || '1'}
-      :year: #{main_attrs['year'] || '2025'}
+      :name_document_master: #{main_attrs['name_document_master'] || ''}
+      :name_document_slave: #{main_attrs['name_document_slave'] || ''}
+      :code: #{main_attrs['code'] || ''}
+      :code_document: #{main_attrs['code_document'] || ''}
+      :tom: #{main_attrs['tom'] || ''}
+      :full_code: #{main_attrs['full_code'] || ''}
+      :version: #{main_attrs['version'] || ''}
+      :year: #{main_attrs['year'] || ''}
       
       // Подписанты (переопределяют дефолты из contract.adoc если есть)
       :signer_1_position: #{main_attrs['signer_1_position'] || ''}

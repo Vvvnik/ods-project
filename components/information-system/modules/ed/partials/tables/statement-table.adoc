@@ -1,0 +1,3 @@
+| ABC.0001-01 20 01 | Ведомость эксплуатационных документов ^| 1 | {folder_number_contract} |{nbsp}  |  |  |
+| ABC.0001-01 13 01 | Описание программы ^| 1 | {folder_number_contract} |{nbsp}  |  |  |
+| ABC.0001-01 35 01 | Описание языка программирования ^| 1 | {folder_number_contract} |{nbsp}  |  |  |

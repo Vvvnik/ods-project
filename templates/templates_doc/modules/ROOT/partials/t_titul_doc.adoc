@@ -41,17 +41,17 @@ include::contract.adoc[]
 [cols="1*", grid=none, frame=none]
 |===
 |{nbsp}
-^| [.my-title-table]#{name_component_1}# +
-[.my-title-table]#{name_component_2}# +
-[.my-title-table]#{name_component_3} {name_component_4}# +
+^| [.my-title-table]#{name_system}# +
+[.my-title-table]#{name_subsystem}# +
+[.my-title-table]#{name_component} {name_component_4}# +
 |===
 
 // данные из документа
 // ***********************
 [cols="1*", grid=none, frame=none]
 |===
-^| [.my-title-table]#*{name_dokument_master}*#                                              
-^| [.my-title-table]#{name_dokument_slave}#
+^| [.my-title-table]#*{name_document_master}*#                                              
+^| [.my-title-table]#{name_document_slave}#
 |===
 // tag::titul_center_utv[]
 [cols="1*", grid=none, frame=none]
@@ -65,7 +65,7 @@ include::contract.adoc[]
 // данные из документа
 [cols="1*", grid=none, frame=none]
 |===
-^|[.my-title-table]#*Версия {cod_gk}{code}.01*# +
+^|[.my-title-table]#*Версия {code_gk}{code}.01*# +
 |===
 [cols="1,10,1,10,1", grid=none, frame=none]
 |===

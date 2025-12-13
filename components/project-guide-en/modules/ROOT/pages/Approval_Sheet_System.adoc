@@ -52,7 +52,7 @@ Example:
 [source,asciidoc]
 ----
 :approval-page: true
-:name_dokument_master: Technical Specification
+:name_document_master: Technical Specification
 :code: TS
 :version: 1
 ----
@@ -92,7 +92,7 @@ Required:
 [source,asciidoc]
 ----
 :approval-page: true
-:name_dokument_master: Document title
+:name_document_master: Document title
 :code: Document code
 :version: Document version
 ----
@@ -215,7 +215,7 @@ doc.attr('lu_new_attribute') || 'default'
 [source,asciidoc]
 ----
 :approval-page: true
-:name_dokument_master: Technical Specification
+:name_document_master: Technical Specification
 :code: TS
 :version: 1
 ----
@@ -225,7 +225,7 @@ doc.attr('lu_new_attribute') || 'default'
 [source,asciidoc]
 ----
 :approval-page: true
-:name_dokument_master: Technical Specification
+:name_document_master: Technical Specification
 :code: TS
 :version: 1
 :signer_1_position: Project Manager

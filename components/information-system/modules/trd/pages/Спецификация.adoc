@@ -1,0 +1,52 @@
+include::../../ROOT/partials/contract.adoc[]
+include::../../ROOT/partials/attr_common.adoc[]
+:doctype: book
+:title-page:
+:custom_title_page: original_frame
+:custom_other_page: original_frame
+:approval-page: true
+:name_document_main: {name_component}
+// name_document_master - название документа 1
+:name_document_master: Спецификация
+// name_document_slave - название документа 2 печатается на титульном листе под name_document_master
+:name_document_slave: 
+// Кол-во страниц соответствует пдф и версия
+:version: 4
+// page_all - кол-во страниц в документе, применяется для расчета нумерации страниц в документе. Может считаться вручную или автоматически при сборке документа
+:page_all: 22
+// code - код документа
+:code_document: 
+:tom: 
+:full_code: {code_contract}
+// ramka: 4 - рамка документа
+:data_report: {localdate}
+
+= {name_document_master}
+
+ifdef::env-antora[]
+== {name_doc}
+endif::[]
+
+
+
+[cols= "5,8,3", options="header, breakable"]
+|====
+^| Обозначение                      ^| Наименование                                                                                    ^| Примечание
+|                                   ^| {nbsp}  |
+|                                   ^| [underline]#*Документация*#  |
+|{nbsp} ||
+
+include::../partials/tables/specification-table.adoc[]
+
+|====
+
+
+
+ifndef::env-antora[]
+
+<<<<
+
+include::../../ROOT/partials/t_list_change.adoc[]
+
+endif::[]
+

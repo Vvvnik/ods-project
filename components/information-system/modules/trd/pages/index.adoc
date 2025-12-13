@@ -3,12 +3,12 @@
 :title-page:
 :custom_title_page: original
 :custom_other_page: original
-:code-main: ТЗ
+:code-main:
 :data_report: {localdate}
 :name_doc: Техническое задание
 :number_doc: 1
 :name_prog_main: Техническое задание
-:name-prog: ТЗ
+:name-prog:
 :tom: 1
 
 

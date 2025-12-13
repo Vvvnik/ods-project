@@ -467,7 +467,7 @@ end
 ----
 def self.extract_attributes_from_doc(doc)
   attrs = {}
-  attrs['name_dokument_master'] = doc.attr('name_dokument_master') || ''
+  attrs['name_document_master'] = doc.attr('name_document_master') || ''
   attrs['code'] = doc.attr('code') || ''
   # ... другие атрибуты
   attrs
@@ -484,12 +484,12 @@ end
 ----
 :pdf-theme: act
 :custom_other_page: original_frame
-:name_dokument_master: Техническое задание
+:name_document_master: Техническое задание
 
 // include::../../ROOT/partials/contract.adoc[]
 ----
 
-Результат: конвертеры могут прочитать :pdf-theme:, :custom_other_page:, :name_dokument_master:.
+Результат: конвертеры могут прочитать :pdf-theme:, :custom_other_page:, :name_document_master:.
 
 ==== Пример 2: Атрибуты в include файле
 

@@ -2,11 +2,9 @@ include::../partials/attr_common.adoc[]
 = Automated File List Generation
 :sectnums:
 
-The system automatically generates file lists and navigation for Antora components.
-
 == Description
 
-This system automatically:
+The system automatically generates file lists and navigation for Antora components:
 
 * Scans all .adoc files in component modules;
 * Finds PDF files in attachments directory;

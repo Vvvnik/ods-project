@@ -52,7 +52,7 @@ include::../partials/attr_common.adoc[]
 [source,asciidoc]
 ----
 :approval-page: true
-:name_dokument_master: Техническое задание
+:name_document_master: Техническое задание
 :code: ТЗ
 :version: 1
 ----
@@ -91,7 +91,7 @@ include::../partials/attr_common.adoc[]
 Обязательные:[source,asciidoc]
 ----
 :approval-page: true
-:name_dokument_master: Название документа
+:name_document_master: Название документа
 :code: Код документа
 :version: Версия документа
 ----
@@ -210,7 +210,7 @@ doc.attr('lu_new_attribute') || 'дефолт'
 [source,asciidoc]
 ----
 :approval-page: true
-:name_dokument_master: Техническое задание
+:name_document_master: Техническое задание
 :code: ТЗ
 :version: 1
 ----
@@ -220,7 +220,7 @@ doc.attr('lu_new_attribute') || 'дефолт'
 [source,asciidoc]
 ----
 :approval-page: true
-:name_dokument_master: Техническое задание
+:name_document_master: Техническое задание
 :code: ТЗ
 :version: 1
 :signer_1_position: Руководитель проекта

@@ -127,8 +127,6 @@ include::../partials/lists/list-pdf-component-table.adoc[]
 |===
 :num-list-t!:
 
-Сформированные PDF файлы для загрузки:
-
 include::../partials/lists/list-pdf-component.adoc[]
 
 // окончание блока сформированных PDF файлов

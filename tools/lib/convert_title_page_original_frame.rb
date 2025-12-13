@@ -58,7 +58,7 @@ module ConvertTitlePageOriginalFrame
       job1: ["––––––––––––––––––––––––––––"],  # Черта + фамилия
 
     # job1: [doc.attr('job_executor_1') || ''],
-      # job2: [doc.attr('cod_gk') || '', ''],  # Должность + пустая строка
+      # job2: [doc.attr('code_gk') || '', ''],  # Должность + пустая строка
       # name: ["_____________#{doc.attr('iof_executor') || ''}"],  # Черта + фамилия
       # date: ["«___» ___________ #{doc.attr('year') || ''} г."]
     )
@@ -66,7 +66,8 @@ module ConvertTitlePageOriginalFrame
 
      # 2. Блок версии - позиционируем под блоком контракта
    
-    version_code = "#{doc.attr('code') || ''} #{doc.attr('code_document') || ''} 01-ЛУ"
+    full_code = doc.attr('full_code') || ''
+    version_code = "#{full_code}-ЛУ"
     version_text = "#{version_code}"
     
     version_block = TitlePageBlocks::TextBlock.new(
@@ -87,10 +88,12 @@ module ConvertTitlePageOriginalFrame
 
     # 3. Блок названия документа - позиционируем в центре страницы
     # Позиционируем в 3 см от левого края, 10 см от верха, размер 16x3 см
+    full_code = doc.attr('full_code') || ''
     document_text = [
-      "#{doc.attr('name_component_3') || ''} #{doc.attr('name_component_4') || ''}",
-      doc.attr('name_dokument_master') || '',
-      "#{doc.attr('code') || ''} #{doc.attr('code_document') || ''} 01"
+      doc.attr('name_component') || '',
+      doc.attr('name_document_master') || '',
+      doc.attr('name_document_slave') || '',
+      full_code
     ].reject(&:empty?).join("\n")
     
     document_block = TitlePageBlocks::TextBlock.new(

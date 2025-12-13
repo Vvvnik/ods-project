@@ -3,12 +3,12 @@
 :title-page:
 :custom_title_page: original
 :custom_other_page: original
-:code-main: ОЭ
+:code-main: 
 :data_report: {localdate}
 :name_doc: Опытная эксплуатация
 :number_doc: 2
 :name_prog_main: Опытная эксплуатация
-:name-prog: ОЭ
+:name-prog: 
 :tom: 1
 
 

@@ -4,6 +4,7 @@ include::../../ROOT/partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 :custom_list_type: alphabetic
+:name_document_main: {name_component}
 // name1_dokument – название документа 1
 :name1_dokument: Акт
 // name5_dokument – название документа 2
@@ -43,7 +44,7 @@ include::../../ROOT/partials/attr_common.adoc[]
 | {nbsp}|
 |===
 // end::anons[]
-{komissia} по проведению {type_test} испытаний (далее – {komissia}) рассмотрела результаты {type_test} испытаний прикладного программного обеспечения (далее – ППО) «{name_component_1}» (далее – {component_name}), модифицированного (доработанного) в соответствии с требованиями {main_point_contract} Технического задания Приложения № 1 к договору {contract_number}, заключенному между {job_customer_2} и {job_executor_2}.
+{komissia} по проведению {type_test} испытаний (далее – {komissia}) рассмотрела результаты {type_test} испытаний прикладного программного обеспечения (далее – ППО) «{name_system}» (далее – {component_name}), модифицированного (доработанного) в соответствии с требованиями {main_point_contract} Технического задания Приложения № 1 к договору {contract_number}, заключенному между {job_customer_2} и {job_executor_2}.
 
 Организация-разработчик: {job_executor_2}.
 

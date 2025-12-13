@@ -77,9 +77,9 @@ module ConvertTitlePageContract
     # 2. Блок информации о компоненте - позиционируем под блоком утверждения
     # Позиционируем в 3 см от левого края, 7 см от верха, размер 16x2 см
     component_text = [
-      doc.attr('name_component_1') || '',
-      doc.attr('name_component_2') || '',
-      "#{doc.attr('name_component_3') || ''} #{doc.attr('name_component_4') || ''}".strip
+      doc.attr('name_system') || '',
+      doc.attr('name_subsystem') || '',
+      doc.attr('name_component') || ''
     ].reject(&:empty?).join("\n")
     
     component_block = TitlePageBlocks::TextBlock.new(
@@ -99,8 +99,8 @@ module ConvertTitlePageContract
     # 3. Блок названия документа - позиционируем в центре страницы
     # Позиционируем в 3 см от левого края, 10 см от верха, размер 16x3 см
     document_text = [
-      doc.attr('name_dokument_master') || '',
-      doc.attr('name_dokument_slave') || ''
+      doc.attr('name_document_master') || '',
+      doc.attr('name_document_slave') || ''
     ].reject(&:empty?).join("\n")
     
     document_block = TitlePageBlocks::TextBlock.new(
@@ -140,7 +140,8 @@ module ConvertTitlePageContract
     
     # 5. Блок версии - позиционируем под блоком контракта
     # Позиционируем в 3 см от левого края, 16 см от верха, размер 16x2 см
-    version_text = "#{doc.attr('code') || ''} #{doc.attr('code_document') || ''} 01"
+    full_code = doc.attr('full_code') || ''
+    version_text = full_code
     
     
     version_block = TitlePageBlocks::TextBlock.new(

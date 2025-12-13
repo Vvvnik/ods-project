@@ -1,3 +1,5 @@
+include::../../ROOT/partials/contract.adoc[]
+include::../../ROOT/partials/attr_common.adoc[]
 :doctype: book
 :title-page:
 :custom_title_page: original
@@ -5,26 +7,27 @@
 :approval-page: true
 // этот аттрибут указан в файле attr_common.adoc
 :custom_list_type: alphabetic 
-// name_dokument_master – название документа 1
-:name_dokument_master: Описание программы
-// name_dokument_slave – название документа 2
-:name_dokument_slave: 
+:name_document_main: {name_component}
+// name_document_master – название документа 1
+:name_document_master: Описание программы
+// name_document_slave - название документа 2 печатается на титульном листе под name_document_master
+:name_document_slave: 
 // Кол-во страниц соответствует пдф и версия
 :version: 3
 // page_all – кол-во страниц в документе, применяется для расчета нумерации страниц в документе. Может считаться вручную или автоматически при сборке документа
 :page_all: 48
 // code – код документа
-:code: ABC.0001-01
 :code_document: 13
+:tom: 01
+:full_code: {code_contract} {code_document} {tom}
 // ramka: 4 – рамка документа
 :data_report: {localdate}
-include::../../ROOT/partials/contract.adoc[]
-include::../../ROOT/partials/attr_common.adoc[]
+:folder_number: {folder_number_contract}
 
 
 :!toc:
 
-= Описание программы
+= {name_document_master}
 
 // sectnums: – макрос для выключения нумерации разделов
 

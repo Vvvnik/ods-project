@@ -3,12 +3,12 @@
 :title-page:
 :custom_title_page: original
 :custom_other_page: original
-:code-main: ЭД
+:code-main:
 :data_report: {localdate}
 :name_doc: Эксплуатационная документация
 :number_doc: 3
 :name_prog_main: Эксплуатационная документация
-:name-prog: ЭД
+:name-prog: 
 :tom: 1
 
 
