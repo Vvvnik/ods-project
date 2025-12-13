@@ -430,7 +430,7 @@ Tables are included in documents via `include` directive:
 |                                   ^| [underline]#*Documentation*#  |
 |{nbsp} ||
 
-include::../partials/tables/specification-table.adoc[]
+\include::../partials/tables/specification-table.adoc[]
 
 |===
 ----
@@ -447,7 +447,7 @@ Specification document example:
 
 [source,asciidoc]
 ----
-include::../../ROOT/partials/contract.adoc[]
+\include::../../ROOT/partials/contract.adoc[]
 :name_document_master: Specification
 :full_code: {code_contract}
 
@@ -458,7 +458,7 @@ include::../../ROOT/partials/contract.adoc[]
 |                                   ^| [underline]#*Documentation*#  |
 |{nbsp} ||
 
-include::../partials/tables/specification-table.adoc[]
+\include::../partials/tables/specification-table.adoc[]
 
 |===
 ----
@@ -467,7 +467,7 @@ Statement document example:
 
 [source,asciidoc]
 ----
-include::../../ROOT/partials/contract.adoc[]
+\include::../../ROOT/partials/contract.adoc[]
 :name_document_master: Statement of Operational Documents
 :code_document: 20
 :tom: 01
@@ -478,7 +478,7 @@ include::../../ROOT/partials/contract.adoc[]
 ^| Designation ^| Name ^| Copies ^| Location
 | ^|Documents | |
 |{nbsp} |||
-include::../partials/tables/statement-table.adoc[]
+\include::../partials/tables/statement-table.adoc[]
 |===
 ----
 

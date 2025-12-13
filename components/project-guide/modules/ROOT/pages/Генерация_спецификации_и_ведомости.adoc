@@ -430,7 +430,7 @@ end
 |                                   ^| [underline]#*Документация*#  |
 |{nbsp} ||
 
-include::../partials/tables/specification-table.adoc[]
+\include::../partials/tables/specification-table.adoc[]
 
 |===
 ----
@@ -447,7 +447,7 @@ include::../partials/tables/specification-table.adoc[]
 
 [source,asciidoc]
 ----
-include::../../ROOT/partials/contract.adoc[]
+\include::../../ROOT/partials/contract.adoc[]
 :name_document_master: Спецификация
 :full_code: {code_contract}
 
@@ -458,7 +458,7 @@ include::../../ROOT/partials/contract.adoc[]
 |                                   ^| [underline]#*Документация*#  |
 |{nbsp} ||
 
-include::../partials/tables/specification-table.adoc[]
+\include::../partials/tables/specification-table.adoc[]
 
 |===
 ----
@@ -467,7 +467,7 @@ include::../partials/tables/specification-table.adoc[]
 
 [source,asciidoc]
 ----
-include::../../ROOT/partials/contract.adoc[]
+\include::../../ROOT/partials/contract.adoc[]
 :name_document_master: Ведомость эксплуатационных документов
 :code_document: 20
 :tom: 01
@@ -478,7 +478,7 @@ include::../../ROOT/partials/contract.adoc[]
 ^| Обозначение ^| Наименование ^| Кол. экз. ^| Место нахождения
 | ^|Документы | |
 |{nbsp} |||
-include::../partials/tables/statement-table.adoc[]
+\include::../partials/tables/statement-table.adoc[]
 |===
 ----
 
