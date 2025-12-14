@@ -7,7 +7,7 @@
 ^| {counter:num-list-t} | xref:attachment$ed_Спецификация.pdf[ed Спецификация] | Листов: 3
 ^| {counter:num-list-t} | xref:attachment$ed_Спецификация_LU.pdf[ed Спецификация LU] | Листов: 1
 ^| {counter:num-list-t} | xref:attachment$oed_Акт_приемки_в_опытную_эксплуатацию.pdf[oed Акт приемки в опытную эксплуатацию] | Листов: 2
-^| {counter:num-list-t} | xref:attachment$oed_Протокол_опытнои_эксплуатации.pdf[oed Протокол опытнои эксплуатации] | Листов: 3
+^| {counter:num-list-t} | xref:attachment$oed_Протокол_опытной_эксплуатации.pdf[oed Протокол опытной эксплуатации] | Листов: 3
 ^| {counter:num-list-t} | xref:attachment$trd_Описание_автоматизируемых_функции.pdf[trd Описание автоматизируемых функции] | Листов: 7
 ^| {counter:num-list-t} | xref:attachment$trd_Описание_постановки_задачи.pdf[trd Описание постановки задачи] | Листов: 5
 ^| {counter:num-list-t} | xref:attachment$trd_Описание_постановки_задачи_LU.pdf[trd Описание постановки задачи LU] | Листов: 1
