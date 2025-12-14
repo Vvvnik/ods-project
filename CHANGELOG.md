@@ -7,12 +7,5 @@
 
 ## [Unreleased]
 
-## [1.1.0] - 2025-11-25
-
 ### Added
-
-- Первый драфт структуры ODS.
-- Базовые компоненты: airport-service, data-processing-engine, information-system, toys-service.
-- Поддержка AsciiDoc, Antora, Asciidoctor PDF.
-- CI/CD (GitLab CI).
-- MANIFESTO.adoc, CONTRIBUTING.md и LICENSE файлы.
+- (to be defined)

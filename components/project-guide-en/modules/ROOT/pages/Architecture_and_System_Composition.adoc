@@ -27,7 +27,7 @@ Project root structure:
 * public/ – generated documentation site (Antora);
 * .gitlab-ci.yml – CI/CD configuration;
 * antora-playbook.yml – Antora configuration;
-* .gitignore – Git exclusions.
+* .gitignore – Git exclusions;
 
 == components/ Folder
 
@@ -73,7 +73,7 @@ Project components:
 * data-processing-engine – data processing engine;
 * information-system – information system;
 * toys-service – toys service;
-* project-guide – project guide.
+* project-guide – project guide;
 
 == docker/ Folder
 
@@ -85,13 +85,13 @@ Contains Docker configuration and image build scripts.
 * docker-compose.yml – configuration for local development;
 * build-images.sh – universal image build script;
 * build-kroki.sh – Kroki image build script;
-* README.md – Docker documentation.
+* README.md – Docker documentation;
 
 === Purpose
 
 * Containerization of all generation tools;
 * Simplification of deployment and development;
-* Ready-made images for CI/CD.
+* Ready-made images for CI/CD;
 
 == templates/ Folder
 
@@ -102,11 +102,11 @@ For detailed description of all templates and usage examples, see xref:Templates
 === Structure
 
 * diagrams/ – diagram examples:
-  ** puml/ – PlantUML diagram examples (hardware complex architecture, network diagrams);
-  ** drawio/ – Draw.io diagram examples (class diagrams);
+** puml/ – PlantUML diagram examples (hardware complex architecture, network diagrams);
+** drawio/ – Draw.io diagram examples (class diagrams);
 * glossary/ – glossary template;
 * snippets/ – code snippets for editors;
-* templates_doc/ – document templates.
+* templates_doc/ – document templates;
 
 == public/ Folder
 
@@ -117,7 +117,7 @@ Generated documentation site (created by Antora).
 * _/ – static resources (CSS, JS, images);
 * {component}/ – pages for each component;
 * index.html – main page;
-* search-index.js – search index.
+* search-index.js – search index;
 
 == tools/ Folder
 
@@ -125,7 +125,7 @@ Contains all tools for documentation generation.
 
 === Main Script
 
-* start.rb – main script coordinating all generation.
+* start.rb – main script coordinating all generation;
 
 === Generation Scripts (scripts/)
 
@@ -188,6 +188,7 @@ Contains user interface for Antora site.
 
 === Structure
 
+* ui-bundle/ – source Antora styles that are packaged into ui-bundle.zip by Antora tools;
 * ui-bundle.zip – main UI bundle (archive with Antora themes);
 * ui-bundle-style/ – additional style files for customization;
 ** css/ – custom CSS styles;
@@ -197,17 +198,21 @@ Contains user interface for Antora site.
 ** layouts/ – layout templates;
 ** partials/ – partial templates.
 
+For more information, see https://docs.antora.org/antora/latest/[Antora Documentation].
+
 === Purpose
 
 The `ui-files/` folder is used for:
+
 * Documentation site appearance settings;
 * Overriding standard Antora styles;
 * Adding custom interface elements;
-* Color scheme and typography settings.
+* Color scheme and typography settings;
 
 UI configuration happens through the `ui` section in `antora-playbook.yml`:
+
 * `bundle.url` – link to main UI bundle;
-* `supplemental_files` – path to additional style files.
+* `supplemental_files` – path to additional style files;
 
 == Configuration Files
 
@@ -243,7 +248,7 @@ UI configuration happens through the `ui` section in `antora-playbook.yml`:
 * API documentation generation;
 * Database documentation generation;
 * PDF document generation;
-* File list generation.
+* File list generation;
 
 === Conditional Logic
 
@@ -251,7 +256,7 @@ UI configuration happens through the `ui` section in `antora-playbook.yml`:
 ** In CI, diagram generation is disabled;
 ** In CI, API generation is disabled;
 ** In CI, database generation is disabled;
-* Locally, full generation works.
+* Locally, full generation works;
 
 == config.yml Configuration
 
@@ -304,7 +309,7 @@ Contains list of components with individual settings.
 
 * Each component inherits settings from defaults;
 * Any parameters can be overridden;
-* Section order is not important.
+* Section order is not important;
 
 == Modular Converter Architecture
 
@@ -320,17 +325,17 @@ Contains list of components with individual settings.
 * convert_title_page_original.rb – standard title page;
 * convert_title_page_contract.rb – for contracts;
 * convert_title_page_original_frame.rb – with frames;
-* convert_approval_page_gost.rb – GOST approval sheet.
+* convert_approval_page_gost.rb – GOST approval sheet;
 
 === Regular Page Modules
 
 * convert_other_page_original.rb – with full frames;
-* convert_other_page_original_frame.rb – with frames and prefix.
+* convert_other_page_original_frame.rb – with frames and prefix;
 
 === List Modules
 
 * convert_list_alphabetic.rb – alphabetic style;
-* convert_list_dash.rb – dash style.
+* convert_list_dash.rb – dash style;
 
 == Automatic Generation
 
@@ -339,39 +344,39 @@ Contains list of components with individual settings.
 * Generated automatically;
 * Created in modules/ROOT/partials/lists/;
 * Updated with each build;
-* Contain document navigation.
+* Contain document navigation;
 
 === PDF Documents
 
 * Generated from .adoc files;
 * Saved in modules/ROOT/attachments/;
 * Use configured themes;
-* Support title pages.
+* Support title pages;
 
 === Diagrams
 
 * BPMN converted to SVG via Puppeteer;
 * Draw.io converted to SVG via Desktop application;
 * PlantUML processed via Kroki;
-* Saved in corresponding images/ folders.
+* Saved in corresponding images/ folders;
 
 == Data Flows
 
 === Diagram Generation
 
-* Sources in examples/ → conversion scripts → images in images/.
+* Sources in examples/ → conversion scripts → images in images/;
 
 === Documentation Generation
 
-* Database/API sources → conversion scripts → partial files in partials/.
+* Database/API sources → conversion scripts → partial files in partials/;
 
 === PDF Generation
 
-* AsciiDoc files in pages/ → universal converter → PDF files in attachments/.
+* AsciiDoc files in pages/ → universal converter → PDF files in attachments/;
 
 === List Generation
 
-* File scanning → list generator → partial files in partials/lists/.
+* File scanning → list generator → partial files in partials/lists/;
 
 == Diagram Color Scheme
 

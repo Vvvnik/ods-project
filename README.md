@@ -1,5 +1,11 @@
 # ODS – Open Documentation Standard
 
+ODS предназначен для:
+
+- разработчиков и архитекторов;
+- технических писателей;
+- команд, использующих Docs-as-Code и CI/CD.
+
 *(Не связан с форматом OpenDocument Spreadsheet (.ods) или проектами Open Data)*  
 
 [![License Code](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE-CODE.md)
@@ -58,7 +64,7 @@ npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.ym
 
 ODS — полностью открытый проект (Apache 2.0 / CC-BY 4.0).  
 
-Дополнительные платные возможности, поддержка и премиум-шаблоны описаны в [COMMERCIAL.md](./COMMERCIAL.md).
+Дополнительные коммерческие возможности, внедрение и сопровождение описаны в [COMMERCIAL.md](./COMMERCIAL.md).
 
 ## Благодарности
 

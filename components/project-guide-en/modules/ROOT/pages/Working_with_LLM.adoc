@@ -15,10 +15,10 @@ The system uses LLM (Large Language Model) for automatic translation of database
 
 === Components
 
-* **LLMClient** - client for working with Ollama
-* **TranslationUtils** - utilities for working with dictionary and log
-* **PromptLoader** - prompt loader
-* **ConfigLoader** - configuration loader
+* **LLMClient** - client for working with Ollama;
+* **TranslationUtils** - utilities for working with dictionary and log;
+* **PromptLoader** - prompt loader;
+* **ConfigLoader** - configuration loader;
 
 === File Structure
 
@@ -51,9 +51,9 @@ db:
 
 === Supported Languages
 
-* `"ru"` or `true` - translate to Russian
-* `"en"` - translate to English  
-* `false` - disable translations
+* `"ru"` or `true` - translate to Russian;
+* `"en"` - translate to English  ;
+* `false` - disable translations;
 
 == Work Logic
 
@@ -193,9 +193,9 @@ created_at → Created at
 
 === Speed Comparison
 
-* **Individual translation**: 50 fields = 50 LLM requests (~50-100 seconds)
-* **Batch translation**: 50 fields = 1 LLM request (~2-5 seconds)
-* **Time savings**: 45-95 seconds
+* **Individual translation**: 50 fields = 50 LLM requests (~50-100 seconds);
+* **Batch translation**: 50 fields = 1 LLM request (~2-5 seconds);
+* **Time savings**: 45-95 seconds;
 
 === Caching
 
@@ -216,9 +216,9 @@ end
 
 === LLM Requirements
 
-* Local Ollama installation
-* `gemma:latest` model or compatible
-* Server availability on `http://localhost:11434`
+* Local Ollama installation;
+* `gemma:latest` model or compatible;
+* Server availability on `http://localhost:11434`;
 
 === Fallback Mechanism
 
@@ -252,7 +252,7 @@ All operations are logged with emoji indicators:
 * 🤖 - LLM requests;
 * 📖 - dictionary translations;
 * ⚠️ - warnings and fallback;
-* ✅ - successful operations.
+* ✅ - successful operations;
 
 == Local Usage
 
@@ -261,7 +261,7 @@ The LLM system is designed for **local use** on developer machine. This provides
 * **Fast access** to Ollama without network delays;
 * **Full control** over models and settings;
 * **Security** - data not transmitted to external services;
-* **Stability** - doesn't depend on external API availability.
+* **Stability** - doesn't depend on external API availability;
 
 === Local Environment Requirements
 
@@ -335,10 +335,10 @@ Various models can be used for LLM system work. Below is a comparison of tested 
 
 === Model Selection Recommendations
 
-* **For production**: `gemma:latest` - best balance of quality and speed
-* **For quick tests**: `gemma3:4b` - fastest and most compact
-* **For high quality**: `gpt-oss:20b` - best quality, but slow
-* **Alternative**: `mistral:7b` - good quality, compact
+* **For production**: `gemma:latest` - best balance of quality and speed;
+* **For quick tests**: `gemma3:4b` - fastest and most compact;
+* **For high quality**: `gpt-oss:20b` - best quality, but slow;
+* **Alternative**: `mistral:7b` - good quality, compact;
 
 === Translation Examples
 
@@ -367,10 +367,10 @@ The LLM system is designed modularly and can be easily extended for other transl
 
 ==== System Components
 
-* **LLMClient** (`tools/lib/llm_client.rb`) - main client for working with Ollama
-* **PromptLoader** (`tools/lib/prompt_loader.rb`) - prompt loading and processing
-* **TranslationUtils** (`tools/lib/translation_utils.rb`) - dictionary and log work
-* **ConfigLoader** (`tools/lib/config_loader.rb`) - configuration loading
+* **LLMClient** (`tools/lib/llm_client.rb`) - main client for working with Ollama;
+* **PromptLoader** (`tools/lib/prompt_loader.rb`) - prompt loading and processing;
+* **TranslationUtils** (`tools/lib/translation_utils.rb`) - dictionary and log work;
+* **ConfigLoader** (`tools/lib/config_loader.rb`) - configuration loading;
 
 ==== File Structure
 
@@ -559,4 +559,4 @@ end
 
 == Related Sections
 
-* xref:Database_Parsing.adoc[Database Parsing] – automatic DB documentation generation
+* xref:Database_Parsing.adoc[Database Parsing] – automatic DB documentation generation.

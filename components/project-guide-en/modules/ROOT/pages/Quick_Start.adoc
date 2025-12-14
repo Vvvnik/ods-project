@@ -14,7 +14,7 @@ To work with the project you will need:
 
 * Docker and Docker Compose;
 * Git;
-* Text editor (VS Code, Sublime Text, or any other).
+* Text editor (VS Code, Sublime Text, or any other);
 
 == Step 1: Getting the Project
 
@@ -38,7 +38,7 @@ docker-compose up -d
 This will launch:
 
 * Kroki service for diagram generation (if configured);
-* PostgreSQL database (if configured).
+* PostgreSQL database (if configured);
 
 For local development, you can use ready-made commands from docker-compose.yml.
 
@@ -118,7 +118,7 @@ Create the navigation file:
 [source,asciidoc]
 ----
 # components/ods-project/modules/ROOT/nav.adoc
-* xref:index.adoc[Main Page]
+* xref:index.adoc[Main Page].
 ----
 
 == Step 7: Adding the Component to the Build
@@ -204,14 +204,14 @@ After successfully creating your first component, you can:
 * Create PDF documents using `tools/start.rb`;
 * Add diagrams to `examples/` and generate them in `images/`;
 * Configure automatic generation from API or DB;
-* Explore additional features in the xref:User_Guide.adoc[User Guide] section.
+* Explore additional features in the xref:User_Guide.adoc[User Guide] section;
 
 == Useful Links
 
 * xref:Installation.adoc[Installation] – detailed installation instructions;
 * xref:Config_YML_Setup.adoc[Config.yml Setup] – project configuration;
 * xref:User_Guide.adoc[User Guide] – complete guide;
-* xref:Editing_and_Verification.adoc[Editing and Verification] – troubleshooting.
+* xref:Editing_and_Verification.adoc[Editing and Verification] – troubleshooting;
 
 == Troubleshooting
 

@@ -19,7 +19,7 @@ include::../partials/attr_common.adoc[]
 
 **Сервисы:**
 
-* Kroki сервер: `registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`
+* Kroki сервер: `registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`;
 
 **Скрипт:**
 
@@ -32,10 +32,10 @@ include::../partials/attr_common.adoc[]
 
 **Условия запуска:**
 
-* На ветке `main`
-* При изменении технических файлов (`tools/**`, `.gitlab-ci.yml`, `modules/**`, `antora-playbook.yml`, `components/* /antora.yml`, `resources/**`)
-* При изменении файлов `antora-*.yml`
-* Или при успешном завершении предыдущих этапов
+* На ветке `main`;
+* При изменении технических файлов (`tools/**`, `.gitlab-ci.yml`, `modules/**`, `antora-playbook.yml`, `components/* /antora.yml`, `resources/**`);
+* При изменении файлов `antora-*.yml`;
+* Или при успешном завершении предыдущих этапов;
 
 === Этап pages
 
@@ -49,9 +49,9 @@ include::../partials/attr_common.adoc[]
 
 **Условия запуска:**
 
-* На ветке `main`
-* При изменении технических файлов
-* Или при успешном завершении предыдущих этапов
+* На ветке `main`;
+* При изменении технических файлов;
+* Или при успешном завершении предыдущих этапов;
 
 == Этапы релизов
 
@@ -96,14 +96,14 @@ include::../partials/attr_common.adoc[]
 
 === Переменные окружения
 
-* `KROKI_SERVER_URL: "http://kroki:8000"` - URL Kroki сервера в CI
-* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` - образ Kroki
-* `TECHNICAL_FILES` - технические файлы, влияющие на сборку
+* `KROKI_SERVER_URL: "http://kroki:8000"` - URL Kroki сервера в CI;
+* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` - образ Kroki;
+* `TECHNICAL_FILES` - технические файлы, влияющие на сборку;
 
 === Кэширование
 
-* `node_modules/` и `.npm/` кэшируются по ключу `${CI_COMMIT_REF_SLUG}`
-* Ускоряет повторные сборки
+* `node_modules/` и `.npm/` кэшируются по ключу `${CI_COMMIT_REF_SLUG}`;
+* Ускоряет повторные сборки;
 
 == Устранение проблем
 
@@ -111,7 +111,7 @@ include::../partials/attr_common.adoc[]
 
 === Частые проблемы
 
-* **Ошибки Kroki** - проверьте доступность сервиса Kroki
-* **Ошибки PDF генерации** - проверьте конфигурацию в `tools/config.yml`
-* **Ошибки Antora** - проверьте `antora-playbook.yml` и зависимости Node.js
-* **Проблемы с артефактами** - проверьте права доступа и размер файлов
+* **Ошибки Kroki** - проверьте доступность сервиса Kroki;
+* **Ошибки PDF генерации** - проверьте конфигурацию в `tools/config.yml`;
+* **Ошибки Antora** - проверьте `antora-playbook.yml` и зависимости Node.js;
+* **Проблемы с артефактами** - проверьте права доступа и размер файлов.

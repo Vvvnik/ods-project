@@ -57,7 +57,7 @@ To generate BPMN and Draw.io diagrams through the main script:
 Result:
 
 * BPMN: sources in modules/ROOT/examples/bpmn/ → modules/ROOT/images/bpmn/*.svg;
-* Draw.io: sources in modules/ROOT/examples/drawio/ → modules/ROOT/images/drawio/*.svg.
+* Draw.io: sources in modules/ROOT/examples/drawio/ → modules/ROOT/images/drawio/*.svg;
 
 === Manual Diagram Generation
 
@@ -90,7 +90,7 @@ Required dependencies for diagram rendering:
 
 * BPMN: Puppeteer + Chrome/Chromium (local only);
 * Draw.io: Draw.io Desktop application (local only);
-* PlantUML: Kroki server (automatically in CI and local).
+* PlantUML: Kroki server (automatically in CI and local);
 
 :tip-caption: Note
 
@@ -125,7 +125,7 @@ asciidoctor-pdf \
 * -a pdf-theme=report - PDF theme (automatically selected: frame for _frame types, report for others);
 * -a pdf-themesdir=resources/themes - themes directory;
 * -a pdf-fontsdir=resources/fonts - fonts directory;
-* -a allow-uri-read - permission to read external resources.
+* -a allow-uri-read - permission to read external resources;
 
 === Title Page Types
 
@@ -133,7 +133,7 @@ asciidoctor-pdf \
 * :custom_title_page: *contract* - for contract documents;
 * :custom_title_page: *original_frame* - with frames and prefix;
 * :custom_title_page: *approval_page_gost* - approval sheet in GOST style;
-* :custom_title_page: *none* - without title page.
+* :custom_title_page: *none* - without title page;
 
 === Disabling Title Page
 
@@ -184,7 +184,7 @@ Document content starts after title page...
 Key rule:
 
 * = (level 1) + :custom_title_page: = title page + content;
-* == (level 2) + no :custom_title_page: = content only without title page.
+* == (level 2) + no :custom_title_page: = content only without title page;
 
 :warning-caption: Warning  
 
@@ -330,7 +330,7 @@ NPX advantages:
 * Works even if Antora is not installed globally;
 * Uses local version from node_modules;
 * Better compatibility between different environments;
-* Standard approach in Node.js ecosystem.
+* Standard approach in Node.js ecosystem;
 
 :warning-caption: Important
 
@@ -350,6 +350,6 @@ Direct command disadvantages:
 
 * Requires global Antora installation (npm install -g @antora/cli);
 * User must have permissions for global package installation;
-* Possible version conflicts between projects.
+* Possible version conflicts between projects;
 
 Recommendation: Use npx antora antora-playbook.yml – it's more reliable and will work for more users.

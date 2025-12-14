@@ -13,14 +13,14 @@
 
 [source,bash]
 ----
-# Ruby зависимости
-gem install asciidoctor asciidoctor-pdf asciidoctor-kroki
+# Ruby зависимости (полный список)
+gem install asciidoctor asciidoctor-pdf asciidoctor-diagram asciidoctor-kroki rouge prawn hexapdf pg graphviz
 
 # Node.js зависимости
 npm install
 
 # Дополнительные зависимости для рендеринга диаграмм
-npm install puppeteer
+# (puppeteer устанавливается автоматически через npm install)
 ----
 
 == Установка инструментов для рендеринга диаграмм

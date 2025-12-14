@@ -17,18 +17,18 @@ include::../partials/attr_common.adoc[]
 * contract – для контрактов;
 * original_frame – с рамками;
 * approval_page_gost – лист утверждения ГОСТ;
-* none – без титульной страницы.
+* none – без титульной страницы;
 
 Обычные страницы (other_pages) – стили оформления страниц:
 
 * original – с полными рамками и колонтитулами;
 * original_frame – с рамками и приставкой;
-* none – стандартное Asciidoctor.
+* none – стандартное Asciidoctor;
 
 Списки (list_types) – стили нумерации:
 
 * alphabetic – уровень 2 тире (–);
-* dash – уровень 2 буквы (а б в).
+* dash – уровень 2 буквы (а б в);
 
 === Принцип работы
 
@@ -51,7 +51,7 @@ include::../partials/attr_common.adoc[]
 * Информация о компоненте;
 * Версия документа;
 * Количество страниц;
-* Блок согласования.
+* Блок согласования;
 
 === Тип "contract"
 
@@ -59,7 +59,7 @@ include::../partials/attr_common.adoc[]
 
 * Все блоки из "original";
 * Блок государственного контракта;
-* Два блока утверждения (заказчик и исполнитель).
+* Два блока утверждения (заказчик и исполнитель);
 
 === Тип "original_frame"
 
@@ -67,7 +67,7 @@ include::../partials/attr_common.adoc[]
 
 * Все блоки из "original";
 * Основная рамка страницы с отступами;
-* Приставка слева с полями для подписей и инвентарных номеров.
+* Приставка слева с полями для подписей и инвентарных номеров;
 
 === Тип "none"
 
@@ -104,12 +104,12 @@ include::../partials/attr_common.adoc[]
 
 * custom_title_page: тип титульной страницы (original, contract, original_frame, none);
 * custom_other_page: тип обычных страниц (original, original_frame, contract, none);
-* use_title_pages: включить/выключить титульные страницы (true/false).
+* use_title_pages: включить/выключить титульные страницы (true/false);
 
 Типы титульных и обычных страниц настраиваются независимо:
 
 * :custom_title_page: – только для первой страницы (титульной);
-* :custom_other_page: – для всех остальных страниц (со второй и далее).
+* :custom_other_page: – для всех остальных страниц (со второй и далее);
 
 :tip-caption: Примечание
 
@@ -166,6 +166,24 @@ approval_signature_block = TitlePageBlocks::SignatureBlock.new(
 )
 ----
 
+=== Блок количества листов
+
+Блок `PageCountBlock` отображает общее количество листов PDF документа на титульной странице. Координаты задаются в модулях титульных страниц (например, в `convert_title_page_original.rb`):
+
+[source,ruby]
+----
+page_count_block = TitlePageBlocks::PageCountBlock.new(
+  page_width, page_height,
+  left_position: 10.0,        # 10 см от левого края
+  top_position: 14.0,         # 14 см от верхнего края
+  width: 4.0,                 # 4 см ширина
+  height: 1.0,                # 1 см высота
+  custom_font_size: 14        # размер шрифта
+)
+----
+
+Если координаты не заданы явно, блок автоматически позиционируется по центру страницы.
+
 == Временное отключение блоков
 
 Чтобы временно скрыть блок, закомментируйте все его использования:
@@ -198,17 +216,17 @@ approval_signature_block = TitlePageBlocks::SignatureBlock.new(
 Настройки рамок:
 
 * frame_margin_top: отступ сверху (по умолчанию 5мм);
-* frame_margin_right: отступ справа (по умолчанию 5мм);    
+* frame_margin_right: отступ справа (по умолчанию 5мм);    ;
 * frame_margin_bottom: отступ снизу (по умолчанию 5мм);
 * frame_margin_left: отступ слева (по умолчанию 20мм);
-* frame_line_width: толщина линии (по умолчанию 0.1мм).
+* frame_line_width: толщина линии (по умолчанию 0.1мм);
 
 === Рамки на обычных страницах
 
 Для добавления рамок на обычные страницы используйте атрибут :custom_other_page::
 
-* original * без рамок
-* original_frame * с рамкой и приставкой (как на титульной странице)
+* original * без рамок;
+* original_frame * с рамкой и приставкой (как на титульной странице);
 
 Важно:
 
@@ -228,14 +246,14 @@ page:
 
 Текущие отступы:
 
-* Тема report: [15mm, 7mm, 25mm, 20mm] (стандартные поля)
-* Тема frame: [10mm, 10mm, 30mm, 25mm] (увеличенные поля для рамок)
+* Тема report: [15mm, 7mm, 25mm, 20mm] (стандартные поля);
+* Тема frame: [10mm, 10mm, 30mm, 25mm] (увеличенные поля для рамок);
 
 При необходимости изменения отступов:
 
-* Отредактируйте файл resources/themes/report-theme.yml для обычных документов
-* Отредактируйте файл resources/themes/frame-theme.yml для документов с рамками
-* Измените значение margin в секции page
+* Отредактируйте файл resources/themes/report-theme.yml для обычных документов;
+* Отредактируйте файл resources/themes/frame-theme.yml для документов с рамками;
+* Измените значение margin в секции page;
 
 Примеры комбинаций:
 
@@ -245,12 +263,12 @@ page:
 * Все страницы с рамками: :custom_title_page: original_frame + :custom_other_page: original_frame → тема frame;
 * Контракт без рамок + обычные с рамками: :custom_title_page: contract + :custom_other_page: original_frame → тема frame;
 * Контракт с рамками + обычные с рамками: :custom_title_page: original_frame + :custom_other_page: original_frame → тема frame;
-* Все страницы без рамок: :custom_title_page: original + :custom_other_page: original → тема report.
+* Все страницы без рамок: :custom_title_page: original + :custom_other_page: original → тема report;
 
 Доступные типы:
 
 * Титульные: original, contract, original_frame, approval_page_gost, none;
-* Обычные: original, original_frame, contract, none.
+* Обычные: original, original_frame, contract, none;
 
 == Стандартное поведение AsciiDoc
 
@@ -258,13 +276,13 @@ page:
 
 * Если документ начинается с = Заголовок, AsciiDoc создаст стандартную титульную страницу;
 * Если документ начинается с == Заголовок, титульная страница не создается;
-* Для полного отключения используйте атрибут `:notitle:`
+* Для полного отключения используйте атрибут `:notitle:`;
 
 == Файлы конфигурации
 
 * tools/config_type_page.yml * связывает типы страниц с модулями;
 * tools/lib/convert_title_page_*.rb * модули титульных страниц;
-* tools/lib/title_page_blocks.rb * базовые классы блоков.
+* tools/lib/title_page_blocks.rb * базовые классы блоков;
 
 === Конфигурация типов страниц
 
@@ -276,19 +294,19 @@ page:
 * contract → convert_title_page_contract;
 * original_frame → convert_title_page_original_frame;
 * approval_page_gost → convert_approval_page_gost;
-* none → отключено.
+* none → отключено;
 
 Обычные страницы:
 
 * original → convert_other_page_original;
 * original_frame → convert_other_page_original_frame;
 * contract → convert_other_page_contract;
-* none → отключено.
+* none → отключено;
 
 Типы титульных и обычных страниц настраиваются независимо через разные атрибуты:
 
 * :custom_title_page: * для титульной страницы;
-* :custom_other_page: * для обычных страниц.
+* :custom_other_page: * для обычных страниц;
 
 == Автоматический выбор тем PDF
 
@@ -298,7 +316,7 @@ page:
 
 * Если в документе указан атрибут :pdf-theme: act → используется тема act;
 * Если custom_other_page заканчивается на _frame → используется тема frame;
-* Во всех остальных случаях → используется тема report.
+* Во всех остальных случаях → используется тема report;
 
 Примеры:
 
@@ -317,7 +335,7 @@ page:
 
 * resources/themes/act-theme.yml – тема для актов с нумерацией с первой страницы;
 * resources/themes/report-theme.yml – основная тема с стандартными отступами;
-* resources/themes/frame-theme.yml – тема с увеличенными отступами для рамок.
+* resources/themes/frame-theme.yml – тема с увеличенными отступами для рамок;
 
 === Тема act
 
@@ -337,7 +355,7 @@ running-content:
 
 * Наследует все настройки от report-theme.yml;
 * Нумерация страниц начинается с первой страницы (вместо второй);
-* Подходит для актов, протоколов и других документов, где нужна нумерация с первой страницы.
+* Подходит для актов, протоколов и других документов, где нужна нумерация с первой страницы;
 
 === Тема frame
 
@@ -359,7 +377,7 @@ page:
 
 * Увеличенные поля для размещения рамок;
 * Сохранение всех шрифтов и стилей;
-* Оптимизация для документов с рамками.
+* Оптимизация для документов с рамками;
 
 === Тема report
 
@@ -383,6 +401,6 @@ page:
 
 * resources/themes/act-theme.yml – для актов с нумерацией с первой страницы;
 * resources/themes/frame-theme.yml – для документов с рамками;
-* resources/themes/report-theme.yml – для обычных документов.
+* resources/themes/report-theme.yml – для обычных документов;
 
 Формат отступов: [верх, право, низ, лево] в миллиметрах.

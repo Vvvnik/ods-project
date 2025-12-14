@@ -21,7 +21,6 @@ include::../../ROOT/partials/attr_common.adoc[]
 :full_code: {code_contract} {code_document} {tom}
 // ramka: 4 - рамка документа
 :data_report: {localdate}
-
 = {name_document_master}
 
 // sectnums: - макрос для выключения нумерации разделов

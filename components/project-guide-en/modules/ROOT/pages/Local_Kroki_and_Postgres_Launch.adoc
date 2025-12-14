@@ -21,7 +21,7 @@ docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 The project uses the `KROKI_SERVER_URL` variable to specify the Kroki server address:
 
 * Local: `http://localhost:8000`;
-* In CI: `http://kroki:8000`.
+* In CI: `http://kroki:8000`;
 
 === Antora Configuration
 
@@ -62,7 +62,7 @@ After launching PostgreSQL, it's available at:
 * Host: `localhost`;
 * Port: `5432`;
 * User: `postgres`;
-* Password: `postgres`.
+* Password: `postgres`;
 
 == Docker Compose
 

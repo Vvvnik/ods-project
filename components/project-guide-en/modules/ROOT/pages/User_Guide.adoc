@@ -69,7 +69,7 @@ Project conclusions.
 
 [source,adoc]
 ----
-* xref:index.adoc[My New Project]
+* xref:index.adoc[My New Project].
 ----
 
 === Step 3: Configuration Setup
@@ -105,6 +105,68 @@ content:
       start_path: components/my-new-project
 ----
 
+==== Managing Components in antora-playbook.yml
+
+To manage components (enable/disable/remove), edit the `content.sources` section in the `antora-playbook.yml` file.
+
+=== Enabling a Component
+
+Add an entry to the `sources` section:
+
+[source,yaml]
+----
+content:
+  sources:
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/my-new-project
+----
+
+=== Disabling a Component
+
+To temporarily disable a component, comment out the corresponding entry:
+
+[source,yaml]
+----
+content:
+  sources:
+    # - url: .
+    #   branches: HEAD
+    #   worktrees: true
+    #   start_path: components/old-component
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/my-new-project
+----
+
+A disabled component will not be included in the documentation site build.
+
+=== Removing a Component
+
+To completely remove a component:
+
+. Remove the entry from `antora-playbook.yml` (or comment it out);
+. If necessary, remove the component from `tools/config.yml` (if it's listed there);
+. If necessary, delete the component folder from `components/`.
+
+[source,yaml]
+----
+content:
+  sources:
+    # Removed entry for old-component
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/my-new-project
+----
+
+:warning-caption: Warning
+
+[WARNING]
+Removing a component from `antora-playbook.yml` does not delete its files from the `components/` folder. For complete removal, you need to manually delete the component folder.
+
 ==== UI and Styles Setup
 
 To configure the user interface and styles, use the `ui` section in `antora-playbook.yml`:
@@ -122,14 +184,14 @@ Where:
 
 * `bundle.url` – path to the main UI bundle (archive with themes);
 * `bundle.snapshot: true` – use local version without checking for updates;
-* `supplemental_files` – path to additional style files for customizing the site appearance.
+* `supplemental_files` – path to additional style files for customizing the site appearance;
 
 Files in `supplemental_files` override styles from the main bundle, allowing you to configure:
 
 * Site color scheme;
 * Fonts and typography;
 * Layout and spacing;
-* Additional CSS styles.
+* Additional CSS styles;
 
 === Step 4: Using Templates
 
@@ -178,7 +240,7 @@ Available types:
 * `original` – standard title page;
 * `contract` – title page for contracts;
 * `original_frame` – title page with frames;
-* `none` – without title page.
+* `none` – without title page;
 
 For more details, see xref:Page_Theme_Setup.adoc[Page Theme Setup].
 
@@ -246,7 +308,7 @@ See also xref:index.adoc[Main Page] for additional information.
 * xref:Installation.adoc[Installation] – technology stack and installation;
 * xref:Config_YML_Setup.adoc[Config.yml Setup] – configuration;
 * xref:Start_RB_Script.adoc[Start.rb Script] – generation automation;
-* xref:Page_Theme_Setup.adoc[Page Theme Setup] – PDF formatting.
+* xref:Page_Theme_Setup.adoc[Page Theme Setup] – PDF formatting;
 
 === Conclusion
 

@@ -54,9 +54,9 @@ Each API source can contain the following attributes:
 **Purpose:** Source description for logging and console display
 
 **Usage:**
-* Displayed in logs during processing: `📝 Processing: {description}`
-* Shown in list of found sources
-* If not specified, source path is used
+* Displayed in logs during processing: `📝 Processing: {description}`;
+* Shown in list of found sources;
+* If not specified, source path is used;
 
 **Example:**
 [source,yaml]
@@ -70,9 +70,9 @@ Each API source can contain the following attributes:
 **Purpose:** File masks for searching in folders (only for `type: directory`)
 
 **Usage:**
-* Filters files by extensions in specified folder
-* Default: `["*.json", "*.yaml", "*.yml"]`
-* Used in `Dir.glob()` for file searching
+* Filters files by extensions in specified folder;
+* Default: `["*.json", "*.yaml", "*.yml"]`;
+* Used in `Dir.glob()` for file searching;
 
 **Example:**
 [source,yaml]
@@ -89,7 +89,7 @@ Each API source can contain the following attributes:
 The `patterns` and `description` attributes are actively used by the `openapi-swagger-adoc.rb` script for file filtering and information display in logs:
 
 * `patterns` - **critically important** for file filtering in folders. If not set, default is used: `["*.json", "*.yaml", "*.yml"]`;
-* `description` - **useful** for log informativeness and debugging.
+* `description` - **useful** for log informativeness and debugging;
 
 Without `patterns`, the script won't be able to find needed files in folders, and without `description` it will be harder to understand which source is being processed in logs.
 ====
@@ -99,7 +99,7 @@ Without `patterns`, the script won't be able to find needed files in folders, an
 * Ruby – main script language;
 * JSON/YAML – configuration parsing;
 * OpenAPI/Swagger – API documentation standards;
-* AsciiDoc – output documentation format.
+* AsciiDoc – output documentation format;
 
 == Work Result
 
@@ -129,9 +129,9 @@ ruby tools/scripts/openapi-swagger-adoc.rb --sources sources.yml --in input_dir 
 
 Parameters:
 
-* `--sources` - path to sources.yml file with API configuration (required)
-* `--in` - input directory (optional)
-* `--out` - output directory (required)
+* `--sources` - path to sources.yml file with API configuration (required);
+* `--in` - input directory (optional);
+* `--out` - output directory (required);
 
 When launched through `tools/start.rb`, the `--sources` and `--out` parameters are taken from `tools/config.yml` configuration (api section, `api_sources_file` and `dst` fields).
 

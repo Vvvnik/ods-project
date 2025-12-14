@@ -33,13 +33,11 @@ include::../../ROOT/partials/attr_common.adoc[]
 
 // стиль текста из файла resources/themes/report-theme.yml если такой определен в файле tools/config.yml
 [.text-center]
-{name5_dokument}
-//tag::oe_start[]
-[.text-center]
-{name_component}а {name_component_4}
-
-{nbsp}
-
+{name5_dokument} +
+{nbsp} +
+{name_component} +
+{nbsp} +
+{nbsp} +
 
 [cols="1,1", grid=none, frame=none]
 |===

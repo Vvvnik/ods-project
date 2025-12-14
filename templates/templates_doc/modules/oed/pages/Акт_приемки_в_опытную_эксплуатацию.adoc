@@ -32,9 +32,10 @@ include::../../ROOT/partials/attr_common.adoc[]
 
 // стиль текста из файла resources/themes/report-theme.yml если такой определен в файле tools/config.yml
 [.text-center]
-{name5_dokument}
-
-{nbsp}
+{name5_dokument} +
+{nbsp} +
+{name_component} +
+{nbsp} +
 
 [cols="1, 1", grid=none, frame=none]
 |===

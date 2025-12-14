@@ -13,7 +13,7 @@ The system automatically:
 * Creates specification tables (`specification-table.adoc`);
 * Creates operational documents statement tables (`statement-table.adoc`);
 * Processes approval sheets (ЛУ);
-* Integrates with PDF generation process.
+* Integrates with PDF generation process;
 
 == Architecture
 
@@ -74,7 +74,7 @@ To control specification and statement table generation, use the `generate_speci
 
 * Default: `true` (generation enabled);
 * Can be disabled for specific component by setting `generate_specification: false`;
-* Generation runs only if both `enabled: true` and `generate_specification: true` are set.
+* Generation runs only if both `enabled: true` and `generate_specification: true` are set;
 
 [NOTE]
 ====
@@ -142,7 +142,7 @@ Features:
 * For specification document, only the first part of code (`code_contract`) is used;
 * Approval sheets (ЛУ) are automatically added with `-ЛУ` suffix;
 * Multi-line entries are aligned with spaces by code length;
-* Separators `{nbsp}` are added between entries.
+* Separators `{nbsp}` are added between entries;
 
 === statement-table.adoc
 
@@ -172,7 +172,7 @@ Features:
 * Full document code (`full_code`) is used;
 * Text part is formed with line breaks (`+`);
 * Number of copies is always 1;
-* Location is taken from `folder_number` attribute.
+* Location is taken from `folder_number` attribute;
 
 == Working with Document Attributes
 
@@ -294,7 +294,7 @@ end
 Check is performed by:
 
 * `name_document_master` attribute (contains "спецификация" or "specification");
-* File name (contains "спецификация" or "specification").
+* File name (contains "спецификация" or "specification");
 
 Statement presence is checked similarly.
 
@@ -327,8 +327,8 @@ Features:
 
 * For specification, only first part of `full_code` (contract code) is used;
 * For other documents, full resolved `full_code` is used;
-* Document parts are displayed as "Часть первая", "Часть вторая", etc.;
-* Multi-line entries are aligned with spaces.
+* Document parts are displayed as "Часть первая", "Часть вторая", etc;
+* Multi-line entries are aligned with spaces;
 
 === Statement Row Formation
 
@@ -346,7 +346,7 @@ Features:
 * Specification is automatically excluded;
 * Text part is formed with line breaks (`+`);
 * Number of copies is always 1;
-* Location is taken from `folder_number` or default value "Папка №1" is used.
+* Location is taken from `folder_number` or default value "Папка №1" is used;
 
 === Document Part Processing
 
@@ -365,7 +365,7 @@ Part is shown if:
 
 * `name_prog` differs from `name_prog_main`;
 * `tom` is not empty;
-* Document name does not contain excluded keywords.
+* Document name does not contain excluded keywords;
 
 === Number to Ordinal Conversion
 
@@ -386,7 +386,7 @@ Examples:
 * 1 → "первая";
 * 2 → "вторая";
 * 21 → "двадцать первая";
-* 30 → "тридцатая".
+* 30 → "тридцатая";
 
 == Approval Sheet Processing
 
@@ -418,7 +418,7 @@ Important:
 
 * Use relative path from current file;
 * Tables must be ready before PDF generation;
-* Tables are automatically overwritten on each generation.
+* Tables are automatically overwritten on each generation;
 
 === Requirements for Automatic Generation
 
@@ -428,7 +428,7 @@ The system automatically creates tables only if:
 
 * PDF generation is enabled (`pdf.enabled: true`);
 * Specification generation is enabled (`pdf.generate_specification: true`);
-* Specification or statement documents exist in the module (determined by `name_document_master` attribute or file name).
+* Specification or statement documents exist in the module (determined by `name_document_master` attribute or file name);
 
 === Manual Table Creation
 
@@ -437,7 +437,7 @@ You can create your own specification and statement files that do not use automa
 * Create table files manually in `partials/tables/` folder;
 * Write table content yourself;
 * Include them in documents via `include` directive;
-* Disable automatic generation for the component (`generate_specification: false`) to prevent your files from being overwritten.
+* Disable automatic generation for the component (`generate_specification: false`) to prevent your files from being overwritten;
 
 When creating tables manually, they will not be automatically updated when documents in the module change.
 
@@ -491,7 +491,7 @@ The system performs the following checks:
 * Existence of `pages/` directory;
 * Presence of .adoc files (except `index.adoc`);
 * Presence of at least one specification or statement document;
-* Existence of table directory (created automatically).
+* Existence of table directory (created automatically);
 
 === Error Handling
 
@@ -499,7 +499,7 @@ When necessary data is missing, the system:
 
 * Outputs warnings to console;
 * Skips modules without specification/statement documents;
-* Creates empty tables if no documents to process.
+* Creates empty tables if no documents to process;
 
 === Old Table Cleanup
 
@@ -572,5 +572,5 @@ For permanent changes to generation logic, modify source code in `tools/lib/spec
 
 * xref:Start_RB_Script.adoc[Start.rb Script] – build integration;
 * xref:Config_YML_Setup.adoc[Config.yml Setup] – system configuration;
-* xref:Approval_Sheet_System.adoc[Approval Sheet System] – information about approval sheets.
+* xref:Approval_Sheet_System.adoc[Approval Sheet System] – information about approval sheets;
 

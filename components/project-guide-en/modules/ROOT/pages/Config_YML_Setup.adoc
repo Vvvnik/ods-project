@@ -30,38 +30,12 @@ The project is configured through the central file tools/config.yml.
 Database and API source settings are located in components:
 
 * components/{name}/modules/ROOT/examples/database.yml – database profiles;
-* components/{name}/modules/ROOT/examples/sources.yml – API sources.
+* components/{name}/modules/ROOT/examples/sources.yml – API sources;
 
 The path to database and API source settings is specified in the tools/config.yml file in the defaults section through parameters:
+
 * `database_connect_file` – path to database connection file;
-* `api_sources_file` – path to API sources file.
-
-=== Section Order
-
-The order of sections in config.yml is not important:
-
-[source,yaml]
-----
-# Any of these options works the same way:
-
-# Option 1
-pdf:
-  enabled: true
-drawio:
-  enabled: true
-list:
-  pdf_lists: true
-
-# Option 2  
-list:
-  pdf_lists: true
-pdf:
-  enabled: true
-drawio:
-  enabled: true
-----
-
-Reason: YAML structure is a dictionary where key order does not affect functionality. Ruby code reads configuration regardless of section order.
+* `api_sources_file` – path to API sources file;
 
 == Component Configuration Example
 
@@ -87,70 +61,182 @@ Reason: YAML structure is a dictionary where key order does not affect functiona
 [TIP]
 In real configuration, most components are commented out to speed up builds. To enable a component, uncomment the corresponding sections.
 
+== Managing Components in config.yml
+
+The `tools/config.yml` file manages documentation generation for all components. Components are configured in the `components` section.
+
+=== Adding a New Component
+
+Add a new entry to the `components` section:
+
+[source,yaml]
+----
+components:
+  - name: my-new-project
+    <<: *defaults
+    pdf:
+      enabled: true
+    drawio:
+      enabled: true
+----
+
+Where:
+
+* `name` – component name (must match the folder in `components/`);
+* `<<: *defaults` – inheritance of default settings;
+* Then override the needed sections (pdf, drawio, api, db, bpmn, list).
+
+=== Enabling a Component
+
+To enable generation for a component, uncomment the needed sections:
+
+[source,yaml]
+----
+components:
+  - name: airport-service
+    <<: *defaults
+    # Uncomment to enable:
+    db:
+      enabled: true
+      profile: "pg_demo"
+    pdf:
+      enabled: true
+----
+
+=== Disabling a Component
+
+To temporarily disable a component, comment out the entire entry or individual sections:
+
+[source,yaml]
+----
+components:
+  # Temporarily disabled component:
+  # - name: old-component
+  #   <<: *defaults
+  #   pdf:
+  #     enabled: true
+  
+  - name: active-component
+    <<: *defaults
+    # Only PDF generation is disabled:
+    # pdf:
+    #   enabled: true
+    drawio:
+      enabled: true
+----
+
+A disabled component will not be processed by the `tools/start.rb` script.
+
+=== Removing a Component
+
+To completely remove a component from the build:
+
+. Remove the entry from the `components` section in `tools/config.yml` (or comment it out);
+. If necessary, remove the component from `antora-playbook.yml` (if it's listed there);
+. If necessary, delete the component folder from `components/`.
+
+[source,yaml]
+----
+components:
+  # Removed entry for old-component
+  - name: active-component
+    <<: *defaults
+    pdf:
+      enabled: true
+----
+
+:warning-caption: Warning
+
+[WARNING]
+Removing a component from `config.yml` does not delete its files from the `components/` folder. For complete removal, you need to manually delete the component folder.
+
+=== Disabling Individual Component Functions
+
+You can disable individual generation functions for a component while keeping it in the list:
+
+[source,yaml]
+----
+components:
+  - name: my-component
+    <<: *defaults
+    # All functions are disabled, but component remains in the list:
+    # bpmn:
+    #   enabled: true
+    # drawio:
+    #   enabled: true
+    # api:
+    #   enabled: true
+    # db:
+    #   enabled: true
+    # pdf:
+    #   enabled: true
+    # list remains enabled by default
+----
+
 == Main Configuration Parameters
 
 === Global Parameters
 
-* `themes_dir` – path to PDF themes directory (default: "resources/themes")
+* `themes_dir` – path to PDF themes directory (default: "resources/themes");
 
 === Defaults Section Parameters
 
 ==== BPMN Diagrams (bpmn:)
 
-* `enabled` – enable/disable BPMN generation
-* `src` – source directory with .bpmn files
-* `dst` – target directory for images
-* `erase_destination_folder` – clear destination folder
+* `enabled` – enable/disable BPMN generation;
+* `src` – source directory with .bpmn files;
+* `dst` – target directory for images;
+* `erase_destination_folder` – clear destination folder;
 
 ==== Draw.io Diagrams (drawio:)
 
-* `enabled` – enable/disable Draw.io generation
-* `src` – source directory with .drawio files
-* `dst` – target directory for images
-* `erase_destination_folder` – clear destination folder
+* `enabled` – enable/disable Draw.io generation;
+* `src` – source directory with .drawio files;
+* `dst` – target directory for images;
+* `erase_destination_folder` – clear destination folder;
 
 ==== API Documentation (api:)
 
-* `enabled` – enable/disable API documentation generation
-* `dst` – target directory for API documentation
-* `api_sources_file` – path to API sources file
-* `erase_destination_folder` – clear destination folder
+* `enabled` – enable/disable API documentation generation;
+* `dst` – target directory for API documentation;
+* `api_sources_file` – path to API sources file;
+* `erase_destination_folder` – clear destination folder;
 
 ==== Database (db:)
 
-* `enabled` – enable/disable DB documentation generation
-* `images_dir` – folder for DB schema images
-* `dst` – target directory for DB documentation
-* `database_connect_file` – path to database connection file
-* `profile` – database profile for connection
-* `erase_destination_folder` – clear destination folder
+* `enabled` – enable/disable DB documentation generation;
+* `images_dir` – folder for DB schema images;
+* `dst` – target directory for DB documentation;
+* `database_connect_file` – path to database connection file;
+* `profile` – database profile for connection;
+* `erase_destination_folder` – clear destination folder;
 
 ==== PDF Generation (pdf:)
 
-* `enabled` – enable/disable PDF generation
-* `src` – source directory with .adoc files
-* `dst` – target directory for PDF files
-* `converter` – path to PDF converter
-* `theme` – PDF styling theme
-* `themes_dir` – themes folder
-* `fonts_dir` – fonts folder
-* `exclude_files` – files excluded from generation
-* `use_title_pages` – use title pages
+* `enabled` – enable/disable PDF generation;
+* `src` – source directory with .adoc files;
+* `dst` – target directory for PDF files;
+* `converter` – path to PDF converter;
+* `theme` – PDF styling theme;
+* `themes_dir` – themes folder;
+* `fonts_dir` – fonts folder;
+* `exclude_files` – files excluded from generation;
+* `use_title_pages` – use title pages;
 
 ==== File Lists (list:)
 
-* `enabled` – enable/disable list generation
-* `adoc_lists` – .adoc file lists
-* `pdf_lists` – PDF lists (only when PDF generation is enabled)
-* `adoc_src` – source directory with .adoc files
-* `pdf_src` – source directory with PDF files
-* `dst` – target directory for lists
+* `enabled` – enable/disable list generation;
+* `adoc_lists` – .adoc file lists;
+* `pdf_lists` – PDF lists (only when PDF generation is enabled);
+* `adoc_src` – source directory with .adoc files;
+* `pdf_src` – source directory with PDF files;
+* `dst` – target directory for lists;
 
 == Recommendations
 
 * Do not enable database and API parsing by default;
 * Use nested sections (bpmn:, drawio:, api:, db:, pdf:, list:) to control generation;
-* Configure kroki_url for PlantUML diagram processing.
+* Configure kroki_url for PlantUML diagram processing;
 
 == Diagram Build Configuration
 
@@ -160,7 +246,7 @@ When using diagrams in different component modules, there's an issue with image 
 
 * ROOT module is suitable for images needed in both PDF and Antora, BUT ONLY if the AsciiDoc file referencing them is in the ROOT module;
 * The problem occurs when the AsciiDoc file is in the ed module, but images are in the ROOT module;
-* The path image::drawio/diagrams_diagram-1.svg[] doesn't work for both PDF and Antora because :imagesdir: ../images points to modules/ed/images/, not to modules/ROOT/images/.
+* The path image::drawio/diagrams_diagram-1.svg[] doesn't work for both PDF and Antora because :imagesdir: ../images points to modules/ed/images/, not to modules/ROOT/images/;
 
 === Solutions
 
@@ -193,7 +279,7 @@ Advantages:
 
 * Simple paths image::drawio/diagrams_diagram-1.svg[];
 * Works in both PDF and Antora;
-* No conditional logic required.
+* No conditional logic required;
 
 ==== Solution 2: Conditional Logic with env-antora
 
@@ -214,7 +300,7 @@ The env-antora variable:
 
 * Defined in antora-playbook.yml;
 * Active during Antora build;
-* Allows using different paths for PDF and Antora.
+* Allows using different paths for PDF and Antora;
 
 === Global Settings
 
@@ -234,7 +320,7 @@ PDF and lists work for all component modules automatically:
 Result:
 
 * PDF is generated from all modules (ed, trd, oed) and saved in ROOT/attachments/;
-* Lists create navigation for all modules and save in ROOT/partials/.
+* Lists create navigation for all modules and save in ROOT/partials/;
 
 === Diagram Recommendations
 

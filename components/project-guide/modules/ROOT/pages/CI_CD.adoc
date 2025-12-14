@@ -48,10 +48,10 @@ include::../examples/schema.puml[plantuml, schema]
 
 В CI/CD используются следующие переменные:
 
-* `KROKI_SERVER_URL: "http://kroki:8000"` – URL сервиса Kroki для генерации диаграмм
-* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` – образ Kroki сервиса
-* `GIT_DEPTH: "20"` – глубина клонирования Git репозитория
-* `TECHNICAL_FILES` – паттерн файлов, влияющих на генерацию контента
+* `KROKI_SERVER_URL: "http://kroki:8000"` – URL сервиса Kroki для генерации диаграмм;
+* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` – образ Kroki сервиса;
+* `GIT_DEPTH: "20"` – глубина клонирования Git репозитория;
+* `TECHNICAL_FILES` – паттерн файлов, влияющих на генерацию контента;
 
 == Детальное описание этапов
 === build_all
@@ -119,17 +119,17 @@ include::../examples/schema.puml[plantuml, schema]
 == Зависимости
 Зависимости между этапами сборки:
 
-* pages зависит от build_all
-* prepare_release_notes выполняется только при создании тега
-* release зависит от prepare_release_notes
+* pages зависит от build_all;
+* prepare_release_notes выполняется только при создании тега;
+* release зависит от prepare_release_notes;
 
 == Отслеживание изменений
 Добавьте в changes:
 
-* tools/ – скрипты генерации и конфигурация
-* components/*/modules/ – содержимое документации
-* antora-playbook.yml – настройки сборки сайта
-* resources/ – темы и шрифты для PDF
+* tools/ – скрипты генерации и конфигурация;
+* components/*/modules/ – содержимое документации;
+* antora-playbook.yml – настройки сборки сайта;
+* resources/ – темы и шрифты для PDF;
 
 == Работа с медиа-файлами в GitLab Package Registry
 
@@ -148,11 +148,11 @@ curl --header "PRIVATE-TOKEN: <ваш_токен>" \
 
 **Параметры:**
 
-* `PRIVATE-TOKEN` – персональный токен доступа GitLab (создается в Settings → Access Tokens)
-* `project_id` – ID проекта (можно найти в Settings → General проекта, или использовать `namespace%2Fproject-name`)
-* `videos` – имя пакета (можно использовать любое имя)
-* `<версия>` – версия пакета (например, `1.0.0`)
-* `<имя_файла>` – имя файла для загрузки
+* `PRIVATE-TOKEN` – персональный токен доступа GitLab (создается в Settings → Access Tokens);
+* `project_id` – ID проекта (можно найти в Settings → General проекта, или использовать `namespace%2Fproject-name`);
+* `videos` – имя пакета (можно использовать любое имя);
+* `<версия>` – версия пакета (например, `1.0.0`);
+* `<имя_файла>` – имя файла для загрузки;
 
 **Пример:**
 
@@ -186,8 +186,8 @@ video::https://gitlab.com/vvvnik/ods-project/-/package_files/253856660/download[
 
 **Параметры:**
 
-* `width=100%` – ширина видео (можно указать в пикселях или процентах)
-* Ссылка на скачивание – используется для прямой ссылки на файл
+* `width=100%` – ширина видео (можно указать в пикселях или процентах);
+* Ссылка на скачивание – используется для прямой ссылки на файл;
 
 :warning-caption: Важно
 

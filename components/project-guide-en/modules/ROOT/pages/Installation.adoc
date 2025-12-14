@@ -54,33 +54,242 @@ docker-compose -f docker/docker-compose.yml run --rm site
 
 === Docker Image Contents
 
-* **Ruby 3.2** + gems: `asciidoctor`, `asciidoctor-pdf`, `asciidoctor-diagram`, `asciidoctor-kroki`, `prawn`, `pg`, `hexapdf`
-* **Node.js 20** + packages: `@antora/cli`, `@antora/site-generator`, `@antora/lunr-extension`, `puppeteer`, `xml2js`
-* **System dependencies**: build-essential, git, curl, fonts
+* **Ruby 3.2** + gems: `asciidoctor`, `asciidoctor-pdf`, `asciidoctor-diagram`, `asciidoctor-kroki`, `prawn`, `pg`, `hexapdf`;
+* **Node.js 20** + packages: `@antora/cli`, `@antora/site-generator`, `@antora/lunr-extension`, `puppeteer`, `xml2js`;
+* **System dependencies**: build-essential, git, curl, fonts;
 
 == Local Installation
 
-=== Windows
+=== Version Requirements
 
-* Install Git, Node.js (LTS), Ruby, Graphviz;
-* Install Java (for PlantUML if needed);
-* Install Docker Desktop;
-* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
-* Node: npm install.
+* **Ruby**: 3.2 or higher;
+* **Node.js**: 20 or higher (LTS recommended);
+* **Git**: any current version;
 
-=== Linux
+=== System Dependencies
 
-* Install Git, Node.js (LTS), Ruby, Graphviz;
-* Install Docker Engine and Docker Compose;
-* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
-* Node: npm install.
+For compiling Ruby gems, you need:
 
-=== macOS
+* **Linux**: `build-essential`, `libpq-dev` (for `pg` gem);
+* **macOS**: Xcode Command Line Tools (`xcode-select --install`);
+* **Windows**: Ruby DevKit or MSYS2;
 
-* Install Homebrew;
-* brew install node ruby graphviz;
-* Install Docker Desktop;
-* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
-* Node: npm install.
+=== Installing Ruby Gems
+
+Full list of required gems:
+
+[source,bash]
+----
+gem install asciidoctor asciidoctor-pdf asciidoctor-diagram asciidoctor-kroki rouge prawn hexapdf pg graphviz
+----
+
+Gem descriptions:
+
+* `asciidoctor` — AsciiDoc processor;
+* `asciidoctor-pdf` — PDF document generation;
+* `asciidoctor-diagram` — diagram support;
+* `asciidoctor-kroki` — Kroki integration;
+* `rouge` — syntax highlighting;
+* `prawn` — PDF library;
+* `hexapdf` — PDF file manipulation;
+* `pg` — PostgreSQL driver;
+* `graphviz` — ERD diagram generation;
+
+=== Installing Node.js Packages
+
+[source,bash]
+----
+npm install
+----
+
+This will install all dependencies from `package.json`:
+
+* `@antora/cli` — Antora CLI;
+* `@antora/lunr-extension` — documentation search;
+* `asciidoctor-kroki` — Kroki integration;
+* `asciidoctor-plantuml` — PlantUML support;
+* `puppeteer` — for BPMN diagram generation;
+* `xml2js` — Draw.io file parsing;
+* `opal` — Ruby code execution;
+
+=== Platform-Specific Installation
+
+==== Windows
+
+[source,powershell]
+----
+# 1. Install Git
+# Download from https://git-scm.com/download/win
+# Or via Chocolatey:
+choco install git
+
+# 2. Install Node.js 20+ (LTS)
+# Download from https://nodejs.org/
+# Or via Chocolatey:
+choco install nodejs-lts
+
+# 3. Install Ruby 3.2+
+# Download from https://rubyinstaller.org/downloads/
+# Choose Ruby+Devkit 3.2.x (x64)
+# Or via Chocolatey:
+choco install ruby
+
+# 4. Install Graphviz
+# Download from https://graphviz.org/download/
+# Or via Chocolatey:
+choco install graphviz
+
+# 5. Install Java (for PlantUML, optional)
+# Download from https://adoptium.net/
+# Or via Chocolatey:
+choco install temurin
+
+# 6. Install PostgreSQL (optional, for DB documentation)
+# Download from https://www.postgresql.org/download/windows/
+# Or via Chocolatey:
+choco install postgresql
+
+# 7. Install Docker Desktop
+# Download from https://www.docker.com/products/docker-desktop
+# Or via Chocolatey:
+choco install docker-desktop
+
+# 8. Install gems and npm packages (see above)
+----
+
+:tip-caption: Note
+
+[TIP]
+For Windows, it's recommended to use RubyInstaller with DevKit, which includes all necessary tools for compiling gems.
+
+==== Linux
+
+[source,bash]
+----
+# Install system dependencies
+sudo apt-get update
+sudo apt-get install -y build-essential libpq-dev git curl wget
+
+# Install Node.js 20
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Install Ruby 3.2+ (via rbenv)
+# Install rbenv
+curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+
+# Install Ruby 3.2
+rbenv install 3.2.0
+rbenv global 3.2.0
+
+# Alternative: via rvm
+# curl -sSL https://get.rvm.io | bash -s stable
+# source ~/.rvm/scripts/rvm
+# rvm install 3.2
+# rvm use 3.2 --default
+
+# Install Graphviz
+sudo apt-get install -y graphviz
+
+# Install Java (for PlantUML, optional)
+sudo apt-get install -y default-jdk
+
+# Install PostgreSQL (optional, for DB documentation)
+sudo apt-get install -y postgresql postgresql-contrib
+
+# Install Docker Engine and Docker Compose
+# See https://docs.docker.com/engine/install/
+
+# Install gems and npm packages (see above)
+----
+
+==== macOS
+
+[source,bash]
+----
+# Install Homebrew (if not already installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Xcode Command Line Tools (must be first!)
+xcode-select --install
+
+# Install dependencies
+brew install node@20 ruby@3.2 graphviz
+
+# Setup Ruby (if installed via Homebrew)
+echo 'export PATH="/opt/homebrew/opt/ruby@3.2/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/opt/homebrew/opt/ruby@3.2/bin:$PATH"' >> ~/.bash_profile
+source ~/.zshrc  # or source ~/.bash_profile
+
+# Install Java (for PlantUML, optional)
+brew install --cask temurin
+
+# Install PostgreSQL (optional, for DB documentation)
+brew install postgresql@14
+brew services start postgresql@14
+
+# Install Docker Desktop
+# Download from https://www.docker.com/products/docker-desktop
+# or via Homebrew:
+brew install --cask docker
+
+# Install gems and npm packages (see above)
+----
+
+=== Installing Ollama (Optional)
+
+Ollama is required for LLM translations. For more details, see xref:Working_with_LLM.adoc[Working with LLM].
+
+[source,bash]
+----
+# Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Start server
+ollama serve &
+
+# Install model (recommended)
+ollama pull gemma:latest
+----
+
+=== Installation Verification
+
+After installing all dependencies, verify that everything works:
+
+[source,bash]
+----
+# Check versions
+ruby -v          # Should be 3.2 or higher
+node -v          # Should be 20 or higher
+npm -v           # Should be current version
+git --version    # Any current version
+
+# Check Ruby gems
+gem list | grep asciidoctor    # All gems should be installed
+gem list | grep prawn
+gem list | grep hexapdf
+gem list | grep pg
+
+# Check Node.js packages
+npm list --depth=0              # All packages should be installed
+
+# Check system tools
+graphviz --version              # For ERD diagrams
+java -version                   # For PlantUML (if installed)
+docker --version                # For Docker
+postgresql --version            # For DB (if installed)
+
+# Check Asciidoctor
+asciidoctor -v
+asciidoctor-pdf -v
+
+# Check Antora
+antora -v                       # Or npx antora --version
+----
+
+If all commands execute without errors, the installation was successful.
 
 include::../partials/prereqs.adoc[]

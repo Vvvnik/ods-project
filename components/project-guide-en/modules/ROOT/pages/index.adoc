@@ -47,7 +47,7 @@ ODS is useful for:
 * Developers who need to automate documentation;
 * Agile and DevOps teams;
 * Projects with requirements for high-quality technical documentation;
-* Organizations implementing documentation standards.
+* Organizations implementing documentation standards;
 
 This guide describes the main principles of ODS, the project architecture, component structure, build and publication tools, and examples of various document types. The guide contains all the necessary information to get started with the ODS project.
 
@@ -66,7 +66,7 @@ The key principles of ODS are:
 * 🤝 Collaboration — convenient team collaboration on documentation;
 * 📅 Versioning — full change control via Git;
 * 🔄 Automation — generation of documentation from source files;
-* 📚 Standardization — unified documentation formats and structures.
+* 📚 Standardization — unified documentation formats and structures;
 
 === Technologies Used
 The project is built on the following technologies:
@@ -82,7 +82,7 @@ For practical application of the standard, a project environment has been create
 * a ready-made documentation structure;
 * examples with source file templates;
 * build and publication tools;
-* examples of various document types on website pages and PDF documents.
+* examples of various document types on website pages and PDF documents;
 
 The project is hosted on GitLab and is available at: link:https://gitlab.com/vvvnik/ods-project[ODS-Project].
 
@@ -144,7 +144,7 @@ The *tools/* folder contains all necessary tools for automation:
 * *scripts/* – Ruby scripts for documentation generation;
 * *lib/* – libraries and modules;
 * *config.yml* – main configuration;
-* *start.rb* – main launch script.
+* *start.rb* – main launch script;
 
 == Navigation Guide
 
@@ -152,44 +152,44 @@ This guide contains detailed information about all aspects of working with ODS. 
 
 === Basics
 
-* xref:Architecture_and_System_Composition.adoc[System Architecture] – project and component structure
-* xref:Repository_Preparation.adoc[Repository Preparation] – setting up the project from scratch
+* xref:Architecture_and_System_Composition.adoc[System Architecture] – project and component structure;
+* xref:Repository_Preparation.adoc[Repository Preparation] – setting up the project from scratch;
 
 === Installation and Setup
 
-* xref:Installation.adoc[Installation] – technology stack and dependencies
-* xref:Config_YML_Setup.adoc[Config.yml Setup] – project configuration
-* xref:Local_Kroki_and_Postgres_Launch.adoc[Local Kroki and Postgres Launch] – service setup
+* xref:Installation.adoc[Installation] – technology stack and dependencies;
+* xref:Config_YML_Setup.adoc[Config.yml Setup] – project configuration;
+* xref:Local_Kroki_and_Postgres_Launch.adoc[Local Kroki and Postgres Launch] – service setup;
 
 === Build and Automation
 
-* xref:Start_RB_Script.adoc[Start.rb Script] – documentation build process
-* xref:CI_CD.adoc[CI/CD] – build and deploy automation
-* xref:Docker_Build_and_Services.adoc[Docker Build and Services] – containerization
+* xref:Start_RB_Script.adoc[Start.rb Script] – documentation build process;
+* xref:CI_CD.adoc[CI/CD] – build and deploy automation;
+* xref:Docker_Build_and_Services.adoc[Docker Build and Services] – containerization;
 
 === Additional Features
 
-* xref:Automated_File_List_Generation.adoc[Automated File List Generation] – automating navigation and file lists
-* xref:List_Converter_Setup.adoc[List Converter Setup] – list automation
-* xref:Page_Theme_Setup.adoc[Page Theme Setup] – custom PDF converters
-* xref:Approval_Sheet_System.adoc[Approval Sheet System] – special pages
-* xref:API_Documentation_Parsing.adoc[API Documentation Parsing] – automatic API documentation generation
-* xref:Database_Parsing.adoc[Database Parsing] – automatic DB documentation generation
-* xref:Working_with_LLM.adoc[Working with LLM] – automatic translations using language models
+* xref:Automated_File_List_Generation.adoc[Automated File List Generation] – automating navigation and file lists;
+* xref:List_Converter_Setup.adoc[List Converter Setup] – list automation;
+* xref:Page_Theme_Setup.adoc[Page Theme Setup] – custom PDF converters;
+* xref:Approval_Sheet_System.adoc[Approval Sheet System] – special pages;
+* xref:API_Documentation_Parsing.adoc[API Documentation Parsing] – automatic API documentation generation;
+* xref:Database_Parsing.adoc[Database Parsing] – automatic DB documentation generation;
+* xref:Working_with_LLM.adoc[Working with LLM] – automatic translations using language models;
 
 === Practical Guides
 
-* xref:Quick_Start.adoc[Quick Start] – creating your first component in 15 minutes
-* xref:User_Guide.adoc[User Guide] – step-by-step instructions
-* xref:Editing_and_Verification.adoc[Editing and Verification] – debugging and troubleshooting
-* xref:CI_CD.adoc[CI/CD] – monitoring build and deploy automation
+* xref:Quick_Start.adoc[Quick Start] – creating your first component in 15 minutes;
+* xref:User_Guide.adoc[User Guide] – step-by-step instructions;
+* xref:Editing_and_Verification.adoc[Editing and Verification] – debugging and troubleshooting;
+* xref:CI_CD.adoc[CI/CD] – monitoring build and deploy automation;
 
 == Links
 
-* https://vvvnik.gitlab.io/ods-project/data-processing-engine/1/index.html[Our Documentation Site]
-* https://docs.antora.org/[Antora Documentation]
-* https://asciidoctor.org/[AsciiDoc Documentation]
-* https://plantuml.com/[PlantUML for SVG diagrams]
-* https://graphviz.org/[Graphviz for ERD diagrams]
-* https://docs.docker.com/[Docker Documentation]
-* https://docs.gitlab.com/ee/ci/[GitLab CI/CD]
+* https://vvvnik.gitlab.io/ods-project/data-processing-engine/1/index.html[Our Documentation Site];
+* https://docs.antora.org/[Antora Documentation];
+* https://asciidoctor.org/[AsciiDoc Documentation];
+* https://plantuml.com/[PlantUML for SVG diagrams];
+* https://graphviz.org/[Graphviz for ERD diagrams];
+* https://docs.docker.com/[Docker Documentation];
+* https://docs.gitlab.com/ee/ci/[GitLab CI/CD].

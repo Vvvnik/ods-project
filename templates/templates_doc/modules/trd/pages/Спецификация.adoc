@@ -20,14 +20,11 @@ include::../../ROOT/partials/attr_common.adoc[]
 :full_code: {code_contract}
 // ramka: 4 - рамка документа
 :data_report: {localdate}
-
 = {name_document_master}
 
-ifdef::env-antora[]
-== {name_doc}
-endif::[]
-
-
+// ifdef::env-antora[]
+// == {name_doc}
+// endif::[]
 
 [cols= "5,8,3", options="header, breakable"]
 |====
@@ -43,7 +40,6 @@ include::../partials/tables/specification-table.adoc[]
 
 
 ifndef::env-antora[]
-
 <<<<
 
 include::../../ROOT/partials/t_list_change.adoc[]

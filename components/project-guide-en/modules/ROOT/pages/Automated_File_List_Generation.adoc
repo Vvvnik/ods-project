@@ -10,7 +10,7 @@ The system automatically generates file lists and navigation for Antora componen
 * Finds PDF files in attachments directory;
 * Creates hierarchical navigation by modules and pages;
 * Generates lists for downloading PDF files;
-* Updates navigation files automatically.
+* Updates navigation files automatically;
 
 == Architecture
 
@@ -93,23 +93,23 @@ Contains hierarchical navigation for all modules and pages:
 [source,asciidoc]
 ----
 // Automatically generated navigation
-* Information System
+* Information System.
  Module "Pilot Operation"
-* xref:index.adoc[Pilot Operation]
+* xref:index.adoc[Pilot Operation];
 
  Module "Technical Specification (TS)"
    
-* xref:index.adoc[Technical Specification (TS)]
-* xref:architecture.adoc[System Architecture]
-* xref:requirements.adoc[System Requirements]
+* xref:index.adoc[Technical Specification (TS)];
+* xref:architecture.adoc[System Architecture];
+* xref:requirements.adoc[System Requirements].
 ----
 
 Features:
 
-* Uses file names for forming lists and navigation
-* Creates module and page hierarchy
-* Uses Russian component names
-* Special module order for some components
+* Uses file names for forming lists and navigation;
+* Creates module and page hierarchy;
+* Uses Russian component names;
+* Special module order for some components;
 
 === list-pdf-component.adoc  
 
@@ -124,10 +124,10 @@ Contains list of available PDF files for download:
 
 Features:
 
-* Format: attachment$file.pdf[name] (without xref prefix)
-* Extracts title from PDF metadata (Title)
-* Always created (empty if no PDF files)
-* Compatible with ROOT:attachment$ Antora mechanism
+* Format: attachment$file.pdf[name] (without xref prefix);
+* Extracts title from PDF metadata (Title);
+* Always created (empty if no PDF files);
+* Compatible with ROOT:attachment$ Antora mechanism;
 
 === Automatic Navigation Update
 
@@ -141,9 +141,9 @@ The system automatically adds to nav.adoc:
 
 Logic:
 
-* Checks existing include
-* Removes old includes for lists
-* Adds new one with correct path relative to dst
+* Checks existing include;
+* Removes old includes for lists;
+* Adds new one with correct path relative to dst;
 
 === Dynamic Paths
 
@@ -158,8 +158,8 @@ Paths are included automatically depending on dst setting:
 
 Calculation:
 
-* Relative part from ROOT module is extracted
-* Used for correct include path
+* Relative part from ROOT module is extracted;
+* Used for correct include path;
 
 == File Naming Conventions
 
@@ -171,13 +171,13 @@ Examples of correct naming:
 
 * Local_Kroki_and_Postgres_Launch.adoc;
 * Approval_Sheet_System.adoc;
-* Config_YML_Setup.adoc.
+* Config_YML_Setup.adoc;
 
 Reasons for recommendation:
 
 * Compatibility with file systems in various operating systems;
 * Preventing encoding issues in CI/CD systems;
-* Simplifying file work in Linux/Unix command line.
+* Simplifying file work in Linux/Unix command line;
 
 === Spaces in File Names
 
@@ -187,13 +187,13 @@ Examples of correct naming:
 
 * Local_Kroki_and_Postgres_Launch.adoc (with underscores);
 * Approval-Sheet-System.adoc (with hyphens);
-* Config_YML_Setup.adoc (mixed style).
+* Config_YML_Setup.adoc (mixed style);
 
 Examples of incorrect naming:
 
 * Local Kroki and Postgres Launch.adoc (with spaces);
 * Approval Sheet System.adoc (with spaces);
-* Config YML Setup.adoc (with spaces).
+* Config YML Setup.adoc (with spaces);
 
 Reasons for prohibiting spaces:
 
@@ -201,7 +201,7 @@ Reasons for prohibiting spaces:
 * URL issues – spaces in file names create problems when generating links;
 * CI/CD systems – many build systems poorly handle spaces in paths;
 * Cross-platform compatibility – some file systems have limitations on spaces;
-* Automation – scripts and tools work more reliably without spaces.
+* Automation – scripts and tools work more reliably without spaces;
 
 Display in documents:
 
@@ -265,7 +265,7 @@ include::../partials/lists/list-pdf-component-table.adoc[]
 Work logic:
 
 * If PDF files exist → lists generated without attribute → sections displayed;
-* If no PDF files → list_pdf_file_is_empty attribute created → sections hidden.
+* If no PDF files → list_pdf_file_is_empty attribute created → sections hidden;
 
 This ensures clean interface without empty "Downloads" sections.
 
@@ -306,7 +306,7 @@ components:
 Some files are automatically excluded from lists:
 
 * index.adoc if doesn't contain level 1 header;
-* Files without headers displayed as processed file names.
+* Files without headers displayed as processed file names;
 
 === Module Order
 
@@ -351,7 +351,7 @@ Advantages:
 
 * Uses existing PDF titles;
 * Fallback to file name if title absent;
-* Error handling for reading.
+* Error handling for reading;
 
 == CI/CD Compatibility
 
@@ -373,7 +373,7 @@ script:
 
 * Created every time during build;
 * Updated when files change;
-* Don't require manual intervention.
+* Don't require manual intervention;
 
 == Diagnostic Logs
 

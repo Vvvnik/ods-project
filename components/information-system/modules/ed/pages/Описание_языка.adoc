@@ -23,7 +23,6 @@ include::../../ROOT/partials/attr_common.adoc[]
 // ramka: 4 – рамка документа
 :data_report: {localdate}
 :folder_number: {folder_number_contract}
-
 = {name_document_master}
 
 :sectnums:

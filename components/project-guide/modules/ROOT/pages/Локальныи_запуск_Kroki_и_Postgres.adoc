@@ -21,7 +21,7 @@ docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 В проекте используется переменная `KROKI_SERVER_URL` для указания адреса Kroki сервера:
 
 * Локально: `http://localhost:8000`;
-* В CI: `http://kroki:8000`.
+* В CI: `http://kroki:8000`;
 
 === Конфигурация Antora
 
@@ -62,7 +62,7 @@ docker run --rm -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15
 * Хост: `localhost`;
 * Порт: `5432`;
 * Пользователь: `postgres`;
-* Пароль: `postgres`.
+* Пароль: `postgres`;
 
 == Docker Compose
 

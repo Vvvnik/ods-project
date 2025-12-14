@@ -70,7 +70,7 @@ include::../partials/attr_common.adoc[]
 
 [source,adoc]
 ----
-* xref:index.adoc[Мой новый проект]
+* xref:index.adoc[Мой новый проект].
 ----
 
 === Шаг 3: Настройка конфигурации
@@ -106,6 +106,68 @@ content:
       start_path: components/my-new-project
 ----
 
+==== Управление компонентами в antora-playbook.yml
+
+Для управления компонентами (включение/отключение/удаление) редактируйте секцию `content.sources` в файле `antora-playbook.yml`.
+
+=== Включение компонента
+
+Добавьте запись в секцию `sources`:
+
+[source,yaml]
+----
+content:
+  sources:
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/my-new-project
+----
+
+=== Отключение компонента
+
+Чтобы временно отключить компонент, закомментируйте соответствующую запись:
+
+[source,yaml]
+----
+content:
+  sources:
+    # - url: .
+    #   branches: HEAD
+    #   worktrees: true
+    #   start_path: components/old-component
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/my-new-project
+----
+
+Отключенный компонент не будет включен в сборку сайта документации.
+
+=== Удаление компонента
+
+Чтобы полностью удалить компонент:
+
+. Удалите запись из `antora-playbook.yml` (или закомментируйте);
+. При необходимости удалите компонент из `tools/config.yml` (если он там указан);
+. При необходимости удалите папку компонента из `components/`.
+
+[source,yaml]
+----
+content:
+  sources:
+    # Удаленная запись для old-component
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/my-new-project
+----
+
+:warning-caption: Внимание
+
+[WARNING]
+Удаление компонента из `antora-playbook.yml` не удаляет его файлы из папки `components/`. Для полного удаления нужно вручную удалить папку компонента.
+
 ==== Настройка UI и стилей
 
 Для настройки пользовательского интерфейса и стилей используйте секцию `ui` в `antora-playbook.yml`:
@@ -123,14 +185,14 @@ ui:
 
 * `bundle.url` – путь к основному UI bundle (архив с темами);
 * `bundle.snapshot: true` – использовать локальную версию без проверки обновлений;
-* `supplemental_files` – путь к дополнительным файлам стилей для кастомизации внешнего вида сайта.
+* `supplemental_files` – путь к дополнительным файлам стилей для кастомизации внешнего вида сайта;
 
 Файлы в `supplemental_files` переопределяют стили из основного bundle, позволяя настроить:
 
 * Цветовую схему сайта;
 * Шрифты и типографику;
 * Макет и отступы;
-* Дополнительные CSS стили.
+* Дополнительные CSS стили;
 
 === Шаг 4: Использование шаблонов
 
@@ -179,7 +241,7 @@ cp templates/templates_doc/modules/trd/pages/Частное_техническо
 * `original` – стандартная титульная страница;
 * `contract` – титульная страница для контрактов;
 * `original_frame` – титульная страница с рамками;
-* `none` – без титульной страницы.
+* `none` – без титульной страницы;
 
 Подробнее см. xref:Настроика_тем_страниц.adoc[Настройка тем страниц].
 
@@ -247,7 +309,7 @@ antora antora-playbook.yml
 * xref:Установка.adoc[Установка] – технологический стек и установка;
 * xref:Настроика_config_yml.adoc[Настройка config.yml] – конфигурация;
 * xref:Скрипт_start_rb.adoc[Скрипт start.rb] – автоматизация генерации;
-* xref:Настроика_тем_страниц.adoc[Настройка тем страниц] – оформление PDF.
+* xref:Настроика_тем_страниц.adoc[Настройка тем страниц] – оформление PDF;
 
 === Заключение
 

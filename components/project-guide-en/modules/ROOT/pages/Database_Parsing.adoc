@@ -58,7 +58,7 @@ To connect to the database, parameters from the pg_demo database profile are use
 * Graphviz - ERD diagram generation;
 * YAML - connection configuration;
 * AsciiDoc - output documentation format;
-* translations_one.rb - dictionary for translating DB fields to Russian.
+* translations_one.rb - dictionary for translating DB fields to Russian;
 
 The translations_one.rb file contains a dictionary for translating database fields from English to Russian and is used in the db_to_adoc.rb script for automatic translation of DB field names during documentation generation. If translation is missing from the dictionary, automatic field name format conversion is applied.
 
@@ -94,13 +94,14 @@ ruby tools/scripts/db_to_adoc.rb --host localhost --port 5432 --db demo_db --use
 ----
 
 Parameters:
-* `--host` - database host (default: localhost)
-* `--port` - database port (default: 5432)  
-* `--db` - database name (default: demo)
-* `--user` - database user (default: postgres)
-* `--pass` - database password (default: postgres)
-* `--out` - output directory (default: output)
-* `--images` - images directory (default: images/bd-images)
+
+* `--host` - database host (default: localhost);
+* `--port` - database port (default: 5432)  ;
+* `--db` - database name (default: demo);
+* `--user` - database user (default: postgres);
+* `--pass` - database password (default: postgres);
+* `--out` - output directory (default: output);
+* `--images` - images directory (default: images/bd-images);
 
 When launched through `tools/start.rb`, the `--out` and `--images` parameters are taken from `tools/config.yml` configuration (db section, `dst` and `images_dir` fields).
 
@@ -116,8 +117,8 @@ When launched through `tools/start.rb`, the `--out` and `--images` parameters ar
 * Only PostgreSQL is supported;
 * Database access is required to extract metadata;
 * Only basic ERD diagrams are generated;
-* Complex data types and indexes are not supported.
+* Complex data types and indexes are not supported;
 
 == Related Sections
 
-* xref:Working_with_LLM.adoc[Working with LLM] – automatic translations of DB attributes using language models
+* xref:Working_with_LLM.adoc[Working with LLM] – automatic translations of DB attributes using language models.

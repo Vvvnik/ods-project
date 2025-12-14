@@ -200,6 +200,12 @@ class ListGenerator
     begin
       content = File.read(file_path, encoding: 'UTF-8')
       
+      # Сначала извлекаем значение атрибута name_document_master
+      name_document_master = nil
+      if content.match(/^:name_document_master:\s*(.+)$/)
+        name_document_master = $1.strip
+      end
+      
       # Ищем заголовок первого уровня (= Title)
       # Ограничиваем поиск только первой строкой после =
       if content.match(/^= ([^\n\r]+)/)
@@ -210,6 +216,12 @@ class ListGenerator
         title = title.split('//').first.strip
         # Убираем лишние пробелы
         title = title.gsub(/\s+/, ' ').strip
+        
+        # Если заголовок содержит {name_document_master} и мы нашли значение атрибута, заменяем
+        if title == '{name_document_master}' && name_document_master
+          return name_document_master
+        end
+        
         return title
       end
       
@@ -392,9 +404,9 @@ class ListGenerator
       title = extract_pdf_title(pdf_file)
       page_count = extract_pdf_page_count(pdf_file)
       
-      # Формат: "^| {counter:num-list-t} | Название | Листов: Количество"
+      # Формат: "^| {counter:num-list-t} | xref:attachment$filename.pdf[title] | Листов: Количество"
       display_name = title && !title.empty? ? title : filename
-      lines << "^| {counter:num-list-t} | #{display_name} | Листов: #{page_count}"
+      lines << "^| {counter:num-list-t} | xref:attachment$#{filename}.pdf[#{display_name}] | Листов: #{page_count}"
       
       puts "📄 Обработан PDF для таблицы: #{filename} -> #{display_name} (#{page_count} листов)"
     end

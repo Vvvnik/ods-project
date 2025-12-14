@@ -54,33 +54,242 @@ docker-compose -f docker/docker-compose.yml run --rm site
 
 === Содержимое Docker образа
 
-* **Ruby 3.2** + gems: `asciidoctor`, `asciidoctor-pdf`, `asciidoctor-diagram`, `asciidoctor-kroki`, `prawn`, `pg`, `hexapdf`
-* **Node.js 20** + пакеты: `@antora/cli`, `@antora/site-generator`, `@antora/lunr-extension`, `puppeteer`, `xml2js`
-* **Системные зависимости**: build-essential, git, curl, fonts
+* **Ruby 3.2** + gems: `asciidoctor`, `asciidoctor-pdf`, `asciidoctor-diagram`, `asciidoctor-kroki`, `prawn`, `pg`, `hexapdf`;
+* **Node.js 20** + пакеты: `@antora/cli`, `@antora/site-generator`, `@antora/lunr-extension`, `puppeteer`, `xml2js`;
+* **Системные зависимости**: build-essential, git, curl, fonts;
 
 == Локальная установка
 
-=== Windows
+=== Требования к версиям
 
-* Установите Git, Node.js (LTS), Ruby, Graphviz;
-* Установите Java (для PlantUML при необходимости);
-* Установите Docker Desktop;
-* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
-* Node: npm install.
+* **Ruby**: 3.2 или выше;
+* **Node.js**: 20 или выше (LTS рекомендуется);
+* **Git**: любая актуальная версия;
 
-=== Linux
+=== Системные зависимости
 
-* Установите Git, Node.js (LTS), Ruby, Graphviz;
-* Установите Docker Engine и Docker Compose;
-* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
-* Node: npm install.
+Для компиляции Ruby gems требуются:
 
-=== macOS
+* **Linux**: `build-essential`, `libpq-dev` (для gem `pg`);
+* **macOS**: Xcode Command Line Tools (`xcode-select --install`);
+* **Windows**: Ruby DevKit или MSYS2;
 
-* Установите Homebrew;
-* brew install node ruby graphviz;
-* Установите Docker Desktop;
-* Ruby gems: gem install asciidoctor asciidoctor-pdf asciidoctor-kroki;
-* Node: npm install.
+=== Установка Ruby gems
+
+Полный список необходимых gems:
+
+[source,bash]
+----
+gem install asciidoctor asciidoctor-pdf asciidoctor-diagram asciidoctor-kroki rouge prawn hexapdf pg graphviz
+----
+
+Описание gems:
+
+* `asciidoctor` — процессор AsciiDoc;
+* `asciidoctor-pdf` — генерация PDF документов;
+* `asciidoctor-diagram` — поддержка диаграмм;
+* `asciidoctor-kroki` — интеграция с Kroki;
+* `rouge` — подсветка синтаксиса;
+* `prawn` — библиотека для PDF;
+* `hexapdf` — работа с PDF файлами;
+* `pg` — драйвер PostgreSQL;
+* `graphviz` — генерация ERD диаграмм;
+
+=== Установка Node.js пакетов
+
+[source,bash]
+----
+npm install
+----
+
+Это установит все зависимости из `package.json`:
+
+* `@antora/cli` — CLI для Antora;
+* `@antora/lunr-extension` — поиск по документации;
+* `asciidoctor-kroki` — интеграция Kroki;
+* `asciidoctor-plantuml` — поддержка PlantUML;
+* `puppeteer` — для генерации BPMN диаграмм;
+* `xml2js` — парсинг Draw.io файлов;
+* `opal` — выполнение Ruby кода;
+
+=== Установка по платформам
+
+==== Windows
+
+[source,powershell]
+----
+# 1. Установка Git
+# Скачайте с https://git-scm.com/download/win
+# Или через Chocolatey:
+choco install git
+
+# 2. Установка Node.js 20+ (LTS)
+# Скачайте с https://nodejs.org/
+# Или через Chocolatey:
+choco install nodejs-lts
+
+# 3. Установка Ruby 3.2+
+# Скачайте с https://rubyinstaller.org/downloads/
+# Выберите Ruby+Devkit 3.2.x (x64)
+# Или через Chocolatey:
+choco install ruby
+
+# 4. Установка Graphviz
+# Скачайте с https://graphviz.org/download/
+# Или через Chocolatey:
+choco install graphviz
+
+# 5. Установка Java (для PlantUML, опционально)
+# Скачайте с https://adoptium.net/
+# Или через Chocolatey:
+choco install temurin
+
+# 6. Установка PostgreSQL (опционально, для документации БД)
+# Скачайте с https://www.postgresql.org/download/windows/
+# Или через Chocolatey:
+choco install postgresql
+
+# 7. Установка Docker Desktop
+# Скачайте с https://www.docker.com/products/docker-desktop
+# Или через Chocolatey:
+choco install docker-desktop
+
+# 8. Установка gems и npm пакетов (см. выше)
+----
+
+:tip-caption: Примечание
+
+[TIP]
+Для Windows рекомендуется использовать RubyInstaller с DevKit, который включает все необходимые инструменты для компиляции gems.
+
+==== Linux
+
+[source,bash]
+----
+# Установка системных зависимостей
+sudo apt-get update
+sudo apt-get install -y build-essential libpq-dev git curl wget
+
+# Установка Node.js 20
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Установка Ruby 3.2+ (через rbenv)
+# Установка rbenv
+curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+
+# Установка Ruby 3.2
+rbenv install 3.2.0
+rbenv global 3.2.0
+
+# Альтернатива: через rvm
+# curl -sSL https://get.rvm.io | bash -s stable
+# source ~/.rvm/scripts/rvm
+# rvm install 3.2
+# rvm use 3.2 --default
+
+# Установка Graphviz
+sudo apt-get install -y graphviz
+
+# Установка Java (для PlantUML, опционально)
+sudo apt-get install -y default-jdk
+
+# Установка PostgreSQL (опционально, для документации БД)
+sudo apt-get install -y postgresql postgresql-contrib
+
+# Установка Docker Engine и Docker Compose
+# См. https://docs.docker.com/engine/install/
+
+# Установка gems и npm пакетов (см. выше)
+----
+
+==== macOS
+
+[source,bash]
+----
+# Установка Homebrew (если еще не установлен)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Установка Xcode Command Line Tools (обязательно сначала!)
+xcode-select --install
+
+# Установка зависимостей
+brew install node@20 ruby@3.2 graphviz
+
+# Настройка Ruby (если установлен через Homebrew)
+echo 'export PATH="/opt/homebrew/opt/ruby@3.2/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/opt/homebrew/opt/ruby@3.2/bin:$PATH"' >> ~/.bash_profile
+source ~/.zshrc  # или source ~/.bash_profile
+
+# Установка Java (для PlantUML, опционально)
+brew install --cask temurin
+
+# Установка PostgreSQL (опционально, для документации БД)
+brew install postgresql@14
+brew services start postgresql@14
+
+# Установка Docker Desktop
+# Скачайте с https://www.docker.com/products/docker-desktop
+# или через Homebrew:
+brew install --cask docker
+
+# Установка gems и npm пакетов (см. выше)
+----
+
+=== Установка Ollama (опционально)
+
+Для работы с LLM переводами требуется Ollama. Подробнее см. xref:Работа_с_LLM.adoc[Работа с LLM].
+
+[source,bash]
+----
+# Установка Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Запуск сервера
+ollama serve &
+
+# Установка модели (рекомендуется)
+ollama pull gemma:latest
+----
+
+=== Проверка установки
+
+После установки всех зависимостей проверьте, что все работает:
+
+[source,bash]
+----
+# Проверка версий
+ruby -v          # Должно быть 3.2 или выше
+node -v          # Должно быть 20 или выше
+npm -v           # Должна быть актуальная версия
+git --version    # Любая актуальная версия
+
+# Проверка Ruby gems
+gem list | grep asciidoctor    # Должны быть установлены все gems
+gem list | grep prawn
+gem list | grep hexapdf
+gem list | grep pg
+
+# Проверка Node.js пакетов
+npm list --depth=0              # Должны быть установлены все пакеты
+
+# Проверка системных инструментов
+graphviz --version              # Для ERD диаграмм
+java -version                   # Для PlantUML (если установлен)
+docker --version                # Для Docker
+postgresql --version            # Для БД (если установлен)
+
+# Проверка Asciidoctor
+asciidoctor -v
+asciidoctor-pdf -v
+
+# Проверка Antora
+antora -v                       # Или npx antora --version
+----
+
+Если все команды выполняются без ошибок, установка прошла успешно.
 
 include::../partials/prereqs.adoc[]

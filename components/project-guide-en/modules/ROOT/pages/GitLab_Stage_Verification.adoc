@@ -19,7 +19,7 @@ Combined PDF and documentation site build:
 
 **Services:**
 
-* Kroki server: `registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`
+* Kroki server: `registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`;
 
 **Script:**
 
@@ -32,10 +32,10 @@ Combined PDF and documentation site build:
 
 **Launch conditions:**
 
-* On `main` branch
-* When technical files change (`tools/**`, `.gitlab-ci.yml`, `modules/**`, `antora-playbook.yml`, `components/*/antora.yml`, `resources/**`)
-* When `antora-*.yml` files change
-* Or when previous stages complete successfully
+* On `main` branch;
+* When technical files change (`tools/**`, `.gitlab-ci.yml`, `modules/**`, `antora-playbook.yml`, `components/*/antora.yml`, `resources/**`);
+* When `antora-*.yml` files change;
+* Or when previous stages complete successfully;
 
 === pages Stage
 
@@ -49,9 +49,9 @@ Site publication on GitLab Pages:
 
 **Launch conditions:**
 
-* On `main` branch
-* When technical files change
-* Or when previous stages complete successfully
+* On `main` branch;
+* When technical files change;
+* Or when previous stages complete successfully;
 
 == Release Stages
 
@@ -96,14 +96,14 @@ GitLab Release creation:
 
 === Environment Variables
 
-* `KROKI_SERVER_URL: "http://kroki:8000"` - Kroki server URL in CI
-* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` - Kroki image
-* `TECHNICAL_FILES` - technical files affecting build
+* `KROKI_SERVER_URL: "http://kroki:8000"` - Kroki server URL in CI;
+* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` - Kroki image;
+* `TECHNICAL_FILES` - technical files affecting build;
 
 === Caching
 
-* `node_modules/` and `.npm/` cached by key `${CI_COMMIT_REF_SLUG}`
-* Speeds up repeated builds
+* `node_modules/` and `.npm/` cached by key `${CI_COMMIT_REF_SLUG}`;
+* Speeds up repeated builds;
 
 == Troubleshooting
 
@@ -111,7 +111,7 @@ In case of errors or incorrect operation of stages, refer to the section xref:Ed
 
 === Common Issues
 
-* **Kroki errors** - check Kroki service availability
-* **PDF generation errors** - check configuration in `tools/config.yml`
-* **Antora errors** - check `antora-playbook.yml` and Node.js dependencies
-* **Artifact issues** - check access rights and file sizes
+* **Kroki errors** - check Kroki service availability;
+* **PDF generation errors** - check configuration in `tools/config.yml`;
+* **Antora errors** - check `antora-playbook.yml` and Node.js dependencies;
+* **Artifact issues** - check access rights and file sizes.

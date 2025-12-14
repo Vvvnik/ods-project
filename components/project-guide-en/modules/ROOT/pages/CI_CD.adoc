@@ -48,10 +48,10 @@ Build stage descriptions are shown in <<id_t_{num_t}, Table {num_t}>>.
 
 The following variables are used in CI/CD:
 
-* `KROKI_SERVER_URL: "http://kroki:8000"` – Kroki service URL for diagram generation
-* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` – Kroki service image
-* `GIT_DEPTH: "20"` – Git repository cloning depth
-* `TECHNICAL_FILES` – pattern of files affecting content generation
+* `KROKI_SERVER_URL: "http://kroki:8000"` – Kroki service URL for diagram generation;
+* `KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"` – Kroki service image;
+* `GIT_DEPTH: "20"` – Git repository cloning depth;
+* `TECHNICAL_FILES` – pattern of files affecting content generation;
 
 == Detailed Stage Descriptions
 
@@ -120,17 +120,17 @@ Official release creation stage:
 == Dependencies
 Dependencies between build stages:
 
-* pages depends on build_all
-* prepare_release_notes executes only when creating tags
-* release depends on prepare_release_notes
+* pages depends on build_all;
+* prepare_release_notes executes only when creating tags;
+* release depends on prepare_release_notes;
 
 == Change Tracking
 Add to changes:
 
-* tools/ – generation scripts and configuration
-* components/*/modules/ – documentation content
-* antora-playbook.yml – site build settings
-* resources/ – PDF themes and fonts
+* tools/ – generation scripts and configuration;
+* components/*/modules/ – documentation content;
+* antora-playbook.yml – site build settings;
+* resources/ – PDF themes and fonts;
 
 == Working with Media Files in GitLab Package Registry
 
@@ -149,11 +149,11 @@ curl --header "PRIVATE-TOKEN: <your_token>" \
 
 **Parameters:**
 
-* `PRIVATE-TOKEN` – GitLab personal access token (created in Settings → Access Tokens)
-* `project_id` – Project ID (found in Settings → General, or use `namespace%2Fproject-name`)
-* `videos` – Package name (you can use any name)
-* `<version>` – Package version (e.g., `1.0.0`)
-* `<filename>` – File name to upload
+* `PRIVATE-TOKEN` – GitLab personal access token (created in Settings → Access Tokens);
+* `project_id` – Project ID (found in Settings → General, or use `namespace%2Fproject-name`);
+* `videos` – Package name (you can use any name);
+* `<version>` – Package version (e.g., `1.0.0`);
+* `<filename>` – File name to upload;
 
 **Example:**
 
@@ -187,8 +187,8 @@ Download the link:https://gitlab.com/vvvnik/ods-project/-/package_files/25385666
 
 **Parameters:**
 
-* `width=100%` – Video width (can be specified in pixels or percentages)
-* Download link – Used for direct link to the file
+* `width=100%` – Video width (can be specified in pixels or percentages);
+* Download link – Used for direct link to the file;
 
 :warning-caption: Important
 

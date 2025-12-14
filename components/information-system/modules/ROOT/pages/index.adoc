@@ -114,20 +114,21 @@ toc::[]
 ifndef::list_pdf_file_is_empty[]
 
 == Сформированные PDF файлы
+В компоненте формируются следующие PDF файлы:
+
+include::../partials/lists/list-pdf-component.adoc[]
 
 :num_t: {counter:table-number}
-Список PDF файлов приведен в <<id_t_{num_t}, Таблице {num_t}>>.
+Информация о количестве листов в PDF файлах приведена в <<id_t_{num_t}, Таблице {num_t}>>.
 
 [#id_t_{num_t}]
-.Таблица {num_t}. Список PDF файлов
+.Таблица {num_t}. Информация о количестве листов документов
 [cols="1, 5, 2 ", options="header, breakable"]
 |===
 ^| № п/п ^| Название ^| Количество 
 include::../partials/lists/list-pdf-component-table.adoc[]
 |===
 :num-list-t!:
-
-include::../partials/lists/list-pdf-component.adoc[]
 
 // окончание блока сформированных PDF файлов
 endif::[]

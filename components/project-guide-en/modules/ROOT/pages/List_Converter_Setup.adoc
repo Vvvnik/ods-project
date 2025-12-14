@@ -10,7 +10,7 @@ The system allows selecting various list numbering styles in PDF documents throu
 Additionally, the system automatically selects appropriate PDF theme:
 
 * Frame theme – for documents with frames (page types with _frame suffix);
-* Report theme – for regular documents.
+* Report theme – for regular documents;
 
 This ensures optimal document styling considering their type.
 
@@ -146,7 +146,7 @@ Advantages of separate file:
 * Better configuration organization;
 * Simplification of main config_type_page.yml file;
 * Possibility to version list converters separately;
-* Convenience for team work.
+* Convenience for team work;
 
 Connection in main converter:
 [source,ruby]
@@ -213,19 +213,19 @@ end
 
 Each module overrides the following methods:
 
-* convert_ulist(node)::
+* convert_ulist(node)::;
 
 Processing unordered lists.
 
-* convert_olist(node)::
+* convert_olist(node)::;
 
 Processing ordered lists with marker selection.
 
-* convert_list(node)::
+* convert_list(node)::;
 
 General list processing logic.
 
-* convert_list_item(node, list, opts)::
+* convert_list_item(node, list, opts)::;
 
 Forming markers for list items.
 
@@ -281,7 +281,7 @@ The system is fully compatible with existing documents. Documents without :custo
 
 * For GOST technical documents, dash is recommended;
 * For simple lists, alphabetic is suitable;
-* Styles can be switched between documents in one project.
+* Styles can be switched between documents in one project;
 
 == Converter System Extension
 
@@ -425,7 +425,7 @@ Academic works:
 * Naming: use descriptive module names (ConvertListGost, ConvertListLegal);
 * Documentation: add comments describing numbering logic;
 * Testing: check work on different nesting levels;
-* Compatibility: ensure converter works with existing documents.
+* Compatibility: ensure converter works with existing documents;
 
 == Working with Attributes in Converters
 
@@ -489,7 +489,7 @@ Advantage: reads attributes after processing all include:: files.
 // include::../../ROOT/partials/contract.adoc[]
 ----
 
-Result: converters can read :pdf-theme:, :custom_other_page:, :name_document_master:.
+Result: converters can read :pdf-theme:, :custom_other_page:, :name_document_master.
 
 ==== Example 2: Attributes in Include File
 
@@ -513,7 +513,7 @@ Result: converters CANNOT read :year: and :signer_1_name: when using method 1.
 
 * For converters: use only attributes defined in main document file;
 * For include files: use attributes only for substitution in document text;
-* For complex logic: use method 2 (through document object) in special generators.
+* For complex logic: use method 2 (through document object) in special generators;
 
 === Workarounds
 
@@ -521,7 +521,7 @@ If converter needs attributes from include files:
 
 * Duplicate attributes in main file;
 * Use generators (like approval_page_generator.rb) instead of converters;
-* Pre-process files to extract attributes.
+* Pre-process files to extract attributes;
 
 == Support
 

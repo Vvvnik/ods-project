@@ -44,10 +44,15 @@ ODS доступен под двойной моделью лицензирова
 | Open-source | Документация по ГОСТ для открытого проекта |
 | Commercial | Генерация PDF-документации для внутреннего корпоративного продукта |
 
-Для получения коммерческой лицензии и поддержки — свяжитесь с нами:
-📧 **support@ods.dev**  
-🌐 **GitLab:** [https://gitlab.com/ods-project](https://gitlab.com/ods-project)  
-💬 Telegram: [@ods_support](https://t.me/ods_support)
+## 📬 Contacts
+
+Для вопросов коммерческой лицензии, внедрения и поддержки ODS:
+
+- 📧 **Email:** vvv-nik@mail.ru  
+- 💬 **Telegram:** @VladimirNikTelegram  
+- 🌐 **Project repository:** https://gitlab.com/vvvnik/ods-project
+
+Мы стараемся отвечать в разумные сроки и открыты к обсуждению индивидуальных форм сотрудничества.
 
 ---
 

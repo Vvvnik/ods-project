@@ -28,7 +28,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * public/ – сгенерированный сайт документации (Antora);
 * .gitlab-ci.yml – конфигурация CI/CD;
 * antora-playbook.yml – конфигурация Antora;
-* .gitignore – исключения для Git.
+* .gitignore – исключения для Git;
 
 == Папка components/
 
@@ -74,7 +74,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * data-processing-engine – движок обработки данных;
 * information-system – информационная система;
 * toys-service – сервис игрушек;
-* project-guide – руководство по проекту.
+* project-guide – руководство по проекту;
 
 == Папка docker/
 
@@ -86,13 +86,13 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * docker-compose.yml – конфигурация для локальной разработки;
 * build-images.sh – скрипт сборки универсального образа;
 * build-kroki.sh – скрипт сборки Kroki образа;
-* README.md – документация по Docker.
+* README.md – документация по Docker;
 
 === Назначение
 
 * Контейнеризация всех инструментов генерации;
 * Упрощение развертывания и разработки;
-* Готовые образы для CI/CD.
+* Готовые образы для CI/CD;
 
 == Папка templates/
 
@@ -107,7 +107,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
   ** drawio/ – примеры Draw.io диаграмм (диаграммы классов);
 * glossary/ – шаблон глоссария;
 * snippets/ – сниппеты кода для редакторов;
-* templates_doc/ – шаблоны документов.
+* templates_doc/ – шаблоны документов;
 
 == Папка public/
 
@@ -118,7 +118,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * _/ – статические ресурсы (CSS, JS, изображения);
 * {component}/ – страницы каждого компонента;
 * index.html – главная страница;
-* search-index.js – индекс для поиска.
+* search-index.js – индекс для поиска;
 
 == Папка tools/
 
@@ -126,7 +126,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 
 === Основной скрипт
 
-* start.rb – главный скрипт, координирующий всю генерацию.
+* start.rb – главный скрипт, координирующий всю генерацию;
 
 === Скрипты генерации (scripts/)
 
@@ -137,7 +137,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * openapi-swagger-adoc.rb – конвертер API в AsciiDoc;
 * generate_lists.rb – генератор списков файлов;
 * translations_one.rb – переводы;
-* viewer.html – просмотрщик.
+* viewer.html – просмотрщик;
 
 === Библиотеки (lib/)
 
@@ -189,6 +189,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 
 === Структура
 
+* ui-bundle/ ––исходные стили Antora, которые упакованы в ui-bundle.zip инструментами Antora;
 * ui-bundle.zip ––основной UI bundle (архив с темами Antora);
 * ui-bundle-style/ ––дополнительные файлы стилей для кастомизации;
 ** css/ ––кастомные CSS стили;
@@ -198,6 +199,8 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 ** layouts/ ––шаблоны макетов;
 ** partials/ ––частичные шаблоны.
 
+Более подробную информацию смотри в https://docs.antora.org/antora/latest/[Antora Documentation].
+
 === Назначение
 
 Папка `ui-files/` используется для:
@@ -205,12 +208,12 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * Настройки внешнего вида сайта документации;
 * Переопределения стандартных стилей Antora;
 * Добавления кастомных элементов интерфейса;
-* Настройки цветовой схемы и типографики.
+* Настройки цветовой схемы и типографики;
 
 Конфигурация UI происходит через секцию `ui` в `antora-playbook.yml`:
 
 * `bundle.url` – ссылка на основной UI bundle;
-* `supplemental_files` – путь к дополнительным файлам стилей.
+* `supplemental_files` – путь к дополнительным файлам стилей;
 
 == Файлы конфигурации
 
@@ -246,7 +249,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * Генерация API документации;
 * Генерация БД документации;
 * Генерация PDF документов;
-* Генерация списков файлов.
+* Генерация списков файлов;
 
 === Условная логика
 
@@ -254,7 +257,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 ** В CI отключается генерация диаграмм;
 ** В CI отключается генерация API;
 ** В CI отключается генерация БД;
-* Локально работает полная генерация.
+* Локально работает полная генерация;
 
 == Конфигурация config.yml
 
@@ -307,7 +310,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 
 * Каждый компонент наследует настройки из defaults;
 * Можно переопределить любые параметры;
-* Порядок секций не важен.
+* Порядок секций не важен;
 
 == Модульная архитектура конвертеров
 
@@ -323,17 +326,17 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * convert_title_page_original.rb – стандартная титульная;
 * convert_title_page_contract.rb – для контрактов;
 * convert_title_page_original_frame.rb – с рамками;
-* convert_approval_page_gost.rb – лист утверждения ГОСТ.
+* convert_approval_page_gost.rb – лист утверждения ГОСТ;
 
 === Модули обычных страниц
 
 * convert_other_page_original.rb – с полными рамками;
-* convert_other_page_original_frame.rb – с рамками и приставкой.
+* convert_other_page_original_frame.rb – с рамками и приставкой;
 
 === Модули списков
 
 * convert_list_alphabetic.rb – стиль alphabetic;
-* convert_list_dash.rb – стиль dash.
+* convert_list_dash.rb – стиль dash;
 
 == Автоматическая генерация
 
@@ -342,39 +345,39 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * Генерируются автоматически;
 * Создаются в modules/ROOT/partials/lists/;
 * Обновляются при каждой сборке;
-* Содержат навигацию по документам.
+* Содержат навигацию по документам;
 
 === PDF документы
 
 * Генерируются из .adoc файлов;
 * Сохраняются в modules/ROOT/attachments/;
 * Используют настроенные темы;
-* Поддерживают титульные страницы.
+* Поддерживают титульные страницы;
 
 === Диаграммы
 
 * BPMN конвертируются в SVG через Puppeteer;
 * Draw.io конвертируются в SVG через Desktop приложение;
 * PlantUML обрабатываются через Kroki;
-* Сохраняются в соответствующих папках images/.
+* Сохраняются в соответствующих папках images/;
 
 == Потоки данных
 
 === Генерация диаграмм
 
-* Исходники в examples/ → скрипты конвертации → изображения в images/.
+* Исходники в examples/ → скрипты конвертации → изображения в images/;
 
 === Генерация документации
 
-* Исходники БД/API → скрипты конвертации → частичные файлы в partials/.
+* Исходники БД/API → скрипты конвертации → частичные файлы в partials/;
 
 === Генерация PDF
 
-* AsciiDoc файлы в pages/ → универсальный конвертер → PDF файлы в attachments/.
+* AsciiDoc файлы в pages/ → универсальный конвертер → PDF файлы в attachments/;
 
 === Генерация списков
 
-* Сканирование файлов → генератор списков → частичные файлы в partials/lists/.
+* Сканирование файлов → генератор списков → частичные файлы в partials/lists/;
 
 == Цветовая схема диаграммы
 
@@ -382,4 +385,4 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * Фиолетовый – скрипты генерации;
 * Зеленый – библиотеки и модули;
 * Оранжевый – ресурсы (темы, шрифты);
-* Розовый – компоненты документации.
+* Розовый – компоненты документации;

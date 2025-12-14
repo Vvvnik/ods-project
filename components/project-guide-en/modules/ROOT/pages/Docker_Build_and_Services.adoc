@@ -11,7 +11,7 @@ include::../partials/attr_common.adoc[]
 * **Universal Image**: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1:
 ** Contains Ruby 3.2 + Node.js 20 + Asciidoctor + Antora + all necessary packages;
 ** Used in CI for PDF and site builds;
-** Built from `docker/Dockerfile.universal`.
+** Built from `docker/Dockerfile.universal`;
 * **Kroki Service**: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0:
 ** Separate container for diagram rendering;
 ** Connected as service in CI;
@@ -74,12 +74,12 @@ docker/
 The project uses a **universal approach** with one main image:
 
 * **ruby-node-antora:1** – main image for all build operations;
-* **kroki:0.28.0** – service for diagrams (PlantUML, Mermaid, Graphviz).
+* **kroki:0.28.0** – service for diagrams (PlantUML, Mermaid, Graphviz);
 
 This provides:
 
 * Fast builds (one image instead of two);
 * Reliability (all dependencies in one place);
-* Easy maintenance (fewer images to manage).
+* Easy maintenance (fewer images to manage);
 
 include::../partials/docker-compose-snippets.adoc[]

@@ -17,18 +17,18 @@ Title pages (title_pages) – different title page styles:
 * contract – for contracts;
 * original_frame – with frames;
 * approval_page_gost – GOST approval sheet;
-* none – without title page.
+* none – without title page;
 
 Regular pages (other_pages) – page styling:
 
 * original – with full frames and headers/footers;
 * original_frame – with frames and prefix;
-* none – standard Asciidoctor.
+* none – standard Asciidoctor;
 
 Lists (list_types) – numbering styles:
 
 * alphabetic – level 2 dashes (–);
-* dash – level 2 letters (а б в).
+* dash – level 2 letters (а б в);
 
 === Work Principle
 
@@ -51,7 +51,7 @@ Standard title page with main blocks:
 * Component information;
 * Document version;
 * Page count;
-* Approval block.
+* Approval block;
 
 === Type "contract"
 
@@ -59,7 +59,7 @@ Title page for contracts with additional blocks:
 
 * All blocks from "original";
 * State contract block;
-* Two approval blocks (customer and executor).
+* Two approval blocks (customer and executor);
 
 === Type "original_frame"
 
@@ -67,7 +67,7 @@ Title page with frame and prefix:
 
 * All blocks from "original";
 * Main page frame with margins;
-* Left prefix with fields for signatures and inventory numbers.
+* Left prefix with fields for signatures and inventory numbers;
 
 === Type "none"
 
@@ -104,12 +104,12 @@ Parameters:
 
 * custom_title_page: title page type (original, contract, original_frame, none);
 * custom_other_page: regular page type (original, original_frame, contract, none);
-* use_title_pages: enable/disable title pages (true/false).
+* use_title_pages: enable/disable title pages (true/false);
 
 Title page and regular page types are configured independently:
 
 * :custom_title_page: – only for first page (title);
-* :custom_other_page: – for all other pages (from second onwards).
+* :custom_other_page: – for all other pages (from second onwards);
 
 :tip-caption: Note
 
@@ -166,6 +166,24 @@ approval_signature_block = TitlePageBlocks::SignatureBlock.new(
 )
 ----
 
+=== Page Count Block
+
+The `PageCountBlock` displays the total number of PDF document pages on the title page. Coordinates are set in title page modules (e.g., in `convert_title_page_original.rb`):
+
+[source,ruby]
+----
+page_count_block = TitlePageBlocks::PageCountBlock.new(
+  page_width, page_height,
+  left_position: 10.0,        # 10 cm from left edge
+  top_position: 14.0,         # 14 cm from top
+  width: 4.0,                 # 4 cm width
+  height: 1.0,                # 1 cm height
+  custom_font_size: 14        # font size
+)
+----
+
+If coordinates are not explicitly set, the block is automatically centered on the page.
+
 == Temporary Block Disabling
 
 To temporarily hide a block, comment out all its usages:
@@ -198,17 +216,17 @@ To add frames on title pages, use original_frame type:
 Frame settings:
 
 * frame_margin_top: top margin (default 5mm);
-* frame_margin_right: right margin (default 5mm);    
+* frame_margin_right: right margin (default 5mm);    ;
 * frame_margin_bottom: bottom margin (default 5mm);
 * frame_margin_left: left margin (default 20mm);
-* frame_line_width: line thickness (default 0.1mm).
+* frame_line_width: line thickness (default 0.1mm);
 
 === Frames on Regular Pages
 
 To add frames on regular pages, use :custom_other_page: attribute:
 
-* original * without frames
-* original_frame * with frame and prefix (like on title page)
+* original * without frames;
+* original_frame * with frame and prefix (like on title page);
 
 Important:
 
@@ -228,14 +246,14 @@ page:
 
 Current margins:
 
-* Report theme: [15mm, 7mm, 25mm, 20mm] (standard margins)
-* Frame theme: [10mm, 10mm, 30mm, 25mm] (increased margins for frames)
+* Report theme: [15mm, 7mm, 25mm, 20mm] (standard margins);
+* Frame theme: [10mm, 10mm, 30mm, 25mm] (increased margins for frames);
 
 If margin changes are needed:
 
-* Edit resources/themes/report-theme.yml for regular documents
-* Edit resources/themes/frame-theme.yml for documents with frames
-* Change margin value in page section
+* Edit resources/themes/report-theme.yml for regular documents;
+* Edit resources/themes/frame-theme.yml for documents with frames;
+* Change margin value in page section;
 
 Combination examples:
 
@@ -245,12 +263,12 @@ Combination examples:
 * All pages with frames: :custom_title_page: original_frame + :custom_other_page: original_frame → frame theme;
 * Contract without frames + regular with frames: :custom_title_page: contract + :custom_other_page: original_frame → frame theme;
 * Contract with frames + regular with frames: :custom_title_page: original_frame + :custom_other_page: original_frame → frame theme;
-* All pages without frames: :custom_title_page: original + :custom_other_page: original → report theme.
+* All pages without frames: :custom_title_page: original + :custom_other_page: original → report theme;
 
 Available types:
 
 * Title: original, contract, original_frame, approval_page_gost, none;
-* Regular: original, original_frame, contract, none.
+* Regular: original, original_frame, contract, none;
 
 == Standard AsciiDoc Behavior
 
@@ -258,13 +276,13 @@ When `custom_title_page: none` or attribute absent:
 
 * If document starts with = Title, AsciiDoc will create standard title page;
 * If document starts with == Title, title page is not created;
-* For complete disable use `:notitle:` attribute
+* For complete disable use `:notitle:` attribute;
 
 == Configuration Files
 
 * tools/config_type_page.yml * links page types with modules;
 * tools/lib/convert_title_page_*.rb * title page modules;
-* tools/lib/title_page_blocks.rb * base block classes.
+* tools/lib/title_page_blocks.rb * base block classes;
 
 === Page Type Configuration
 
@@ -276,19 +294,19 @@ Title pages:
 * contract → convert_title_page_contract;
 * original_frame → convert_title_page_original_frame;
 * approval_page_gost → convert_approval_page_gost;
-* none → disabled.
+* none → disabled;
 
 Regular pages:
 
 * original → convert_other_page_original;
 * original_frame → convert_other_page_original_frame;
 * contract → convert_other_page_contract;
-* none → disabled.
+* none → disabled;
 
 Title page and regular page types are configured independently through different attributes:
 
 * :custom_title_page: * for title page;
-* :custom_other_page: * for regular pages.
+* :custom_other_page: * for regular pages;
 
 == Automatic PDF Theme Selection
 
@@ -298,7 +316,7 @@ The system automatically selects appropriate PDF theme depending on page type.
 
 * If document has :pdf-theme: act attribute → act theme is used;
 * If custom_other_page ends with _frame → frame theme is used;
-* In all other cases → report theme is used.
+* In all other cases → report theme is used;
 
 Examples:
 
@@ -317,7 +335,7 @@ The system uses three theme files:
 
 * resources/themes/act-theme.yml – theme for acts with numbering from first page;
 * resources/themes/report-theme.yml – main theme with standard margins;
-* resources/themes/frame-theme.yml – theme with increased margins for frames.
+* resources/themes/frame-theme.yml – theme with increased margins for frames;
 
 === Act Theme
 
@@ -337,7 +355,7 @@ Act theme features:
 
 * Inherits all settings from report-theme.yml;
 * Page numbering starts from first page (instead of second);
-* Suitable for acts, protocols and other documents where numbering from first page is needed.
+* Suitable for acts, protocols and other documents where numbering from first page is needed;
 
 === Frame Theme
 
@@ -359,7 +377,7 @@ Differences from report theme:
 
 * Increased margins for frame placement;
 * Preserves all fonts and styles;
-* Optimized for documents with frames.
+* Optimized for documents with frames;
 
 === Report Theme
 
@@ -383,6 +401,6 @@ To change margins, edit corresponding theme file:
 
 * resources/themes/act-theme.yml – for acts with numbering from first page;
 * resources/themes/frame-theme.yml – for documents with frames;
-* resources/themes/report-theme.yml – for regular documents.
+* resources/themes/report-theme.yml – for regular documents;
 
 Margin format: [top, right, bottom, left] in millimeters.

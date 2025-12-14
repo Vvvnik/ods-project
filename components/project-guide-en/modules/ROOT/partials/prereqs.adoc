@@ -13,14 +13,14 @@
 
 [source,bash]
 ----
-# Ruby dependencies
-gem install asciidoctor asciidoctor-pdf asciidoctor-kroki
+# Ruby dependencies (full list)
+gem install asciidoctor asciidoctor-pdf asciidoctor-diagram asciidoctor-kroki rouge prawn hexapdf pg graphviz
 
 # Node.js dependencies
 npm install
 
 # Additional dependencies for diagram rendering
-npm install puppeteer
+# (puppeteer is installed automatically via npm install)
 ----
 
 == Installing Diagram Rendering Tools

@@ -81,6 +81,7 @@ module ConvertTitlePageOriginal
     document_text = [
       doc.attr('name_component') || '',
       doc.attr('name_document_master') || '',
+      doc.attr('name_document_slave') || '',
       full_code
     ].reject(&:empty?).join("\n")
     
