@@ -28,8 +28,9 @@ include::../../ROOT/partials/attr_common.adoc[]
 :komissia: Комиссия
 
 // стиль текста из файла resources/themes/report-theme.yml если такой определен в файле tools/config.yml
-[.my-uppercase-title]
-{name1_dokument}
+// [.my-uppercase-title]
+[.text-center]
+*{name1_dokument}*
 
 // стиль текста из файла resources/themes/report-theme.yml если такой определен в файле tools/config.yml
 [.text-center]
