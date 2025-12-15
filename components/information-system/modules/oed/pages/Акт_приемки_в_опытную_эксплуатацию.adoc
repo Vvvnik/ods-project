@@ -3,7 +3,7 @@ include::../../ROOT/partials/attr_common.adoc[]
 :pdf-theme: act
 :custom_title_page: none
 :custom_other_page: none
-:custom_list_type: alphabetic
+:custom_list_type: dash
 :name_document_main: {name_component}
 // name1_dokument – название документа 1
 :name1_dokument: Акт
@@ -13,7 +13,7 @@ include::../../ROOT/partials/attr_common.adoc[]
 :page_all: 22
 // code – код документа
 :code: ABC.0001-01
-:code_document: АП
+:code_document: 
 :version: 4
 :data_report: {localdate}
 :plan:
@@ -53,7 +53,6 @@ include::../../ROOT/partials/attr_common.adoc[]
 
 {komissia} установила, что по результатам {type_test} испытаний {component_name} в целом соответствует требованиям {main_point_contract} Технического задания и документа «Частное техническое задание». 
 
-<<<<
 // стиль текста из файла resources/themes/report-theme.yml если такой определен в файле tools/config.yml
 [.my-bold-title]
 Решение

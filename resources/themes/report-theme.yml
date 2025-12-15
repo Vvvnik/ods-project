@@ -185,6 +185,8 @@ table:
   line-height: 1
   grid-color: 707070
   border-color: 707070
+  cell:
+    padding: [0.3mm, 1mm, 0.3mm, 1mm]
   caption:
     font-family: Times
     font-size: 12

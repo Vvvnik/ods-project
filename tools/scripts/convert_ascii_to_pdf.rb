@@ -31,6 +31,10 @@ class PDFConverterCustomTitlePage < (Asciidoctor::Converter.for 'pdf')
     
     # Загружаем нужные модули на основе конфигурации только если титульные страницы включены
     load_title_page_module if @use_title_pages
+    
+    # Загружаем модуль для обычных страниц
+    @custom_other_page = doc.attr('custom_other_page') || 'original'
+    load_other_page_module
   end
 
   def convert_document(doc)
@@ -40,6 +44,10 @@ class PDFConverterCustomTitlePage < (Asciidoctor::Converter.for 'pdf')
     
     # Загружаем модуль если еще не загружен и титульные страницы включены
     load_title_page_module if @title_page_module.nil? && @use_title_pages
+    
+    # Инициализируем атрибут обычных страниц если еще не инициализирован
+    @custom_other_page = doc.attr('custom_other_page') || 'original' if @custom_other_page.nil?
+    load_other_page_module if @other_page_module.nil?
     
     
     # Если это специальная титульная страница, обрабатываем документ без стандартной титульной страницы
@@ -82,6 +90,11 @@ class PDFConverterCustomTitlePage < (Asciidoctor::Converter.for 'pdf')
     
     # Автоматическая генерация листа утверждения если нужно
     generate_approval_page_if_needed(doc)
+    
+    # Рисуем рамки на обычных страницах
+    if @custom_other_page != 'none' && @use_title_pages
+      draw_page_all(doc)
+    end
   end
   
   # Переопределяем обработку секций для пропуска первого заголовка при кастомной титульной странице
@@ -144,6 +157,51 @@ class PDFConverterCustomTitlePage < (Asciidoctor::Converter.for 'pdf')
       @title_page_module = nil
     end
   end
+
+  def load_other_page_module
+    other_page_config = @page_config['other_pages'] || {}
+    module_name = other_page_config[@custom_other_page]
+    
+    if module_name && module_name != 'none'
+      begin
+        module_class = Object.const_get("#{module_name.split('_').map(&:capitalize).join}")
+        self.class.include(module_class)
+        @other_page_module = module_class
+      rescue NameError => e
+        puts "Предупреждение: Модуль #{module_name} не найден для типа #{@custom_other_page}: #{e.message}"
+        @other_page_module = nil
+      end
+    else
+      @other_page_module = nil
+    end
+  end
+
+  def draw_page_all(doc)
+    # Не рисуем рамки если титульные страницы отключены
+    return unless @use_title_pages
+    
+    # Сохраняем текущую страницу
+    current_page = page_number
+    
+    # Рисуем рамки на всех страницах кроме первой (титульной)
+    (2..page_count).each do |page_num|
+      go_to_page(page_num)
+      draw_full_page_border(doc)
+    end
+    
+    # Возвращаемся на исходную страницу
+    go_to_page(current_page)
+  end
+
+  def draw_full_page_border(doc)
+    # Вызываем метод модуля для рисования рамки только если конвертер найден
+    if @other_page_module == ConvertOtherPageOriginalFrame && doc
+      ink_other_page_original_frame(doc)
+    elsif @other_page_module == ConvertOtherPageOriginal && doc
+      ink_other_page_original(doc)
+    # Если конвертер не найден - не рисуем рамку вообще
+    end
+  end
   
 end
 
@@ -193,7 +251,7 @@ class PDFConverterWithFullPageBorder < (Asciidoctor::Converter.for 'pdf')
   private
   
   def load_other_page_module
-    other_page_config = @config['other_pages'] || {}
+    other_page_config = @page_config['other_pages'] || {}
     module_name = other_page_config[@custom_other_page]
     
     if module_name && module_name != 'none'

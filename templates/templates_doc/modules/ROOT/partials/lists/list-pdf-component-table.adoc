@@ -1,17 +1,17 @@
-^| {counter:num-list-t} | ed Ведомость эксплуатационных документов | Листов: 3
-^| {counter:num-list-t} | ed Ведомость эксплуатационных документов LU | Листов: 1
-^| {counter:num-list-t} | ed Описание программы | Листов: 6
-^| {counter:num-list-t} | ed Описание программы LU | Листов: 1
-^| {counter:num-list-t} | ed Описание языка | Листов: 4
-^| {counter:num-list-t} | ed Описание языка LU | Листов: 1
-^| {counter:num-list-t} | ed Спецификация | Листов: 3
-^| {counter:num-list-t} | ed Спецификация LU | Листов: 1
-^| {counter:num-list-t} | oed Акт приемки в опытную эксплуатацию | Листов: 2
-^| {counter:num-list-t} | oed Протокол опытнои эксплуатации | Листов: 3
-^| {counter:num-list-t} | trd Описание автоматизируемых функции | Листов: 7
-^| {counter:num-list-t} | trd Описание постановки задачи | Листов: 5
-^| {counter:num-list-t} | trd Описание постановки задачи LU | Листов: 1
-^| {counter:num-list-t} | trd Спецификация | Листов: 3
-^| {counter:num-list-t} | trd Спецификация LU | Листов: 1
-^| {counter:num-list-t} | trd Частное техническое задание | Листов: 8
-^| {counter:num-list-t} | trd Частное техническое задание LU | Листов: 1
+^| {counter:num-list-t} | xref:attachment$ed_Ведомость_эксплуатационных_документов.pdf[ed Ведомость эксплуатационных документов] | Листов: 3
+^| {counter:num-list-t} | xref:attachment$ed_Ведомость_эксплуатационных_документов_LU.pdf[ed Ведомость эксплуатационных документов LU] | Листов: 1
+^| {counter:num-list-t} | xref:attachment$ed_Описание_программы.pdf[ed Описание программы] | Листов: 6
+^| {counter:num-list-t} | xref:attachment$ed_Описание_программы_LU.pdf[ed Описание программы LU] | Листов: 1
+^| {counter:num-list-t} | xref:attachment$ed_Описание_языка.pdf[ed Описание языка] | Листов: 4
+^| {counter:num-list-t} | xref:attachment$ed_Описание_языка_LU.pdf[ed Описание языка LU] | Листов: 1
+^| {counter:num-list-t} | xref:attachment$ed_Спецификация.pdf[ed Спецификация] | Листов: 3
+^| {counter:num-list-t} | xref:attachment$ed_Спецификация_LU.pdf[ed Спецификация LU] | Листов: 1
+^| {counter:num-list-t} | xref:attachment$oed_Акт_приемки_в_опытную_эксплуатацию.pdf[oed Акт приемки в опытную эксплуатацию] | Листов: 1
+^| {counter:num-list-t} | xref:attachment$oed_Протокол_опытной_эксплуатации.pdf[oed Протокол опытной эксплуатации] | Листов: 3
+^| {counter:num-list-t} | xref:attachment$trd_Описание_автоматизируемых_функции.pdf[trd Описание автоматизируемых функции] | Листов: 7
+^| {counter:num-list-t} | xref:attachment$trd_Описание_постановки_задачи.pdf[trd Описание постановки задачи] | Листов: 5
+^| {counter:num-list-t} | xref:attachment$trd_Описание_постановки_задачи_LU.pdf[trd Описание постановки задачи LU] | Листов: 1
+^| {counter:num-list-t} | xref:attachment$trd_Спецификация.pdf[trd Спецификация] | Листов: 3
+^| {counter:num-list-t} | xref:attachment$trd_Спецификация_LU.pdf[trd Спецификация LU] | Листов: 1
+^| {counter:num-list-t} | xref:attachment$trd_Частное_техническое_задание.pdf[trd Частное техническое задание] | Листов: 8
+^| {counter:num-list-t} | xref:attachment$trd_Частное_техническое_задание_LU.pdf[trd Частное техническое задание LU] | Листов: 1
