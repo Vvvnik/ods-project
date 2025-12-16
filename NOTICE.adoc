@@ -1,29 +1,63 @@
 This project includes the following third-party software:
 
-- RubyGems (MIT License)
-  Copyright (c) Chad Fowler, Rich Kilmer, Jim Weirich and others
-  https://github.com/ruby/rubygems/blob/master/LICENSE.txt
-
-- Asciidoctor Project (MIT License)
-  Copyright (C) 2014-present OpenDevise Inc. and the Asciidoctor Project
-  https://github.com/asciidoctor/asciidoctor-pdf
+== Static site generation
 
 - Antora (Mozilla Public License Version 2.0)
   Copyright (c) 2017-present OpenDevise Inc. and the Antora Project Contributors
   https://gitlab.com/antora/antora/-/tree/main
 
-- Kroki (MIT License)
-  Copyright (c) 2020-present Kroki
-  https://github.com/yuzutech/kroki/tree/main
+- Antora Default UI (Mozilla Public License Version 2.0)
+  Copyright (c) 2017-present OpenDevise Inc. and the Antora Project Contributors
+  https://gitlab.com/antora/antora-ui-default
+
+- @antora/lunr-extension (Mozilla Public License Version 2.0)
+  Copyright (c) 2017-present OpenDevise Inc. and the Antora Project Contributors
+  https://gitlab.com/antora/antora-lunr-extension
+
+== Document conversion and processing
+
+- Asciidoctor Project (MIT License)
+  Copyright (C) 2014-present OpenDevise Inc. and the Asciidoctor Project
+  https://github.com/asciidoctor/asciidoctor-pdf
+
+- asciidoctor-diagram (MIT License)
+  Copyright (c) 2014 Pepijn Van Eeckhoudt
+  https://github.com/asciidoctor/asciidoctor-diagram
+
+- asciidoctor-kroki (MIT License)
+  Copyright (c) Asciidoctor Kroki contributors
+  https://github.com/asciidoctor/asciidoctor-kroki
+
+- asciidoctor-plantuml (MIT License)
+  Copyright (c) 2017-present Guillaume Grossetie
+  https://github.com/ggrossetie/asciidoctor-plantuml
+
+== PDF generation
 
 - Prawn (Dual License: GPL v2/v3 OR liberal terms)
   Copyright Gregory Brown and community contributions
   Used under liberal terms (not GPL)
   https://github.com/prawnpdf/prawn
 
+- HexaPDF (MIT License)
+  Copyright (c) 2015-2025 Thomas Leitner
+  https://github.com/gettalong/hexapdf
+
+== Diagram rendering and visualization
+
+- Kroki (MIT License)
+  Copyright (c) 2020-present Kroki
+  https://github.com/yuzutech/kroki/tree/main
+
 - Graphviz (Eclipse Public License 1.0)
   Copyright (c) 2000-2023 Graphviz Contributors
   https://github.com/ioquatix/graphviz
+
+== Runtime and build tooling (Ruby / Node.js)
+
+- RubyGems (MIT License)
+  Copyright (c) Chad Fowler, Rich Kilmer, Jim Weirich and others
+  https://github.com/ruby/rubygems/blob/master/LICENSE.txt
 
 - pg (BSD-2-Clause License)
   Copyright (c) 1997-2023 PostgreSQL Global Development Group
@@ -33,33 +67,38 @@ This project includes the following third-party software:
   Copyright (c) 2002-2004 Thomas Sondergaard
   https://github.com/rubyzip/rubyzip
 
-- xml2js (MIT License)
-  Copyright (c) 2010-2020 Maciej Urbański
-  https://github.com/Leonidas-from-XIV/node-xml2js
+- Opal (MIT License)
+  Copyright (c) 2013-2023 Elia Schito and contributors
+  https://github.com/opal/opal
 
 - Puppeteer (Apache License 2.0)
   Copyright (c) 2017 Google Inc.
   https://github.com/puppeteer/puppeteer
 
-- Opal (MIT License)
-  Copyright (c) 2013-2023 Elia Schito and contributors
-  https://github.com/opal/opal
+- xml2js (MIT License)
+  Copyright (c) 2010-2020 Maciej Urbański
+  https://github.com/Leonidas-from-XIV/node-xml2js
 
-- HexaPDF (MIT License)
-  Copyright (c) 2015-2025 Thomas Leitner
-  https://github.com/gettalong/hexapdf
+== UI assets
 
-- @antora/lunr-extension (Mozilla Public License Version 2.0)
-  Copyright (c) 2017-present OpenDevise Inc. and the Antora Project Contributors
-  https://gitlab.com/antora/antora-lunr-extension
+- highlight.js (BSD 3-Clause License)
+  Copyright (c) Highlight.js contributors
+  https://github.com/highlightjs/highlight.js
 
-- asciidoctor-plantuml (MIT License)
-  Copyright (c) 2017-present Guillaume Grossetie
-  https://github.com/ggrossetie/asciidoctor-plantuml
+- Octicons (MIT License)
+  Copyright (c) GitHub
+  https://github.com/primer/octicons
 
-- asciidoctor-diagram (MIT License)
-  Copyright (c) 2014 Pepijn Van Eeckhoudt
-  https://github.com/asciidoctor/asciidoctor-diagram
+== Fonts
+
+- Roboto font (Apache License 2.0)
+  Copyright (c) Google
+  https://github.com/googlefonts/roboto
+
+- Times New Roman font files
+  These font files may be subject to proprietary licensing. If you redistribute this repository or its artifacts, ensure you have the necessary rights to distribute these fonts.
+
+== Optional LLM tooling and models
 
 - Ollama (MIT License)
   Copyright (c) 2023-present Ollama AI Inc.

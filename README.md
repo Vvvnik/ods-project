@@ -13,24 +13,22 @@ ODS предназначен для:
 
 ODS — это открытый стандарт и инструменты для автоматизации технической документации в ИТ-проектах.
 
-## Быстрый старт
+Репозиторий реализации: **ODS-project** (`ods-project`) — [gitlab.com/vvvnik/ods-project](https://gitlab.com/vvvnik/ods-project).
+
+## Как читать документацию репозитория
+
+- **`README.md`** — краткий обзор и самый быстрый запуск.
+- **`readme.adoc`** — подробная инструкция по установке/сборке (Docker, генерация PDF/HTML, зависимости, ссылки).
+
+## Самый быстрый запуск (локально)
 
 ```bash
-# Установка зависимостей
-gem install asciidoctor asciidoctor-pdf asciidoctor-kroki
 npm install
-
-# Установка и запуск Ollama (для LLM переводов)
-curl -fsSL https://ollama.ai/install.sh | sh
-ollama serve &
-       ollama pull gemma:latest  # Рекомендуемая модель (5 GB)
-
-# Сборка документации (диаграммы, БД, API, PDF)
 ruby tools/start.rb
-
-# Сборка сайта документации (Antora)
-npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+npx antora antora-playbook.yml
 ```
+
+Подробно (включая Docker/LLM/Kroki и все зависимости): см. [readme.adoc](./readme.adoc).
 
 ## Два независимых процесса
 
@@ -39,21 +37,14 @@ npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.ym
 
 Процессы независимы. Конфигурация Antora не связана с конфигурацией сборки документации.
 
-## Требования к LLM
-
-Для автоматических переводов атрибутов базы данных требуется:
-
-- **Ollama** — локальный сервер для запуска LLM моделей
-       - **Рекомендуемая модель**: `gemma:latest` (5 GB) — лучший баланс качества и скорости
-       - **Самая быстрая**: `gemma3:4b` (3.3 GB) — оптимальная скорость и качество
-       - **Альтернативные модели**: `mistral:7b`, `qwen2.5:latest`, `gpt-oss:20b`
-- **Локальное использование** — LLM работает только на машине разработчика
-
-Подробнее см. [Работа с LLM](./components/project-guide/modules/ROOT/pages/Работа_с_LLM.adoc).
-
 ## Документация
 
-Подробная документация находится в файле [readme.adoc](./readme.adoc) и разделе: [Руководство по документированию](./components/project-guide/modules/ROOT/pages/index.adoc).
+Подробная документация находится в файле [readme.adoc](./readme.adoc).
+
+Полное руководство:
+
+- RU: [Руководство по документированию](./components/project-guide/modules/ROOT/pages/index.adoc)
+- EN: [Documentation Guide](./components/project-guide-en/modules/ROOT/pages/index.adoc)
 
 ## Лицензии
 

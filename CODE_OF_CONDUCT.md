@@ -34,8 +34,11 @@
 
 ## Контакты
 
-Если у вас есть вопросы или жалобы по поводу нарушения кодекса поведения, пожалуйста, свяжитесь с командой проекта через [Issues](https://gitlab.com/vvvnik/ods-project/-/issues) репозитория.
+Если у вас есть вопросы или жалобы по поводу нарушения кодекса поведения:
+
+- Напишите на email: [ods-project@mail.ru](mailto:ods-project@mail.ru) (тема письма: `Code of Conduct`).
+- Если вопрос не содержит чувствительной информации, можно также создать обращение через [Issues](https://gitlab.com/vvvnik/ods-project/-/issues).
 
 ## Атрибуция
 
-Этот Кодекс поведения основан на [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+Этот Кодекс поведения вдохновлён [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) (v2.1) и адаптирован под нужды проекта.

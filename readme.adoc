@@ -7,6 +7,13 @@
 :source-highlighter: rouge
 :imagesdir: .
 
+Краткий обзор проекта и самый быстрый запуск: link:README.md[README.md].
+
+Полное руководство:
+
+* RU: link:components/project-guide/modules/ROOT/pages/index.adoc[Руководство по документированию]
+* EN: link:components/project-guide-en/modules/ROOT/pages/index.adoc[Documentation Guide]
+
 == Быстрый старт
 
 ODS использует два независимых процесса:
