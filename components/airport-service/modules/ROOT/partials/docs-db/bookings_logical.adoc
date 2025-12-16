@@ -7,8 +7,8 @@
 [cols="2,4",options="header,breakable"]
 |===
 ^|Сущность ^|Описание
-|aircrafts_data |aircrafts_data
-|airports_data |airports_data
+|aircrafts_data |Данные о самолетах
+|airports_data |Данные о аэропортах
 |boarding_passes |Boarding passes
 |bookings |Bookings
 |flights |Flights

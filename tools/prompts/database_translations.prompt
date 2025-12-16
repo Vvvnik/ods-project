@@ -8,29 +8,41 @@
 <% if target_language == "русский" %>
 - Переведи каждое слово точно на русский
 - Замени подчеркивания на пробелы
-- Начинай с заглавной буквы
+- ВАЖНО: ВСЕГДА начинай перевод с ЗАГЛАВНОЙ буквы (первая буква должна быть заглавной)
+- ВАЖНО: Сохраняй число (единственное/множественное) - если оригинал в единственном числе (city, airport, user), то перевод тоже в единственном числе (Город, Аэропорт, Пользователь). Если оригинал во множественном числе (cities, airports, users), то перевод во множественном числе (Города, Аэропорты, Пользователи)
 - Отвечай ТОЛЬКО переводом, без объяснений
 - Не добавляй слова "поле", "атрибут", "данные" если их нет в оригинале
 
-Примеры:
+Примеры (обрати внимание - все переводы начинаются с заглавной буквы и сохраняют число):
 
 user_id → Идентификатор пользователя
 created_at → Дата создания
 booking_number → Номер бронирования
 passenger_name → Имя пассажира
+city → Город (единственное число)
+cities → Города (множественное число)
+airport_code → Код аэропорта
+airport → Аэропорт (единственное число)
+airports → Аэропорты (множественное число)
 <% else %>
 - Преврати snake_case в читаемые слова
 - Замени подчеркивания на пробелы
-- Начинай с заглавной буквы
+- ВАЖНО: ВСЕГДА начинай перевод с ЗАГЛАВНОЙ буквы (first letter must be uppercase)
+- ВАЖНО: Preserve number (singular/plural) - if original is singular (city, airport, user), translation should be singular (City, Airport, User). If original is plural (cities, airports, users), translation should be plural (Cities, Airports, Users)
 - Отвечай ТОЛЬКО переводом, без объяснений
 - Не добавляй слова "field", "attribute", "data" если их нет в оригинале
 
-Примеры:
+Примеры (note - all translations start with capital letter and preserve number):
 
 user_id → User ID
 created_at → Created at
 booking_number → Booking number
 passenger_name → Passenger name
+city → City (singular)
+cities → Cities (plural)
+airport_code → Airport code
+airport → Airport (singular)
+airports → Airports (plural)
 <% end %>
 
 Ответь в формате:

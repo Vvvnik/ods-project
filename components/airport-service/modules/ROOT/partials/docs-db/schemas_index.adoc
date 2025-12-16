@@ -1,7 +1,7 @@
 [%breakable]
 ==== Схема данных «bookings»
 
-Схема данных в виде ERD-диаграммы представлена на рисунке «erd_bookings.svg» в архиве «bd_images_2025-12-14.zip», являющемся приложением к данному документу.
+Схема данных в виде ERD-диаграммы представлена на рисунке «erd_bookings.svg» в архиве «bd_images_2025-12-17.zip», являющемся приложением к данному документу.
 
 :num_t: {counter:table-number}
 Перечень таблиц данных схемы «bookings» приведен в <<id_t_{num_t}, Таблице {num_t}>>.
@@ -11,8 +11,8 @@
 [cols="2, 4", options="header, breakable"]
 |===
 ^|Название ^|Описание
-|aircrafts_data |aircrafts_data
-|airports_data |airports_data
+|aircrafts_data |Данные о самолетах
+|airports_data |Данные о аэропортах
 |boarding_passes |Boarding passes
 |bookings |Bookings
 |flights |Flights

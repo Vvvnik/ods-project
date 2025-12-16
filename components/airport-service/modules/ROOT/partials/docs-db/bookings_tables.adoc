@@ -22,8 +22,8 @@
 |===
 ^|Название ^|Тип данных ^|Обязательность ^|Описание
 |airport_code |character |Да |Airport code
-|airport_name |jsonb |Да |Airport name
-|city |jsonb |Да |City
+|airport_name |jsonb |Да |Название аэропорта
+|city |jsonb |Да |Город
 |coordinates |point |Да |Airport coordinates (longitude and latitude)
 |timezone |text |Да |Airport time zone
 |===
