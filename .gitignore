@@ -135,7 +135,7 @@ artifacts/
 
 *.tmp_proj
 
-*.log
+# *.log
 
 *.vspscc
 
