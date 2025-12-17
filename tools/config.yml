@@ -37,6 +37,7 @@ defaults: &defaults
     erase_destination_folder: true # ← Очищать папку назначения перед генерацией
   
   # База данных
+  # Парсинг БД выполняется только локально (без Docker)
   db:
     enabled: false                 # ← Включить/отключить генерацию DB документации
     images_dir: "components/{name}/modules/ROOT/images/images-db" # ← Папка для изображений схем БД
@@ -72,8 +73,9 @@ defaults: &defaults
     dst: "components/{name}/modules/ROOT/partials/lists"  # ← Куда сохранять списки
   
   # LLM сервис через Ollama - универсальный инструмент
+  # Парсинг БД выполняется только локально (без Docker) ollama должна быть запущена локально
   ollama:
-    enabled: true                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
+    enabled: false                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
     host: "${OLLAMA_HOST:-http://localhost:11434}" # ← Адрес Ollama сервера (автоматически)
     timeout: 30                   # ← Таймаут запроса в секундах
     retry_attempts: 3             # ← Количество попыток при ошибке
@@ -90,8 +92,11 @@ components:
   - name: airport-service
     <<: *defaults
     # db:
-      # enabled: true #TODO: включить генерацию БД
-      # profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
+    #   enabled: true #TODO: включить генерацию БД
+    #   profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
+    # ollama:
+    #   enabled: true                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
+
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
 
