@@ -15,7 +15,7 @@ The project uses GitLab CI/CD for automatic documentation build and site publica
 
 Combined PDF and documentation site build:
 
-**Image:** `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1`
+**Image:** `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2`
 
 **Services:**
 

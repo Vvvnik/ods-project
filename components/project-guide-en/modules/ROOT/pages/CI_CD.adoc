@@ -58,7 +58,7 @@ The following variables are used in CI/CD:
 === build_all
 Main documentation build stage with sequential command execution:
 
-. **Image**: `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1`
+. **Image**: `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2`
 . **Services**: Kroki (`registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`) for diagram generation
 . **Cache**: `node_modules/` and `.npm/` to speed up builds (key: `${CI_COMMIT_REF_SLUG}`)
 . **Execution sequence**:

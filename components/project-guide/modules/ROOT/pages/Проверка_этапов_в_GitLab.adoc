@@ -15,7 +15,7 @@ include::../partials/attr_common.adoc[]
 
 Объединенная сборка PDF и сайта документации:
 
-**Образ:** `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1`
+**Образ:** `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2`
 
 **Сервисы:**
 

@@ -154,7 +154,7 @@ docker-compose run --rm pdf
 [source,bash]
 ----
 docker run --rm -v $(pwd):/app \
-  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1 \
+  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2 \
   ruby tools/start.rb
 ----
 
@@ -172,7 +172,7 @@ docker-compose run --rm site
 [source,bash]
 ----
 docker run --rm -v $(pwd):/app \
-  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1 \
+  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2 \
   antora antora-playbook.yml
 ----
 

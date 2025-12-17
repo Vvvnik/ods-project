@@ -6,7 +6,7 @@ start
 note right: Triggers build_all job
 
 :build_all job starts;
-note right: Uses ruby-node-antora:1 image + Kroki service
+note right: Uses ruby-node-antora:2 image + Kroki service
 
 :Ruby scripts generate PDF from .adoc;
 note right: tools/start.rb

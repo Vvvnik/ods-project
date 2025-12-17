@@ -57,7 +57,7 @@ include::../examples/schema.puml[plantuml, schema]
 === build_all
 Основной этап сборки документации с последовательным выполнением команд:
 
-. **Образ**: `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1`
+. **Образ**: `registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2`
 . **Сервисы**: Kroki (`registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0`) для генерации диаграмм
 . **Кэш**: `node_modules/` и `.npm/` для ускорения сборки (ключ: `${CI_COMMIT_REF_SLUG}`)
 . **Последовательность выполнения**:
