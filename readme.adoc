@@ -25,10 +25,7 @@ ODS использует два независимых процесса:
 
 [source,bash]
 ----
-# Docker (рекомендуется)
-docker --version
-
-# Или локальная установка:
+# Локальная установка:
 
 # Ruby 3.2+ и гемы
 gem install asciidoctor asciidoctor-pdf asciidoctor-kroki prawn pg graphviz hexapdf
@@ -62,23 +59,32 @@ npm install -g @antora/cli @antora/site-generator-default
 
 [source,bash]
 ----
-# С помощью Docker (рекомендуется)
-cd docker/docs-ruby
-./build.sh
-
-# Или локально:
+# Локально:
 ruby tools/start.rb
+
+# Или с помощью Docker (требуется запущенный Docker Desktop):
+docker-compose -f docker/docker-compose.yml run --rm pdf
 ----
 
 === Сборка сайта документации
 
 [source,bash]
 ----
+# Локально:
 # Запуск сайта из npx
 npx antora antora-playbook.yml
 
 # Или если Antora установлена глобально:
 antora antora-playbook.yml
+
+# Или с помощью Docker (требуется запущенный Docker Desktop):
+# ⚠️ Перед запуском убедитесь, что в antora-playbook.yml установлено:
+#    kroki-server-url: http://host.docker.internal:8000
+
+docker-compose -f docker/docker-compose.yml run --rm site
+
+# ⚠️ После сборки Antora выводит "Open file:///app/public/index.html",
+#    но открывайте public/index.html проекта (на хосте), а не /app/public/index.html
 ----
 
 == Полная документация

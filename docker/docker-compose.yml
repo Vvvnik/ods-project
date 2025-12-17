@@ -1,20 +1,18 @@
-version: '3.8'
-
 services:
   # Генерация PDF документов
   pdf:
-    image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1
+    image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
     container_name: ods-project-pdf
     volumes:
-      - .:/app
+      - ${PWD}:/app
     working_dir: /app
     command: ruby tools/start.rb
 
   # Сборка сайта с Antora
   site:
-    image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1
+    image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
     container_name: ods-project-site
     volumes:
-      - .:/app
+      - ${PWD}:/app
     working_dir: /app
     command: antora antora-playbook.yml

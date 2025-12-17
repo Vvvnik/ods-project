@@ -1,8 +1,9 @@
 == Примеры docker-compose
 
+Пример конфигурации для запуска дополнительных сервисов (Kroki и Postgres) локально:
+
 [source,yaml]
 ----
-version: '3.8'
 services:
   kroki:
     image: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
@@ -13,4 +14,10 @@ services:
       POSTGRES_PASSWORD: postgres
     ports: ['5432:5432']
 ----
+
+:note-caption: Важно
+
+[NOTE]
+Этот пример предназначен для локального запуска Kroki и Postgres как отдельных сервисов. 
+Основной `docker/docker-compose.yml` содержит сервисы `pdf` и `site` для сборки документации.
 

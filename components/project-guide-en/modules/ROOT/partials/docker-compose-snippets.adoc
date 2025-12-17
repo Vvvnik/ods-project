@@ -1,8 +1,9 @@
 == Docker Compose Examples
 
+Example configuration for running additional services (Kroki and Postgres) locally:
+
 [source,yaml]
 ----
-version: '3.8'
 services:
   kroki:
     image: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
@@ -13,3 +14,7 @@ services:
       POSTGRES_PASSWORD: postgres
     ports: ['5432:5432']
 ----
+
+[NOTE]
+This example is for local launch of Kroki and Postgres as separate services.
+The main `docker/docker-compose.yml` contains `pdf` and `site` services for documentation build.

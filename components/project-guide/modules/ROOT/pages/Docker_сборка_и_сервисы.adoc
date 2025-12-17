@@ -8,10 +8,11 @@ include::../partials/attr_common.adoc[]
 
 == Образы
 
-* **Универсальный образ**: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:1:
+* **Универсальный образ**: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2:
 ** Содержит Ruby 3.2 + Node.js 20 + Asciidoctor + Antora + все необходимые пакеты;
 ** Используется в CI для сборки PDF и сайта;
-** Собирается из `docker/Dockerfile.universal`.
+** Собирается из `docker/Dockerfile.universal`;
+** Все версии пакетов зафиксированы для воспроизводимости сборок (gems и npm пакеты с точными версиями).
 * **Kroki сервис**: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0:
 ** Отдельный контейнер для рендеринга диаграмм;
 ** Подключается как сервис в CI;
@@ -23,22 +24,30 @@ include::../partials/attr_common.adoc[]
 
 [source,bash]
 ----
-# Сборка и отправка в реестр
+# Сборка и отправка в реестр (по умолчанию)
 ./docker/build-images.sh [tag]
 
-# Пример с тегом
+# Только сборка без отправки в реестр
+./docker/build-images.sh [tag] --no-push
+
+# Примеры
 ./docker/build-images.sh 2
+./docker/build-images.sh 2 --no-push
 ----
 
 === Сборка Kroki образа
 
 [source,bash]
 ----
-# Сборка и отправка в реестр
+# Сборка и отправка в реестр (по умолчанию)
 ./docker/build-kroki.sh [tag]
 
-# Пример с тегом
+# Только сборка без отправки в реестр
+./docker/build-kroki.sh [tag] --no-push
+
+# Примеры
 ./docker/build-kroki.sh 0.29.0
+./docker/build-kroki.sh 0.29.0 --no-push
 ----
 
 == Локальная разработка
@@ -57,6 +66,31 @@ docker-compose -f docker/docker-compose.yml run --rm site
 docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
 ----
 
+:note-caption: Важно
+
+[NOTE]
+После Docker сборки сайта Antora выводит сообщение `Open file:///app/public/index.html`, 
+но файл нужно открывать в `public/index.html` проекта локальной сборки (на хосте), 
+так как директория `/app` внутри контейнера монтируется в корень проекта.
+
+=== Настройка Kroki для docker-compose
+
+При использовании `docker-compose -f docker/docker-compose.yml run --rm site` необходимо настроить `kroki-server-url` в `antora-playbook.yml`:
+
+[source,yaml]
+----
+# Для docker-compose локальной разработки:
+kroki-server-url: http://host.docker.internal:8000
+
+# Перед отправкой в CI замените на:
+# kroki-server-url: http://kroki:8000 # for CI
+----
+
+:note-caption: Важно
+
+[NOTE]
+Перед отправкой изменений в CI убедитесь, что в `antora-playbook.yml` установлено `kroki-server-url: http://kroki:8000`, иначе сборка в CI не сможет подключиться к Kroki сервису.
+
 == Структура папки docker
 
 [source,text]
@@ -73,7 +107,7 @@ docker/
 
 Проект использует **универсальный подход** с одним основным образом:
 
-* **ruby-node-antora:1** – основной образ для всех операций сборки;
+* **ruby-node-antora:2** – основной образ для всех операций сборки;
 * **kroki:0.28.0** – сервис для диаграмм (PlantUML, Mermaid, Graphviz);
 
 Это обеспечивает:

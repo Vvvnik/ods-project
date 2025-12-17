@@ -11,15 +11,31 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     && rm -rf /var/lib/apt/lists/*
 
-# Установка Node.js 20
+# Установка Node.js 20.x (версия зафиксирована через репозиторий nodesource)
+# Для точной версии 20.19.5 можно использовать nvm, но для совместимости используем nodesource
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs
+    apt-get install -y nodejs && \
+    node -v && npm -v
 
-# Установка Ruby gems
-RUN gem install --no-document asciidoctor asciidoctor-pdf asciidoctor-diagram asciidoctor-kroki rouge prawn hexapdf pg
+# Установка Ruby gems (зафиксированные версии для воспроизводимости)
+RUN gem install --no-document \
+    asciidoctor:2.0.25 \
+    asciidoctor-pdf:2.3.21 \
+    asciidoctor-diagram:3.0.1 \
+    asciidoctor-kroki:0.10.0 \
+    rouge:4.6.1 \
+    prawn:2.5.0 \
+    hexapdf:1.4.1 \
+    pg:1.6.2
 
-# Установка Antora и дополнительных пакетов
-RUN npm install -g @antora/cli @antora/site-generator-default @antora/site-generator @antora/lunr-extension puppeteer xml2js
+# Установка Antora и дополнительных пакетов (зафиксированные версии для воспроизводимости)
+RUN npm install -g \
+    @antora/cli@3.1.14 \
+    @antora/site-generator-default@3.1.14 \
+    @antora/site-generator@3.1.14 \
+    @antora/lunr-extension@1.0.0-alpha.10 \
+    puppeteer@24.26.1 \
+    xml2js@0.6.2
 
 # Проверка установки
 RUN ruby -v && node -v && npm -v && asciidoctor -v && antora -v
