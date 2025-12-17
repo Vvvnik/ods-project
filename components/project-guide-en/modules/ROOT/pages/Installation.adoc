@@ -95,6 +95,11 @@ Gem descriptions:
 * `pg` — PostgreSQL driver;
 * `graphviz` — ERD diagram generation;
 
+[NOTE]
+`graphviz` gem is only needed for local database documentation generation.
+It is not included in the Docker image, as database generation is disabled in CI.
+If you plan to enable database generation in CI, you need to add `graphviz` to `docker/Dockerfile.universal`.
+
 === Installing Node.js Packages
 
 [source,bash]

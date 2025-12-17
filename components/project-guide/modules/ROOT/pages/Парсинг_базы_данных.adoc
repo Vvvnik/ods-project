@@ -16,6 +16,13 @@ include::../partials/attr_common.adoc[]
 . Создает AsciiDoc файлы с описанием структуры БД;
 . Сохраняет результат в папку partials/docs-db.
 
+:note-caption: Важно
+
+[NOTE]
+Graphviz gem нужен только для локальной генерации БД документации.
+В Docker образе его нет, так как генерация БД отключена в CI.
+Если планируется включить генерацию БД в CI, необходимо добавить `graphviz` в `docker/Dockerfile.universal`.
+
 == Конфигурация
 
 === Секция db в config.yml
