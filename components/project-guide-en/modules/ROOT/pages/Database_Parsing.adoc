@@ -20,13 +20,11 @@ The converter connects to PostgreSQL database and generates documentation in Asc
 
 [WARNING]
 ====
-**Database parsing is performed locally only (without Docker)!**
 
 * Database parsing is performed **locally only (without Docker)** when needed
 * If database schema changes, parsing needs to be performed **locally again**
 * Database parsing functionality in Docker or CI **is not yet implemented**
 
-**All other project functionality (PDF generation, site build) works locally, in Docker, and in CI.**
 ====
 
 == Configuration
