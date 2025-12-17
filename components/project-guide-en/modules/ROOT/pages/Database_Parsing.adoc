@@ -16,10 +16,18 @@ The converter connects to PostgreSQL database and generates documentation in Asc
 . Creates AsciiDoc files with database structure description;
 . Saves result in partials/docs-db folder.
 
-[NOTE]
-Graphviz gem is only needed for local database documentation generation.
-It is not included in the Docker image, as database generation is disabled in CI.
-If you plan to enable database generation in CI, you need to add `graphviz` to `docker/Dockerfile.universal`.
+:warning-caption: IMPORTANT
+
+[WARNING]
+====
+**Database parsing is performed locally only (without Docker)!**
+
+* Database parsing is performed **locally only (without Docker)** when needed
+* If database schema changes, parsing needs to be performed **locally again**
+* Database parsing functionality in Docker or CI **is not yet implemented**
+
+**All other project functionality (PDF generation, site build) works locally, in Docker, and in CI.**
+====
 
 == Configuration
 
