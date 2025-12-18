@@ -305,14 +305,49 @@ pdf:
 
 === Запуск команд
 
+Локальный запуск (требует установки Ruby и Node.js):
+
 [source,bash]
 ----
 # Генерация всей документации
 ruby ./tools/start.rb
 
-# Запуск локального сайта
+# Запуск локального сайта (с явным указанием kroki-server-url)
 npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+
+# Или если kroki запущен локально и в antora-playbook.yml указан localhost:
+# npx antora antora-playbook.yml
 ----
+
+Запуск через Docker (рекомендуется):
+
+[source,bash]
+----
+# Генерация всей документации через Docker
+docker-compose -f docker/docker-compose.yml run --rm pdf
+
+# Генерация конкретного компонента
+docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+
+# Сборка сайта через Docker
+docker-compose -f docker/docker-compose.yml run --rm site
+----
+
+:note-caption: Важно
+
+[NOTE]
+При использовании `docker-compose -f docker/docker-compose.yml run --rm site` необходимо настроить `kroki-server-url` в `antora-playbook.yml`:
+
+[source,yaml]
+----
+# Для docker-compose локальной разработки:
+kroki-server-url: http://host.docker.internal:8000
+
+# Перед отправкой в CI замените на:
+# kroki-server-url: http://kroki:8000 # for CI
+----
+
+См. подробности в разделе xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы].
 
 === Варианты запуска Antora
 

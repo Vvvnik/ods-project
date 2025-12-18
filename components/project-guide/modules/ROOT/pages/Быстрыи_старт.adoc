@@ -1,5 +1,5 @@
-include::../partials/attr_common.adoc[]
 :doctype: book
+include::../partials/attr_common.adoc[]
 :custom_title_page: none
 :custom_other_page: none
 :sectnums:
@@ -28,19 +28,7 @@ cd ods-project
 
 == Шаг 2: Запуск проекта
 
-Запустите проект с помощью Docker Compose:
-
-[source,bash]
-----
-docker-compose up -d
-----
-
-Это запустит:
-
-* Kroki сервис для генерации диаграмм (если настроен);
-* PostgreSQL базу данных (если настроен);
-
-Для локальной разработки можно использовать готовые команды из docker-compose.yml.
+Для локальной разработки используйте готовые команды из docker-compose.yml (см. xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы]).
 
 == Шаг 3: Создание нового компонента
 
@@ -142,11 +130,11 @@ content:
 == Шаг 8: Сборка документации
 
 
-Запустите сборку документации:
+Запустите сборку документации через Docker Compose:
 
 [source,bash]
 ----
-docker-compose run --rm pdf
+docker-compose -f docker/docker-compose.yml run --rm pdf
 ----
 
 Или используйте прямой вызов Docker:
@@ -158,13 +146,34 @@ docker run --rm -v $(pwd):/app \
   ruby tools/start.rb
 ----
 
-== Шаг 9: Генерация сайта
-
-Сгенерируйте HTML сайт:
+Для генерации конкретного компонента:
 
 [source,bash]
 ----
-docker-compose run --rm site
+docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+----
+
+== Шаг 9: Генерация сайта
+
+Сгенерируйте HTML сайт через Docker Compose:
+
+[source,bash]
+----
+docker-compose -f docker/docker-compose.yml run --rm site
+----
+
+:note-caption: Важно
+
+[NOTE]
+При использовании `docker-compose -f docker/docker-compose.yml run --rm site` необходимо настроить `kroki-server-url` в `antora-playbook.yml`:
+
+[source,yaml]
+----
+# Для docker-compose локальной разработки:
+kroki-server-url: http://host.docker.internal:8000
+
+# Перед отправкой в CI замените на:
+# kroki-server-url: http://kroki:8000 # for CI
 ----
 
 Или используйте прямой вызов Docker:
@@ -196,6 +205,13 @@ start public/index.html
 ----
 
 Или просто откройте файл `public/index.html` в браузере.
+
+:note-caption: Важно
+
+[NOTE]
+После сборки Antora выводит сообщение `Open file:///app/public/index.html`, 
+но файл нужно открывать в `public/index.html` проекта локальной сборки (на хосте), 
+так как директория `/app` внутри контейнера монтируется в корень проекта.
 
 == Следующие шаги
 
