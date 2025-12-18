@@ -12,7 +12,6 @@
 The system uses LLM (Large Language Model) for automatic translation of database attributes. Translation to Russian and English is supported using the local Ollama model.
 
 == System Architecture
-
 === Components
 
 * **LLMClient** - client for working with Ollama;
@@ -56,25 +55,25 @@ db:
 * `false` - disable translations;
 
 == Work Logic
-
 === Translation Algorithm
 
-1. **Preliminary collection**: Collect all database fields for translation (without generating documentation)
-2. **Batch translation**: Translate all collected fields through LLM in one request
-3. **Documentation generation**: Create documentation with already translated names
-4. **Comment check**: If field has comment in database - use it as is
-5. **Dictionary check**: Look for translation in dictionary (priority over LLM)
-6. **Language check**: If translation is in different language - ignore and translate again
-7. **Save**: Results are saved to dictionary and log
+. **Preliminary collection**: Collect all database fields for translation (without generating documentation);
+. **Batch translation**: Translate all collected fields through LLM in one request;
+. **Documentation generation**: Create documentation with already translated names;
+. **Comment check**: If field has comment in database - use it as is;
+. **Dictionary check**: Look for translation in dictionary (priority over LLM);
+. **Language check**: If translation is in different language - ignore and translate again;
+. **Save**: Results are saved to dictionary and log.
 
 === Batch Processing
 
 The system uses "super acceleration" - instead of individual LLM requests, it collects fields in batches of 50:
 
 **New work sequence:**
-1. **Field collection**: Go through all database tables and collect fields for translation
-2. **Batch translation**: Translate all fields in one LLM request
-3. **Documentation generation**: Create documentation with already translated names
+
+. **Field collection**: Go through all database tables and collect fields for translation;
+. **Batch translation**: Translate all fields in one LLM request;
+. **Documentation generation**: Create documentation with already translated names.
 
 [source,ruby]
 ----
@@ -92,7 +91,6 @@ end
 ----
 
 == Usage
-
 === Launch with LLM
 
 [source,bash]
@@ -101,6 +99,7 @@ ruby tools/scripts/db_to_adoc.rb --component airport-service --use-llm
 ----
 
 === Ollama Setup
+==== Local Installation
 
 [source,bash]
 ----
@@ -114,8 +113,58 @@ ollama serve
 ollama pull gemma:latest
 ----
 
-== Translation Dictionary
+==== Using with Docker
 
+For Docker usage, use the ready-made Ollama image from the registry or build your own:
+
+[source,bash]
+----
+# Build Ollama image (without model, model loads on startup)
+./docker/build-ollama.sh 1
+
+# Build Ollama image with preloaded gemma:latest model
+./docker/build-ollama-with-model.sh 1 gemma:latest
+
+# Start Ollama via docker-compose
+docker-compose -f docker/docker-compose.yml up -d ollama
+----
+
+==== Configuring Ollama Address
+
+Ollama address is configured via `OLLAMA_HOST` environment variable in `tools/config.yml`:
+
+[source,yaml]
+----
+ollama:
+  enabled: true
+  host: "${OLLAMA_HOST:-http://localhost:11434}"  # Configured via OLLAMA_HOST
+----
+
+**Configuration options:**
+
+* **Local development** (Ollama on host): +
+  `OLLAMA_HOST=http://localhost:11434` or omit (default value)
+
+* **Docker Compose** (Ollama on host, containers connect): +
+  `OLLAMA_HOST=http://host.docker.internal:11434`
+
+* **CI/CD** (Ollama as Docker service): +
+  `OLLAMA_HOST=http://ollama:11434`
+
+**Example usage in docker-compose:**
+
+[source,yaml]
+----
+services:
+  pdf:
+    environment:
+      - OLLAMA_HOST=http://ollama:11434  # for CI/CD
+      # - OLLAMA_HOST=http://host.docker.internal:11434  # for local development
+----
+
+⚠️ **Important**: Before pushing changes to CI, make sure `OLLAMA_HOST=http://ollama:11434` is set in `docker-compose.yml`, otherwise CI build won't be able to connect to Ollama service.
+
+== Translation Dictionary
 === File Format
 
 [source,yaml]
@@ -135,7 +184,6 @@ translations:
 The dictionary is automatically populated with new translations on each run. Repeated translations are not performed.
 
 == Translation Log
-
 === Log Format
 
 [source,text]
@@ -152,7 +200,6 @@ The dictionary is automatically populated with new translations on each run. Rep
 The log is cleared on each script run with `--use-llm` flag.
 
 == Prompt
-
 === Universal Prompt
 
 A single prompt `database_translations.prompt` is used for all translation cases:
@@ -213,12 +260,11 @@ end
 ----
 
 == Limitations
-
 === LLM Requirements
 
-* Local Ollama installation;
+* Ollama installation (local or in Docker);
 * `gemma:latest` model or compatible;
-* Server availability on `http://localhost:11434`;
+* Server availability on address specified in `OLLAMA_HOST` (default `http://localhost:11434`);
 
 === Fallback Mechanism
 
@@ -233,9 +279,9 @@ end
 ----
 
 == Debugging
-
 === Connection Check
 
+**Locally:**
 [source,bash]
 ----
 curl http://localhost:11434/api/generate -d '{
@@ -243,6 +289,16 @@ curl http://localhost:11434/api/generate -d '{
   "prompt": "test",
   "stream": false
 }'
+----
+
+**In Docker:**
+[source,bash]
+----
+# Check from container
+docker-compose -f docker/docker-compose.yml run --rm pdf curl http://ollama:11434/api/tags
+
+# Or from host (if port is forwarded)
+curl http://localhost:11434/api/tags
 ----
 
 === Logs
@@ -254,23 +310,25 @@ All operations are logged with emoji indicators:
 * ⚠️ - warnings and fallback;
 * ✅ - successful operations;
 
-== Local Usage
+== Usage
 
-The LLM system is designed for **local use** on developer machine. This provides:
+=== Local Usage
+
+The LLM system can be used **locally** on developer machine or **in Docker**. This provides:
 
 * **Fast access** to Ollama without network delays;
 * **Full control** over models and settings;
 * **Security** - data not transmitted to external services;
 * **Stability** - doesn't depend on external API availability;
 
-=== Local Environment Requirements
+==== Local Environment Requirements
 
-1. **Installed Ollama**: Local Ollama server
-2. **Loaded model**: `gemma:latest` or similar
-3. **Running server**: `ollama serve` must be working
-4. **Ruby environment**: All necessary gems installed
+* **Installed Ollama**: Local Ollama server;
+* **Loaded model**: `gemma:latest` or similar;
+* **Running server**: `ollama serve` must be working;
+* **Ruby environment**: All necessary gems installed.
 
-=== System Launch
+==== Local Launch
 
 [source,bash]
 ----
@@ -282,6 +340,59 @@ ollama pull gemma:latest
 
 # Start documentation generation
 ruby tools/start.rb
+----
+
+=== Using with Docker
+
+The LLM system supports Docker usage, ensuring consistent environment for local development and CI/CD.
+
+==== Docker Requirements
+
+. **Ollama image**: Built image `registry.gitlab.com/vvvnik/ods-project/ollama:1`;
+. **Docker Compose**: Configured `docker-compose.yml` with `ollama` service;
+. **Environment variable**: `OLLAMA_HOST` configured in `docker-compose.yml`.
+
+==== Docker Launch
+
+[source,bash]
+----
+# Start Ollama via docker-compose
+docker-compose -f docker/docker-compose.yml up -d ollama
+
+# Generate documentation with LLM via Docker
+docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+----
+
+==== Configuration for Different Environments
+
+**Local development** (Ollama on host):
+
+[source,yaml]
+----
+# tools/config.yml
+ollama:
+  enabled: true
+  host: "${OLLAMA_HOST:-http://localhost:11434}"
+----
+
+**Docker Compose** (Ollama on host, containers connect):
+[source,yaml]
+----
+# docker/docker-compose.yml
+services:
+  pdf:
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+----
+
+**CI/CD** (Ollama as Docker service):
+[source,yaml]
+----
+# docker/docker-compose.yml
+services:
+  pdf:
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
 ----
 
 === LLM Model Comparison
@@ -364,7 +475,6 @@ Various models can be used for LLM system work. Below is a comparison of tested 
 The LLM system is designed modularly and can be easily extended for other translation and text processing tasks.
 
 === Architecture for Extension
-
 ==== System Components
 
 * **LLMClient** (`tools/lib/llm_client.rb`) - main client for working with Ollama;
@@ -404,9 +514,10 @@ Translate the following API documentation to <%= target_language %>:
 <%= api_doc %>
 
 Requirements:
-- Preserve documentation structure
-- Translate only descriptions, keep method names in English
-- Answer in Markdown format
+
+- Preserve documentation structure;
+- Translate only descriptions, keep method names in English;
+- Answer in Markdown format.
 
 Translation:
 ----
@@ -509,53 +620,60 @@ end
 ----
 
 === Extension Examples
-
 ==== API Documentation Translation
-- **Prompt**: `api_documentation.prompt`
-- **Dictionary**: `api_translations.yml`
-- **Log**: `api_translations_log.txt`
+
+* **Prompt**: `api_documentation.prompt`;
+* **Dictionary**: `api_translations.yml`;
+* **Log**: `api_translations_log.txt`.
 
 ==== Code Comment Translation
-- **Prompt**: `code_comments.prompt`
-- **Dictionary**: `code_translations.yml`
-- **Log**: `code_translations_log.txt`
+
+* **Prompt**: `code_comments.prompt`;
+* **Dictionary**: `code_translations.yml`;
+* **Log**: `code_translations_log.txt`.
 
 ==== User Interface Translation
-- **Prompt**: `ui_text.prompt`
-- **Dictionary**: `ui_translations.yml`
-- **Log**: `ui_translations_log.txt`
+
+* **Prompt**: `ui_text.prompt`;
+* **Dictionary**: `ui_translations.yml`;
+* **Log**: `ui_translations_log.txt`.
 
 ==== Technical Specification Translation
-- **Prompt**: `tech_specs.prompt`
-- **Dictionary**: `specs_translations.yml`
-- **Log**: `specs_translations_log.txt`
+
+* **Prompt**: `tech_specs.prompt`;
+* **Dictionary**: `specs_translations.yml`;
+* **Log**: `specs_translations_log.txt`.
 
 === Extension Recommendations
-
 ==== Following Patterns
-- Use existing architecture
-- Follow naming conventions
-- Apply modular approach
+
+* Use existing architecture;
+* Follow naming conventions;
+* Apply modular approach.
 
 ==== Configuration
-- All settings in `config.yml`
-- Use sections for grouping
-- Provide default values
+
+* All settings in `config.yml`;
+* Use sections for grouping;
+* Provide default values.
 
 ==== Logging
-- Log all translations
-- Use unified log format
-- Provide log cleanup
+
+* Log all translations;
+* Use unified log format;
+* Provide log cleanup.
 
 ==== Testing
-- Test on small data volumes
-- Check translation quality
-- Validate dictionary work
+
+* Test on small data volumes;
+* Check translation quality;
+* Validate dictionary work.
 
 ==== Documentation
-- Document new prompts
-- Describe dictionary structure
-- Update configuration
+
+* Document new prompts;
+* Describe dictionary structure;
+* Update configuration.
 
 == Related Sections
 

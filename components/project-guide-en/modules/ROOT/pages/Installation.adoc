@@ -52,6 +52,48 @@ docker-compose -f docker/docker-compose.yml run --rm pdf
 docker-compose -f docker/docker-compose.yml run --rm site
 ----
 
+=== How local docker-compose build works
+
+For local builds, `docker/docker-compose.yml` only needs **two services**:
+
+* **`pdf`** — PDF generation;
+* **`site`** — Antora site build.
+
+All external services run **on the host** and are reachable from containers via `host.docker.internal`:
+
+* **Kroki** — `host.docker.internal:8000` (see `antora-playbook.yml`);
+* **Ollama** — `host.docker.internal:11434` (see `docker-compose.yml` / `OLLAMA_HOST`);
+* **PostgreSQL (pg-demo)** — `host.docker.internal` (see `docker-compose.yml` / `DB_HOST`).
+
+Check that host services are reachable:
+
+[source,bash]
+----
+# Kroki: check via real PlantUML rendering (GET / may return 404 — that's OK)
+printf '%s\n' '@startuml' 'Alice -> Bob: test' '@enduml' | \
+  curl -sS -X POST http://localhost:8000/plantuml/svg \
+    -H 'Content-Type: text/plain' \
+    --data-binary @- -o /dev/null -w 'HTTP=%{http_code} CT=%{content_type}\n'
+# Expected output:
+# HTTP=200 CT=image/svg+xml
+
+# Ollama (optional): only check if you use LLM
+curl -sS http://localhost:11434/api/version || true
+# Expected output (example):
+# {"version":"0.13.4"}
+
+# PostgreSQL: psql may be missing on host — check that port is reachable
+nc -vz localhost 5432
+# Expected output (example):
+# Connection to localhost port 5432 [tcp/postgresql] succeeded!
+----
+
+More details and examples:
+
+* xref:Docker_Build_and_Services.adoc[Docker Build and Services];
+* xref:Local_Kroki_and_Postgres_Launch.adoc[Local Kroki and Postgres Launch];
+* xref:Working_with_LLM.adoc[Working with LLM].
+
 === Docker Image Contents
 
 * **Ruby 3.2** + gems: `asciidoctor`, `asciidoctor-pdf`, `asciidoctor-diagram`, `asciidoctor-kroki`, `prawn`, `pg`, `hexapdf`;
