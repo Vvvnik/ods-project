@@ -73,10 +73,13 @@ defaults: &defaults
     dst: "components/{name}/modules/ROOT/partials/lists"  # ← Куда сохранять списки
   
   # LLM сервис через Ollama - универсальный инструмент
-  # Парсинг БД выполняется только локально (без Docker) ollama должна быть запущена локально
+  # Настройка адреса Ollama через переменную окружения OLLAMA_HOST:
+  #   - http://localhost:11434              # для локальной разработки (Ollama на хосте)
+  #   - http://host.docker.internal:11434  # для docker-compose (Ollama на хосте)
+  #   - http://ollama:11434                # для CI/CD (Ollama как сервис в Docker)
   ollama:
     enabled: false                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
-    host: "${OLLAMA_HOST:-http://localhost:11434}" # ← Адрес Ollama сервера (автоматически)
+    host: "${OLLAMA_HOST:-http://host.docker.internal:11434}" # ← Адрес Ollama сервера (настраивается через OLLAMA_HOST)
     timeout: 30                   # ← Таймаут запроса в секундах
     retry_attempts: 3             # ← Количество попыток при ошибке
     model: "gemma:latest"       # ← Модель LLM (gemma:latest)
@@ -96,7 +99,6 @@ components:
     #   profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
     # ollama:
     #   enabled: true                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
-
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
 

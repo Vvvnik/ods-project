@@ -17,6 +17,11 @@ include::../partials/attr_common.adoc[]
 ** Separate container for diagram rendering;
 ** Connected as service in CI;
 ** Base image: yuzutech/kroki:0.28.0.
+* **Ollama Service**: registry.gitlab.com/vvvnik/ods-project/ollama:1 (optional):
+** Separate container for LLM translations;
+** Connected as service in CI or docker-compose;
+** Base image: ollama/ollama:latest;
+** Model: gemma:latest (preloaded in model image).
 
 == Build Scripts
 
@@ -50,7 +55,63 @@ include::../partials/attr_common.adoc[]
 ./docker/build-kroki.sh 0.29.0 --no-push
 ----
 
+=== Ollama Image Build
+
+==== Base Image (without model)
+
+Model loads when container starts:
+
+[source,bash]
+----
+# Build and push to registry (default)
+./docker/build-ollama.sh [tag]
+
+# Build only, don't push to registry
+./docker/build-ollama.sh [tag] --no-push
+
+# Examples
+./docker/build-ollama.sh 1
+./docker/build-ollama.sh 1 --no-push
+----
+
+==== Image with Preloaded Model
+
+Model loads during image build (image size 10+ GB):
+
+[source,bash]
+----
+# Build and push to registry (default)
+./docker/build-ollama-with-model.sh [tag] [model]
+
+# Build only, don't push to registry
+./docker/build-ollama-with-model.sh [tag] [model] --no-push
+
+# Examples
+./docker/build-ollama-with-model.sh 1 gemma:latest
+./docker/build-ollama-with-model.sh 1 gemma:latest --no-push
+----
+
+⚠️ **Important**: Image with model is very large (10+ GB), pushing to registry may take a long time.
+
 == Local Development
+=== Architecture for Local Development
+
+For local development, `docker-compose.yml` requires only **two services**:
+
+* **`pdf`** - PDF document generation;
+* **`site`** - Antora site build.
+
+All external services (Kroki, Ollama, PostgreSQL) run **on the host** and are accessible to containers via `host.docker.internal`:
+
+* **Kroki** - runs on host, accessible via `host.docker.internal:8000` (configured in `antora-playbook.yml`);
+* **Ollama** - runs on host, accessible via `host.docker.internal:11434` (configured in `docker-compose.yml` via `OLLAMA_HOST`);
+* **PostgreSQL** (pg-demo) - runs on host, accessible via `host.docker.internal` (configured via `DB_HOST`).
+
+This architecture allows:
+
+* Using minimal number of containers (only `pdf` and `site`);
+* Reusing services running on host;
+* Easy switching between local development and CI/CD.
 
 === Using Ready-made Images
 
@@ -71,7 +132,36 @@ After Docker site build, Antora outputs message `Open file:///app/public/index.h
 but you need to open `public/index.html` in the local project directory (on the host), 
 since the `/app` directory inside the container is mounted to the project root.
 
-=== Kroki Configuration for docker-compose
+=== Service Connection Check
+
+Before running, make sure all necessary services are running on the host:
+
+[source,bash]
+----
+# Check Kroki
+# Check Kroki via PlantUML rendering (this is what the project actually uses)
+printf '%s\n' '@startuml' 'Alice -> Bob: test' '@enduml' | \
+  curl -sS -X POST http://localhost:8000/plantuml/svg \
+    -H 'Content-Type: text/plain' \
+    --data-binary @- -o /dev/null -w 'HTTP=%{http_code} CT=%{content_type}\n'
+# Expected output:
+# HTTP=200 CT=image/svg+xml
+
+# Check Ollama
+# Ollama is optional — only check if you use LLM
+curl -sS http://localhost:11434/api/version || true
+# Expected output (example):
+# {"version":"0.13.4"}
+
+# Check PostgreSQL
+# psql may be missing on host — check that port is reachable
+nc -vz localhost 5432
+# Expected output (example):
+# Connection to localhost port 5432 [tcp/postgresql] succeeded!
+----
+
+=== Service Configuration for docker-compose
+==== Kroki Configuration
 
 When using `docker-compose -f docker/docker-compose.yml run --rm site`, you need to configure `kroki-server-url` in `antora-playbook.yml`:
 
@@ -84,34 +174,81 @@ kroki-server-url: http://host.docker.internal:8000
 # kroki-server-url: http://kroki:8000 # for CI
 ----
 
-:warning-caption: Important
+:note-caption: Important
 
 [NOTE]
 Before pushing changes to CI, make sure `kroki-server-url: http://kroki:8000` is set in `antora-playbook.yml`, otherwise CI build won't be able to connect to Kroki service.
+
+==== Ollama Configuration
+
+When using `docker-compose -f docker/docker-compose.yml run --rm pdf` with LLM, you need to configure `OLLAMA_HOST` in `docker-compose.yml`:
+
+[source,yaml]
+----
+# docker/docker-compose.yml
+services:
+  pdf:
+    environment:
+      # For docker-compose local development (Ollama on host):
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      
+      # For CI/CD (Ollama as Docker service):
+      # - OLLAMA_HOST=http://ollama:11434
+----
+
+Ollama address is also configured in `tools/config.yml` via environment variable:
+
+[source,yaml]
+----
+# tools/config.yml
+ollama:
+  enabled: true
+  host: "${OLLAMA_HOST:-http://localhost:11434}"  # Configured via OLLAMA_HOST
+----
+
+**Configuration options:**
+
+* **Local development** (Ollama on host): +
+  `OLLAMA_HOST=http://localhost:11434` or omit (default value)
+
+* **Docker Compose** (Ollama on host, containers connect): +
+  `OLLAMA_HOST=http://host.docker.internal:11434`
+
+* **CI/CD** (Ollama as Docker service):
+  `OLLAMA_HOST=http://ollama:11434`
+
+:note-caption: Important
+
+[NOTE]
+Before pushing changes to CI, make sure `OLLAMA_HOST=http://ollama:11434` is set in `docker-compose.yml`, otherwise CI build won't be able to connect to Ollama service.
 
 == docker Folder Structure
 
 [source,text]
 ----
 docker/
-├── Dockerfile.universal     # Universal image
-├── docker-compose.yml       # Local development
-├── build-images.sh         # Universal image build
-├── build-kroki.sh          # Kroki image build
-└── README.md               # Docker documentation
+├── Dockerfile.universal          # Universal image
+├── docker-compose.yml            # Local development
+├── build-images.sh              # Universal image build
+├── build-kroki.sh               # Kroki image build
+├── build-ollama.sh               # Ollama image build (without model)
+├── build-ollama-with-model.sh   # Ollama image build (with model)
+└── README.md                    # Docker documentation
 ----
 
 == Architecture
 
-The project uses a **universal approach** with one main image:
+The project uses a **universal approach** with one main image and additional services:
 
 * **ruby-node-antora:2** – main image for all build operations;
 * **kroki:0.28.0** – service for diagrams (PlantUML, Mermaid, Graphviz);
+* **ollama:1** – service for LLM translations (optional);
 
 This provides:
 
-* Fast builds (one image instead of two);
+* Fast builds (one main image);
 * Reliability (all dependencies in one place);
-* Easy maintenance (fewer images to manage);
+* Easy maintenance (modular architecture);
+* Flexibility (services can be enabled/disabled as needed);
 
 include::../partials/docker-compose-snippets.adoc[]
