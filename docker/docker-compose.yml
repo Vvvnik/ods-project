@@ -7,6 +7,13 @@ services:
       - ${PWD}:/app
     working_dir: /app
     command: ruby tools/start.rb
+    environment:
+      - DB_HOST=host.docker.internal
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - TZ=Europe/Moscow
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    network_mode: bridge
 
   # Сборка сайта с Antora
   site:
@@ -16,3 +23,4 @@ services:
       - ${PWD}:/app
     working_dir: /app
     command: antora antora-playbook.yml
+    network_mode: bridge

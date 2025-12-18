@@ -1,6 +1,7 @@
 FROM ruby:3.2-slim
 
-# Установка системных зависимостей (включая curl)
+# Установка системных зависимостей (включая curl, graphviz 13.1.2, java для plantuml)
+# Graphviz 13.1.2 собираем из исходников для совместимости с локальной версией
 RUN apt-get update && apt-get install -y \
     build-essential \
     git \
@@ -9,7 +10,30 @@ RUN apt-get update && apt-get install -y \
     unzip \
     ca-certificates \
     gnupg \
+    libexpat1-dev \
+    libgd-dev \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libx11-dev \
+    libxaw7-dev \
+    libxmu-dev \
+    libxt-dev \
+    pkg-config \
+    default-jre \
     && rm -rf /var/lib/apt/lists/*
+
+# Сборка Graphviz 13.1.2 из исходников
+RUN cd /tmp && \
+    wget https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/13.1.2/graphviz-13.1.2.tar.gz -O graphviz-13.1.2.tar.gz || \
+    wget https://github.com/graphviz/graphviz/releases/download/13.1.2/graphviz-13.1.2.tar.gz -O graphviz-13.1.2.tar.gz && \
+    tar -xzf graphviz-13.1.2.tar.gz && \
+    cd graphviz-13.1.2 && \
+    ./configure --prefix=/usr && \
+    make -j$(nproc) && \
+    make install && \
+    cd / && rm -rf /tmp/graphviz-13.1.2*
 
 # Установка Node.js 20.x (версия зафиксирована через репозиторий nodesource)
 # Для точной версии 20.19.5 можно использовать nvm, но для совместимости используем nodesource
@@ -26,7 +50,14 @@ RUN gem install --no-document \
     rouge:4.6.1 \
     prawn:2.5.0 \
     hexapdf:1.4.1 \
-    pg:1.6.2
+    pg:1.6.2 \
+    ruby-graphviz:1.2.5 \
+    zip:2.0.2
+
+# Установка PlantUML
+RUN wget -O /usr/local/bin/plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2024.3/plantuml-1.2024.3.jar && \
+    echo '#!/bin/sh\njava -jar /usr/local/bin/plantuml.jar "$@"' > /usr/local/bin/plantuml && \
+    chmod +x /usr/local/bin/plantuml
 
 # Установка Antora и дополнительных пакетов (зафиксированные версии для воспроизводимости)
 RUN npm install -g \

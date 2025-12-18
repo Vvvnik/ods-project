@@ -411,7 +411,7 @@ schemas.each do |schema, tables|
     [%breakable]
     ==== Схема данных «#{schema}»
 
-    Схема данных в виде ERD-диаграммы представлена на рисунке «erd_#{schema}.svg» в архиве «bd_images_#{Date.today.strftime('%Y-%m-%d')}.zip», являющемся приложением к данному документу.
+    Схема данных в виде ERD-диаграммы представлена на рисунке «erd_#{schema}.svg» в архиве «bd_images_#{ENV.fetch('BUILD_DATE', Time.now.strftime('%Y-%m-%d'))}.zip», являющемся приложением к данному документу.
 
     :num_t: {counter:table-number}
     Перечень таблиц данных схемы «#{schema}» приведен в <<id_t_{num_t}, Таблице {num_t}>>.
@@ -514,7 +514,7 @@ schemata.each do |schema_row|
     [%breakable]
     ==== Логическая схема «#{schema}»
 
-    Логическая схема представлена на рисунке «logical_#{schema}.svg» в архиве «bd_images_#{Date.today.strftime('%Y-%m-%d')}.zip», являющемся приложением к данному документу.
+    Логическая схема представлена на рисунке «logical_#{schema}.svg» в архиве «bd_images_#{ENV.fetch('BUILD_DATE', Time.now.strftime('%Y-%m-%d'))}.zip», являющемся приложением к данному документу.
 
     include::#{schema}_logical.adoc[]
 
@@ -769,7 +769,7 @@ end
 puts "\n🖼️  Создание архива изображений..."
 
 # Создаем имя архива изображений
-images_archive_name = "bd_images_#{Date.today.strftime('%Y-%m-%d')}.zip"
+images_archive_name = "bd_images_#{ENV.fetch('BUILD_DATE', Time.now.strftime('%Y-%m-%d'))}.zip"
 images_archive_path = File.join(OUT_DIR, images_archive_name)
 
 # Создаем ZIP архив изображений (только PNG из папки images)

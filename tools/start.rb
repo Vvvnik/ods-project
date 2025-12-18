@@ -13,7 +13,8 @@ require_relative 'lib/specification_generator'
 
 # Настройки
 KROKI_URL = ENV.fetch('KROKI_SERVER_URL', 'http://localhost:8000')
-CFG_PATH = ARGV[0] || 'tools/config.yml'
+CFG_PATH = 'tools/config.yml'
+COMPONENT_FILTER = ARGV[0]  # Опциональный фильтр по имени компонента
 
 # Загружаем конфигурацию
 cfg = ConfigParser.load_config(CFG_PATH)
@@ -36,6 +37,10 @@ start_time = Time.now
 # Обрабатываем каждый компонент
 cfg['components'].each do |comp|
   name = comp['name']
+  
+  # Фильтрация по имени компонента, если указан аргумент
+  next if COMPONENT_FILTER && name != COMPONENT_FILTER
+  
   puts "=== Обработка компонента: #{name} ==="
   
   # 1. Конвертация BPMN
