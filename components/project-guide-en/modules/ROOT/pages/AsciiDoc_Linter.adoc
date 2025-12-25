@@ -1,0 +1,58 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+
+= AsciiDoc linter (asciidoctor-lint.log)
+
+The project runs an AsciiDoc check based on the `asciidoctor` CLI during `tools/start.rb`.
+The check **does not fail the build**: warnings/errors are written to logs and summarized at the end.
+
+== What is checked
+
+* AsciiDoc syntax (warnings/errors reported by `asciidoctor`).
+* Files: all `*.adoc` under `components/<name>/` (including `pages/`, `partials/`, etc.).
+
+The check is “dry-run”: `asciidoctor` is executed with `-o /dev/null`, without generating output files and without Kroki/extensions.
+
+== Where to look
+
+* Per-component log: `components/<name>/asciidoctor-lint.log`
+* Terminal summary printed at the end of `tools/start.rb`:
+** how many components were checked;
+** how many logs changed;
+** whether any issues exist.
+
+Example summary in the terminal after executing `tools/start.rb`:
+
+[source,text]
+----
+=== Asciidoctor lint summary ===
+Components checked: 6
+Logs updated: 0
+Components with issues: 0
+Components without asciidoctor CLI: 0
+----
+
+== Configuration (tools/config.yml)
+
+Default section:
+
+[source,yaml]
+----
+asciidoctor_lint:
+  enabled: true
+  src: "components/{name}/"
+  log: "components/{name}/asciidoctor-lint.log"
+  fail_build: false
+  # failure_level: "WARN"
+  # attributes:
+  #   allow-uri-read: true
+  #   kroki-default-format: "png"
+----
+
+== Note
+
+* `asciidoctor-lint.log` is a run artifact (it changes often), so it is listed in `.gitignore`.
+

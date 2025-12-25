@@ -5,7 +5,9 @@
 require_relative '../lib/list_generator'
 
 puts "🚀 Генератор списков файлов для Antora"
-puts "=" * 50
+#
+# puts
+# puts "=" * 50
 
 begin
   generator = ListGenerator.new

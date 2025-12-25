@@ -707,7 +707,7 @@ def process_source(source, settings, output_dir)
     puts "  ❌ Ошибка при обработке #{source_path}: #{e.message}"
   end
   
-  puts ""
+  # puts ""
 end
 
 # Парсинг аргументов командной строки
@@ -733,7 +733,7 @@ end.parse!
 # Основная логика
 puts "🚀 Генерация документации API"
 puts "📋 Конфигурация загружается из sources.yml"
-puts ""
+# puts ""
 
 # Загружаем конфигурацию
 sources_file = options[:sources] || 'sources.yml'
@@ -745,7 +745,7 @@ settings = config['settings'] || {}
 output_dir = options[:out] || File.join(__dir__, 'api-adoc')
 FileUtils.mkdir_p(output_dir) unless Dir.exist?(output_dir)
 puts "📁 Создана папка для документации: #{output_dir}/"
-puts ""
+# puts ""
 
 if sources.empty?
   puts "❌ Источники не найдены в конфигурации!"
@@ -757,7 +757,7 @@ puts "�� Найдено источников: #{sources.size}"
 sources.each_with_index do |source, index|
   puts "  #{index + 1}. #{source['description'] || source['path']} (#{source['type']})"
 end
-puts ""
+# puts ""
 
 # Обрабатываем каждый источник
 sources.each_with_index do |source, index|

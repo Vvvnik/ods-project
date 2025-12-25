@@ -26,9 +26,9 @@
 
 Все внешние сервисы (Kroki, Ollama, PostgreSQL) работают **на хосте** и доступны контейнерам через `host.docker.internal`:
 
-* **Kroki** - запускается на хосте, доступен через `host.docker.internal:8000` (настроено в `antora-playbook.yml`)
-* **Ollama** - запускается на хосте, доступен через `host.docker.internal:11434` (настроено в `docker-compose.yml` через `OLLAMA_HOST`)
-* **PostgreSQL** (pg-demo) - работает на хосте, доступен через `host.docker.internal` (настроено через `DB_HOST`)
+- **Kroki** - запускается на хосте, доступен через `host.docker.internal:8000` (URL передаётся в Antora через `KROKI_SERVER_URL` и `--attribute kroki-server-url=...`)
+- **Ollama** - запускается на хосте, доступен через `host.docker.internal:11434` (настроено в `docker-compose.yml` через `OLLAMA_HOST`)
+- **PostgreSQL** (pg-demo) - работает на хосте, доступен через `host.docker.internal` (настроено через `DB_HOST`)
 
 Такая архитектура позволяет:
 
@@ -44,6 +44,13 @@ docker-compose -f docker/docker-compose.yml run --rm pdf
 
 # Сборка сайта
 docker-compose -f docker/docker-compose.yml run --rm site
+
+# Предпросмотр сайта (поднимает HTTP сервер на порту 8080)
+# Откройте в браузере: http://localhost:8080
+docker-compose -f docker/docker-compose.yml up site-preview
+
+# Альтернатива через run (нужно пробросить порты):
+docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 
 # С конкретным компонентом
 docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
@@ -78,19 +85,27 @@ nc -vz localhost 5432
 # Connection to localhost port 5432 [tcp/postgresql] succeeded!
 ```
 
-### Настройка Kroki для docker-compose
+### Настройка Kroki для docker-compose / CI
 
-При использовании `docker-compose -f docker/docker-compose.yml run --rm site` необходимо настроить `kroki-server-url` в `antora-playbook.yml`:
+Единый подход: передаём `kroki-server-url` через CLI-атрибут Antora, а само значение берём из `KROKI_SERVER_URL`.
 
-```yaml
-# Для docker-compose локальной разработки:
-kroki-server-url: http://host.docker.internal:8000
+- Локально (docker-compose): по умолчанию `http://host.docker.internal:8000` (задаётся в `docker/docker-compose.yml`)
+- В CI: `http://kroki:8000` (задаётся в `.gitlab-ci.yml`)
 
-# Перед отправкой в CI замените на:
-# kroki-server-url: http://kroki:8000 # for CI
-```
+Примечание: в docker-compose для сервиса `site` используется `kroki-fetch-diagram!`, поэтому Antora **не обращается к Kroki во время сборки** (сборка пройдёт даже если Kroki не запущен).
+При этом диаграммы **не встраиваются** в результат сборки (`public/`) и без доступного Kroki (или без пересборки в режиме “встроить диаграммы”) могут не отображаться.
++
+Если хотите “встроить” диаграммы в HTML на этапе сборки (чтобы они отображались из `public/` без Kroki при просмотре), уберите `kroki-fetch-diagram!` и убедитесь, что Kroki доступен по `KROKI_SERVER_URL` во время сборки (неважно: Kroki на хосте или отдельным контейнером).
 
-⚠️ **Важно**: Перед отправкой изменений в CI убедитесь, что в `antora-playbook.yml` установлено `kroki-server-url: http://kroki:8000`.
+### Важно про “порт Antora”
+
+Antora **не поднимает веб‑сервер** — она генерирует статические файлы в `public/`.  
+Чтобы “запустить с портом”, используйте сервис `site-preview` (или любой другой статический сервер).
+
+### Примечание про 404 шрифтов в site-preview
+
+Если в логах `site-preview` вы видите 404 вида `GET /_/css/~@fontsource/...`, это означает, что браузер/сервер отдавал закешированную версию CSS со старыми путями.
+В сервисе `site-preview` кеширование отключено (опция `http-server -c-1`), поэтому обычно достаточно перезапустить `site-preview` и сделать hard refresh страницы (Cmd+Shift+R / Ctrl+F5).
 
 ## 🔧 Сборка образов
 

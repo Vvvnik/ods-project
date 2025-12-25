@@ -99,7 +99,11 @@ Model loads during image build (image size 10+ GB):
 For local development, `docker-compose.yml` requires only **two services**:
 
 * **`pdf`** - PDF document generation;
-* **`site`** - Antora site build.
+* **`site`** - Antora site build (generates static files into `public/`).
+
+Optional preview service:
+
+* **`site-preview`** - builds the site and starts an HTTP server on port `8080` for browser preview.
 
 All external services (Kroki, Ollama, PostgreSQL) run **on the host** and are accessible to containers via `host.docker.internal`:
 
@@ -123,6 +127,12 @@ docker-compose -f docker/docker-compose.yml run --rm pdf
 # Documentation site build
 docker-compose -f docker/docker-compose.yml run --rm site
 
+# Site preview (port 8080)
+docker-compose -f docker/docker-compose.yml up site-preview
+#
+# Alternative via run (ports must be published):
+docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
+
 # With specific component
 docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
 ----
@@ -131,6 +141,9 @@ docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb air
 After Docker site build, Antora outputs message `Open file:///app/public/index.html`, 
 but you need to open `public/index.html` in the local project directory (on the host), 
 since the `/app` directory inside the container is mounted to the project root.
+
+If you see 404 requests like `GET /_/css/~@fontsource/...` in `site-preview` (`http-server`) logs, it’s usually caused by browser/server caching.
+Restart `site-preview` and do a hard refresh (Cmd+Shift+R / Ctrl+F5).
 
 === Service Connection Check
 
@@ -163,21 +176,41 @@ nc -vz localhost 5432
 === Service Configuration for docker-compose
 ==== Kroki Configuration
 
-When using `docker-compose -f docker/docker-compose.yml run --rm site`, you need to configure `kroki-server-url` in `antora-playbook.yml`:
+Now `kroki-server-url` is passed to Antora as a CLI attribute:
 
-[source,yaml]
+[source,bash]
 ----
-# For docker-compose local development:
-kroki-server-url: http://host.docker.internal:8000
-
-# Before pushing to CI, change to:
-# kroki-server-url: http://kroki:8000 # for CI
+antora generate --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
 ----
 
-:note-caption: Important
+So you **don't need to edit** `antora-playbook.yml` for different environments.
 
-[NOTE]
-Before pushing changes to CI, make sure `kroki-server-url: http://kroki:8000` is set in `antora-playbook.yml`, otherwise CI build won't be able to connect to Kroki service.
+* Locally (docker-compose) the default `KROKI_SERVER_URL` is `http://host.docker.internal:8000`
+* In CI `KROKI_SERVER_URL` is `http://kroki:8000`
+
+===== Diagrams (PlantUML) and why they may “disappear”
+
+In this project, PlantUML diagrams are rendered via the `asciidoctor-kroki` extension, which requires a reachable Kroki server.
+
+There are two different modes:
+
+* *Render “at build time” (baked SVG/PNG under `public/`)*:
+Antora calls Kroki during generation and writes images to `public/**/_images/`.
+In this mode diagrams will be visible in the generated HTML even if Kroki is not running when you view the site.
+
+* *No render “at build time”*:
+Antora builds pages but does not fetch diagrams from Kroki during generation.
+In this mode diagrams may:
+** not appear in HTML;
+** appear/disappear after rebuilding because `public/` is overwritten;
+** “seem” present due to stale files if you didn’t use `--clean`.
+
+In `docker/docker-compose.yml`, the `site` service uses `kroki-fetch-diagram!`, so Kroki is *not required to build*, but diagrams are *not baked into* the build output.
+
+If you want `docker-compose -f docker/docker-compose.yml run --rm site` to always bake diagrams:
+
+* remove `--attribute kroki-fetch-diagram!` from the `site` command;
+* make sure Kroki is reachable via `KROKI_SERVER_URL` during the build.
 
 ==== Ollama Configuration
 

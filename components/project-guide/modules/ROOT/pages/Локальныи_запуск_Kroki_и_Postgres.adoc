@@ -25,24 +25,27 @@ docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 
 === Конфигурация Antora
 
-В файле `antora-playbook.yml` настроен URL для CI:
-
-[source,yaml]
-----
-kroki-server-url: http://kroki:8000  # для CI
-----
+В `antora-playbook.yml` расширение Kroki подключено, но `kroki-server-url` **не хардкодится** под конкретное окружение.
+URL Kroki передаётся в Antora через CLI-атрибут `kroki-server-url`.
 
 :warning-caption: Важно
 
 [NOTE]
-Для локального запуска Antora используйте CLI параметр, который переопределяет значение из YAML:
+Для локального запуска Antora укажите URL Kroki через CLI-атрибут:
 
 [source,bash]
 ----
-npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+npx antora generate --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
 ----
 
 Это позволяет не менять `antora-playbook.yml` вручную при переключении между локальной разработкой и CI.
+
+Альтернатива — использовать docker-compose сервис `site`, который уже передаёт `kroki-server-url` через `KROKI_SERVER_URL`:
+
+[source,bash]
+----
+docker-compose -f docker/docker-compose.yml run --rm site
+----
 
 == Postgres
 

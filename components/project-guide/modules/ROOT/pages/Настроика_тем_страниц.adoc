@@ -103,8 +103,14 @@ include::../partials/attr_common.adoc[]
 Параметры:
 
 * custom_title_page: тип титульной страницы (original, contract, original_frame, none);
-* custom_other_page: тип обычных страниц (original, original_frame, contract, none);
+* custom_other_page: тип обычных страниц (original, original_frame, none);
 * use_title_pages: включить/выключить титульные страницы (true/false);
+
+:note-caption: Важно
+
+[NOTE]
+Для `custom_other_page` варианта `contract` нет (модуль `convert_other_page_contract.rb` не реализован).
+Если вам нужен “контрактный” титул — используйте `:custom_title_page: contract`, а для остальных страниц ставьте `:custom_other_page: original` (или `original_frame`).
 
 Типы титульных и обычных страниц настраиваются независимо:
 
@@ -268,7 +274,7 @@ page:
 Доступные типы:
 
 * Титульные: original, contract, original_frame, approval_page_gost, none;
-* Обычные: original, original_frame, contract, none;
+* Обычные: original, original_frame, none;
 
 == Стандартное поведение AsciiDoc
 
@@ -300,7 +306,6 @@ page:
 
 * original → convert_other_page_original;
 * original_frame → convert_other_page_original_frame;
-* contract → convert_other_page_contract;
 * none → отключено;
 
 Типы титульных и обычных страниц настраиваются независимо через разные атрибуты:
@@ -325,7 +330,6 @@ page:
 :pdf-theme: act
 :custom_other_page: original_frame    # → тема 'frame'
 :custom_other_page: original          # → тема 'report'
-:custom_other_page: contract          # → тема 'report'
 :custom_other_page: none              # → тема 'report'
 ----
 

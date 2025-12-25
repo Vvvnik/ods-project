@@ -28,19 +28,7 @@ cd ods-project
 
 == Step 2: Starting the Project
 
-Start the project using Docker Compose:
-
-[source,bash]
-----
-docker-compose up -d
-----
-
-This will launch:
-
-* Kroki service for diagram generation (if configured);
-* PostgreSQL database (if configured);
-
-For local development, you can use ready-made commands from docker-compose.yml.
+For local development, use the ready-made commands from `docker/docker-compose.yml` (see xref:Docker_Build_and_Services.adoc[Docker Build and Services]).
 
 == Step 3: Creating a New Component
 
@@ -172,7 +160,17 @@ Or use a direct Docker call:
 ----
 docker run --rm -v $(pwd):/app \
   registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2 \
-  antora antora-playbook.yml
+  antora generate --attribute kroki-server-url=http://host.docker.internal:8000 antora-playbook.yml
+----
+
+For HTTP preview (more convenient than `file://`), use the preview service:
+
+[source,bash]
+----
+docker-compose -f docker/docker-compose.yml up site-preview
+#
+# Or via run (ports must be published):
+docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 ----
 
 // insert a common warning block for several pages

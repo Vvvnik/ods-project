@@ -349,7 +349,7 @@ class CustomPDFConverter < (Asciidoctor::Converter.for 'pdf')
     # Включаем модуль в текущий класс
     if @list_converter_module
       self.class.include(@list_converter_module)
-      puts "✅ Загружен модуль списков: #{module_name}"
+      # puts "✅ Загружен модуль списков: #{module_name}"
     end
   end
   
@@ -360,11 +360,11 @@ class CustomPDFConverter < (Asciidoctor::Converter.for 'pdf')
     
     # Проверяем, что атрибут не равен false
     if approval_page_type.to_s.downcase == 'false'
-      puts "⏭️  Атрибут :approval-page: false, пропускаем генерацию ЛУ"
+      # puts "⏭️  Атрибут :approval-page: false, пропускаем генерацию ЛУ"
       return
     end
     
-    puts "🔄 Найден атрибут :approval-page: #{approval_page_type}, генерируем лист утверждения..."
+    # puts "🔄 Найден атрибут :approval-page: #{approval_page_type}, генерируем лист утверждения..."
     
     # Получаем путь к основному документу
     doc_path = doc.attr('docfile') || doc.attr('docname')
@@ -382,7 +382,7 @@ class CustomPDFConverter < (Asciidoctor::Converter.for 'pdf')
       success = ApprovalPageGenerator.generate_approval_page(doc, nil, doc_dir)
       
       if success
-        puts "✅ Лист утверждения сгенерирован в генерации листа утверждения"
+        # puts "✅ Лист утверждения сгенерирован в генерации листа утверждения"
       else
         puts "❌ Ошибка при генерации листа утверждения"
       end

@@ -22,5 +22,32 @@ services:
     volumes:
       - ${PWD}:/app
     working_dir: /app
-    command: antora antora-playbook.yml
+    # Antora — генератор статического сайта: собирает в public/ и завершает работу (не поднимает сервер/порт).
+    # Важно: kroki-fetch-diagram! отключает генерацию диаграмм на этапе сборки (Antora не будет обращаться к Kroki).
+    # Диаграммы в этом режиме будут рендериться только при просмотре (нужен доступный Kroki по kroki-server-url).
+    command: sh -lc 'antora generate --attribute kroki-server-url=${KROKI_SERVER_URL:-http://host.docker.internal:8000} --attribute kroki-fetch-diagram! antora-playbook.yml'
+    environment:
+      - KROKI_SERVER_URL=${KROKI_SERVER_URL:-http://host.docker.internal:8000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    network_mode: bridge
+
+  # Предпросмотр сайта (поднимает простой http-server на 0.0.0.0:8080)
+  # Использование:
+  #   docker-compose -f docker/docker-compose.yml run --rm site
+  #   docker-compose -f docker/docker-compose.yml up --build site-preview
+  site-preview:
+    image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
+    container_name: ods-project-site-preview
+    volumes:
+      - ${PWD}:/app
+    working_dir: /app
+    # -c-1 отключает кеширование, чтобы изменения UI/CSS применялись сразу без "призрачных" 404 из кеша браузера.
+    command: sh -lc 'antora generate --attribute kroki-server-url=${KROKI_SERVER_URL:-http://host.docker.internal:8000} --attribute kroki-fetch-diagram! antora-playbook.yml && npx --yes http-server public -a 0.0.0.0 -p 8080 -c-1'
+    ports:
+      - "8080:8080"
+    environment:
+      - KROKI_SERVER_URL=${KROKI_SERVER_URL:-http://host.docker.internal:8000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     network_mode: bridge

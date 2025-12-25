@@ -83,6 +83,17 @@ defaults: &defaults
     timeout: 30                   # ← Таймаут запроса в секундах
     retry_attempts: 3             # ← Количество попыток при ошибке
     model: "gemma:latest"       # ← Модель LLM (gemma:latest)
+
+  # Asciidoctor lint (проверка синтаксиса/структуры AsciiDoc) — без генерации выходных файлов
+  # Пишет лог на компонент: components/{name}/asciidoctor-lint.log
+  # Важно: lint НЕ валит сборку, только формирует логи и сводку в конце start.rb
+  asciidoctor_lint:
+    enabled: true
+    src: "components/{name}"                    # ← Рекурсивно проверять все *.adoc внутри компонента (pages, partials, и т.д.)
+    log: "components/{name}/asciidoctor-lint.log" # ← Куда писать лог по компоненту
+    # failure_level: "WARN"                     # ← (опционально) ERROR|WARN|INFO|DEBUG. Если задать, Asciidoctor будет возвращать код ошибки при уровне >= failure_level
+    # attributes:                               # ← (опционально) атрибуты Asciidoctor, если понадобятся
+    #   allow-uri-read: true                    # ← Разрешает include::http(s)://...[] (не нужно, если все include локальные)
 # uml и plantuml не конвертируем это делает kroki
 # Список компонентов и параметров сборки
 # ******************************************************
@@ -94,11 +105,11 @@ defaults: &defaults
 components:
   - name: airport-service
     <<: *defaults
-    # db:
-    #   enabled: true #TODO: включить генерацию БД
-    #   profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
-    # ollama:
-    #   enabled: true                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
+    db:
+      enabled: true #TODO: включить генерацию БД
+      profile: "pg_demo" #TODO: указать профиль БД для подключения к БД из файла database.yml в компоненте
+    ollama:
+      enabled: true                 # ← Включить/отключить LLM сервис (ОТКЛЮЧЕНО по умолчанию)
     # pdf: #TODO: включить генерацию PDF документации
     #   enabled: true #TODO: включить генерацию PDF документации
 

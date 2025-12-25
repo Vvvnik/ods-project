@@ -10,6 +10,72 @@ include::../partials/attr_common.adoc[]
 
 Однако, в случае необходимости, можно выполнить генерацию документации вручную.
 
+:note-caption: Примечание
+
+[NOTE]
+В ряде Ruby-скриптов проекта часть подробных сообщений в консоль (`puts`) намеренно закомментирована, чтобы уменьшить “зашумление” вывода (и немного ускорить прогон в терминале).
+Если вам нужен более подробный вывод для отладки, временно раскомментируйте нужные `puts` в соответствующих файлах `tools/**` и запустите сборку повторно.
+Для AsciiDoc-проверок также используйте логи по компонентам: `components/<name>/asciidoctor-lint.log`.
+
+== Пример: Asciidoctor lint (было / стало)
+
+Пример ошибки в `components/<name>/asciidoctor-lint.log`:
+
+[source,text]
+----
+=== components/data-processing-engine/modules/hardware-complex/pages/index.adoc ===
+asciidoctor: ERROR: index.adoc: line 172: detected unterminated preprocessor conditional directive: ifdef::env-antora[]
+----
+
+В файле была ошибка:
+
+[source,text]
+----
+\ifdef::env-antora[]
+image::diagram-1.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
+----
+
+
+Сводка в конце `tools/start.rb` (как было *до исправления*):
+
+[source,text]
+----
+=== Asciidoctor lint summary ===
+Компонентов проверено: 6
+Логи обновились: 1
+Компонентов с проблемами: 1
+Компонентов без asciidoctor CLI: 0
+
+Обновленные логи:
+  - data-processing-engine: 1 ERROR / 0 WARNING (1/13 файлов) — components/data-processing-engine/asciidoctor-lint.log
+
+Компоненты с ошибками/предупреждениями:
+  - data-processing-engine: 1 ERROR / 0 WARNING — components/data-processing-engine/asciidoctor-lint.log
+----
+
+В файле исправили ошибку так:
+
+[source,text]
+----
+\ifdef::env-antora[]
+image::diagram-1.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
+\endif::env-antora[]
+----
+
+После исправления файла сводка выглядит так:
+
+[source,text]
+----
+=== Asciidoctor lint summary ===
+Компонентов проверено: 6
+Логи обновились: 1
+Компонентов с проблемами: 0
+Компонентов без asciidoctor CLI: 0
+
+Обновленные логи:
+  - data-processing-engine: 0 ERROR / 0 WARNING (0/13 файлов) — components/data-processing-engine/asciidoctor-lint.log
+----
+
 :num_t: {counter:table-number}
 Этапы автоматической генерации документации приведены в <<id_t_{num_t}, Таблице {num_t}>>.
 

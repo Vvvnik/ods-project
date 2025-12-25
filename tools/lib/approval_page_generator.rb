@@ -6,7 +6,7 @@ module ApprovalPageGenerator
   
   # Генерирует лист утверждения на основе основного документа
   def self.generate_approval_page(main_doc, approval_template_path, output_dir)
-    puts "🔄 Generating approval page with attributes from main document..."
+    # puts "🔄 Generating approval page with attributes from main document..."
     
     # Извлекаем атрибуты из основного документа
     main_attrs = extract_attributes_from_doc(main_doc)
@@ -25,7 +25,7 @@ module ApprovalPageGenerator
     approval_filename = "#{module_name}_#{doc_name}_LU.pdf"
     output_path = File.join(lu_output_dir, approval_filename)
     
-    puts "📄 Approval page name: #{approval_filename}"
+    # puts "📄 Approval page name: #{approval_filename}"
     
     # Создаем временный файл с встроенным шаблоном
     temp_file = create_temp_approval_file(main_attrs, doc_path)
@@ -102,7 +102,7 @@ module ApprovalPageGenerator
     attrs['signer_6_position'] = doc.attr('signer_6_position') || ''
     attrs['signer_6_name'] = doc.attr('signer_6_name') || ''
     
-    puts "📋 Extracted attributes: #{attrs.keys.join(', ')}"
+    # puts "📋 Extracted attributes: #{attrs.keys.join(', ')}"
     attrs
   end
   
@@ -149,13 +149,13 @@ module ApprovalPageGenerator
     temp_path = File.join(doc_dir, "approval_page_temp_#{Time.now.to_i}.adoc")
     File.write(temp_path, content, encoding: 'UTF-8')
     
-    puts "📝 Created temporary file: #{temp_path}"
+    # puts "📝 Created temporary file: #{temp_path}"
     temp_path
   end
   
   # Генерирует PDF из временного файла
   def self.generate_approval_pdf(temp_file, output_path)
-    puts "🎯 Generating approval page PDF..."
+    # puts "🎯 Generating approval page PDF..."
     
     # Команда для генерации PDF
     cmd = [
@@ -172,13 +172,13 @@ module ApprovalPageGenerator
       temp_file
     ].join(' ')
     
-    puts "🚀 Executing command: #{cmd}"
+    # puts "🚀 Executing command: #{cmd}"
     
     # Выполняем команду
     result = system(cmd)
     
     if result
-      puts "✅ Approval page generated: #{output_path}"
+      # puts "✅ Approval page generated: #{output_path}"
       true
     else
       puts "❌ Error generating approval page"

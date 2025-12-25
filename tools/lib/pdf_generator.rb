@@ -63,15 +63,15 @@ module PdfGenerator
       if custom_other_page == 'contract'
         # Для контрактов используем act тему (номера страниц с первой страницы)
         pdf_theme = 'act'
-        puts "    🎨 Выбрана тема 'act' для контрактов: #{custom_other_page}"
+        # puts "    🎨 Выбрана тема 'act' для контрактов: #{custom_other_page}"
       elsif custom_other_page && custom_other_page.end_with?('_frame')
         # Для типов с суффиксом "_frame" используем frame тему (меньше полей)
         pdf_theme = 'frame'
-        puts "    🎨 Выбрана тема 'frame' для типа страниц: #{custom_other_page}"
+        # puts "    🎨 Выбрана тема 'frame' для типа страниц: #{custom_other_page}"
       else
         # Для всех остальных типов используем report тему (больше полей)
         pdf_theme = 'report'
-        puts "    🎨 Выбрана тема 'report' для типа страниц: #{custom_other_page || 'default'}"
+        # puts "    🎨 Выбрана тема 'report' для типа страниц: #{custom_other_page || 'default'}"
       end
     end
     
@@ -153,7 +153,7 @@ module PdfGenerator
       
       # Генерируем все PDF в этой папке
       files.each do |adoc_file|
-        puts "    Обработка: #{File.basename(adoc_file)}"
+        # puts "    Обработка: #{File.basename(adoc_file)}"
         
         # Создаем PDF аргументы для этого файла
         pdf_args = build_pdf_args(comp, kroki_url, adoc_file, defaults)
@@ -170,7 +170,7 @@ module PdfGenerator
         # Проверяем что PDF создан
         pdf_file = adoc_file.gsub('.adoc', '.pdf')
         if File.exist?(pdf_file)
-          puts "    ✅ PDF создан в pages/: #{pdf_file}"
+          # puts "    ✅ PDF создан в pages/: #{pdf_file}"
         else
           puts "    ⚠️  PDF файл не создан: #{pdf_file}"
         end
@@ -210,7 +210,7 @@ module PdfGenerator
       # Удаляем исходный PDF из pages/ после успешного переноса
       FileUtils.rm(pdf_file) if File.exist?(dst_pdf) && dst_pdf != pdf_file
       
-      puts "    📄 Перенесен: #{File.basename(pdf_file)} -> #{dst_pdf}"
+      # puts "    📄 Перенесен: #{File.basename(pdf_file)} -> #{dst_pdf}"
     end
     
     puts "    ✅ Из #{pages_dir}: перенесено #{pdf_files.size} PDF файлов"

@@ -98,7 +98,11 @@ include::../partials/attr_common.adoc[]
 Для локальной разработки в `docker-compose.yml` достаточно **двух сервисов**:
 
 * **`pdf`** - генерация PDF документов;
-* **`site`** - сборка сайта с Antora.
+* **`site`** - сборка сайта с Antora (генерация статики в `public/`).
+
+Опционально доступен сервис предпросмотра:
+
+* **`site-preview`** - сборка сайта и запуск HTTP-сервера на порту `8080` для просмотра в браузере.
 
 Все внешние сервисы (Kroki, Ollama, PostgreSQL) работают **на хосте** и доступны контейнерам через `host.docker.internal`:
 
@@ -122,6 +126,12 @@ docker-compose -f docker/docker-compose.yml run --rm pdf
 # Сборка сайта документации
 docker-compose -f docker/docker-compose.yml run --rm site
 
+# Предпросмотр сайта (порт 8080)
+docker-compose -f docker/docker-compose.yml up site-preview
+#
+# Альтернатива через run (нужно пробросить порты):
+docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
+
 # С конкретным компонентом
 docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
 ----
@@ -132,6 +142,9 @@ docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb air
 После Docker сборки сайта Antora выводит сообщение `Open file:///app/public/index.html`, 
 но файл нужно открывать в `public/index.html` проекта локальной сборки (на хосте), 
 так как директория `/app` внутри контейнера монтируется в корень проекта.
+
+Если при использовании `site-preview` в логах `http-server` появляются 404 запросы на `/_/css/~@fontsource/...`, это обычно связано с кешированием в браузере/сервере.
+Перезапустите `site-preview` и сделайте hard refresh страницы (Cmd+Shift+R / Ctrl+F5).
 
 === Проверка подключения к сервисам
 
@@ -164,21 +177,41 @@ nc -vz localhost 5432
 === Настройка сервисов для docker-compose
 ==== Настройка Kroki
 
-При использовании `docker-compose -f docker/docker-compose.yml run --rm site` необходимо настроить `kroki-server-url` в `antora-playbook.yml`:
+Сейчас `kroki-server-url` передаётся при запуске Antora через CLI-атрибут:
 
-[source,yaml]
+[source,bash]
 ----
-# Для docker-compose локальной разработки:
-kroki-server-url: http://host.docker.internal:8000
-
-# Перед отправкой в CI замените на:
-# kroki-server-url: http://kroki:8000 # for CI
+antora generate --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
 ----
 
-:note-caption: Важно
+Поэтому `antora-playbook.yml` **не нужно править** под разные окружения.
 
-[NOTE]
-Перед отправкой изменений в CI убедитесь, что в `antora-playbook.yml` установлено `kroki-server-url: http://kroki:8000`, иначе сборка в CI не сможет подключиться к Kroki сервису.
+* Локально (docker-compose) `KROKI_SERVER_URL` по умолчанию: `http://host.docker.internal:8000`
+* В CI `KROKI_SERVER_URL`: `http://kroki:8000`
+
+===== Диаграммы (PlantUML) и почему они могут “пропадать”
+
+В проекте диаграммы PlantUML рендерятся через расширение `asciidoctor-kroki`, то есть нужен доступный сервер Kroki.
+
+Важно различать два режима:
+
+* *Рендер “на этапе сборки” (встроенные SVG/PNG в `public/`)*:
+Antora обращается к Kroki во время генерации и кладёт картинки в `public/**/_images/`.
+В этом режиме диаграммы будут отображаться при просмотре HTML даже без запущенного Kroki.
+
+* *Без рендера “на этапе сборки”*:
+Antora собирает страницы, но не запрашивает диаграммы у Kroki во время генерации.
+В этом режиме диаграммы могут:
+** не появиться в HTML;
+** появляться/исчезать при пересборке, если `public/` перезаписывается;
+** “казаться” видимыми из-за старых файлов в `public/`, если вы не делали `--clean`.
+
+В `docker/docker-compose.yml` для сервиса `site` используется `kroki-fetch-diagram!`, поэтому Kroki *не требуется для сборки*, но диаграммы *не встраиваются* в результат сборки.
+
+Если вам нужно, чтобы `docker-compose -f docker/docker-compose.yml run --rm site` всегда генерировал встроенные диаграммы:
+
+* уберите `--attribute kroki-fetch-diagram!` из команды сервиса `site`;
+* убедитесь, что Kroki доступен по `KROKI_SERVER_URL` во время сборки.
 
 ==== Настройка Ollama
 
