@@ -4,7 +4,7 @@ require_relative 'title_page_blocks'
 module ConvertApprovalPageGost
   
   def generate_approval_page_gost(doc)
-    puts "🎯 Генерируем лист утверждения в стиле ГОСТ..."
+    # puts "🎯 Генерируем лист утверждения в стиле ГОСТ..."
     
     canvas do
       # Регистрируем шрифт Times
@@ -22,7 +22,7 @@ module ConvertApprovalPageGost
       draw_approval_content(doc)
     end
     
-    puts "✅ Лист утверждения в стиле ГОСТ сгенерирован"
+    # puts "✅ Лист утверждения в стиле ГОСТ сгенерирован"
   end
   
   

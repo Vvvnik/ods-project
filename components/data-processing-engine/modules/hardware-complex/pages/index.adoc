@@ -118,6 +118,7 @@ BPMN диаграмма основного процесса работы сис�
 .Рисунок {num_i}. Диаграмма процесса обработки данных
 ifdef::env-antora[]
 image::diagram-1.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
+endif::env-antora[]
 
 
 

@@ -1,0 +1,63 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+
+= Линтер AsciiDoc (asciidoctor-lint.log)
+
+Проект выполняет проверку AsciiDoc файлов на базе CLI `asciidoctor` во время запуска `tools/start.rb`.
+Проверка **не ломает сборку**: ошибки/предупреждения сохраняются в логах и выводятся краткой сводкой в конце.
+
+== Что проверяется
+
+* Синтаксис AsciiDoc (ошибки/предупреждения `asciidoctor`).
+* Файлы: все `*.adoc` внутри `components/<name>/` (включая `pages/`, `partials/` и т.д.).
+
+Проверка выполняется “вхолостую”: `asciidoctor` запускается с `-o /dev/null`, без генерации выходных файлов и без подключения Kroki/расширений.
+
+== Где смотреть результат
+
+* Лог по компоненту: `components/<name>/asciidoctor-lint.log`
+* Итоговая сводка в терминале после выполнения `tools/start.rb`:
+** сколько компонентов проверено;
+** сколько логов обновилось;
+** есть ли проблемы.
+
+Пример сводки в терминале после выполнения `tools/start.rb`:
+
+[source,text]
+----
+=== Asciidoctor lint summary ===
+Компонентов проверено: 6
+Логи обновились: 0
+Компонентов с проблемами: 0
+Компонентов без asciidoctor CLI: 0
+----
+
+== Настройка (tools/config.yml)
+
+Раздел по умолчанию:
+
+[source,yaml]
+----
+asciidoctor_lint:
+  enabled: true
+  src: "components/{name}/"
+  log: "components/{name}/asciidoctor-lint.log"
+  fail_build: false
+  # failure_level: "WARN"
+  # attributes:
+  #   allow-uri-read: true
+  #   kroki-default-format: "png"
+----
+
+== Важно
+
+* `asciidoctor-lint.log` — это артефакт запуска (файл может меняться часто), поэтому он добавлен в `.gitignore`.
+
+== См. также
+
+* xref:Правка_и_проверка.adoc[Правка и проверка] — пример ошибки/исправления и сводки lint.
+* xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы] — запуск сборки/проверок через docker-compose.
+

@@ -29,8 +29,10 @@ other_pages:
   # Страницы с рамками и приставкой – конвертер tools/lib/convert_other_page_original_frame.rb
   original_frame: "convert_other_page_original_frame"
   
-  # Страницы для контрактов (используют report тему) – конвертер tools/lib/convert_other_page_contract.rb
-  contract: "convert_other_page_contract"
+  # Примечание: варианта "contract" для other_pages нет (модуль convert_other_page_contract.rb не реализован).
+  # Для контрактов используйте:
+  # - custom_other_page: original        (без рамок)
+  # - custom_other_page: original_frame  (с рамками)
   
   
   # Без дополнительного оформления (стандартное Asciidoctor) – конвертер не загружается, обычная страница отключена

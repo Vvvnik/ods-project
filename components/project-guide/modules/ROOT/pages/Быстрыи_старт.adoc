@@ -134,10 +134,10 @@ content:
 
 [source,bash]
 ----
-docker-compose -f docker/docker-compose.yml run --rm pdf
+docker-compose -f docker/docker-compose.yml run --rm start
 ----
 
-Или используйте прямой вызов Docker:
+Или используйте прямой вызов Docker (эквивалент `docker-compose ... run --rm start`):
 
 [source,bash]
 ----
@@ -150,7 +150,7 @@ docker run --rm -v $(pwd):/app \
 
 [source,bash]
 ----
-docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
 ----
 
 == Шаг 9: Генерация сайта
@@ -162,27 +162,13 @@ docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb air
 docker-compose -f docker/docker-compose.yml run --rm site
 ----
 
-:note-caption: Важно
+`kroki-server-url` передаётся в Antora через CLI-атрибут (см. xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы]), поэтому `antora-playbook.yml` вручную менять не нужно.
 
-[NOTE]
-При использовании `docker-compose -f docker/docker-compose.yml run --rm site` необходимо настроить `kroki-server-url` в `antora-playbook.yml`:
-
-[source,yaml]
-----
-# Для docker-compose локальной разработки:
-kroki-server-url: http://host.docker.internal:8000
-
-# Перед отправкой в CI замените на:
-# kroki-server-url: http://kroki:8000 # for CI
-----
-
-Или используйте прямой вызов Docker:
+Если нужно запустить предпросмотр с сервером, используйте:
 
 [source,bash]
 ----
-docker run --rm -v $(pwd):/app \
-  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2 \
-  antora antora-playbook.yml
+docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 ----
 
 // вставка общего для нескольких страниц блока с предупреждением
@@ -205,6 +191,18 @@ start public/index.html
 ----
 
 Или просто откройте файл `public/index.html` в браузере.
+
+Если хотите открыть сайт по HTTP (удобнее, чем `file://`), используйте сервис предпросмотра:
+
+[source,bash]
+----
+docker-compose -f docker/docker-compose.yml up site-preview
+#
+# Или через run (важно пробросить порты):
+docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
+----
+
+Откройте ссылку из вывода сервера (Ctrl+Click). Для выхода из режима сервера: Ctrl+C.
 
 :note-caption: Важно
 

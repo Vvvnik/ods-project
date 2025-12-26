@@ -46,7 +46,7 @@ build_all:
     - echo "=== PDF build END ==="
     - npm config set cache .npm --global
     - if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi
-    - antora antora-playbook.yml
+    - antora generate --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
     - if [ ! -d public ]; then mkdir -p public && cp -a build/site/. public/; fi
   artifacts:
     when: always

@@ -47,8 +47,12 @@ asciidoc:
   attributes:
 
     # Совет: в CI (и локально при желании) URL можно передать через CLI:
-    #   antora -a kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
-    kroki-server-url: http://kroki:8000 # for CI
+    #   antora generate --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
+    # Важно: в Antora/Asciidoctor.js конструкция вида '{env:KROKI_SERVER_URL}' в значении атрибута
+    # не подставляется и уходит в Kroki буквально. Поэтому URL задаём через CLI (--attribute).
+    #
+    # Примеры (хардкод, если нужно): 
+    # kroki-server-url: http://kroki:8000 # for CI
     # kroki-server-url: http://localhost:8000 # for local development
     # kroki-server-url: http://host.docker.internal:8000 # for docker-compose local development
     kroki-default-format: svg

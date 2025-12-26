@@ -10,6 +10,71 @@ All documentation generation stages are performed automatically through the star
 
 However, if necessary, documentation generation can be performed manually.
 
+:note-caption: Note
+
+[NOTE]
+In several Ruby scripts in this project, some verbose console output (`puts`) is intentionally commented out to reduce log noise (and slightly speed up terminal runs).
+If you need more detailed output for troubleshooting, temporarily uncomment the required `puts` in the relevant files under `tools/**` and rerun the build.
+For AsciiDoc checks, you can also review per-component logs: `components/<name>/asciidoctor-lint.log`.
+
+== Example: Asciidoctor lint (before / after)
+
+Example error in `components/<name>/asciidoctor-lint.log`:
+
+[source,text]
+----
+=== components/data-processing-engine/modules/hardware-complex/pages/index.adoc ===
+asciidoctor: ERROR: index.adoc: line 172: detected unterminated preprocessor conditional directive: ifdef::env-antora[]
+----
+
+The file contained an error:
+
+[source,text]
+----
+\ifdef::env-antora[]
+image::diagram-1.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
+----
+
+Summary at the end of `tools/start.rb` (as it looked *before the fix*):
+
+[source,text]
+----
+=== Asciidoctor lint summary ===
+Components checked: 6
+Logs updated: 1
+Components with issues: 1
+Components without asciidoctor CLI: 0
+
+Updated logs:
+  - data-processing-engine: 1 ERROR / 0 WARNING (1/13 files) — components/data-processing-engine/asciidoctor-lint.log
+
+Components with errors/warnings:
+  - data-processing-engine: 1 ERROR / 0 WARNING — components/data-processing-engine/asciidoctor-lint.log
+----
+
+The error was fixed like this:
+
+[source,text]
+----
+\ifdef::env-antora[]
+image::diagram-1.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
+\endif::env-antora[]
+----
+
+After fixing the file, the summary looks like this:
+
+[source,text]
+----
+=== Asciidoctor lint summary ===
+Components checked: 6
+Logs updated: 1
+Components with issues: 0
+Components without asciidoctor CLI: 0
+
+Updated logs:
+  - data-processing-engine: 0 ERROR / 0 WARNING (0/13 files) — components/data-processing-engine/asciidoctor-lint.log
+----
+
 :num_t: {counter:table-number}
 Automatic documentation generation stages are shown in <<id_t_{num_t}, Table {num_t}>>.
 

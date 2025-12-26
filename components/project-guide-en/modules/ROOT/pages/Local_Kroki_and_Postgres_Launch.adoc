@@ -25,24 +25,27 @@ The project uses the `KROKI_SERVER_URL` variable to specify the Kroki server add
 
 === Antora Configuration
 
-The `antora-playbook.yml` file is configured with URL for CI:
-
-[source,yaml]
-----
-kroki-server-url: http://kroki:8000  # for CI
-----
+In `antora-playbook.yml`, the Kroki extension is enabled, but `kroki-server-url` is **not hardcoded** for a specific environment.
+The Kroki URL is passed to Antora via the `kroki-server-url` CLI attribute.
 
 :warning-caption: Important
 
 [NOTE]
-For local Antora launch, use CLI parameter that overrides YAML value:
+For local Antora launch, provide Kroki URL via a CLI attribute:
 
 [source,bash]
 ----
-npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
+npx antora generate --attribute kroki-server-url=http://localhost:8000 antora-playbook.yml
 ----
 
 This allows not manually changing `antora-playbook.yml` when switching between local development and CI.
+
+Alternatively, you can use the docker-compose `site` service, which already passes `kroki-server-url` via `KROKI_SERVER_URL`:
+
+[source,bash]
+----
+docker-compose -f docker/docker-compose.yml run --rm site
+----
 
 == Postgres
 

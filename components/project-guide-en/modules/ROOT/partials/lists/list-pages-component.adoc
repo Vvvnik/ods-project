@@ -2,6 +2,7 @@
 ** xref:API_Documentation_Parsing.adoc[API Documentation Parsing]
 ** xref:Approval_Sheet_System.adoc[Approval Sheet System (AS)]
 ** xref:Architecture_and_System_Composition.adoc[Architecture and System Composition]
+** xref:AsciiDoc_Linter.adoc[AsciiDoc linter (asciidoctor-lint.log)]
 ** xref:Automated_File_List_Generation.adoc[Automated File List Generation]
 ** xref:CI_CD.adoc[CI/CD]
 ** xref:Config_YML_Setup.adoc[Config.yml Setup]

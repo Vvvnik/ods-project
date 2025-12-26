@@ -19,17 +19,18 @@ class ListGenerator
     puts "🔄 Генерация списков для всех компонентов..."
     
     components = @config['components'] || []
-    components.each do |component|
-      component_name = component['name']
-      next unless list_enabled?(component)
-      
-      puts "📁 Обработка компонента: #{component_name}"
-      
-      generate_component_list(component)
+    component_names = components.map { |c| c['name'] }.uniq
+
+    component_names.each do |component_name|
+      next unless list_enabled_for_component_name?(component_name, components)
+
+      puts "Обработка компонента: #{component_name}"
+
+      generate_component_list({ 'name' => component_name })
       update_nav_with_include(component_name)
     end
-    
-    puts "✅ Генерация завершена!"
+
+    # puts "✅ Генерация завершена!"
   end
 
   def generate_component_list(component)
@@ -43,17 +44,18 @@ class ListGenerator
     end
 
     # Генерируем список .adoc файлов (навигацию)
-    if generate_adoc_list(component, component_name, component_dir)
-      puts "✅ Список .adoc файлов сгенерирован для #{component_name}"
-    else
-      puts "❌ Ошибка генерации списка .adoc для #{component_name}"
-    end
+    # if generate_adoc_list(component, component_name, component_dir)
+    #   puts "✅ Список .adoc файлов сгенерирован для #{component_name}"
+    # else
+    #   puts "❌ Ошибка генерации списка .adoc для #{component_name}"
+    # end
+    generate_adoc_list(component, component_name, component_dir)
 
     # Генерируем список .pdf файлов  
     if generate_pdf_list(component, component_name, component_dir)
       puts "✅ Список .pdf файлов сгенерирован для #{component_name}"
-    else
-      puts "⚠️  PDF файлы не найдены для #{component_name}"
+    # else
+    #   puts "⚠️  PDF файлы не найдены для #{component_name}"
     end
 
     true
@@ -98,8 +100,8 @@ class ListGenerator
     
     # Проверяем существование папки attachments, создаем если нет
     unless Dir.exist?(pdf_src_path)
-      puts "📂 Папка PDF не найдена: #{pdf_src_path}"
-      puts "📁 Создаем папку для продолжения работы"
+      # puts "📂 Папка PDF не найдена: #{pdf_src_path}"
+      # puts "📁 Создаем папку для продолжения работы"
       FileUtils.mkdir_p(pdf_src_path)
     end
     
@@ -119,7 +121,7 @@ class ListGenerator
       pdf_list_content = ":list_pdf_file_is_empty:\n\n"
       File.write(output_file, pdf_list_content, encoding: 'UTF-8')
       File.write(output_table_file, pdf_list_content, encoding: 'UTF-8')
-      puts "📄 Созданы пустые списки PDF файлов с атрибутом: #{output_file} и #{output_table_file}"
+      # puts "📄 Созданы пустые списки PDF файлов с атрибутом: #{output_file} и #{output_table_file}"
     else
       # Генерируем содержимое списков PDF (обычный и табличный)
       pdf_list_lines = pdf_files.map.with_index { |pdf_file, index| generate_pdf_list_content(pdf_file, index) }
@@ -127,7 +129,7 @@ class ListGenerator
       pdf_table_content = generate_pdf_table_content(pdf_files)
       File.write(output_file, pdf_list_content, encoding: 'UTF-8')
       File.write(output_table_file, pdf_table_content, encoding: 'UTF-8')
-      puts "✅ Сгенерированы файлы списков PDF: #{output_file} и #{output_table_file}"
+      # puts "✅ Сгенерированы файлы списков PDF: #{output_file} и #{output_table_file}"
     end
     
     true
@@ -150,6 +152,16 @@ class ListGenerator
   def list_enabled?(component)
     list_config = (@config.dig('defaults', 'list') || {}).merge(component['list'] || {})
     list_config && list_config['enabled'] == true && (list_config['adoc_lists'] != false || list_config['pdf_lists'] == true)
+  end
+
+  def list_enabled_for_component_name?(component_name, all_components)
+    # Объединяем настройки list из всех записей компонента с одинаковым именем
+    merged = (@config.dig('defaults', 'list') || {}).dup
+    all_components.select { |c| c['name'] == component_name }.each do |entry|
+      merged.merge!(entry['list']) if entry['list']
+    end
+
+    merged['enabled'] == true && (merged['adoc_lists'] != false || merged['pdf_lists'] == true)
   end
 
   def collect_files_by_module(component_dir, component)
@@ -186,9 +198,9 @@ class ListGenerator
     if title.nil? || title.empty?
       base_name = file_name.split('.').first
       title = base_name.gsub('_', ' ')
-      puts "📄 Используется имя файла для #{file_name}: #{title}"
-    else
-      puts "📄 Извлечен заголовок для #{file_name}: #{title}"
+      # puts "📄 Используется имя файла для #{file_name}: #{title}"
+    # else
+    #   puts "📄 Извлечен заголовок для #{file_name}: #{title}"
     end
     
     title
@@ -327,7 +339,7 @@ class ListGenerator
     
     # Проверяем, есть ли уже include с правильным путем
     if nav_content.include?("include::#{list_file_path}[]")
-      puts "✅ include уже есть в #{nav_path}"
+      # puts "✅ include уже есть в #{nav_path}"
       return true
     end
     
@@ -339,7 +351,7 @@ class ListGenerator
     nav_content += "include::#{list_file_path}[]\n"
     
     File.write(nav_path, nav_content, encoding: 'UTF-8')
-    puts "✅ Добавлен include в #{nav_path}: #{list_file_path}"
+    # puts "✅ Добавлен include в #{nav_path}: #{list_file_path}"
     true
   end
 
@@ -378,10 +390,10 @@ class ListGenerator
       relative_path = 'partials/list-pages-component.adoc'
     end
     
-    puts "🔍 Вычисление пути:"
-    puts "  dst: #{expanded_dst}"
-    puts "  include:: #{relative_path}[]"
-    
+    # puts "🔍 Вычисление пути:"
+    # puts "  dst: #{expanded_dst}"
+    # puts "  include:: #{relative_path}[]"
+
     relative_path
   end
 
@@ -407,8 +419,7 @@ class ListGenerator
       # Формат: "^| {counter:num-list-t} | xref:attachment$filename.pdf[title] | Листов: Количество"
       display_name = title && !title.empty? ? title : filename
       lines << "^| {counter:num-list-t} | xref:attachment$#{filename}.pdf[#{display_name}] | Листов: #{page_count}"
-      
-      puts "📄 Обработан PDF для таблицы: #{filename} -> #{display_name} (#{page_count} листов)"
+      # puts "📄 Обработан PDF для таблицы: #{filename} -> #{display_name} (#{page_count} листов)"
     end
     
     lines.empty? ? '' : lines.join("\n") + "\n"

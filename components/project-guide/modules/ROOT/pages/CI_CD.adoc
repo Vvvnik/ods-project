@@ -53,6 +53,18 @@ include::../examples/schema.puml[plantuml, schema]
 * `GIT_DEPTH: "20"` – глубина клонирования Git репозитория;
 * `TECHNICAL_FILES` – паттерн файлов, влияющих на генерацию контента;
 
+=== Примечание про диаграммы (Kroki)
+
+Для рендера PlantUML/других диаграмм в HTML при сборке в CI используется сервис Kroki (`alias: kroki`).
+Если Kroki недоступен, Antora может завершиться с предупреждениями, а диаграммы могут не попасть в результат сборки.
+
+При желании можно сделать сборку “строгой” (падать при предупреждениях рендера):
+
+[source,bash]
+----
+antora generate --log-failure-level warn --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
+----
+
 == Детальное описание этапов
 === build_all
 Основной этап сборки документации с последовательным выполнением команд:
@@ -64,7 +76,7 @@ include::../examples/schema.puml[plantuml, schema]
 .. Проверка версий Ruby и Node.js
 .. Генерация PDF документов через `ruby tools/start.rb`
 .. Установка Node.js зависимостей (`npm ci` или `npm install`)
-.. Генерация сайта через `antora antora-playbook.yml`
+.. Генерация сайта через `antora generate --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml`
 .. Копирование результата: `cp -a build/site/. public/` (если public/ не существует)
 . **Артефакты**: папка `public/` 
 . **Триггеры**:

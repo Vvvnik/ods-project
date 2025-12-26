@@ -103,8 +103,14 @@ Example with frames:
 Parameters:
 
 * custom_title_page: title page type (original, contract, original_frame, none);
-* custom_other_page: regular page type (original, original_frame, contract, none);
+* custom_other_page: regular page type (original, original_frame, none);
 * use_title_pages: enable/disable title pages (true/false);
+
+:note-caption: Important
+
+[NOTE]
+There is no `contract` option for `custom_other_page` (the `convert_other_page_contract.rb` module is not implemented).
+If you need a “contract” title page, use `:custom_title_page: contract`, and set `:custom_other_page: original` (or `original_frame`) for the remaining pages.
 
 Title page and regular page types are configured independently:
 
@@ -268,7 +274,7 @@ Combination examples:
 Available types:
 
 * Title: original, contract, original_frame, approval_page_gost, none;
-* Regular: original, original_frame, contract, none;
+* Regular: original, original_frame, none;
 
 == Standard AsciiDoc Behavior
 
@@ -300,7 +306,6 @@ Regular pages:
 
 * original → convert_other_page_original;
 * original_frame → convert_other_page_original_frame;
-* contract → convert_other_page_contract;
 * none → disabled;
 
 Title page and regular page types are configured independently through different attributes:
@@ -325,7 +330,6 @@ Examples:
 :pdf-theme: act
 :custom_other_page: original_frame    # → 'frame' theme
 :custom_other_page: original          # → 'report' theme
-:custom_other_page: contract          # → 'report' theme
 :custom_other_page: none              # → 'report' theme
 ----
 

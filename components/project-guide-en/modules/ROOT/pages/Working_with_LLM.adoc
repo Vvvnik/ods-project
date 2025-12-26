@@ -295,7 +295,7 @@ curl http://localhost:11434/api/generate -d '{
 [source,bash]
 ----
 # Check from container
-docker-compose -f docker/docker-compose.yml run --rm pdf curl http://ollama:11434/api/tags
+docker-compose -f docker/docker-compose.yml run --rm start curl http://ollama:11434/api/tags
 
 # Or from host (if port is forwarded)
 curl http://localhost:11434/api/tags
@@ -360,7 +360,7 @@ The LLM system supports Docker usage, ensuring consistent environment for local 
 docker-compose -f docker/docker-compose.yml up -d ollama
 
 # Generate documentation with LLM via Docker
-docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
 ----
 
 ==== Configuration for Different Environments

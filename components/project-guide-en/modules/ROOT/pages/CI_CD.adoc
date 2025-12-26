@@ -53,6 +53,18 @@ The following variables are used in CI/CD:
 * `GIT_DEPTH: "20"` – Git repository cloning depth;
 * `TECHNICAL_FILES` – pattern of files affecting content generation;
 
+=== Note about diagrams (Kroki)
+
+To render PlantUML/other diagrams in HTML during CI builds, the pipeline uses the Kroki service (`alias: kroki`).
+If Kroki is not reachable, Antora may finish with warnings and diagrams may not be included in the build output.
+
+If you want the build to be “strict” (fail on rendering warnings):
+
+[source,bash]
+----
+antora generate --log-failure-level warn --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
+----
+
 == Detailed Stage Descriptions
 
 === build_all
@@ -65,7 +77,7 @@ Main documentation build stage with sequential command execution:
 .. Ruby and Node.js version check
 .. PDF document generation via `ruby tools/start.rb`
 .. Node.js dependency installation (`npm ci` or `npm install`)
-.. Site generation via `antora antora-playbook.yml`
+.. Site generation via `antora generate --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml`
 .. Result copying: `cp -a build/site/. public/` (if public/ doesn't exist)
 . **Artifacts**: `public/` folder (expires in 3 days)
 . **Triggers**:

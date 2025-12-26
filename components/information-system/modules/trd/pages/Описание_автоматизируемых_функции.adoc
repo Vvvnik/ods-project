@@ -3,7 +3,7 @@ include::../../ROOT/partials/attr_common.adoc[]
 :doctype: book
 :title-page:
 :custom_title_page: contract
-:custom_other_page: contract
+:custom_other_page: original
 :name_document_main: {name_component}
 // name_document_master - название документа 1
 :name_document_master: Описание автоматизируемых функций

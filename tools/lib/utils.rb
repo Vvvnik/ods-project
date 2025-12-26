@@ -15,7 +15,7 @@ module Utils
   def self.run!(cmd)
     puts "Выполняется команда: #{cmd}"
     status = system(cmd)
-    puts "\n"
+    # puts "\n"
     unless status
       puts "❌ Команда завершилась с ошибкой: #{cmd}"
       exit 1
@@ -40,7 +40,7 @@ module Utils
     
     # Сохраняем изменения
     doc.write(output_path, optimize: true)
-    puts "Обработан файл: #{input_path}, Title: #{title}"
+    # puts "Обработан файл: #{input_path}, Title: #{title}"
   rescue => e
     puts "⚠️  Ошибка при обработке PDF #{input_path}: #{e.message}"
     # Если не удалось обработать с hexapdf, просто копируем файл
