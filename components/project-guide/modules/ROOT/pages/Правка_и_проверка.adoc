@@ -390,10 +390,10 @@ npx antora --attribute kroki-server-url=http://localhost:8000 antora-playbook.ym
 [source,bash]
 ----
 # Генерация всей документации через Docker
-docker-compose -f docker/docker-compose.yml run --rm pdf
+docker-compose -f docker/docker-compose.yml run --rm start
 
 # Генерация конкретного компонента
-docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
 
 # Сборка сайта через Docker
 docker-compose -f docker/docker-compose.yml run --rm site

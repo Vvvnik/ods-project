@@ -98,7 +98,7 @@ Model loads during image build (image size 10+ GB):
 
 For local development, `docker-compose.yml` requires only **two services**:
 
-* **`pdf`** - PDF document generation;
+* **`start`** - runs `tools/start.rb` (PDF generation and related steps);
 * **`site`** - Antora site build (generates static files into `public/`).
 
 Optional preview service:
@@ -122,7 +122,7 @@ This architecture allows:
 [source,bash]
 ----
 # PDF generation
-docker-compose -f docker/docker-compose.yml run --rm pdf
+docker-compose -f docker/docker-compose.yml run --rm start
 
 # Documentation site build
 docker-compose -f docker/docker-compose.yml run --rm site
@@ -134,7 +134,7 @@ docker-compose -f docker/docker-compose.yml up site-preview
 docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 
 # With specific component
-docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
 ----
 
 [NOTE]
@@ -214,7 +214,7 @@ If you want `docker-compose -f docker/docker-compose.yml run --rm site` to alway
 
 ==== Ollama Configuration
 
-When using `docker-compose -f docker/docker-compose.yml run --rm pdf` with LLM, you need to configure `OLLAMA_HOST` in `docker-compose.yml`:
+When using `docker-compose -f docker/docker-compose.yml run --rm start` with LLM, you need to configure `OLLAMA_HOST` in `docker-compose.yml`:
 
 [source,yaml]
 ----

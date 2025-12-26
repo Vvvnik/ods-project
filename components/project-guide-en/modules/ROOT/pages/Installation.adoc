@@ -46,7 +46,7 @@ The project provides a ready-made Docker image with all necessary dependencies:
 docker pull registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
 
 # PDF generation
-docker-compose -f docker/docker-compose.yml run --rm pdf
+docker-compose -f docker/docker-compose.yml run --rm start
 
 # Documentation site build
 docker-compose -f docker/docker-compose.yml run --rm site

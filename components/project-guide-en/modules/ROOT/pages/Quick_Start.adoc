@@ -133,7 +133,7 @@ Run the documentation build:
 
 [source,bash]
 ----
-docker-compose run --rm pdf
+docker-compose -f docker/docker-compose.yml run --rm start
 ----
 
 Or use a direct Docker call:

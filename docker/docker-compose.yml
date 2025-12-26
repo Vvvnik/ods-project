@@ -1,6 +1,6 @@
 services:
   # Генерация PDF документов
-  pdf:
+  start:
     image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
     container_name: ods-project-pdf
     volumes:

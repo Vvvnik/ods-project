@@ -97,7 +97,7 @@ include::../partials/attr_common.adoc[]
 
 Для локальной разработки в `docker-compose.yml` достаточно **двух сервисов**:
 
-* **`pdf`** - генерация PDF документов;
+* **`start`** - запуск `tools/start.rb` (генерация PDF и вспомогательных шагов);
 * **`site`** - сборка сайта с Antora (генерация статики в `public/`).
 
 Опционально доступен сервис предпросмотра:
@@ -121,7 +121,7 @@ include::../partials/attr_common.adoc[]
 [source,bash]
 ----
 # Генерация PDF
-docker-compose -f docker/docker-compose.yml run --rm pdf
+docker-compose -f docker/docker-compose.yml run --rm start
 
 # Сборка сайта документации
 docker-compose -f docker/docker-compose.yml run --rm site
@@ -133,7 +133,7 @@ docker-compose -f docker/docker-compose.yml up site-preview
 docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 
 # С конкретным компонентом
-docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
 ----
 
 :note-caption: Важно
@@ -215,7 +215,7 @@ Antora собирает страницы, но не запрашивает ди�
 
 ==== Настройка Ollama
 
-При использовании `docker-compose -f docker/docker-compose.yml run --rm pdf` с LLM необходимо настроить `OLLAMA_HOST` в `docker-compose.yml`:
+При использовании `docker-compose -f docker/docker-compose.yml run --rm start` с LLM необходимо настроить `OLLAMA_HOST` в `docker-compose.yml`:
 
 [source,yaml]
 ----

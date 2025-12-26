@@ -39,8 +39,8 @@
 ### Запуск
 
 ```bash
-# PDF генерация
-docker-compose -f docker/docker-compose.yml run --rm pdf
+# Генерация (tools/start.rb)
+docker-compose -f docker/docker-compose.yml run --rm start
 
 # Сборка сайта
 docker-compose -f docker/docker-compose.yml run --rm site
@@ -53,7 +53,7 @@ docker-compose -f docker/docker-compose.yml up site-preview
 docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 
 # С конкретным компонентом
-docker-compose -f docker/docker-compose.yml run --rm pdf ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
 ```
 
 ### Проверка подключения к сервисам
