@@ -125,18 +125,6 @@ components:
   - name: information-system
     <<: *defaults
     # drawio: #TODO: включить генерацию Draw.io
-    #   enabled: true
-    #   dst: "components/{name}/modules/ed/images/drawio"
-
-  - name: information-system
-    <<: *defaults
-    # drawio: #TODO: включить генерацию Draw.io
-    #   enabled: true #TODO: включить генерацию Draw.io
-    #   dst: "components/{name}/modules/trd/images/drawio" #TODO: указать путь к изображениям Draw.io
-
-  - name: information-system
-    <<: *defaults
-    # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     #   dst: "components/{name}/modules/ROOT/images/drawio" #TODO: указать путь к изображениям Draw.io
     pdf: #TODO: включить генерацию PDF документации
