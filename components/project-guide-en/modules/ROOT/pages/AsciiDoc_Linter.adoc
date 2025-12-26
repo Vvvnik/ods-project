@@ -56,3 +56,8 @@ asciidoctor_lint:
 
 * `asciidoctor-lint.log` is a run artifact (it changes often), so it is listed in `.gitignore`.
 
+== See also
+
+* xref:Editing_and_Verification.adoc[Editing and Verification] — before/after example and lint summary.
+* xref:Docker_Build_and_Services.adoc[Docker: Build and Services] — running builds/checks via docker-compose.
+
