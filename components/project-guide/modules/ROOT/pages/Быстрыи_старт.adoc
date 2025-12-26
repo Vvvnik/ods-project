@@ -137,7 +137,7 @@ content:
 docker-compose -f docker/docker-compose.yml run --rm start
 ----
 
-Или используйте прямой вызов Docker:
+Или используйте прямой вызов Docker (эквивалент `docker-compose ... run --rm start`):
 
 [source,bash]
 ----
@@ -164,13 +164,11 @@ docker-compose -f docker/docker-compose.yml run --rm site
 
 `kroki-server-url` передаётся в Antora через CLI-атрибут (см. xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы]), поэтому `antora-playbook.yml` вручную менять не нужно.
 
-Или используйте прямой вызов Docker:
+Если нужно запустить предпросмотр с сервером, используйте:
 
 [source,bash]
 ----
-docker run --rm -v $(pwd):/app \
-  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2 \
-  antora generate --attribute kroki-server-url=http://host.docker.internal:8000 antora-playbook.yml
+docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 ----
 
 // вставка общего для нескольких страниц блока с предупреждением

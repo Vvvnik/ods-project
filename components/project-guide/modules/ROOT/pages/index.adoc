@@ -192,7 +192,6 @@ video::https://gitlab.com/vvvnik/ods-project/-/package_files/253970508/download[
 
 == Ссылки
 
-* https://vvvnik.gitlab.io/ods-project/data-processing-engine/1/index.html[Наш сайт документации];
 * https://docs.antora.org/[Документация Antora];
 * https://asciidoctor.org/[Документация AsciiDoc];
 * https://plantuml.com/[PlantUML для SVG диаграмм];

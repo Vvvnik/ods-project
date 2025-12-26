@@ -136,7 +136,7 @@ Run the documentation build:
 docker-compose -f docker/docker-compose.yml run --rm start
 ----
 
-Or use a direct Docker call:
+Or use a direct Docker call (equivalent to `docker-compose ... run --rm start`):
 
 [source,bash]
 ----
@@ -154,13 +154,11 @@ Generate the HTML site:
 docker-compose run --rm site
 ----
 
-Or use a direct Docker call:
+For preview with an HTTP server, use:
 
 [source,bash]
 ----
-docker run --rm -v $(pwd):/app \
-  registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2 \
-  antora generate --attribute kroki-server-url=http://host.docker.internal:8000 antora-playbook.yml
+docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 ----
 
 For HTTP preview (more convenient than `file://`), use the preview service:
