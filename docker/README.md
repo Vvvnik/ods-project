@@ -52,6 +52,9 @@ docker-compose -f docker/docker-compose.yml up site-preview
 # Альтернатива через run (нужно пробросить порты):
 docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 
+# Откройте ссылку из вывода сервера (Ctrl+Click).
+# Для выхода из режима сервера: Ctrl+C.
+
 # С конкретным компонентом
 docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
 ```

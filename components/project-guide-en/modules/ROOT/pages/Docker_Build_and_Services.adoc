@@ -133,6 +133,8 @@ docker-compose -f docker/docker-compose.yml up site-preview
 # Alternative via run (ports must be published):
 docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 
+Open the server URL from the output (Ctrl+Click). To stop the server: Ctrl+C.
+
 # With specific component
 docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
 ----
@@ -214,13 +216,14 @@ If you want `docker-compose -f docker/docker-compose.yml run --rm site` to alway
 
 ==== Ollama Configuration
 
-When using `docker-compose -f docker/docker-compose.yml run --rm start` with LLM, you need to configure `OLLAMA_HOST` in `docker-compose.yml`:
+By default, `docker/docker-compose.yml` already sets `OLLAMA_HOST` for the `start` service to point to Ollama running on the host.
+Change it only if you run Ollama in Docker/CI and want to use `http://ollama:11434`.
 
 [source,yaml]
 ----
 # docker/docker-compose.yml
 services:
-  pdf:
+  start:
     environment:
       # For docker-compose local development (Ollama on host):
       - OLLAMA_HOST=http://host.docker.internal:11434

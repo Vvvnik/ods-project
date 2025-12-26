@@ -204,6 +204,8 @@ docker-compose -f docker/docker-compose.yml up site-preview
 docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 ----
 
+Откройте ссылку из вывода сервера (Ctrl+Click). Для выхода из режима сервера: Ctrl+C.
+
 :note-caption: Важно
 
 [NOTE]

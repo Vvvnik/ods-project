@@ -131,6 +131,9 @@ docker-compose -f docker/docker-compose.yml up site-preview
 #
 # Альтернатива через run (нужно пробросить порты):
 docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
+#
+# Откройте ссылку из вывода сервера (Ctrl+Click).
+# Для выхода из режима сервера: Ctrl+C.
 
 # С конкретным компонентом
 docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
@@ -215,13 +218,14 @@ Antora собирает страницы, но не запрашивает ди�
 
 ==== Настройка Ollama
 
-При использовании `docker-compose -f docker/docker-compose.yml run --rm start` с LLM необходимо настроить `OLLAMA_HOST` в `docker-compose.yml`:
+По умолчанию в `docker/docker-compose.yml` для сервиса `start` уже настроен `OLLAMA_HOST` на Ollama, запущенную на хосте.
+Менять нужно только если вы запускаете Ollama в Docker/CI и хотите ходить на `http://ollama:11434`.
 
 [source,yaml]
 ----
 # docker/docker-compose.yml
 services:
-  pdf:
+  start:
     environment:
       # Для docker-compose локальной разработки (Ollama на хосте):
       - OLLAMA_HOST=http://host.docker.internal:11434

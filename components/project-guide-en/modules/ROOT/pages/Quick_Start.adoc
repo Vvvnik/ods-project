@@ -173,6 +173,8 @@ docker-compose -f docker/docker-compose.yml up site-preview
 docker-compose -f docker/docker-compose.yml run --rm --service-ports site-preview
 ----
 
+Open the server URL from the output (Ctrl+Click). To stop the server: Ctrl+C.
+
 // insert a common warning block for several pages
 include::../partials/warning_point.adoc[]
 
