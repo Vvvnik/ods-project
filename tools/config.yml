@@ -91,6 +91,8 @@ defaults: &defaults
     enabled: true
     src: "components/{name}"                    # ← Рекурсивно проверять все *.adoc внутри компонента (pages, partials, и т.д.)
     log: "components/{name}/asciidoctor-lint.log" # ← Куда писать лог по компоненту
+    # Примечание: параметры ниже пока не реализованы в tools/lib/asciidoc_linter.rb и игнорируются.
+    # Оставлены как задел на будущее, если понадобится ужесточить lint.
     # failure_level: "WARN"                     # ← (опционально) ERROR|WARN|INFO|DEBUG. Если задать, Asciidoctor будет возвращать код ошибки при уровне >= failure_level
     # attributes:                               # ← (опционально) атрибуты Asciidoctor, если понадобятся
     #   allow-uri-read: true                    # ← Разрешает include::http(s)://...[] (не нужно, если все include локальные)
