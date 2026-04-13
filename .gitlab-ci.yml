@@ -17,6 +17,16 @@ variables:
   # Технические файлы, которые влияют на генерацию контента
   TECHNICAL_FILES: "tools/**,.gitlab-ci.yml,modules/**,antora-playbook.yml,components/*/antora.yml,resources/**"
 
+# MR: без полной сборки; конфликты и mergeability GitLab проверяет на странице MR.
+merge_request_gate:
+  stage: build
+  image: alpine:latest
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: on_success
+  script:
+    - echo "Merge request pipeline OK (build_all не запускается)"
+
 # Объединенная сборка: PDF + сайт
 build_all:
   stage: build
