@@ -215,8 +215,8 @@ UI configuration happens through the `ui` section in `antora-playbook.yml`:
 * `supplemental_files` – path to additional style files;
 
 == Configuration Files
-
 === CI/CD
+In the CI/CD section, the GitLab CI/CD configuration is stored:
 
 * .gitlab-ci.yml – GitLab CI/CD configuration;
 ** Contains PDF and site build stages;
@@ -224,6 +224,7 @@ UI configuration happens through the `ui` section in `antora-playbook.yml`:
 ** Pipeline run rules.
 
 === Antora
+In the Antora section, the Antora configuration is stored:
 
 * antora-playbook.yml – Antora configuration;
 ** Documentation site build settings;
@@ -233,6 +234,7 @@ UI configuration happens through the `ui` section in `antora-playbook.yml`:
 ** `antora.extensions`: `+@opendevise/antora-swagger-ui-extension+` (OpenAPI via Swagger UI) and `+@antora/lunr-extension+` (full-text search, en and ru). The same packages are installed globally in the `ruby-node-antora` CI image (`docker/Dockerfile.universal`, `npm install -g ...`).
 
 === Git
+In the Git section, the Git exclusions are stored:
 
 * .gitignore – Git exclusions;
 ** Ignores temporary files;
@@ -240,8 +242,8 @@ UI configuration happens through the `ui` section in `antora-playbook.yml`:
 ** Preserves necessary scripts.
 
 == start.rb Logic
-
 === Main Stages
+The main stages of the start.rb script:
 
 * Reading configuration from config.yml;
 * Processing each component;
@@ -252,6 +254,7 @@ UI configuration happens through the `ui` section in `antora-playbook.yml`:
 * File list generation;
 
 === Conditional Logic
+The conditional logic of the start.rb script:
 
 * Checking ENV['CI'] variable;
 ** In CI, diagram generation is disabled;
@@ -260,10 +263,8 @@ UI configuration happens through the `ui` section in `antora-playbook.yml`:
 * Locally, full generation works;
 
 == config.yml Configuration
-
 === Defaults Section
-
-Contains default settings for all components.
+Contains default settings for all components:
 
 * bpmn – BPMN diagram settings;
 ** enabled – enable/disable generation;
