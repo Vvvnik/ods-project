@@ -97,7 +97,8 @@ More details and examples:
 === Docker Image Contents
 
 * **Ruby 3.2** + gems: `asciidoctor`, `asciidoctor-pdf`, `asciidoctor-diagram`, `asciidoctor-kroki`, `prawn`, `pg`, `hexapdf`;
-* **Node.js 20** + packages: `@antora/cli`, `@antora/site-generator`, `@antora/lunr-extension`, `puppeteer`, `xml2js`;
+* **Node.js 20** + global npm packages from `docker/Dockerfile.universal` (pinned versions): `@antora/cli`, `@antora/site-generator-default`, `@antora/site-generator`, `@antora/lunr-extension`, `@opendevise/antora-swagger-ui-extension`, `puppeteer`, `xml2js`;
+* The set matches the `antora.extensions` section in `antora-playbook.yml` (Swagger UI for OpenAPI and Lunr search for en/ru).
 * **System dependencies**: build-essential, git, curl, fonts;
 
 == Local Installation
@@ -152,7 +153,8 @@ npm install
 This will install all dependencies from `package.json`:
 
 * `@antora/cli` — Antora CLI;
-* `@antora/lunr-extension` — documentation search;
+* `@antora/lunr-extension` — documentation search (in the playbook, enabled for en and ru);
+* `@opendevise/antora-swagger-ui-extension` — Swagger UI for OpenAPI in the Antora site (may be missing from `package.json`; for local `npx antora`, install the package or use the same global setup as in the Docker image);
 * `asciidoctor-kroki` — Kroki integration;
 * `asciidoctor-plantuml` — PlantUML support;
 * `puppeteer` — for BPMN diagram generation;

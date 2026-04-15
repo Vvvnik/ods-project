@@ -13,6 +13,7 @@ include::../partials/attr_common.adoc[]
 ** Используется в CI для сборки PDF и сайта;
 ** Собирается из `docker/Dockerfile.universal`;
 ** Все версии пакетов зафиксированы для воспроизводимости сборок (gems и npm пакеты с точными версиями).
+** В том числе глобально устанавливаются Antora CLI, генераторы сайта, `+@antora/lunr-extension+` и `+@opendevise/antora-swagger-ui-extension+` — они должны соответствовать списку в секции `antora.extensions` файла `antora-playbook.yml`.
 * **Kroki сервис**: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0:
 ** Отдельный контейнер для рендеринга диаграмм;
 ** Подключается как сервис в CI;

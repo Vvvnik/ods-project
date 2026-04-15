@@ -97,7 +97,8 @@ nc -vz localhost 5432
 === Содержимое Docker образа
 
 * **Ruby 3.2** + gems: `asciidoctor`, `asciidoctor-pdf`, `asciidoctor-diagram`, `asciidoctor-kroki`, `prawn`, `pg`, `hexapdf`;
-* **Node.js 20** + пакеты: `@antora/cli`, `@antora/site-generator`, `@antora/lunr-extension`, `puppeteer`, `xml2js`;
+* **Node.js 20** + глобальные npm-пакеты из `docker/Dockerfile.universal` (версии зафиксированы): `@antora/cli`, `@antora/site-generator-default`, `@antora/site-generator`, `@antora/lunr-extension`, `@opendevise/antora-swagger-ui-extension`, `puppeteer`, `xml2js`;
+* Набор согласован с секцией `antora.extensions` в `antora-playbook.yml` (Swagger UI для OpenAPI и Lunr для поиска en/ru).
 * **Системные зависимости**: build-essential, git, curl, fonts;
 
 == Локальная установка
@@ -154,7 +155,8 @@ npm install
 Это установит все зависимости из `package.json`:
 
 * `@antora/cli` — CLI для Antora;
-* `@antora/lunr-extension` — поиск по документации;
+* `@antora/lunr-extension` — поиск по документации (в playbook подключён с языками en и ru);
+* `@opendevise/antora-swagger-ui-extension` — встраивание Swagger UI для OpenAPI на сайте Antora (в `package.json` может отсутствовать; для локального `npx antora` установите пакет или ориентируйтесь на глобальную установку из Docker-образа);
 * `asciidoctor-kroki` — интеграция Kroki;
 * `asciidoctor-plantuml` — поддержка PlantUML;
 * `puppeteer` — для генерации BPMN диаграмм;

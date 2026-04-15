@@ -218,6 +218,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 == Файлы конфигурации
 
 === CI/CD
+В секции CI/CD содержится конфигурация GitLab CI/CD:
 
 * .gitlab-ci.yml – конфигурация GitLab CI/CD;
 ** Содержит этапы сборки PDF и сайта;
@@ -225,14 +226,21 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 ** Правила запуска пайплайнов.
 
 === Antora
+В секции Antora содержится конфигурация Antora:
 
 * antora-playbook.yml – конфигурация Antora;
 ** Настройки сборки сайта документации;
 ** Конфигурация Kroki сервера;
 ** Атрибуты для Antora;
-** UI bundle и supplemental_files для кастомных стилей.
+** UI bundle и supplemental_files для кастомных стилей;
+** Секция `antora.extensions`: 
+*** `@opendevise/antora-swagger-ui-extension` (отображение OpenAPI через Swagger UI); 
+*** `@antora/lunr-extension` (полнотекстовый поиск, языки en и ru).
+
+Те же пакеты ставятся глобально в CI-образе `ruby-node-antora` (`docker/Dockerfile.universal`, `npm install -g ...`).
 
 === Git
+В секции Git содержится исключения для Git:
 
 * .gitignore – исключения для Git;
 ** Игнорирует временные файлы;
@@ -240,8 +248,8 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 ** Сохраняет необходимые скрипты.
 
 == Логика работы start.rb
-
 === Основные этапы
+Основные этапы работы скрипта start.rb:
 
 * Чтение конфигурации из config.yml;
 * Обработка каждого компонента;
@@ -252,6 +260,7 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * Генерация списков файлов;
 
 === Условная логика
+Условная логика работы скрипта start.rb:
 
 * Проверка переменной ENV['CI'];
 ** В CI отключается генерация диаграмм;
@@ -260,10 +269,8 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 * Локально работает полная генерация;
 
 == Конфигурация config.yml
-
 === Секция defaults
-
-Содержит настройки по умолчанию для всех компонентов.
+Содержит настройки по умолчанию для всех компонентов:
 
 * bpmn – настройки BPMN диаграмм;
 ** enabled – включить/отключить генерацию;
@@ -305,7 +312,6 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 ** dst – папка назначения.
 
 === Секция components
-
 Содержит список компонентов с индивидуальными настройками.
 
 * Каждый компонент наследует настройки из defaults;
