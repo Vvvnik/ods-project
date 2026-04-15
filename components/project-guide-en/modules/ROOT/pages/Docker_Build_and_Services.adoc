@@ -7,6 +7,7 @@ include::../partials/attr_common.adoc[]
 = Docker Build and Services
 
 == Images
+Universal image is used in CI for PDF and site builds.
 
 * **Universal Image**: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2:
 ** Contains Ruby 3.2 + Node.js 20 + Asciidoctor + Antora + all necessary packages;
@@ -25,8 +26,9 @@ include::../partials/attr_common.adoc[]
 ** Model: gemma:latest (preloaded in model image).
 
 == Build Scripts
-
 === Universal Image Build
+
+Universal image build script is used in CI for PDF and site builds.
 
 [source,bash]
 ----
@@ -42,6 +44,7 @@ include::../partials/attr_common.adoc[]
 ----
 
 === Kroki Image Build
+Kroki image build script is used in CI for diagram rendering.
 
 [source,bash]
 ----
@@ -57,9 +60,7 @@ include::../partials/attr_common.adoc[]
 ----
 
 === Ollama Image Build
-
 ==== Base Image (without model)
-
 Model loads when container starts:
 
 [source,bash]
@@ -76,7 +77,6 @@ Model loads when container starts:
 ----
 
 ==== Image with Preloaded Model
-
 Model loads during image build (image size 10+ GB):
 
 [source,bash]
@@ -119,6 +119,7 @@ This architecture allows:
 * Easy switching between local development and CI/CD.
 
 === Using Ready-made Images
+Using ready-made images for PDF generation and site build.
 
 [source,bash]
 ----
@@ -149,7 +150,6 @@ If you see 404 requests like `GET /_/css/~@fontsource/...` in `site-preview` (`h
 Restart `site-preview` and do a hard refresh (Cmd+Shift+R / Ctrl+F5).
 
 === Service Connection Check
-
 Before running, make sure all necessary services are running on the host:
 
 [source,bash]

@@ -1,5 +1,6 @@
 workflow:
   rules:
+    # Пайплайн только при push в main (после мержа и т.д.).
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
       when: always
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -13,7 +14,8 @@ variables:
   # В CI Kroki доступен как сервис по алиасу 'kroki'
   KROKI_SERVER_URL: "http://kroki:8000"
   KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"  # pinned mirror in your registry
-  GIT_DEPTH: "20"
+  # Малая глубина может сломать вычисление rules:changes (GitLab не видит родителя коммита) — build_all молча пропускается.
+  GIT_DEPTH: "0"
 
 # MR: только лёгкая джоба. Полная сборка build_all — только после мержа (push в main), см. ниже.
 merge_request_gate:
