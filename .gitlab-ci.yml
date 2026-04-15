@@ -14,8 +14,6 @@ variables:
   KROKI_SERVER_URL: "http://kroki:8000"
   KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"  # pinned mirror in your registry
   GIT_DEPTH: "20"
-  # Технические файлы, которые влияют на генерацию контента
-  TECHNICAL_FILES: "tools/**,.gitlab-ci.yml,modules/**,antora-playbook.yml,components/*/antora.yml,resources/**"
 
 # MR: без полной сборки; конфликты и mergeability GitLab проверяет на странице MR.
 merge_request_gate:
@@ -27,7 +25,7 @@ merge_request_gate:
   script:
     - echo "Merge request pipeline OK (build_all не запускается)"
 
-# Объединенная сборка: PDF + сайт
+# Объединенная сборка: PDF + сайт (только если в коммите меняется components/**)
 build_all:
   stage: build
   image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
@@ -39,10 +37,7 @@ build_all:
       when: never
     - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
-        - $TECHNICAL_FILES
-        - antora-*.yml
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: on_success
+        - components/**
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
@@ -71,9 +66,7 @@ pages:
       when: never
     - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
-        - $TECHNICAL_FILES
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: on_success
+        - components/**
   script: ['echo "Deploy GitLab Pages"']
   artifacts:
     paths: [public]

@@ -1,0 +1,20 @@
+# Генерация описаний (generate_description): YAML-конфиг + Ollama.
+#
+# Нужен Python 3.10+ (в коде используются типы вида list[str] | None).
+#
+# Виртуальное окружение (из каталога репозитория):
+#   cd python
+#   python3 -m venv .venv
+#   source .venv/bin/activate          # Windows: .venv\Scripts\activate
+#   pip install -U pip
+#   pip install -r requirements.txt
+#
+# Запуск:
+#   python src/services/generate_description.py [--dry-run]
+#
+PyYAML==6.0.3
+# Библиотека для Python с PyPI (номер версии НЕ совпадает с `ollama --version`).
+# Там показывается версия демона/CLI Ollama (например 0.20.6); предупреждение
+# «client version …» относится к несовпадению бинарника клиента и сервера —
+# обновите приложение Ollama (brew / установщик с ollama.com), а не эту строку.
+ollama==0.6.1
