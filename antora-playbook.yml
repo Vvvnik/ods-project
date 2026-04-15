@@ -38,6 +38,7 @@ ui:
 
 antora:
   extensions:
+    - '@opendevise/antora-swagger-ui-extension'
     - require: '@antora/lunr-extension'
       languages: [en, ru]
 
