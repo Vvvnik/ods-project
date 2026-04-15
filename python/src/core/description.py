@@ -74,6 +74,16 @@ def cleanup_llm_body(base_id: str, response_text: str) -> str:
     return body
 
 
+def wrap_section_with_tag(base_id: str, content: str) -> str:
+    """Wrap section body with asciidoc tag markers for include:: tags."""
+    tag_open = f"//tag::{base_id}[]"
+    tag_close = f"//end::{base_id}[]"
+    text = content.strip()
+    if tag_open in text and tag_close in text:
+        return text
+    return f"{tag_open}\n{text}\n{tag_close}"
+
+
 def build_user_block(container: ContainerInfo, title: str, context_str: str) -> str:
     kind = KIND_RU.get(container.kind, "контейнер")
     g = f"\nГруппа: {container.group}" if container.group else ""
@@ -160,12 +170,17 @@ def generate_sections(
         )
 
         if dry_run:
-            sections.append(heading + "\n\n" + f"_DRY_RUN_: n={len(docs_by_key)}")
+            dry_body = wrap_section_with_tag(
+                container_info.base_id,
+                f"_DRY_RUN_: n={len(docs_by_key)}",
+            )
+            sections.append(heading + "\n\n" + dry_body)
             continue
 
         response = ollama_client.generate(prompt=full_prompt, model=llm_model, temperature=temperature)
         body = cleanup_llm_body(container_info.base_id, response)
-        sections.append(heading + "\n\n" + body)
+        tagged_body = wrap_section_with_tag(container_info.base_id, body)
+        sections.append(heading + "\n\n" + tagged_body)
         print(f"[{i}/{len(base_ids_sorted)}] {container_info.base_id}", file=sys.stderr, flush=True)
 
     return "\n\n".join(sections)
