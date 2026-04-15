@@ -1,6 +1,5 @@
 workflow:
   rules:
-    # Пайплайн только при push в main (после мержа и т.д.).
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
       when: always
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -14,21 +13,11 @@ variables:
   # В CI Kroki доступен как сервис по алиасу 'kroki'
   KROKI_SERVER_URL: "http://kroki:8000"
   KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"  # pinned mirror in your registry
-  # Малая глубина может сломать вычисление rules:changes (GitLab не видит родителя коммита) — build_all молча пропускается.
-  GIT_DEPTH: "0"
+  GIT_DEPTH: "20"
+  # Технические файлы, которые влияют на генерацию контента
+  TECHNICAL_FILES: "tools/**,.gitlab-ci.yml,modules/**,antora-playbook.yml,components/*/antora.yml,resources/**"
 
-# MR: только лёгкая джоба. Полная сборка build_all — только после мержа (push в main), см. ниже.
-merge_request_gate:
-  stage: build
-  image: alpine:latest
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: on_success
-  script:
-    - echo "Merge request pipeline OK"
-
-# PDF + сайт Antora: только push в main (после мержа или прямой пуш) и только при изменениях components/**.
-# На пайплайне MR не запускается. На тегах — never. Pages — см. джобу pages.
+# Объединенная сборка: PDF + сайт
 build_all:
   stage: build
   image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
@@ -38,11 +27,12 @@ build_all:
   rules:
     - if: "$CI_COMMIT_TAG"
       when: never
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
-        - components/**
+        - $TECHNICAL_FILES
+        - antora-*.yml
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
@@ -69,11 +59,11 @@ pages:
   rules:
     - if: "$CI_COMMIT_TAG"
       when: never
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
-        - components/**
+        - $TECHNICAL_FILES
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success
   script: ['echo "Deploy GitLab Pages"']
   artifacts:
     paths: [public]
@@ -165,3 +155,4 @@ release:
           url: "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_TAG}/raw/dist/release-notes.adoc?job=prepare_release_notes"
           filepath: "/release-notes.adoc"
           link_type: other
+          
