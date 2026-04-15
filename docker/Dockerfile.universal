@@ -65,6 +65,7 @@ RUN npm install -g \
     @antora/site-generator-default@3.1.14 \
     @antora/site-generator@3.1.14 \
     @antora/lunr-extension@1.0.0-alpha.10 \
+    @opendevise/antora-swagger-ui-extension \
     puppeteer@24.26.1 \
     xml2js@0.6.2
 
