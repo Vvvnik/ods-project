@@ -15,6 +15,15 @@ themes_dir: "resources/themes"
 # Настройки по умолчанию для всех компонентов
 # ******************************************************
 defaults: &defaults
+  jira:
+    url: "https://vvv85594.atlassian.net"
+    # Jira Cloud REST: email учётной записи Atlassian
+    email: "vvv85594@gmail.com"
+    api_token: "${JIRA_API_TOKEN}"
+    # Список ключей основных задач (по одному в строке); см. tools/jira/jira_main_issues.txt
+    main_issues_file: "tools/jira/jira_main_issues.txt"
+    dst: "tools/jira"
+  
   # BPMN диаграммы
   bpmn:
     enabled: false                # ← Включить/отключить генерацию BPMN
@@ -146,6 +155,3 @@ components:
     <<: *defaults
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
-
-  
-# ******************************************************
