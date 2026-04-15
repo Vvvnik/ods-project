@@ -13,6 +13,7 @@ include::../partials/attr_common.adoc[]
 ** Used in CI for PDF and site builds;
 ** Built from `docker/Dockerfile.universal`;
 ** All package versions are pinned for reproducible builds (gems and npm packages with exact versions).
+** This includes global installs of the Antora CLI, site generators, `+@antora/lunr-extension+`, and `+@opendevise/antora-swagger-ui-extension+` — they should stay aligned with the `antora.extensions` list in `antora-playbook.yml`.
 * **Kroki Service**: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0:
 ** Separate container for diagram rendering;
 ** Connected as service in CI;

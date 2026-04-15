@@ -15,7 +15,7 @@ variables:
   KROKI_IMAGE: "registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0"  # pinned mirror in your registry
   GIT_DEPTH: "20"
 
-# MR: без полной сборки; конфликты и mergeability GitLab проверяет на странице MR.
+# MR: только лёгкая джоба. Полная сборка build_all — только после мержа (push в main), см. ниже.
 merge_request_gate:
   stage: build
   image: alpine:latest
@@ -23,10 +23,10 @@ merge_request_gate:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: on_success
   script:
-    - echo "Merge request pipeline OK (build_all не запускается)"
+    - echo "Merge request pipeline OK"
 
-# Объединенная сборка: PDF + сайт — только push в main после мержа (не MR pipeline)
-# и только если в этом push есть изменения под components/**; иначе джоба пропускается.
+# PDF + сайт Antora: только push в main (после мержа или прямой пуш) и только при изменениях components/**.
+# На пайплайне MR не запускается. На тегах — never. Pages — см. джобу pages.
 build_all:
   stage: build
   image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
