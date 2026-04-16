@@ -87,6 +87,10 @@ GitLab Release creation:
 
 == Stage Verification
 
+=== `.gitlab-ci.yml` syntax before the pipeline
+
+From the repository root: `glab ci lint` (after `brew install glab` and `glab auth login`). Details: xref:CI_CD.adoc[CI/CD].
+
 === What to Check
 
 . **build_all** - ensure stage completed and created `public/` artifacts

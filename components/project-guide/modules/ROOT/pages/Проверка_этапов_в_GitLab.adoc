@@ -87,6 +87,10 @@ include::../partials/attr_common.adoc[]
 
 == Проверка этапов
 
+=== Синтаксис `.gitlab-ci.yml` до пайплайна
+
+В корне репозитория: `glab ci lint` (после `brew install glab` и `glab auth login`). Подробности — в xref:CI_CD.adoc[CI/CD].
+
 === Что проверять
 
 . **build_all** - убедитесь, что этап отработал и создал артефакты `public/`
