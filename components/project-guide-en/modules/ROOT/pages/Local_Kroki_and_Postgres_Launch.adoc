@@ -16,6 +16,17 @@ Kroki is used for rendering diagrams (PlantUML, Mermaid, Graphviz) in the projec
 docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 ----
 
+=== Named container and port mapping (after build / pull)
+
+If the image was built locally (`./docker/build-kroki.sh --no-push`) or pulled from the registry after CI, run Kroki in the background with a fixed name and **publish 8000:8000** (required for `host.docker.internal:8000` from `docker-compose`):
+
+[source,bash]
+----
+docker rm -f ods-kroki 2>/dev/null; docker run -d --name ods-kroki -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
+----
+
+More detail and `build-kroki.sh`: xref:Docker_Build_and_Services.adoc#kroki-local-port[Docker: Kroki build and port mapping].
+
 === Environment Variables
 
 The project uses the `KROKI_SERVER_URL` variable to specify the Kroki server address:

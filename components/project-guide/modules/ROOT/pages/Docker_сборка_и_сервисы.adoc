@@ -55,6 +55,21 @@ include::../partials/attr_common.adoc[]
 ./docker/build-kroki.sh 0.29.0 --no-push
 ----
 
+[[kroki-local-port]]
+==== Запуск Kroki с пробросом порта (локально)
+
+Скрипт `build-kroki.sh` только **собирает** (и при необходимости **пушит**) образ; **порт на хост** задаётся отдельно при `docker run`.
+Без **`-p 8000:8000`** контейнер не слушает хост, и `host.docker.internal:8000` из сервисов `site` / `site-preview` в `docker-compose` не достучится до Kroki.
+
+После `./docker/build-kroki.sh --no-push` (локальный тег по умолчанию `0.28.0`) или после `docker pull` того же образа, что публикуется в реестр для CI:
+
+[source,bash]
+----
+docker rm -f ods-kroki 2>/dev/null; docker run -d --name ods-kroki -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
+----
+
+Проверка: **http://localhost:8000**. В **GitLab CI** этот же образ подключается как сервис **`kroki:8000`** — схема в пайплайне не меняется, меняется только способ запуска на машине разработчика.
+
 === Сборка Ollama образа
 ==== Базовый образ (без модели)
 

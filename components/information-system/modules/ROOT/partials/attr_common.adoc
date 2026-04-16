@@ -8,7 +8,7 @@
 :table-caption!: 
 :figure-caption!: 
 // imagesdir: ../images - макрос для директории с изображениями
-:imagesdir: ../images
+:imagesdir: ../../ROOT/images
 // section-refsig: разделе - макрос для нумерации разделов
 :section-refsig: разделе
 // toc: macro - макрос для содержания

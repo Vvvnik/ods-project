@@ -46,6 +46,28 @@ function sanitizeFileName(fileName) {
     .replace(/^_|_$/g, '');
 }
 
+/**
+ * draw.io экспортирует style с color-scheme и CSS light-dark(); Яндекс.Браузер
+ * часто ломает такой SVG. Оставляем «светлую» ветку light-dark(a, b) → a.
+ */
+function normalizeSvgForLegacyBrowsers(svgContent) {
+  let s = svgContent;
+  // Убрать color-scheme на корне и в style-блоках
+  s = s.replace(/\s*color-scheme:\s*light\s+dark\s*;?/gi, '');
+  s = s.replace(/\s*background:\s*transparent\s*;?\s*/gi, '');
+  s = s.replace(/\s*background-color:\s*transparent\s*;?\s*/gi, '');
+  // light-dark(light, dark) → light (несколько проходов на случай вложенности)
+  const re = /light-dark\(\s*((?:[^()]|\([^)]*\))*)\s*,\s*((?:[^()]|\([^)]*\))*)\s*\)/g;
+  let prev;
+  do {
+    prev = s;
+    s = s.replace(re, '$1');
+  } while (s !== prev);
+  // Пустые style="" или style=";" подчистить
+  s = s.replace(/\sstyle="\s*;*\s*"/g, '');
+  return s;
+}
+
 // Функция для добавления белого фона в SVG (из старого скрипта)
 function addWhiteBackground(svgContent) {
   // Удаляем только сообщение "Text is not SVG - cannot display", но сохраняем текст
@@ -128,7 +150,7 @@ async function convertDrawioToSvg(inputPath, outputDir, format) {
         // Если это SVG, добавляем белый фон
         if (format === 'svg') {
           const svgContent = fs.readFileSync(outputPath, 'utf8');
-          const fixedSvgContent = addWhiteBackground(svgContent);
+          const fixedSvgContent = normalizeSvgForLegacyBrowsers(addWhiteBackground(svgContent));
           fs.writeFileSync(outputPath, fixedSvgContent);
         }
         
@@ -160,7 +182,7 @@ async function convertDrawioToSvg(inputPath, outputDir, format) {
       // Если это SVG, добавляем белый фон
       if (format === 'svg') {
         const svgContent = fs.readFileSync(outputPath, 'utf8');
-        const fixedSvgContent = addWhiteBackground(svgContent);
+        const fixedSvgContent = normalizeSvgForLegacyBrowsers(addWhiteBackground(svgContent));
         fs.writeFileSync(outputPath, fixedSvgContent);
       }
       

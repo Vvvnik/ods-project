@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@antora/lunr-extension": "^1.0.0-alpha.10",
+    "@opendevise/antora-swagger-ui-extension": "^1.0.0",
     "asciidoctor-kroki": "^0.18.1",
     "asciidoctor-plantuml": "^1.5.0",
     "opal": "^0.2.0",
@@ -16,7 +17,13 @@
     "build-all": "npm run build && npm run site",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["documentation", "asciidoc", "antora", "automation", "technical-docs"],
+  "keywords": [
+    "documentation",
+    "asciidoc",
+    "antora",
+    "automation",
+    "technical-docs"
+  ],
   "author": "ODS Project Contributors",
   "license": "Apache-2.0",
   "type": "commonjs"

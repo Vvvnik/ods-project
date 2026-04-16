@@ -59,6 +59,21 @@ Kroki image build script is used in CI for diagram rendering.
 ./docker/build-kroki.sh 0.29.0 --no-push
 ----
 
+[[kroki-local-port]]
+==== Running Kroki with port mapping (local)
+
+`build-kroki.sh` only **builds** (and optionally **pushes**) the image; the **host port** is set in a separate `docker run`.
+Without **`-p 8000:8000`**, nothing listens on the host, and `host.docker.internal:8000` from `site` / `site-preview` in `docker-compose` cannot reach Kroki.
+
+After `./docker/build-kroki.sh --no-push` (default local tag `0.28.0`) or after `docker pull` of the same image published for CI:
+
+[source,bash]
+----
+docker rm -f ods-kroki 2>/dev/null; docker run -d --name ods-kroki -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
+----
+
+Check: **http://localhost:8000**. In **GitLab CI** the same image is attached as the **`kroki:8000`** service—the pipeline layout stays the same; only the developer machine launch differs.
+
 === Ollama Image Build
 ==== Base Image (without model)
 Model loads when container starts:
