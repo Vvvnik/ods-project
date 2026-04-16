@@ -17,14 +17,20 @@ variables:
 
 # Сборка только на push в main + изменениях в components; не на MR (в т.ч. MR с source=main) и не на тегах
 # Теги и MR: сборку сайта не гоняем. На MR иначе при source=main + components/** включился бы build.
+# .rules_main_components_only:
+#   rules:
+#     - if: '$CI_COMMIT_TAG || $CI_PIPELINE_SOURCE == "merge_request_event"'
+#       when: never
+#     - if: '$CI_COMMIT_BRANCH == "main"'
+#       changes:
+#         - "components/**"
+
 .rules_main_components_only:
   rules:
     - if: '$CI_COMMIT_TAG || $CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
     - if: '$CI_COMMIT_BRANCH == "main"'
-      changes:
-        - "components/**"
-
+    
 merge_conflicts_check:
   stage: mr
   image: $RUBY_NODE_ANTORA_IMAGE
