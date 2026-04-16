@@ -69,8 +69,16 @@ RUN npm install -g \
     puppeteer@24.26.1 \
     xml2js@0.6.2
 
+# npm-зависимости из корня репозитория (asciidoctor-kroki и др. для playbook → Asciidoctor.js).
+# Сборка: из корня проекта: docker build -f docker/Dockerfile.universal .
+# При изменении package.json / package-lock.json пересобрать образ и снова запушить тег (например ruby-node-antora:2).
+WORKDIR /opt/antora-project-deps
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --no-audit --no-fund
+ENV NODE_PATH=/opt/antora-project-deps/node_modules
+
 # Проверка установки
-RUN ruby -v && node -v && npm -v && asciidoctor -v && antora -v
+RUN ruby -v && node -v && npm -v && asciidoctor -v && antora -v && node -e "require('asciidoctor-kroki'); console.log('asciidoctor-kroki ok')"
 
 # Рабочая директория
 WORKDIR /app
