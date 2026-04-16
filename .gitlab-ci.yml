@@ -1,8 +1,10 @@
+# Пайплайн для main: не требуем только push (редкие источники после merge). Важно: при Fast-forward merge
+# новый SHA на main не создаётся — отдельный пайплайн для main часто не стартует; тогда Merge commit в настройках проекта или Run pipeline.
+#
+# workflow — когда создать пайплайн. Правила у отдельных джоб — что внутри него запускать (см. .rules_main_components_only).
 workflow:
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_COMMIT_TAG'
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
     - when: never
 
 stages: [mr, build, deploy]
@@ -14,11 +16,10 @@ variables:
   GIT_DEPTH: "0"
 
 # Сборка только на push в main + изменениях в components; не на MR (в т.ч. MR с source=main) и не на тегах
+# Теги и MR: сборку сайта не гоняем. На MR иначе при source=main + components/** включился бы build.
 .rules_main_components_only:
   rules:
-    - if: "$CI_COMMIT_TAG"
-      when: never
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_TAG || $CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
     - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
