@@ -65,6 +65,20 @@ include::../examples/schema.puml[plantuml, schema]
 antora generate --log-failure-level warn --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
 ----
 
+== Проверка конфигурации CI локально (glab)
+
+https://gitlab.com/gitlab-org/cli[**GitLab CLI (glab)**] отправляет `.gitlab-ci.yml` на проверку (lint) в GitLab — удобно до push.
+
+[source,bash]
+----
+brew install glab
+glab auth login
+glab ci lint
+----
+
+* `glab auth login` — вход в `gitlab.com` (или свой инстанс); при прерванном интерактиве команду повторить.
+* Успех: в выводе есть `CI/CD YAML is valid!`.
+
 == Детальное описание этапов
 === build_all
 Основной этап сборки документации с последовательным выполнением команд:

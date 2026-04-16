@@ -65,6 +65,20 @@ If you want the build to be “strict” (fail on rendering warnings):
 antora generate --log-failure-level warn --attribute kroki-server-url=$KROKI_SERVER_URL antora-playbook.yml
 ----
 
+== Validating CI configuration locally (glab)
+
+https://gitlab.com/gitlab-org/cli[**GitLab CLI (glab)**] lints `.gitlab-ci.yml` through the GitLab API—useful before you push.
+
+[source,bash]
+----
+brew install glab
+glab auth login
+glab ci lint
+----
+
+* `glab auth login` — sign in to `gitlab.com` (or your GitLab instance); if you interrupt the interactive flow, run the command again.
+* Success: the output includes `CI/CD YAML is valid!`.
+
 == Detailed Stage Descriptions
 
 === build_all
