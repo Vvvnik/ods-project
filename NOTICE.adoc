@@ -53,7 +53,7 @@ This project includes the following third-party software:
   Copyright (c) 2000-2023 Graphviz Contributors
   https://github.com/ioquatix/graphviz
 
-== Runtime and build tooling (Ruby / Node.js)
+== Runtime and build tooling (Ruby / Node.js / Python)
 
 - RubyGems (MIT License)
   Copyright (c) Chad Fowler, Rich Kilmer, Jim Weirich and others
@@ -79,6 +79,14 @@ This project includes the following third-party software:
   Copyright (c) 2010-2020 Maciej Urbański
   https://github.com/Leonidas-from-XIV/node-xml2js
 
+- Python (Python Software Foundation License Version 2)
+  Copyright (c) 2001-present Python Software Foundation
+  https://github.com/python/cpython
+
+- PyYAML (MIT License)
+  Copyright (c) 2017-2021 Ingy dot Net; 2006-2016 Kirill Simonov
+  https://github.com/yaml/pyyaml
+
 == UI assets
 
 - highlight.js (BSD 3-Clause License)
@@ -99,6 +107,10 @@ This project includes the following third-party software:
   These font files may be subject to proprietary licensing. If you redistribute this repository or its artifacts, ensure you have the necessary rights to distribute these fonts.
 
 == Optional LLM tooling and models
+
+- Hermes Agent (MIT License)
+  Copyright (c) 2025 Nous Research
+  https://github.com/NousResearch/hermes-agent
 
 - Ollama (MIT License)
   Copyright (c) 2023-present Ollama AI Inc.
