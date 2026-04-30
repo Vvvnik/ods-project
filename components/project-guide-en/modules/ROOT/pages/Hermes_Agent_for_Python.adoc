@@ -1,0 +1,227 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+= Hermes Agent for Python
+
+== Purpose
+
+This page explains how to run the Hermes-based Python pipeline for Jira release descriptions in the ODS project.
+
+The ODS script does not install Hermes from PyPI. It invokes the Hermes SDK from a local clone (`run_agent.AIAgent`, `build_preloaded_skills_prompt`) in a subprocess using the interpreter from the activated `python/venv`, so dependencies match `hermes-agent/requirements.txt` (including `openai`).
+
+New script:
+
+* `python/src/services/generate_description_hermes.py`
+
+Configuration:
+
+* `python/config.hermes.yaml`
+
+== Requirements
+
+* Active environment `python/venv` (see xref:Python_Environment_for_Scripts.adoc[Python environment for scripts]);
+* Local Hermes Agent checkout, e.g. `/Users/vvv/.hermes/hermes-agent`;
+* Skills under `~/.hermes/skills` (at minimum `my/asciidoc`).
+
+== Install Hermes dependencies into the project venv
+
+[source,bash]
+----
+cd /Users/vvv/ods-project
+source python/venv/bin/activate
+python -m pip install -r /Users/vvv/.hermes/hermes-agent/requirements.txt
+----
+
+== Minimal run
+
+[source,bash]
+----
+cd /Users/vvv/ods-project
+source python/venv/bin/activate
+python python/src/services/generate_description_hermes.py
+----
+
+The script reads `python/config.hermes.yaml` automatically.
+
+== Useful modes
+
+Dry-run (no model call):
+
+[source,bash]
+----
+python python/src/services/generate_description_hermes.py --dry-run --only ODS-6
+----
+
+Explicit config:
+
+[source,bash]
+----
+python python/src/services/generate_description_hermes.py --config python/config.hermes.yaml --only ODS-6
+----
+
+== Minimal config (local Ollama)
+
+[source,yaml]
+----
+hermes:
+  hermes_repo_path: "${HERMES_REPO_PATH:-/Users/vvv/.hermes/hermes-agent}"
+  hermes_python_path: "${HERMES_PYTHON_PATH:-}"
+  timeout_sec: 120
+  retry_attempts: 2
+  model: "${HERMES_MODEL:-gpt-oss:20b}"
+  provider: "${HERMES_PROVIDER:-}"
+  base_url: "${HERMES_BASE_URL:-http://127.0.0.1:11434/v1}"
+  skip_memory: false
+  skip_context_files: false
+  enabled_toolsets: []
+  skills:
+    - "my/asciidoc"
+    - "my/release_notes"
+----
+
+== Troubleshooting
+
+=== `No module named 'openai'`
+
+Hermes dependencies are missing from `python/venv`:
+
+[source,bash]
+----
+python -m pip install -r /Users/vvv/.hermes/hermes-agent/requirements.txt
+----
+
+=== `Missing required Hermes skill: my/asciidoc`
+
+Ensure the skill exists:
+
+* `~/.hermes/skills/my/asciidoc/SKILL.md`
+
+=== Path errors
+
+Check `python/config.hermes.yaml`:
+
+* `hermes.hermes_repo_path`
+* `hermes.hermes_python_path` (if set)
+
+=== `Hermes SDK returned empty response`
+
+Hermes reached the stack but got no final text. Check in order:
+
+. Ollama is running (`ollama serve`);
+. Endpoint `http://127.0.0.1:11434/v1` is reachable;
+. Model name is valid (`gpt-oss:20b` or another pulled model);
+. `HERMES_PROVIDER` is not forcing a cloud key you do not have.
+
+Quick env check:
+
+[source,bash]
+----
+env | rg 'HERMES_|OPENROUTER_|OPENAI_|ANTHROPIC_'
+----
+
+== One-line smoke test
+
+[source,bash]
+----
+cd /Users/vvv/ods-project && source python/venv/bin/activate && python python/src/services/generate_description_hermes.py --dry-run --only ODS-6
+----
+
+If dry-run works but a real run does not, the issue is the model/provider, not the ODS script.
+
+== Where Hermes stores state
+
+Sessions, memory, and skills live under Hermes (`~/.hermes/...`), not in the ODS git tree.
+The repo holds config and generated outputs only.
+
+The Python script is a thin layer: read Jira context, invoke the Hermes SDK, write `.adoc`.
+Model calls, skills, and Hermes runtime files accumulate under `~/.hermes` (for example `/Users/vvv/.hermes` on your machine). You do not need a large set of Python scripts in the repo for that — most of the work is done by Hermes itself.
+
+Typical paths:
+
+* Skills: `~/.hermes/skills/`
+* Memory: `~/.hermes/memories/` (`USER.md`, `MEMORY.md`)
+* Sessions and request dumps: `~/.hermes/sessions/`
+* State database: `~/.hermes/state.db`
+
+== Team layout (recommended)
+
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Area ^|Location ^|Contents
+
+|Shared (Git)
+|`ods-project`
+|`python/config.hermes.yaml`, prompt templates, formatting rules, team docs
+
+|Personal runtime (not in Git)
+|`~/.hermes`
+|sessions, local memory, caches, temp artifacts
+
+|Shared runtime (optional)
+|external storage
+|shared live memory if the team needs it
+|===
+
+=== What to commit for reproducibility
+
+* Default/template `python/config.hermes.yaml`;
+* Shared prompts under `python/data/prompts/...`;
+* Runbooks in `components/project-guide/...` and `components/project-guide-en/...`;
+* Skill names listed in config.
+
+=== What stays only under `~/.hermes`
+
+* `~/.hermes/sessions/*`
+* `~/.hermes/memories/*`
+* `~/.hermes/state.db`
+* local Hermes dumps/logs
+
+=== Team context without committing personal memory
+
+Use a project-owned context file, for example:
+
+* `python/data/hermes/team_context.md`
+
+Maintain it like any other doc (PRs, reviews, history).
+
+== Do not commit to ODS
+
+* `~/.hermes/sessions/*`
+* `~/.hermes/memories/*`
+* `~/.hermes/state.db`
+
+These are Hermes runtime data, not project source.
+
+== Jira exports: which files and size limits
+
+`generate_description_hermes.py` does not send a whole directory verbatim. Text is assembled in code (`release_containers`, `text_cleaning`) and truncated using limits from `python/config.hermes.yaml`.
+
+Selection works as follows:
+
+* The `description` block selects the root (for example `input_dir: tools/jira` with `workspace` in the config).
+* Only subdirectories whose names start with `bundle_subdirs_prefix` are processed (for example `ODS-*`).
+* Files `*.adoc` and `*.md` are collected recursively; other extensions are ignored.
+* Paths containing an `images` segment are skipped; files whose basename is `release_notes` or `description` are skipped; if both `stem.md` and `stem.adoc` exist, the `.adoc` file wins.
+
+Typical limits in config:
+
+* `description.max_adoc_text_chars` — maximum characters from a single file after cleaning (`extract_text_for_embedding`).
+* `description.max_context_chars` — maximum characters of combined context per epic before the Hermes call.
+
+Skills used for generation are listed in `hermes.skills` (for example `my/asciidoc`, `my/release_notes`); an empty `enabled_toolsets` list keeps optional Hermes toolsets off for batch runs.
+
+A single script run for multiple epics uses one SDK session with chained `run_conversation` calls and shared history (one `session_id`, full log under `~/.hermes/sessions/`).
+
+Example raw size snapshot for `tools/jira/ODS-6`: four files (`ODS-6.md` … `ODS-9.md`), on the order of 6–7k Unicode characters total in sources; the prompt receives processed text subject to the limits above.
+
+For CLI/SDK sessions, `USER.md`/`MEMORY.md`, file selection details, and the numeric example, see `python/help/hermes-chat.md` in the repo root (not part of the default Antora build).
+
+== Related
+
+* xref:Python_Environment_for_Scripts.adoc[Python environment for scripts];
+* xref:Working_with_LLM.adoc[Working with LLM for Translations];
+* xref:Installation.adoc[Installation];
+* xref:project-guide::Hermes_Agent_для_Python.adoc[Hermes Agent для Python] (Russian);
+* extra notes on Hermes and sessions: `python/help/hermes-chat.md` in the repository root.

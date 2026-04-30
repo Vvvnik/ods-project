@@ -50,6 +50,9 @@ docker-compose -f docker/docker-compose.yml run --rm start
 
 # Documentation site build
 docker-compose -f docker/docker-compose.yml run --rm site
+
+# Site build and preview (port 8080)
+docker-compose -f docker/docker-compose.yml up site-preview
 ----
 
 === How local docker-compose build works

@@ -64,6 +64,8 @@ toc::[]
 |POST |/user |Create user
 |===
 
+[#pet]
+== Pet
 === POST «/pet/[petId]/uploadImage»
 
 *Описание:* uploads an image
@@ -476,7 +478,8 @@ toc::[]
 * «400» Invalid ID supplied;
 * «404» Pet not found;
 
-
+[#store]
+== Store
 
 === GET «/store/inventory»
 
@@ -632,6 +635,8 @@ toc::[]
 
 
 
+[#user]
+== User
 === POST «/user/createWithList»
 
 *Описание:* Creates list of users with given input array

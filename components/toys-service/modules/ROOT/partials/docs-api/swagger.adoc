@@ -82,6 +82,7 @@ URL: http://www.apache.org/licenses/LICENSE-2.0.html
 |POST |/user |Create user
 |===
 
+
 [post--pet--petId--uploadImage]
 [source,http,role="http-method-blue"]
 ----

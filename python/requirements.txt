@@ -2,10 +2,10 @@
 #
 # Нужен Python 3.10+ (в коде используются типы вида list[str] | None).
 #
-# Виртуальное окружение (из каталога репозитория):
+# Виртуальное окружение — каталог `python/venv` (см. project-guide, не используйте `.venv`):
 #   cd python
-#   python3 -m venv .venv
-#   source .venv/bin/activate          # Windows: .venv\Scripts\activate
+#   python3 -m venv venv
+#   source venv/bin/activate           # Windows: venv\Scripts\activate
 #   pip install -U pip
 #   pip install -r requirements.txt
 #

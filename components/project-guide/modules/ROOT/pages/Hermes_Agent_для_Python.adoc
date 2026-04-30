@@ -1,0 +1,236 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+= Hermes Agent для Python
+
+== Назначение
+
+Страница описывает, как запускать новый Python-контур генерации описаний через Hermes Agent в проекте ODS.
+
+Скрипт ODS не импортирует Hermes как пакет из PyPI: вызов идёт через Hermes SDK из локального клона (`run_agent.AIAgent`, `build_preloaded_skills_prompt`) в отдельном процессе с интерпретатором из активированного `python/venv`, чтобы совпадали зависимости (`openai` и др. из `hermes-agent/requirements.txt`).
+
+Новый скрипт:
+
+* `python/src/services/generate_description_hermes.py`
+
+Конфиг нового контура:
+
+* `python/config.hermes.yaml`
+
+== Требования
+
+* Активное окружение `python/venv` (см. xref:Python_окружение_для_скриптов.adoc[Python окружение для скриптов]);
+* Локальный репозиторий Hermes Agent: `/Users/vvv/.hermes/hermes-agent`;
+* Доступные skills в `~/.hermes/skills` (минимум `my/asciidoc`).
+
+== Установка зависимостей Hermes в проектное окружение
+
+[source,bash]
+----
+cd /Users/vvv/ods-project
+source python/venv/bin/activate
+python -m pip install -r /Users/vvv/.hermes/hermes-agent/requirements.txt
+----
+
+== Минимальный запуск
+
+[source,bash]
+----
+cd /Users/vvv/ods-project
+source python/venv/bin/activate
+python python/src/services/generate_description_hermes.py
+----
+
+Скрипт читает `python/config.hermes.yaml` автоматически.
+
+== Полезные режимы
+
+Dry-run (без реального вызова модели):
+
+[source,bash]
+----
+python python/src/services/generate_description_hermes.py --dry-run --only ODS-6
+----
+
+Запуск с явным конфигом:
+
+[source,bash]
+----
+python python/src/services/generate_description_hermes.py --config python/config.hermes.yaml --only ODS-6
+----
+
+== Минимальный конфиг без лишнего
+
+Для локального сценария (один skill + локальный Ollama) достаточно такого блока:
+
+[source,yaml]
+----
+hermes:
+  hermes_repo_path: "${HERMES_REPO_PATH:-/Users/vvv/.hermes/hermes-agent}"
+  hermes_python_path: "${HERMES_PYTHON_PATH:-}"
+  timeout_sec: 120
+  retry_attempts: 2
+  model: "${HERMES_MODEL:-gpt-oss:20b}"
+  provider: "${HERMES_PROVIDER:-}"
+  base_url: "${HERMES_BASE_URL:-http://127.0.0.1:11434/v1}"
+  skip_memory: false
+  skip_context_files: false
+  enabled_toolsets: []
+  skills:
+    - "my/asciidoc"
+    - "my/release_notes"
+----
+
+== Что проверять при ошибках
+
+=== `No module named 'openai'`
+
+В `python/venv` не установлены зависимости Hermes.
+Установите:
+
+[source,bash]
+----
+python -m pip install -r /Users/vvv/.hermes/hermes-agent/requirements.txt
+----
+
+=== `Missing required Hermes skill: my/asciidoc`
+
+В Hermes не найден обязательный skill.
+Проверьте наличие файла:
+
+* `~/.hermes/skills/my/asciidoc/SKILL.md`
+
+=== Ошибки путей
+
+Проверьте значения в `python/config.hermes.yaml`:
+
+* `hermes.hermes_repo_path`
+* `hermes.hermes_python_path` (если задан)
+
+=== `Hermes SDK returned empty response`
+
+Это не ошибка запуска скрипта. Это означает, что Hermes дошел до модели, но не получил финальный текст.
+Проверьте по порядку:
+
+. Запущен ли Ollama (`ollama serve`);
+. Доступен ли endpoint `http://127.0.0.1:11434/v1`;
+. Корректна ли модель (`gpt-oss:20b` или другая установленная в Ollama);
+. Нет ли переопределения `HERMES_PROVIDER`, требующего внешний API-ключ.
+
+Быстрая проверка переменных:
+
+[source,bash]
+----
+env | rg 'HERMES_|OPENROUTER_|OPENAI_|ANTHROPIC_'
+----
+
+== Проверка работоспособности в одну команду
+
+[source,bash]
+----
+cd /Users/vvv/ods-project && source python/venv/bin/activate && python python/src/services/generate_description_hermes.py --dry-run --only ODS-6
+----
+
+Если dry-run работает, но реальный запуск нет — проблема в модели/провайдере, а не в скрипте.
+
+== Где хранится состояние Hermes
+
+Сессии/память/skills хранятся в директории Hermes (`~/.hermes/...`), а не в репозитории ODS.
+Проект ODS хранит только конфиг и итоговые сгенерированные файлы.
+
+Скрипт на Python — тонкий слой: чтение Jira-контекста, вызов Hermes SDK и запись `.adoc`.
+Запросы к модели, skills и служебные файлы Hermes создаются и накапливаются под `~/.hermes` (у вас это может выглядеть как `/Users/vvv/.hermes`); отдельного большого набора Python-скриптов в репозитории под это не требуется — основная работа выполняется Hermes.
+
+Практические пути:
+
+* Skills: `~/.hermes/skills/`
+* Память: `~/.hermes/memories/` (`USER.md`, `MEMORY.md`)
+* Сессии и дампы запросов: `~/.hermes/sessions/`
+* Служебная БД состояния: `~/.hermes/state.db`
+
+== Рекомендуемая структура для команды
+
+Ниже практическое разделение, чтобы в команде не терялся контекст и не смешивалась личная память:
+
+[cols="1,2,3", options="header, breakable"]
+|===
+^|Зона ^|Где хранить ^|Что хранить
+
+|Общее (Git)
+|`ods-project`
+|`python/config.hermes.yaml`, prompt-шаблоны, правила форматирования, инструкции для команды
+
+|Личное runtime (без Git)
+|`~/.hermes`
+|личные сессии, локальная память, локальные кэши, временные артефакты
+
+|Общее runtime (опционально)
+|отдельный внешний storage
+|если команде нужна единая живая память между участниками
+|===
+
+=== Что положить в Git для командной воспроизводимости
+
+* шаблон/дефолт `python/config.hermes.yaml`;
+* единые промпты в `python/data/prompts/...`;
+* документированные правила и runbook в `components/project-guide/...`;
+* фиксированный список skills-имен в конфиге.
+
+=== Что оставить только в `~/.hermes`
+
+* `~/.hermes/sessions/*`
+* `~/.hermes/memories/*`
+* `~/.hermes/state.db`
+* локальные dump/log файлы Hermes
+
+=== Командный контекст без коммита личной памяти
+
+Если нужен «общий мозг» команды в репозитории, используйте отдельный файл контекста, например:
+
+* `python/data/hermes/team_context.md`
+
+И поддерживайте его как обычный документ проекта (PR, ревью, история изменений).
+
+== Что не хранить в проекте ODS
+
+Не копируйте в репозиторий:
+
+* `~/.hermes/sessions/*`
+* `~/.hermes/memories/*`
+* `~/.hermes/state.db`
+
+Это runtime-данные Hermes, а не данные проекта.
+
+== Исходные тексты Jira, отбор файлов и лимиты
+
+Скрипт `generate_description_hermes.py` подмешивает в запрос к модели не «всю папку» целиком, а текст, собранный по правилам в коде (`release_containers`, `text_cleaning`) и усечённый лимитами из `python/config.hermes.yaml`.
+
+Отбор выполняется так:
+
+* Корень поиска задаётся блоком `description` (например `input_dir: tools/jira`, `workspace` в конфиге).
+* Обрабатываются подпапки с префиксом `bundle_subdirs_prefix` (например только `ODS-*`).
+* В контекст попадают рекурсивно файлы `*.adoc` и `*.md`; не читаются иные расширения.
+* Пропускаются пути с сегментом `images`, файлы с базовым именем `release_notes` или `description`; при паре `stem.md` и `stem.adoc` берётся `*.adoc`.
+
+Лимиты (типичные значения в конфиге):
+
+* `description.max_adoc_text_chars` — максимум символов текста из одного файла после очистки (`extract_text_for_embedding`).
+* `description.max_context_chars` — максимум символов суммарного контекста по одному эпику перед вызовом Hermes.
+
+Список skills для генерации задаётся в `hermes.skills` (например `my/asciidoc`, `my/release_notes`); пустой `enabled_toolsets` отключает лишние toolsets Hermes для пакетного сценария.
+
+Один прогон скрипта для нескольких эпиков использует одну SDK-сессию с цепочкой `run_conversation` и общей историей между шагами (один `session_id`, полный лог в `~/.hermes/sessions/`).
+
+Пример оценки объёма сырьевых файлов (папка `tools/jira/ODS-6`, снимок): четыре файла `ODS-6.md` … `ODS-9.md`, суммарно порядка 6–7 тыс. символов Unicode в исходниках; в промпт после обработки и лимитов уходит уже подготовленный текст.
+
+Подробный runbook по сессиям CLI и SDK, памяти `USER.md`/`MEMORY.md`, отбору файлов и цифрам примера см. в репозитории: `python/help/hermes-chat.md` (не входит в Antora-сборку по умолчанию).
+
+== Связанные разделы
+
+* xref:Python_окружение_для_скриптов.adoc[Python окружение для скриптов];
+* xref:Работа_с_LLM.adoc[Работа с LLM для переводов];
+* xref:Установка.adoc[Установка];
+* xref:project-guide-en::Hermes_Agent_for_Python.adoc[Hermes Agent for Python] (англ.);
+* дополнительные заметки по Hermes и сессиям: файл `python/help/hermes-chat.md` в корне репозитория.

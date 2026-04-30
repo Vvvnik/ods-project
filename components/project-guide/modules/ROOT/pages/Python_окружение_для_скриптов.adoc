@@ -1,0 +1,119 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+= Python окружение для скриптов
+
+== Зачем отдельная страница
+
+Для Python-скриптов проекта используйте одно окружение: `python/venv`.
+Это убирает путаницу с несколькими virtualenv и делает запуск команд повторяемым.
+
+== Стандарт окружения в проекте
+
+* Рабочая папка Python: `python/`;
+* Рабочий virtualenv: `python/venv`;
+* Интерпретатор: `python/venv/bin/python`;
+
+Если у вас есть `python/.venv`, не используйте его в командах проекта.
+
+== Если в папке `python/` несколько virtualenv
+
+Рабочим считается `python/venv`.
+
+Проверка:
+
+[source,bash]
+----
+ls -la /Users/vvv/ods-project/python
+----
+
+Если есть и `venv`, и `.venv`, используйте только `venv`.
+`python/.venv` можно удалить после проверки запусков:
+
+[source,bash]
+----
+cd /Users/vvv/ods-project/python
+rm -rf .venv
+----
+
+== Активация окружения
+
+Из корня репозитория:
+
+[source,bash]
+----
+cd /Users/vvv/ods-project
+source python/venv/bin/activate
+----
+
+Проверка, что активировано нужное окружение:
+
+[source,bash]
+----
+which python
+python -V
+----
+
+Ожидаемый путь `python` должен указывать на `.../ods-project/python/venv/bin/python`.
+
+== Установка зависимостей Python-проекта
+
+[source,bash]
+----
+cd /Users/vvv/ods-project
+source python/venv/bin/activate
+python -m pip install -U pip
+python -m pip install -r python/requirements.txt
+----
+
+== Базовые команды запуска
+
+Старый (legacy) скрипт:
+
+[source,bash]
+----
+python python/src/services/generate_description.py
+----
+
+Новый Hermes-скрипт:
+
+[source,bash]
+----
+python python/src/services/generate_description_hermes.py
+----
+
+== Типовые ошибки
+
+=== `source: no such file or directory`
+
+Причина: команда выполнена не из корня проекта.
+
+Используйте абсолютный путь:
+
+[source,bash]
+----
+source /Users/vvv/ods-project/python/venv/bin/activate
+----
+
+=== Импорт не найден (`ModuleNotFoundError`)
+
+Причина: зависимости не установлены в `python/venv`.
+Повторно выполните установку зависимостей из разделов выше.
+
+=== Скрипт запускается, но вывод «пустой» или странный
+
+Проверьте:
+
+* запуск в правильном окружении (`which python`);
+* запуск из корня проекта (`/Users/vvv/ods-project`);
+* соответствующий конфиг (`python/config.hermes.yaml` для Hermes-скрипта);
+* доступность модели/провайдера.
+
+== Связанные разделы
+
+* xref:Установка.adoc[Установка];
+* xref:Hermes_Agent_для_Python.adoc[Hermes Agent для Python];
+* xref:Работа_с_LLM.adoc[Работа с LLM для переводов];
+* xref:project-guide-en::Python_Environment_for_Scripts.adoc[Python environment for scripts] (англ.).

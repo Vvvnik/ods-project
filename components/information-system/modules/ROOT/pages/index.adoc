@@ -13,7 +13,8 @@ include::../partials/attr_common.adoc[]
 = Информационная система
 
 :toclevels: 5
-toc::[]
+
+// toc::[]
 
 == Назначение компонента
 

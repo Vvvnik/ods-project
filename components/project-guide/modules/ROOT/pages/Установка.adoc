@@ -50,6 +50,9 @@ docker-compose -f docker/docker-compose.yml run --rm start
 
 # Сборка сайта документации
 docker-compose -f docker/docker-compose.yml run --rm site
+
+# Сборка и предпросмотр сайта (порт 8080)
+docker-compose -f docker/docker-compose.yml up site-preview
 ----
 
 === Как устроена локальная сборка через docker-compose

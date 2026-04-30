@@ -14,6 +14,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     network_mode: bridge
+    profiles: ["start", "all"]
 
   # Сборка сайта с Antora
   site:
@@ -31,11 +32,17 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     network_mode: bridge
+    profiles: ["site", "all"]
+    depends_on:
+      - start
 
   # Предпросмотр сайта (поднимает простой http-server на 0.0.0.0:8080)
   # Использование:
-  #   docker-compose -f docker/docker-compose.yml run --rm site
-  #   docker-compose -f docker/docker-compose.yml up --build site-preview
+  #   COMPOSE_PROFILES=site docker compose -f docker/docker-compose.yml run --rm site
+  #   COMPOSE_PROFILES=preview docker compose -f docker/docker-compose.yml up --build site-preview
+  #   COMPOSE_PROFILES=all docker compose -f docker/docker-compose.yml up --build
+  # Логи всех сервисов:
+  #   docker compose -f docker/docker-compose.yml logs -f
   site-preview:
     image: registry.gitlab.com/vvvnik/ods-project/ruby-node-antora:2
     container_name: ods-project-site-preview
@@ -51,3 +58,4 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     network_mode: bridge
+    profiles: ["preview", "all"]

@@ -1,0 +1,119 @@
+include::../partials/attr_common.adoc[]
+:doctype: book
+:custom_title_page: none
+:custom_other_page: none
+:sectnums:
+= Python environment for scripts
+
+== Why this page exists
+
+Use a single environment for project Python scripts: `python/venv`.
+That avoids confusion from multiple virtualenvs and keeps commands reproducible.
+
+== Standard layout in this repo
+
+* Python work directory: `python/`;
+* Virtual environment: `python/venv`;
+* Interpreter: `python/venv/bin/python`;
+
+If you still have `python/.venv`, do not use it for project commands.
+
+== If `python/` contains more than one virtualenv
+
+Treat `python/venv` as canonical.
+
+Check:
+
+[source,bash]
+----
+ls -la /Users/vvv/ods-project/python
+----
+
+If both `venv` and `.venv` exist, use only `venv`.
+You may remove `.venv` after verifying your workflows:
+
+[source,bash]
+----
+cd /Users/vvv/ods-project/python
+rm -rf .venv
+----
+
+== Activating the environment
+
+From the repository root:
+
+[source,bash]
+----
+cd /Users/vvv/ods-project
+source python/venv/bin/activate
+----
+
+Verify the correct interpreter:
+
+[source,bash]
+----
+which python
+python -V
+----
+
+`which python` should resolve to `.../ods-project/python/venv/bin/python`.
+
+== Installing Python project dependencies
+
+[source,bash]
+----
+cd /Users/vvv/ods-project
+source python/venv/bin/activate
+python -m pip install -U pip
+python -m pip install -r python/requirements.txt
+----
+
+== Basic commands
+
+Legacy script:
+
+[source,bash]
+----
+python python/src/services/generate_description.py
+----
+
+Hermes-based script:
+
+[source,bash]
+----
+python python/src/services/generate_description_hermes.py
+----
+
+== Common errors
+
+=== `source: no such file or directory`
+
+You ran the command outside the project root.
+
+Use an absolute path:
+
+[source,bash]
+----
+source /Users/vvv/ods-project/python/venv/bin/activate
+----
+
+=== Import errors (`ModuleNotFoundError`)
+
+Dependencies are not installed in `python/venv`.
+Re-run the install steps above.
+
+=== Script runs but output is empty or odd
+
+Check:
+
+* correct environment (`which python`);
+* working directory is the repo root (`/Users/vvv/ods-project`);
+* correct config (`python/config.hermes.yaml` for the Hermes script);
+* model/provider availability.
+
+== Related
+
+* xref:Installation.adoc[Installation];
+* xref:Hermes_Agent_for_Python.adoc[Hermes Agent for Python];
+* xref:Working_with_LLM.adoc[Working with LLM for Translations];
+* xref:project-guide::Python_окружение_для_скриптов.adoc[Python окружение для скриптов] (Russian).
