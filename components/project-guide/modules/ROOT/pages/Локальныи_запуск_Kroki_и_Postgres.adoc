@@ -25,7 +25,7 @@ docker run --rm -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 docker rm -f ods-kroki 2>/dev/null; docker run -d --name ods-kroki -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 ----
 
-Подробности и связь с `build-kroki.sh`: xref:Docker_сборка_и_сервисы.adoc#kroki-local-port[Docker: сборка Kroki с пробросом порта].
+Подробности и связь с `build-kroki.sh`: xref:4_Docker_сборка_и_сервисы.adoc#kroki-local-port[Docker: сборка Kroki с пробросом порта].
 
 === Переменные окружения
 

@@ -413,7 +413,7 @@ kroki-server-url: http://host.docker.internal:8000
 # kroki-server-url: http://kroki:8000 # for CI
 ----
 
-См. подробности в разделе xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы].
+См. подробности в разделе xref:4_Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы].
 
 === Варианты запуска Antora
 

@@ -113,7 +113,7 @@ source /Users/vvv/ods-project/python/venv/bin/activate
 
 == Связанные разделы
 
-* xref:Установка.adoc[Установка];
+* xref:3_Установка.adoc[Установка];
 * xref:Hermes_Agent_для_Python.adoc[Hermes Agent для Python];
 * xref:Работа_с_LLM.adoc[Работа с LLM для переводов];
 * xref:project-guide-en::Python_Environment_for_Scripts.adoc[Python environment for scripts] (англ.).

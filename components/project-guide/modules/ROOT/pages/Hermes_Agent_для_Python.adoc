@@ -231,6 +231,6 @@ cd /Users/vvv/ods-project && source python/venv/bin/activate && python python/sr
 
 * xref:Python_окружение_для_скриптов.adoc[Python окружение для скриптов];
 * xref:Работа_с_LLM.adoc[Работа с LLM для переводов];
-* xref:Установка.adoc[Установка];
+* xref:3_Установка.adoc[Установка];
 * xref:project-guide-en::Hermes_Agent_for_Python.adoc[Hermes Agent for Python] (англ.);
 * дополнительные заметки по Hermes и сессиям: файл `python/help/hermes-chat.md` в корне репозитория.

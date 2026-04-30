@@ -93,7 +93,7 @@ nc -vz localhost 5432
 
 Подробности и примеры настроек:
 
-* xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы];
+* xref:4_Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы];
 * xref:Локальныи_запуск_Kroki_и_Postgres.adoc[Локальный запуск Kroki и Postgres];
 * xref:Работа_с_LLM.adoc[Работа с LLM].
 

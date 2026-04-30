@@ -28,7 +28,7 @@ cd ods-project
 
 == Шаг 2: Запуск проекта
 
-Для локальной разработки используйте готовые команды из docker-compose.yml (см. xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы]).
+Для локальной разработки используйте готовые команды из docker-compose.yml (см. xref:4_Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы]).
 
 == Шаг 3: Создание нового компонента
 
@@ -162,7 +162,7 @@ docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb a
 docker-compose -f docker/docker-compose.yml run --rm site
 ----
 
-`kroki-server-url` передаётся в Antora через CLI-атрибут (см. xref:Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы]), поэтому `antora-playbook.yml` вручную менять не нужно.
+`kroki-server-url` передаётся в Antora через CLI-атрибут (см. xref:4_Docker_сборка_и_сервисы.adoc[Docker: сборка и сервисы]), поэтому `antora-playbook.yml` вручную менять не нужно.
 
 Если нужно запустить предпросмотр с сервером, используйте:
 
@@ -223,7 +223,7 @@ docker-compose -f docker/docker-compose.yml run --rm --service-ports site-previe
 
 == Полезные ссылки
 
-* xref:Установка.adoc[Установка] – подробная инструкция по установке;
+* xref:3_Установка.adoc[Установка] – подробная инструкция по установке;
 * xref:Настроика_config_yml.adoc[Настройка config.yml] – конфигурация проекта;
 * xref:Руководство_пользователя.adoc[Руководство пользователя] – полное руководство;
 * xref:Правка_и_проверка.adoc[Правка и проверка] – решение проблем;
