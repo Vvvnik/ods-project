@@ -14,7 +14,7 @@ Universal image is used in CI for PDF and site builds.
 ** Used in CI for PDF and site builds;
 ** Built from `docker/Dockerfile.universal`;
 ** All package versions are pinned for reproducible builds (gems and npm packages with exact versions).
-** This includes global installs of the Antora CLI, site generators, `+@antora/lunr-extension+`, and `+@opendevise/antora-swagger-ui-extension+` — they should stay aligned with the `antora.extensions` list in `antora-playbook.yml`.
+** This includes global installs of the Antora CLI, site generators, `+@antora/lunr-extension+`, and `+@opendevise/antora-swagger-ui-extension+` – they should stay aligned with the `antora.extensions` list in `antora-playbook.yml`.
 * **Kroki Service**: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0:
 ** Separate container for diagram rendering;
 ** Connected as service in CI;
@@ -72,7 +72,7 @@ After `./docker/build-kroki.sh --no-push` (default local tag `0.28.0`) or after 
 docker rm -f ods-kroki 2>/dev/null; docker run -d --name ods-kroki -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 ----
 
-Check: **http://localhost:8000**. In **GitLab CI** the same image is attached as the **`kroki:8000`** service—the pipeline layout stays the same; only the developer machine launch differs.
+Check: **http://localhost:8000**. In **GitLab CI** the same image is attached as the **`kroki:8000`** service–the pipeline layout stays the same; only the developer machine launch differs.
 
 === Ollama Image Build
 ==== Base Image (without model)
@@ -179,13 +179,13 @@ printf '%s\n' '@startuml' 'Alice -> Bob: test' '@enduml' | \
 # HTTP=200 CT=image/svg+xml
 
 # Check Ollama
-# Ollama is optional — only check if you use LLM
+# Ollama is optional – only check if you use LLM
 curl -sS http://localhost:11434/api/version || true
 # Expected output (example):
 # {"version":"0.13.4"}
 
 # Check PostgreSQL
-# psql may be missing on host — check that port is reachable
+# psql may be missing on host – check that port is reachable
 nc -vz localhost 5432
 # Expected output (example):
 # Connection to localhost port 5432 [tcp/postgresql] succeeded!

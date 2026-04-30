@@ -65,7 +65,7 @@ def resolve_path(settings: dict[str, Any], path_value: str) -> Path:
 
 
 def document_suffix_from_skills(skills: list[str]) -> str:
-    """`.md` или `.adoc` по форматирующему скиллу Hermes (остальное — через skills/LLM)."""
+    """`.md` или `.adoc` по форматирующему скиллу Hermes (остальное – через skills/LLM)."""
     has_md = "my/markdown" in skills
     has_adoc = "my/asciidoc" in skills
     if has_md and has_adoc:

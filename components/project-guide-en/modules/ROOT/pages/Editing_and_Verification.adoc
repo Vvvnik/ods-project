@@ -46,10 +46,10 @@ Components with issues: 1
 Components without asciidoctor CLI: 0
 
 Updated logs:
-  - data-processing-engine: 1 ERROR / 0 WARNING (1/13 files) — components/data-processing-engine/asciidoctor-lint.log
+  - data-processing-engine: 1 ERROR / 0 WARNING (1/13 files) – components/data-processing-engine/asciidoctor-lint.log
 
 Components with errors/warnings:
-  - data-processing-engine: 1 ERROR / 0 WARNING — components/data-processing-engine/asciidoctor-lint.log
+  - data-processing-engine: 1 ERROR / 0 WARNING – components/data-processing-engine/asciidoctor-lint.log
 ----
 
 The error was fixed like this:
@@ -72,7 +72,7 @@ Components with issues: 0
 Components without asciidoctor CLI: 0
 
 Updated logs:
-  - data-processing-engine: 0 ERROR / 0 WARNING (0/13 files) — components/data-processing-engine/asciidoctor-lint.log
+  - data-processing-engine: 0 ERROR / 0 WARNING (0/13 files) – components/data-processing-engine/asciidoctor-lint.log
 ----
 
 :num_t: {counter:table-number}

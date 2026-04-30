@@ -51,7 +51,7 @@ npx antora generate --attribute kroki-server-url=http://localhost:8000 antora-pl
 
 Это позволяет не менять `antora-playbook.yml` вручную при переключении между локальной разработкой и CI.
 
-Альтернатива — использовать docker-compose сервис `site`, который уже передаёт `kroki-server-url` через `KROKI_SERVER_URL`:
+Альтернатива – использовать docker-compose сервис `site`, который уже передаёт `kroki-server-url` через `KROKI_SERVER_URL`:
 
 [source,bash]
 ----

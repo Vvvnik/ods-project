@@ -34,7 +34,7 @@ The `templates/diagrams/` folder contains examples of diagrams in various format
 
 The `templates/diagrams/puml/` folder contains examples of diagrams in PlantUML language:
 
-==== kts.puml — Hardware Complex Architecture Example
+==== kts.puml – Hardware Complex Architecture Example
 
 An example diagram of hardware complex architecture (КТС), demonstrating:
 
@@ -62,7 +62,7 @@ Then include the diagram in the document:
 ----
 ----
 
-==== net.puml — Network Interaction Diagram Example
+==== net.puml – Network Interaction Diagram Example
 
 An example network interaction diagram showing:
 
@@ -77,7 +77,7 @@ Usage is similar to `kts.puml`.
 
 The `templates/diagrams/drawio/` folder contains examples of diagrams in Draw.io format.
 
-==== Проект_диаграмма_классов.drawio — Class Diagram Example
+==== Проект_диаграмма_классов.drawio – Class Diagram Example
 
 A project class diagram example demonstrating:
 
@@ -134,9 +134,9 @@ The `templates/snippets/` folder contains ready-made code snippets for editors (
 
 Snippets for quick creation of standard blocks:
 
-* `num-t` — table block with automatic numbering;
-* `num-i` — figure block with automatic numbering;
-* `num-e` — equation block with automatic numbering;
+* `num-t` – table block with automatic numbering;
+* `num-i` – figure block with automatic numbering;
+* `num-e` – equation block with automatic numbering;
 * And other useful snippets;
 
 Installation:
@@ -147,13 +147,13 @@ Installation:
 
 Usage example:
 
-Type `num-t` and press Tab — a ready-made table block with numbering will appear.
+Type `num-t` and press Tab – a ready-made table block with numbering will appear.
 
 === asciidoc-table.code-snippets
 
 Specialized snippets for creating tables:
 
-* `table` — ready-made table block with data description;
+* `table` – ready-made table block with data description;
 
 Usage is similar to `asciidoc.code-snippets`.
 
@@ -165,28 +165,28 @@ The `templates/templates_doc/modules/` folder contains complete document templat
 
 Main templates and examples:
 
-* `pages/index.adoc` — example of component main page;
-* `partials/` — common document parts:
-** `attr_common.adoc` — common attributes;
-** `diagrams/` — diagram examples;
-** `docs-db/` — database documentation examples;
-** `lists/` — list templates;
-** `t_*.adoc` — title page and signature templates;
-* `examples/` — example configuration files:
-** `database.yml` — database configuration example;
-** `sources.yml` — API configuration example;
-** `drawio/` — Draw.io diagram examples;
-* `attachments/` — example PDF files.
+* `pages/index.adoc` – example of component main page;
+* `partials/` – common document parts:
+** `attr_common.adoc` – common attributes;
+** `diagrams/` – diagram examples;
+** `docs-db/` – database documentation examples;
+** `lists/` – list templates;
+** `t_*.adoc` – title page and signature templates;
+* `examples/` – example configuration files:
+** `database.yml` – database configuration example;
+** `sources.yml` – API configuration example;
+** `drawio/` – Draw.io diagram examples;
+* `attachments/` – example PDF files.
 
 === TRD Module (Technical Documentation)
 
 Technical specification document templates:
 
-* `pages/Частное_техническое_задание.adoc` — private technical specification template;
-* `pages/Описание_постановки_задачи.adoc` — task description template;
-* `pages/Описание_автоматизируемых_функции.adoc` — function description template;
-* `pages/Спецификация.adoc` — specification template;
-* `partials/tables/specification-table.adoc` — specification table template;
+* `pages/Частное_техническое_задание.adoc` – private technical specification template;
+* `pages/Описание_постановки_задачи.adoc` – task description template;
+* `pages/Описание_автоматизируемых_функции.adoc` – function description template;
+* `pages/Спецификация.adoc` – specification template;
+* `partials/tables/specification-table.adoc` – specification table template;
 
 Usage:
 
@@ -201,18 +201,18 @@ cp templates/templates_doc/modules/trd/pages/Частное_техническо
 
 Operational documentation templates:
 
-* `pages/Описание_программы.adoc` — program description template;
-* `pages/Описание_языка.adoc` — language description template;
-* `pages/Спецификация.adoc` — specification template;
-* `pages/Ведомость_эксплуатационных_документов.adoc` — document list template;
-* `partials/tables/` — table templates for specifications and lists;
+* `pages/Описание_программы.adoc` – program description template;
+* `pages/Описание_языка.adoc` – language description template;
+* `pages/Спецификация.adoc` – specification template;
+* `pages/Ведомость_эксплуатационных_документов.adoc` – document list template;
+* `partials/tables/` – table templates for specifications and lists;
 
 === OED Module (Trial Operation)
 
 Trial operation document templates:
 
-* `pages/Акт_приемки_в_опытную_эксплуатацию.adoc` — trial operation acceptance certificate template;
-* `pages/Протокол_опытнои_эксплуатации.adoc` — trial operation protocol template;
+* `pages/Акт_приемки_в_опытную_эксплуатацию.adoc` – trial operation acceptance certificate template;
+* `pages/Протокол_опытнои_эксплуатации.adoc` – trial operation protocol template;
 
 == Usage Recommendations
 
@@ -242,7 +242,7 @@ Diagram examples (`kts.puml`, `net.puml`, `Проект_диаграмма_кл�
 
 == See Also
 
-* xref:User_Guide.adoc[User Guide] — step-by-step guide for creating a component;
-* xref:Architecture_and_System_Composition.adoc[Architecture and System Composition] — general project structure;
-* xref:Config_YML_Setup.adoc[Config.yml Setup] — documentation generation configuration;
+* xref:User_Guide.adoc[User Guide] – step-by-step guide for creating a component;
+* xref:Architecture_and_System_Composition.adoc[Architecture and System Composition] – general project structure;
+* xref:Config_YML_Setup.adoc[Config.yml Setup] – documentation generation configuration;
 

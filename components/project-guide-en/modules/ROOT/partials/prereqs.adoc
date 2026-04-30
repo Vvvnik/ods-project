@@ -1,13 +1,13 @@
 == Additional Requirements
 
-* Git — version control system
-* Node.js (LTS) — for Antora and generation scripts
-* Ruby — for Asciidoctor PDF
-* Docker — for Kroki and PostgreSQL
-* Graphviz — for ERD diagrams
-* Java — for PlantUML (optional)
-* Chrome/Chromium — for BPMN diagram rendering
-* Draw.io Desktop — for Draw.io diagram rendering
+* Git – version control system
+* Node.js (LTS) – for Antora and generation scripts
+* Ruby – for Asciidoctor PDF
+* Docker – for Kroki and PostgreSQL
+* Graphviz – for ERD diagrams
+* Java – for PlantUML (optional)
+* Chrome/Chromium – for BPMN diagram rendering
+* Draw.io Desktop – for Draw.io diagram rendering
 
 == Dependency Installation
 
@@ -29,8 +29,8 @@ npm install
 
 For BPMN diagram rendering, the following are used:
 
-* **Puppeteer** — Node.js library for browser control;
-* **Chrome/Chromium** — browser for rendering.
+* **Puppeteer** – Node.js library for browser control;
+* **Chrome/Chromium** – browser for rendering.
 
 [source,bash]
 ----
@@ -52,8 +52,8 @@ brew install chromium              # macOS
 
 For Draw.io diagram rendering, the following are used:
 
-* **Draw.io Desktop** — application for creating diagrams;
-* **Command line** — for automatic conversion.
+* **Draw.io Desktop** – application for creating diagrams;
+* **Command line** – for automatic conversion.
 
 [source,bash]
 ----

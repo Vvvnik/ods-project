@@ -13,7 +13,7 @@ include::../partials/attr_common.adoc[]
 ** Используется в CI для сборки PDF и сайта;
 ** Собирается из `docker/Dockerfile.universal`;
 ** Все версии пакетов зафиксированы для воспроизводимости сборок (gems и npm пакеты с точными версиями).
-** В том числе глобально устанавливаются Antora CLI, генераторы сайта, `+@antora/lunr-extension+` и `+@opendevise/antora-swagger-ui-extension+` — они должны соответствовать списку в секции `antora.extensions` файла `antora-playbook.yml`.
+** В том числе глобально устанавливаются Antora CLI, генераторы сайта, `+@antora/lunr-extension+` и `+@opendevise/antora-swagger-ui-extension+` – они должны соответствовать списку в секции `antora.extensions` файла `antora-playbook.yml`.
 * **Kroki сервис**: registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0:
 ** Отдельный контейнер для рендеринга диаграмм;
 ** Подключается как сервис в CI;
@@ -68,7 +68,7 @@ include::../partials/attr_common.adoc[]
 docker rm -f ods-kroki 2>/dev/null; docker run -d --name ods-kroki -p 8000:8000 registry.gitlab.com/vvvnik/ods-project/kroki:0.28.0
 ----
 
-Проверка: **http://localhost:8000**. В **GitLab CI** этот же образ подключается как сервис **`kroki:8000`** — схема в пайплайне не меняется, меняется только способ запуска на машине разработчика.
+Проверка: **http://localhost:8000**. В **GitLab CI** этот же образ подключается как сервис **`kroki:8000`** – схема в пайплайне не меняется, меняется только способ запуска на машине разработчика.
 
 === Сборка Ollama образа
 ==== Базовый образ (без модели)
@@ -181,13 +181,13 @@ printf '%s\n' '@startuml' 'Alice -> Bob: test' '@enduml' | \
 # HTTP=200 CT=image/svg+xml
 
 # Проверка Ollama
-# Ollama опциональна — проверяйте только если используете LLM
+# Ollama опциональна – проверяйте только если используете LLM
 curl -sS http://localhost:11434/api/version || true
 # Ожидаемый ответ (пример):
 # {"version":"0.13.4"}
 
 # Проверка PostgreSQL
-# psql может быть не установлен на хосте — проверим, что порт доступен
+# psql может быть не установлен на хосте – проверим, что порт доступен
 nc -vz localhost 5432
 # Ожидаемый ответ (пример):
 # Connection to localhost port 5432 [tcp/postgresql] succeeded!

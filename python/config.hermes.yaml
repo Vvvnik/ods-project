@@ -17,7 +17,7 @@ hermes:
   hermes_python_path: "${HERMES_PYTHON_PATH:-}"
   timeout_sec: 120
   retry_attempts: 2
-  # Hermes AIAgent требует окно ≥64000 токенов; qwen3:14b в каталоге — 40960.
+  # Hermes AIAgent требует окно ≥64000 токенов; qwen3:14b в каталоге – 40960.
   # Задаём model.context_length для SDK (см. hermes_client), без правок ~/.hermes/config.yaml.
   model: "${HERMES_MODEL:-gemma4:latest}" 
   # model: "${HERMES_MODEL:-gpt-oss:20b}" 
@@ -28,12 +28,12 @@ hermes:
   skip_memory: false
   skip_context_files: false
   # Пустой список: один AIAgent, один session_*.json, только LLM + skills (без browser_vision и др.).
-  # Удалите ключ целиком — снова подключаются все toolsets Hermes.
+  # Удалите ключ целиком – снова подключаются все toolsets Hermes.
   enabled_toolsets: []
   skills:
     # - "my/release_notes"
     - "my/description_writer"
     # - "my/asciidoc"
     - "my/markdown"
-  # false — один AIAgent, эпики в одной цепочке диалога; true — новый чат (новая сессия Hermes) на каждый эпик
+  # false – один AIAgent, эпики в одной цепочке диалога; true – новый чат (новая сессия Hermes) на каждый эпик
   session_toggle: true

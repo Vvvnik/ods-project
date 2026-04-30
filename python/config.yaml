@@ -1,5 +1,5 @@
-# Генерация описаний по задачам Jira. Пути input_dir/output_dir — относительно workspace.
-# Подстановки ${VAR:-default} — в python/src/core/settings.py.
+# Генерация описаний по задачам Jira. Пути input_dir/output_dir – относительно workspace.
+# Подстановки ${VAR:-default} – в python/src/core/settings.py.
 # Переопределение: DESCRIPTION_GEN_WORKSPACE + DESCRIPTION_GEN_CONFIG (или RELEASE_NOTES_*).
 workspace: ..
 
@@ -9,7 +9,7 @@ description:
   file_name: description
   # Только подпапки с таким префиксом (например ODS-6); остальное в input_dir игнорируется.
   bundle_subdirs_prefix: "ODS-"
-  # Порядок секций в description.adoc: как в файле; остальные подпапки — в конце по номеру ключа (ODS-6 до ODS-10).
+  # Порядок секций в description.adoc: как в файле; остальные подпапки – в конце по номеру ключа (ODS-6 до ODS-10).
   issue_order_file: tools/jira/jira_main_issues.txt
   max_adoc_text_chars: 32000
   max_context_chars: 96000
@@ -23,7 +23,7 @@ description:
     # body: data/prompts/develop/prompt_doc.md
     body: data/prompts/develop/prompt_release_notes.md
 
-# Ollama: host; модель LLM — description.models.llm.
+# Ollama: host; модель LLM – description.models.llm.
 ollama:
   host: "${OLLAMA_HOST:-http://127.0.0.1:11434}"
   timeout: 30

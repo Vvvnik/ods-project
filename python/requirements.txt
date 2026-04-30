@@ -2,7 +2,7 @@
 #
 # Нужен Python 3.10+ (в коде используются типы вида list[str] | None).
 #
-# Виртуальное окружение — каталог `python/venv` (см. project-guide, не используйте `.venv`):
+# Виртуальное окружение – каталог `python/venv` (см. project-guide, не используйте `.venv`):
 #   cd python
 #   python3 -m venv venv
 #   source venv/bin/activate           # Windows: venv\Scripts\activate
@@ -15,6 +15,6 @@
 PyYAML==6.0.3
 # Библиотека для Python с PyPI (номер версии НЕ совпадает с `ollama --version`).
 # Там показывается версия демона/CLI Ollama (например 0.20.6); предупреждение
-# «client version …» относится к несовпадению бинарника клиента и сервера —
+# «client version …» относится к несовпадению бинарника клиента и сервера –
 # обновите приложение Ollama (brew / установщик с ollama.com), а не эту строку.
 ollama==0.6.1

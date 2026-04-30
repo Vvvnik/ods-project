@@ -78,7 +78,7 @@ def list_flat_issue_files(release_dir: Path) -> list[Path]:
 
 
 def load_flat_folder_bundle(folder: Path, max_text_chars: int) -> tuple[ContainerInfo, dict[str, AdocDoc]]:
-    """Все issue-файлы в одной папке — один контекст; epic/якорь — по имени папки (например ODS-6)."""
+    """Все issue-файлы в одной папке – один контекст; epic/якорь – по имени папки (например ODS-6)."""
     files = list_flat_issue_files(folder)
     if not files:
         raise ValueError(f"no issue files in {folder}")

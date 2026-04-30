@@ -93,7 +93,7 @@ defaults: &defaults
     retry_attempts: 3             # ← Количество попыток при ошибке
     model: "gemma:latest"       # ← Модель LLM (gemma:latest)
 
-  # Asciidoctor lint (проверка синтаксиса/структуры AsciiDoc) — без генерации выходных файлов
+  # Asciidoctor lint (проверка синтаксиса/структуры AsciiDoc) – без генерации выходных файлов
   # Пишет лог на компонент: components/{name}/asciidoctor-lint.log
   # Важно: lint НЕ валит сборку, только формирует логи и сводку в конце start.rb
   asciidoctor_lint:

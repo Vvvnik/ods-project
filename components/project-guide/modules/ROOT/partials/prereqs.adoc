@@ -1,13 +1,13 @@
 == Дополнительные требования
 
-* Git — система контроля версий
-* Node.js (LTS) — для Antora и скриптов генерации
-* Ruby — для Asciidoctor PDF
-* Docker — для Kroki и PostgreSQL
-* Graphviz — для ERD диаграмм
-* Java — для PlantUML (опционально)
-* Chrome/Chromium — для рендеринга BPMN диаграмм
-* Draw.io Desktop — для рендеринга Draw.io диаграмм
+* Git – система контроля версий
+* Node.js (LTS) – для Antora и скриптов генерации
+* Ruby – для Asciidoctor PDF
+* Docker – для Kroki и PostgreSQL
+* Graphviz – для ERD диаграмм
+* Java – для PlantUML (опционально)
+* Chrome/Chromium – для рендеринга BPMN диаграмм
+* Draw.io Desktop – для рендеринга Draw.io диаграмм
 
 == Установка зависимостей
 
@@ -29,8 +29,8 @@ npm install
 
 Для рендеринга BPMN диаграмм используется:
 
-* **Puppeteer** — Node.js библиотека для управления браузером;
-* **Chrome/Chromium** — браузер для рендеринга.
+* **Puppeteer** – Node.js библиотека для управления браузером;
+* **Chrome/Chromium** – браузер для рендеринга.
 
 [source,bash]
 ----
@@ -52,8 +52,8 @@ brew install chromium              # macOS
 
 Для рендеринга Draw.io диаграмм используется:
 
-* **Draw.io Desktop** — приложение для создания диаграмм;
-* **Командная строка** — для автоматической конвертации.
+* **Draw.io Desktop** – приложение для создания диаграмм;
+* **Командная строка** – для автоматической конвертации.
 
 [source,bash]
 ----

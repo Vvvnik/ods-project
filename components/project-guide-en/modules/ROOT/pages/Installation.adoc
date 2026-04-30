@@ -59,20 +59,20 @@ docker-compose -f docker/docker-compose.yml up site-preview
 
 For local builds, `docker/docker-compose.yml` only needs **two services**:
 
-* **`pdf`** — PDF generation;
-* **`site`** — Antora site build.
+* **`pdf`** – PDF generation;
+* **`site`** – Antora site build.
 
 All external services run **on the host** and are reachable from containers via `host.docker.internal`:
 
-* **Kroki** — `host.docker.internal:8000` (see `antora-playbook.yml`);
-* **Ollama** — `host.docker.internal:11434` (see `docker-compose.yml` / `OLLAMA_HOST`);
-* **PostgreSQL (pg-demo)** — `host.docker.internal` (see `docker-compose.yml` / `DB_HOST`).
+* **Kroki** – `host.docker.internal:8000` (see `antora-playbook.yml`);
+* **Ollama** – `host.docker.internal:11434` (see `docker-compose.yml` / `OLLAMA_HOST`);
+* **PostgreSQL (pg-demo)** – `host.docker.internal` (see `docker-compose.yml` / `DB_HOST`).
 
 Check that host services are reachable:
 
 [source,bash]
 ----
-# Kroki: check via real PlantUML rendering (GET / may return 404 — that's OK)
+# Kroki: check via real PlantUML rendering (GET / may return 404 – that's OK)
 printf '%s\n' '@startuml' 'Alice -> Bob: test' '@enduml' | \
   curl -sS -X POST http://localhost:8000/plantuml/svg \
     -H 'Content-Type: text/plain' \
@@ -85,7 +85,7 @@ curl -sS http://localhost:11434/api/version || true
 # Expected output (example):
 # {"version":"0.13.4"}
 
-# PostgreSQL: psql may be missing on host — check that port is reachable
+# PostgreSQL: psql may be missing on host – check that port is reachable
 nc -vz localhost 5432
 # Expected output (example):
 # Connection to localhost port 5432 [tcp/postgresql] succeeded!
@@ -131,15 +131,15 @@ gem install asciidoctor asciidoctor-pdf asciidoctor-diagram asciidoctor-kroki ro
 
 Gem descriptions:
 
-* `asciidoctor` — AsciiDoc processor;
-* `asciidoctor-pdf` — PDF document generation;
-* `asciidoctor-diagram` — diagram support;
-* `asciidoctor-kroki` — Kroki integration;
-* `rouge` — syntax highlighting;
-* `prawn` — PDF library;
-* `hexapdf` — PDF file manipulation;
-* `pg` — PostgreSQL driver;
-* `graphviz` — ERD diagram generation;
+* `asciidoctor` – AsciiDoc processor;
+* `asciidoctor-pdf` – PDF document generation;
+* `asciidoctor-diagram` – diagram support;
+* `asciidoctor-kroki` – Kroki integration;
+* `rouge` – syntax highlighting;
+* `prawn` – PDF library;
+* `hexapdf` – PDF file manipulation;
+* `pg` – PostgreSQL driver;
+* `graphviz` – ERD diagram generation;
 
 [NOTE]
 `graphviz` gem is only needed for local database documentation generation.
@@ -155,14 +155,14 @@ npm install
 
 This will install all dependencies from `package.json`:
 
-* `@antora/cli` — Antora CLI;
-* `@antora/lunr-extension` — documentation search (in the playbook, enabled for en and ru);
-* `@opendevise/antora-swagger-ui-extension` — Swagger UI for OpenAPI in the Antora site (may be missing from `package.json`; for local `npx antora`, install the package or use the same global setup as in the Docker image);
-* `asciidoctor-kroki` — Kroki integration;
-* `asciidoctor-plantuml` — PlantUML support;
-* `puppeteer` — for BPMN diagram generation;
-* `xml2js` — Draw.io file parsing;
-* `opal` — Ruby code execution;
+* `@antora/cli` – Antora CLI;
+* `@antora/lunr-extension` – documentation search (in the playbook, enabled for en and ru);
+* `@opendevise/antora-swagger-ui-extension` – Swagger UI for OpenAPI in the Antora site (may be missing from `package.json`; for local `npx antora`, install the package or use the same global setup as in the Docker image);
+* `asciidoctor-kroki` – Kroki integration;
+* `asciidoctor-plantuml` – PlantUML support;
+* `puppeteer` – for BPMN diagram generation;
+* `xml2js` – Draw.io file parsing;
+* `opal` – Ruby code execution;
 
 === Platform-Specific Installation
 

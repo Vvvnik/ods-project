@@ -110,7 +110,7 @@ include::../partials/attr_common.adoc[]
 
 [NOTE]
 Для `custom_other_page` варианта `contract` нет (модуль `convert_other_page_contract.rb` не реализован).
-Если вам нужен “контрактный” титул — используйте `:custom_title_page: contract`, а для остальных страниц ставьте `:custom_other_page: original` (или `original_frame`).
+Если вам нужен “контрактный” титул – используйте `:custom_title_page: contract`, а для остальных страниц ставьте `:custom_other_page: original` (или `original_frame`).
 
 Типы титульных и обычных страниц настраиваются независимо:
 

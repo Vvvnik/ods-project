@@ -58,6 +58,6 @@ asciidoctor_lint:
 
 == See also
 
-* xref:Editing_and_Verification.adoc[Editing and Verification] — before/after example and lint summary.
-* xref:Docker_Build_and_Services.adoc[Docker: Build and Services] — running builds/checks via docker-compose.
+* xref:Editing_and_Verification.adoc[Editing and Verification] – before/after example and lint summary.
+* xref:Docker_Build_and_Services.adoc[Docker: Build and Services] – running builds/checks via docker-compose.
 

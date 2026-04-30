@@ -136,7 +136,7 @@ Sessions, memory, and skills live under Hermes (`~/.hermes/...`), not in the ODS
 The repo holds config and generated outputs only.
 
 The Python script is a thin layer: read Jira context, invoke the Hermes SDK, write `.adoc`.
-Model calls, skills, and Hermes runtime files accumulate under `~/.hermes` (for example `/Users/vvv/.hermes` on your machine). You do not need a large set of Python scripts in the repo for that — most of the work is done by Hermes itself.
+Model calls, skills, and Hermes runtime files accumulate under `~/.hermes` (for example `/Users/vvv/.hermes` on your machine). You do not need a large set of Python scripts in the repo for that – most of the work is done by Hermes itself.
 
 Typical paths:
 
@@ -207,8 +207,8 @@ Selection works as follows:
 
 Typical limits in config:
 
-* `description.max_adoc_text_chars` — maximum characters from a single file after cleaning (`extract_text_for_embedding`).
-* `description.max_context_chars` — maximum characters of combined context per epic before the Hermes call.
+* `description.max_adoc_text_chars` – maximum characters from a single file after cleaning (`extract_text_for_embedding`).
+* `description.max_context_chars` – maximum characters of combined context per epic before the Hermes call.
 
 Skills used for generation are listed in `hermes.skills` (for example `my/asciidoc`, `my/release_notes`); an empty `enabled_toolsets` list keeps optional Hermes toolsets off for batch runs.
 

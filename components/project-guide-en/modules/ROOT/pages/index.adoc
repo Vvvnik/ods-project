@@ -61,12 +61,12 @@ Download project link:https://gitlab.com/vvvnik/ods-project/-/package_files/2539
 === Key Principles of ODS
 The key principles of ODS are:
 
-* 🧩 Modularity — documentation is broken down into independent components;
-* 📁 Integration — support for various data sources (API, DB, diagrams, BPMN, UML, Draw.io, PlantUML);
-* 🤝 Collaboration — convenient team collaboration on documentation;
-* 📅 Versioning — full change control via Git;
-* 🔄 Automation — generation of documentation from source files;
-* 📚 Standardization — unified documentation formats and structures;
+* 🧩 Modularity – documentation is broken down into independent components;
+* 📁 Integration – support for various data sources (API, DB, diagrams, BPMN, UML, Draw.io, PlantUML);
+* 🤝 Collaboration – convenient team collaboration on documentation;
+* 📅 Versioning – full change control via Git;
+* 🔄 Automation – generation of documentation from source files;
+* 📚 Standardization – unified documentation formats and structures;
 
 === Technologies Used
 The project is built on the following technologies:

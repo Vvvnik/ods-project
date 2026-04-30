@@ -57,7 +57,7 @@ module ConvertListDash
       base_indent = @theme.list_indent || 16
       current_level = @list_numerals.size + @list_bullets.size
       if base_indent.to_f.zero?
-        # Тема задает 0 — используем собственный шаг (можно переопределить атрибутом :list-level-step: в документе)
+        # Тема задает 0 – используем собственный шаг (можно переопределить атрибутом :list-level-step: в документе)
         # step = (node.document.attr('list-level-step') || 14).to_f
         step = (node.document.attr('list-level-step') || @theme.list_level_step || 30).to_f
         list_indent = case current_level
@@ -148,8 +148,8 @@ module ConvertListDash
                  custom_indent =
                    case indent_level
                    when 1 then 0      # базовый отступ
-                   when 2 then 8      # 2 уровень — ближе к тексту
-                   else 16            # 3 и глубже — ещё ближе
+                   when 2 then 8      # 2 уровень – ближе к тексту
+                   else 16            # 3 и глубже – ещё ближе
                    end
                  
                  # Красная строка: первая строка отступает вправо от маркера

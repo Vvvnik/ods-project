@@ -47,10 +47,10 @@ image::diagram-1.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
 Компонентов без asciidoctor CLI: 0
 
 Обновленные логи:
-  - data-processing-engine: 1 ERROR / 0 WARNING (1/13 файлов) — components/data-processing-engine/asciidoctor-lint.log
+  - data-processing-engine: 1 ERROR / 0 WARNING (1/13 файлов) – components/data-processing-engine/asciidoctor-lint.log
 
 Компоненты с ошибками/предупреждениями:
-  - data-processing-engine: 1 ERROR / 0 WARNING — components/data-processing-engine/asciidoctor-lint.log
+  - data-processing-engine: 1 ERROR / 0 WARNING – components/data-processing-engine/asciidoctor-lint.log
 ----
 
 В файле исправили ошибку так:
@@ -73,7 +73,7 @@ image::diagram-1.svg[width=100%, height=500px, pdfwidth=100%, scaledwidth=100%]
 Компонентов без asciidoctor CLI: 0
 
 Обновленные логи:
-  - data-processing-engine: 0 ERROR / 0 WARNING (0/13 файлов) — components/data-processing-engine/asciidoctor-lint.log
+  - data-processing-engine: 0 ERROR / 0 WARNING (0/13 файлов) – components/data-processing-engine/asciidoctor-lint.log
 ----
 
 :num_t: {counter:table-number}

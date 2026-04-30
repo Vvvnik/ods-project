@@ -23,7 +23,7 @@ services:
     volumes:
       - ${PWD}:/app
     working_dir: /app
-    # Antora — генератор статического сайта: собирает в public/ и завершает работу (не поднимает сервер/порт).
+    # Antora – генератор статического сайта: собирает в public/ и завершает работу (не поднимает сервер/порт).
     # Важно: kroki-fetch-diagram! отключает генерацию диаграмм на этапе сборки (Antora не будет обращаться к Kroki).
     # Диаграммы в этом режиме будут рендериться только при просмотре (нужен доступный Kroki по kroki-server-url).
     command: sh -lc 'antora generate --attribute kroki-server-url=${KROKI_SERVER_URL:-http://host.docker.internal:8000} --attribute kroki-fetch-diagram! antora-playbook.yml'

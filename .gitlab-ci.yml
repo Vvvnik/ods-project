@@ -1,7 +1,7 @@
 # Три сценария пайплайна:
-# 1) MR — только merge_conflicts_check
-# 2) Push в main — build_all + pages (полная сборка)
-# 3) Теги — prepare_release_notes + release (без изменений)
+# 1) MR – только merge_conflicts_check
+# 2) Push в main – build_all + pages (полная сборка)
+# 3) Теги – prepare_release_notes + release (без изменений)
 workflow:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
@@ -110,7 +110,7 @@ prepare_release_notes:
         fi
         echo "";
         git log --no-merges \
-          --pretty="%n. link:${CI_PROJECT_URL}/commit/%H[%h — %s — %an (%ad)]" \
+          --pretty="%n. link:${CI_PROJECT_URL}/commit/%H[%h – %s – %an (%ad)]" \
           --name-only \
           --date=short $RANGE | awk 'BEGIN{}\
           { if ($0 ~ /^\. link:/) { print; next } \

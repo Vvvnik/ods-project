@@ -133,15 +133,15 @@ env | rg 'HERMES_|OPENROUTER_|OPENAI_|ANTHROPIC_'
 cd /Users/vvv/ods-project && source python/venv/bin/activate && python python/src/services/generate_description_hermes.py --dry-run --only ODS-6
 ----
 
-Если dry-run работает, но реальный запуск нет — проблема в модели/провайдере, а не в скрипте.
+Если dry-run работает, но реальный запуск нет – проблема в модели/провайдере, а не в скрипте.
 
 == Где хранится состояние Hermes
 
 Сессии/память/skills хранятся в директории Hermes (`~/.hermes/...`), а не в репозитории ODS.
 Проект ODS хранит только конфиг и итоговые сгенерированные файлы.
 
-Скрипт на Python — тонкий слой: чтение Jira-контекста, вызов Hermes SDK и запись `.adoc`.
-Запросы к модели, skills и служебные файлы Hermes создаются и накапливаются под `~/.hermes` (у вас это может выглядеть как `/Users/vvv/.hermes`); отдельного большого набора Python-скриптов в репозитории под это не требуется — основная работа выполняется Hermes.
+Скрипт на Python – тонкий слой: чтение Jira-контекста, вызов Hermes SDK и запись `.adoc`.
+Запросы к модели, skills и служебные файлы Hermes создаются и накапливаются под `~/.hermes` (у вас это может выглядеть как `/Users/vvv/.hermes`); отдельного большого набора Python-скриптов в репозитории под это не требуется – основная работа выполняется Hermes.
 
 Практические пути:
 
@@ -216,8 +216,8 @@ cd /Users/vvv/ods-project && source python/venv/bin/activate && python python/sr
 
 Лимиты (типичные значения в конфиге):
 
-* `description.max_adoc_text_chars` — максимум символов текста из одного файла после очистки (`extract_text_for_embedding`).
-* `description.max_context_chars` — максимум символов суммарного контекста по одному эпику перед вызовом Hermes.
+* `description.max_adoc_text_chars` – максимум символов текста из одного файла после очистки (`extract_text_for_embedding`).
+* `description.max_context_chars` – максимум символов суммарного контекста по одному эпику перед вызовом Hermes.
 
 Список skills для генерации задаётся в `hermes.skills` (например `my/asciidoc`, `my/release_notes`); пустой `enabled_toolsets` отключает лишние toolsets Hermes для пакетного сценария.
 

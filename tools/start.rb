@@ -186,14 +186,14 @@ if lint_results.any?
   if updated.any?
     puts "\nОбновленные логи:"
     updated.each do |r|
-      puts "  - #{r.component}: #{r.errors} ERROR / #{r.warnings} WARNING (#{r.files_with_messages}/#{r.files_scanned} файлов) — #{r.log_path}"
+      puts "  - #{r.component}: #{r.errors} ERROR / #{r.warnings} WARNING (#{r.files_with_messages}/#{r.files_scanned} файлов) – #{r.log_path}"
     end
   end
 
   if with_issues.any?
     puts "\nКомпоненты с ошибками/предупреждениями:"
     with_issues.each do |r|
-      puts "  - #{r.component}: #{r.errors} ERROR / #{r.warnings} WARNING — #{r.log_path}"
+      puts "  - #{r.component}: #{r.errors} ERROR / #{r.warnings} WARNING – #{r.log_path}"
     end
   end
 

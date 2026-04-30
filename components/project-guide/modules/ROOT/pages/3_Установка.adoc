@@ -59,20 +59,20 @@ docker-compose -f docker/docker-compose.yml up site-preview
 
 Для локальной сборки в `docker/docker-compose.yml` достаточно **двух сервисов**:
 
-* **`pdf`** — генерация PDF;
-* **`site`** — сборка сайта Antora.
+* **`pdf`** – генерация PDF;
+* **`site`** – сборка сайта Antora.
 
 Все внешние сервисы запускаются **на хосте** и доступны контейнерам через `host.docker.internal`:
 
-* **Kroki** — `host.docker.internal:8000` (см. `antora-playbook.yml`);
-* **Ollama** — `host.docker.internal:11434` (см. `docker-compose.yml` / `OLLAMA_HOST`);
-* **PostgreSQL (pg-demo)** — `host.docker.internal` (см. `docker-compose.yml` / `DB_HOST`).
+* **Kroki** – `host.docker.internal:8000` (см. `antora-playbook.yml`);
+* **Ollama** – `host.docker.internal:11434` (см. `docker-compose.yml` / `OLLAMA_HOST`);
+* **PostgreSQL (pg-demo)** – `host.docker.internal` (см. `docker-compose.yml` / `DB_HOST`).
 
 Проверка, что сервисы на хосте доступны:
 
 [source,bash]
 ----
-# Kroki: проверка реальным рендером PlantUML (GET / может отдавать 404 — это нормально)
+# Kroki: проверка реальным рендером PlantUML (GET / может отдавать 404 – это нормально)
 printf '%s\n' '@startuml' 'Alice -> Bob: test' '@enduml' | \
   curl -sS -X POST http://localhost:8000/plantuml/svg \
     -H 'Content-Type: text/plain' \
@@ -85,7 +85,7 @@ curl -sS http://localhost:11434/api/version || true
 # Ожидаемый ответ (пример):
 # {"version":"0.13.4"}
 
-# PostgreSQL: psql может быть не установлен — проверим, что порт доступен
+# PostgreSQL: psql может быть не установлен – проверим, что порт доступен
 nc -vz localhost 5432
 # Ожидаемый ответ (пример):
 # Connection to localhost port 5432 [tcp/postgresql] succeeded!
@@ -131,15 +131,15 @@ gem install asciidoctor asciidoctor-pdf asciidoctor-diagram asciidoctor-kroki ro
 
 Описание gems:
 
-* `asciidoctor` — процессор AsciiDoc;
-* `asciidoctor-pdf` — генерация PDF документов;
-* `asciidoctor-diagram` — поддержка диаграмм;
-* `asciidoctor-kroki` — интеграция с Kroki;
-* `rouge` — подсветка синтаксиса;
-* `prawn` — библиотека для PDF;
-* `hexapdf` — работа с PDF файлами;
-* `pg` — драйвер PostgreSQL;
-* `graphviz` — генерация ERD диаграмм;
+* `asciidoctor` – процессор AsciiDoc;
+* `asciidoctor-pdf` – генерация PDF документов;
+* `asciidoctor-diagram` – поддержка диаграмм;
+* `asciidoctor-kroki` – интеграция с Kroki;
+* `rouge` – подсветка синтаксиса;
+* `prawn` – библиотека для PDF;
+* `hexapdf` – работа с PDF файлами;
+* `pg` – драйвер PostgreSQL;
+* `graphviz` – генерация ERD диаграмм;
 
 :note-caption: Важно
 
@@ -157,14 +157,14 @@ npm install
 
 Это установит все зависимости из `package.json`:
 
-* `@antora/cli` — CLI для Antora;
-* `@antora/lunr-extension` — поиск по документации (в playbook подключён с языками en и ru);
-* `@opendevise/antora-swagger-ui-extension` — встраивание Swagger UI для OpenAPI на сайте Antora (в `package.json` может отсутствовать; для локального `npx antora` установите пакет или ориентируйтесь на глобальную установку из Docker-образа);
-* `asciidoctor-kroki` — интеграция Kroki;
-* `asciidoctor-plantuml` — поддержка PlantUML;
-* `puppeteer` — для генерации BPMN диаграмм;
-* `xml2js` — парсинг Draw.io файлов;
-* `opal` — выполнение Ruby кода;
+* `@antora/cli` – CLI для Antora;
+* `@antora/lunr-extension` – поиск по документации (в playbook подключён с языками en и ru);
+* `@opendevise/antora-swagger-ui-extension` – встраивание Swagger UI для OpenAPI на сайте Antora (в `package.json` может отсутствовать; для локального `npx antora` установите пакет или ориентируйтесь на глобальную установку из Docker-образа);
+* `asciidoctor-kroki` – интеграция Kroki;
+* `asciidoctor-plantuml` – поддержка PlantUML;
+* `puppeteer` – для генерации BPMN диаграмм;
+* `xml2js` – парсинг Draw.io файлов;
+* `opal` – выполнение Ruby кода;
 
 === Установка по платформам
 

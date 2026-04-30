@@ -5,9 +5,9 @@
 #
 # Использование (из корня репозитория):
 #   ruby tools/scripts/jira_issue_to_md.rb
-#     — все ключи из defaults.jira.main_issues_file (по одному в строке)
+#     – все ключи из defaults.jira.main_issues_file (по одному в строке)
 #   ruby tools/scripts/jira_issue_to_md.rb ODS-42
-#     — только одна задача (и её подзадачи в папку ODS-42/)
+#     – только одна задача (и её подзадачи в папку ODS-42/)
 #
 # Jira Cloud: задайте email учётной записи Atlassian в config (jira.email) или в JIRA_EMAIL.
 
@@ -174,7 +174,7 @@ def issue_reference_md(issue, base_url)
       "[**#{key}**](#{u})"
     end
   extras = [summary, status].reject(&:empty?)
-  extras.empty? ? key_part : "#{key_part}: #{extras.join(' — ')}"
+  extras.empty? ? key_part : "#{key_part}: #{extras.join(' – ')}"
 end
 
 def subtasks_to_markdown(fields, base_url)
@@ -211,7 +211,7 @@ def issue_links_to_markdown(fields, base_url)
     ref = issue_reference_md(issue, base_url)
     next if ref.empty?
 
-    "- **#{phrase}** — #{ref}"
+    "- **#{phrase}** – #{ref}"
   end
 end
 

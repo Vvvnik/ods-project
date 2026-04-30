@@ -74,7 +74,7 @@ printf '%s\n' '@startuml' 'Alice -> Bob: test' '@enduml' | \
 # HTTP=200 CT=image/svg+xml
 
 # Проверка Ollama
-# Ollama опциональна — проверяйте только если используете LLM
+# Ollama опциональна – проверяйте только если используете LLM
 curl -sS http://localhost:11434/api/version || true
 # Ожидаемый ответ (пример):
 # {"version":"0.13.4"}
@@ -82,7 +82,7 @@ curl -sS http://localhost:11434/api/version || true
 # curl -sS http://localhost:11434/api/tags
 
 # Проверка PostgreSQL
-# psql может быть не установлен на хосте — проверим, что порт доступен
+# psql может быть не установлен на хосте – проверим, что порт доступен
 nc -vz localhost 5432
 # Ожидаемый ответ (пример):
 # Connection to localhost port 5432 [tcp/postgresql] succeeded!
@@ -102,7 +102,7 @@ nc -vz localhost 5432
 
 ### Важно про “порт Antora”
 
-Antora **не поднимает веб‑сервер** — она генерирует статические файлы в `public/`.  
+Antora **не поднимает веб‑сервер** – она генерирует статические файлы в `public/`.  
 Чтобы “запустить с портом”, используйте сервис `site-preview` (или любой другой статический сервер).
 
 ### Примечание про 404 шрифтов в site-preview
