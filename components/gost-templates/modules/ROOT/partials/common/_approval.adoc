@@ -1,0 +1,86 @@
+// Лист утверждения — одинаков для всех документов по ГОСТ 34
+[cols="1,10,1,10,1", grid=none, frame=none]
+|===
+|
+^| [.my-title-table]#*УТВЕРЖДАЮ*#
+|
+^| [.my-title-table]#*УТВЕРЖДАЮ*#
+|
+|
+^| [.my-title-table]#{job_customer_1}# +
+[.my-title-table]#{job_customer_2}#
+|
+^| [.my-title-table]#{job_executor_1}# +
+[.my-title-table]#{job_executor_2}#
+|
+|
+|
+|
+|
+|
+|
+^| [.my-title-table]#+++_______________+++ {nbsp} {iof_customer}#
+|
+^| [.my-title-table]#+++_______________+++ {nbsp} {iof_executor}#
+|
+|
+|
+|
+|
+|
+^| [.my-title-table]#«+++____+++» +++_______________+++ {year} г.#
+|
+^| [.my-title-table]#«+++____+++» +++_______________+++ {year} г.#
+|
+|===
+
+[cols="1*", grid=none, frame=none]
+|===
+|{nbsp}
+^| [.my-title-table]#{name_system}# +
+[.my-title-table]#{name_subsystem}# +
+[.my-title-table]#{name_component} {name_component_4}# +
+|===
+
+[cols="1*", grid=none, frame=none]
+|===
+^| [.my-title-table]#*{name_document_master}*#
+^| [.my-title-table]#{name_document_slave}#
+|===
+
+[cols="1*", grid=none, frame=none]
+|===
+^| [.my-title-table]#{сontract_name} {contract_number} ({stage} этап)# +
+[.my-title-table]#Государственный контракт {state_сontract_number}# +
+{nbsp} +
+|===
+
+[cols="1*", grid=none, frame=none]
+|===
+^|[.my-title-table]#*Версия {code_gk}{code_document}.{tom}*# +
+|===
+
+[cols="1,10,1,10,1", grid=none, frame=none]
+|===
+|{nbsp}
+|
+|
+^| [.my-title-table]#*СОГЛАСОВАНО*#
+|
+|
+^| [.my-title-table]#{job_concordant_1}# +
+[.my-title-table]#{job_concordant_2}#
+|
+|
+|
+|
+^| [.my-title-table]#+++_______________ +++ {nbsp} {iof_concordant}#
+|
+|{nbsp}
+|
+|
+^| [.my-title-table]#«+++____+++» +++_______________+++ {year} г.#
+|
+|
+|
+|===

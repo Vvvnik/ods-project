@@ -1,0 +1,8 @@
+// Шаблон подписантов — скачайте, переименуйте в _signers.adoc и заполните
+:signer-customer-position: Должность руководителя заказчика
+:signer-customer-org: {organization-short}
+:signer-customer-name: И.О. Фамилия
+
+:signer-developer-position: Должность руководителя исполнителя
+:signer-developer-org: Наименование организации-исполнителя
+:signer-developer-name: И.О. Фамилия

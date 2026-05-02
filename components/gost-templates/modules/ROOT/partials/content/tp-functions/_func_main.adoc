@@ -1,0 +1,9 @@
+== Основная часть
+
+// Пример включения алгоритма в документ:
+[source,asciidoc]
+----
+\include::partial$sources/algorithms/algorithms.adoc[tag=algorithm-1]
+----
+
+include::partial$sources/algorithms/algorithms.adoc[tag=algorithm-1]

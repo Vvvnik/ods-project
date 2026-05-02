@@ -1,0 +1,10 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Компонентная схема {project-name}
+
+' TODO: добавить компоненты системы
+Component(comp1, "Компонент 1", "Описание")
+Component(comp2, "Компонент 2", "Описание")
+Rel(comp1, comp2, "Взаимодействие")
+@enduml

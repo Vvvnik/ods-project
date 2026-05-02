@@ -1,0 +1,5 @@
+name: gost-templates
+title: ГОСТ шаблоны документов
+version: 1.0
+nav:
+  - modules/ROOT/nav.adoc

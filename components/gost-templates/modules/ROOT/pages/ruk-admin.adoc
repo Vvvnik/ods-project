@@ -1,0 +1,22 @@
+include::../partials/client/_attrs.adoc[]
+include::../partials/client/_signers.adoc[]
+include::../partials/common/_title.adoc[]
+:doc-title: Руководство администратора
+:doc-code: РА
+
+= {project-code} {doc-title}
+
+include::../partials/common/_approval.adoc[]
+
+include::../partials/common/_toc.adoc[]
+
+include::../partials/common/_changes.adoc[]
+
+include::../partials/sections/_terms.adoc[]
+
+include::../partials/sections/_references.adoc[]
+
+include::../partials/content/ruk-admin/_admin_start.adoc[]
+include::../partials/content/ruk-admin/_admin_config.adoc[]
+include::../partials/content/ruk-admin/_admin_operations.adoc[]
+include::../partials/content/ruk-admin/_admin_errors.adoc[]
