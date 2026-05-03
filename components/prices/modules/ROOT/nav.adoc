@@ -1,0 +1,2 @@
+// * Автоматически сгенерированная навигация
+include::partials/lists/list-pages-component.adoc[]

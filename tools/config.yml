@@ -136,8 +136,8 @@ components:
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
     #   dst: "components/{name}/modules/ROOT/images/drawio" #TODO: указать путь к изображениям Draw.io
-    pdf: #TODO: включить генерацию PDF документации
-      enabled: true #TODO: включить генерацию PDF документации
+    # pdf: #TODO: включить генерацию PDF документации
+      # enabled: true #TODO: включить генерацию PDF документации
 
   - name: toys-service
     <<: *defaults
@@ -155,3 +155,6 @@ components:
     <<: *defaults
     # drawio: #TODO: включить генерацию Draw.io
     #   enabled: true #TODO: включить генерацию Draw.io
+
+  - name: prices
+    <<: *defaults
