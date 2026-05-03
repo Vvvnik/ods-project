@@ -39,6 +39,14 @@
             <a class="navbar-item" href="https://gitlab.com/vvvnik/ods-project" target="_blank">Проект ODS в GitLab</a>
           </div>
         </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Внедрение</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="{{{relativize (resolvePageURL 'prices:ROOT:index.adoc')}}}">Документация как код</a>
+            <a class="navbar-item" href="{{{relativize (resolvePageURL 'prices:ROOT:prices.adoc')}}}">Стоимость внедрения</a>
+          </div>
+        </div>
+
         {{#if env.SITE_SEARCH_PROVIDER}}
         <div class="navbar-item search hide-for-print">
           <div id="search-field" class="field">
