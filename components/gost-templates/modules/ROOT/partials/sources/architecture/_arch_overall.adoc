@@ -1,0 +1,5 @@
+=== Общая архитектура системы
+
+// TODO: описание общей архитектуры
+
+image::architecture/arch-overall.png[Общая архитектура {project-name}]

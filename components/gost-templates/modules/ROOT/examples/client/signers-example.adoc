@@ -1,0 +1,8 @@
+// Пример заполненного _signers.adoc
+:signer-customer-position: Генеральный директор
+:signer-customer-org: ООО «ОЗ»
+:signer-customer-name: А.Б. Иванов
+
+:signer-developer-position: Генеральный директор
+:signer-developer-org: ООО «Исполнитель»
+:signer-developer-name: В.Г. Петров

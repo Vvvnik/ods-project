@@ -1,0 +1,19 @@
+include::../partials/client/_attrs.adoc[]
+include::../partials/client/_signers.adoc[]
+include::../partials/common/_title.adoc[]
+:doc-title: Ведомость документации
+:doc-code: Ведомость
+
+= {project-code} {doc-title}
+
+include::../partials/common/_approval.adoc[]
+
+include::../partials/common/_toc.adoc[]
+
+include::../partials/common/_changes.adoc[]
+
+include::../partials/sections/_terms.adoc[]
+
+include::../partials/sections/_references.adoc[]
+
+include::../partials/content/vedomost/_vedomost_list.adoc[]

@@ -1,0 +1,11 @@
+// Общие настройки AsciiDoc — одинаковы для всех документов
+:docinfo: shared
+:!chapter-signifier:
+:!section-refsig:
+:table-caption!:
+:figure-caption!:
+:section-refsig: разделе
+:toc: macro
+:toc-title: Содержание
+:custom_list_type: alphabetic
+:title-page:

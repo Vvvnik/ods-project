@@ -1,0 +1,21 @@
+include::../partials/client/_attrs.adoc[]
+include::../partials/client/_signers.adoc[]
+include::../partials/common/_title.adoc[]
+:doc-title: Описание технологического процесса
+:doc-code: ТехПроц
+
+= {project-code} {doc-title}
+
+include::../partials/common/_approval.adoc[]
+
+include::../partials/common/_toc.adoc[]
+
+include::../partials/common/_changes.adoc[]
+
+include::../partials/sections/_terms.adoc[]
+
+include::../partials/sections/_references.adoc[]
+
+include::../partials/content/tech-process/_tech_input.adoc[]
+include::../partials/content/tech-process/_tech_process.adoc[]
+include::../partials/content/tech-process/_tech_output.adoc[]

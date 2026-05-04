@@ -1,0 +1,13 @@
+@startuml
+title Последовательность информационного обмена
+
+' TODO: добавить участников и сообщения
+actor "Пользователь" as user
+participant "Система" as sys
+database "БД" as db
+
+user -> sys: Запрос
+sys -> db: Запрос данных
+db --> sys: Данные
+sys --> user: Ответ
+@enduml

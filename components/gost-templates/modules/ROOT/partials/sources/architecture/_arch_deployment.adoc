@@ -1,0 +1,5 @@
+=== Схема развёртывания
+
+// TODO: описание схемы развёртывания
+
+image::architecture/arch-deployment.png[Схема развёртывания {project-name}]

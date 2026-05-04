@@ -1,0 +1,6 @@
+// Пример заполненного _attrs.adoc
+:project-name: Автоматизированная информационная система «Учёт»
+:project-code: АБВГ.12345-01
+:project-year: 2026
+:organization: ООО «Организация-заказчик»
+:organization-short: ООО «ОЗ»

@@ -1,0 +1,23 @@
+include::../partials/client/_attrs.adoc[]
+include::../partials/client/_signers.adoc[]
+include::../partials/common/_title.adoc[]
+:doc-title: Протокол испытаний
+:doc-code: Протокол
+
+= {project-code} {doc-title}
+
+include::../partials/common/_approval.adoc[]
+
+include::../partials/common/_toc.adoc[]
+
+include::../partials/common/_changes.adoc[]
+
+include::../partials/sections/_terms.adoc[]
+
+include::../partials/sections/_references.adoc[]
+
+include::../partials/content/protocol/_protocol_general.adoc[]
+
+include::../partials/content/protocol/_protocol_results.adoc[]
+
+include::../partials/content/protocol/_protocol_conclusion.adoc[]

@@ -1,0 +1,20 @@
+include::../partials/client/_attrs.adoc[]
+include::../partials/client/_signers.adoc[]
+include::../partials/common/_title.adoc[]
+:doc-title: Функциональная схема
+:doc-code: ФС
+
+= {project-code} {doc-title}
+
+include::../partials/common/_approval.adoc[]
+
+include::../partials/common/_toc.adoc[]
+
+include::../partials/common/_changes.adoc[]
+
+include::../partials/sections/_terms.adoc[]
+
+include::../partials/sections/_references.adoc[]
+
+include::../partials/sources/architecture/_arch_overall.adoc[]
+include::../partials/content/func-schema/_func_schema.adoc[]

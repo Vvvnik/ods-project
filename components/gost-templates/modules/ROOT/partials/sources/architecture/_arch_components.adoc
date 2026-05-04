@@ -1,0 +1,8 @@
+=== Компонентная схема
+
+// TODO: описание компонентной схемы
+
+[plantuml]
+....
+include::../images/diagrams/plantuml/arch-components.puml[]
+....

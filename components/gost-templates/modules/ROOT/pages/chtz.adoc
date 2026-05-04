@@ -1,0 +1,73 @@
+include::../partials/client/_attrs.adoc[]
+include::../partials/client/_signers.adoc[]
+include::../partials/common/_title.adoc[]
+
+// -- Атрибуты документа ----------------------------------
+:name_document_master: Частное техническое задание
+:name_document_slave:
+:code_document: ТЗ
+:tom: 01
+:version: 1
+:page_all: 0
+:custom_title_page: original_frame
+:custom_other_page: original_frame
+:approval-page: true
+
+// ----------------------------------------------------------------
+// Лист утверждения
+// ----------------------------------------------------------------
+include::../partials/common/_approval.adoc[]
+
+<<<<
+
+// ----------------------------------------------------------------
+// Оглавление
+// ----------------------------------------------------------------
+:sectnums!:
+
+toc::[]
+
+<<<<
+
+// ----------------------------------------------------------------
+// Термины и определения
+// ----------------------------------------------------------------
+include::../partials/sections/_terms.adoc[]
+
+// ----------------------------------------------------------------
+// Разделы ЧТЗ по ГОСТ 34.602-2020
+// ----------------------------------------------------------------
+:sectnums:
+
+<<<<
+include::../partials/content/chtz/_chtz_general.adoc[]
+
+include::../partials/content/chtz/_chtz_purpose.adoc[]
+
+include::../partials/content/chtz/_chtz_object.adoc[]
+
+include::../partials/content/chtz/_chtz_requirements.adoc[]
+
+include::../partials/content/chtz/_chtz_works.adoc[]
+
+include::../partials/content/chtz/_chtz_order.adoc[]
+
+include::../partials/content/chtz/_chtz_acceptance.adoc[]
+
+include::../partials/content/chtz/_chtz_docs.adoc[]
+
+include::../partials/content/chtz/_chtz_sources.adoc[]
+
+// ----------------------------------------------------------------
+// Подписи (только для типа оформления 'contract')
+// ----------------------------------------------------------------
+ifeval::['{custom_title_page}' == 'contract']
+<<<<
+include::../partials/common/_signature.adoc[]
+endif::[]
+
+// ----------------------------------------------------------------
+// Лист регистрации изменений
+// ----------------------------------------------------------------
+<<<<
+include::../partials/common/_changes.adoc[]

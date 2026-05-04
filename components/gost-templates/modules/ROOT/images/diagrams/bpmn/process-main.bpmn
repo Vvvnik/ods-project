@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: описать основной бизнес-процесс системы -->
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             id="process-main"
+             targetNamespace="http://example.org">
+  <process id="mainProcess" name="Основной процесс" isExecutable="false">
+    <startEvent id="start" name="Начало"/>
+    <endEvent id="end" name="Завершение"/>
+  </process>
+</definitions>

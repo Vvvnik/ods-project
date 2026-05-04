@@ -1,0 +1,22 @@
+include::../partials/client/_attrs.adoc[]
+include::../partials/client/_signers.adoc[]
+include::../partials/common/_title.adoc[]
+:doc-title: Пояснительная записка к техническому проекту
+:doc-code: ТП.ПЗ
+
+= {project-code} {doc-title}
+
+include::../partials/common/_approval.adoc[]
+
+include::../partials/common/_toc.adoc[]
+
+include::../partials/common/_changes.adoc[]
+
+include::../partials/sections/_terms.adoc[]
+
+include::../partials/sections/_references.adoc[]
+
+include::../partials/content/tp-pz/_tp_general.adoc[]
+include::../partials/content/tp-pz/_tp_decisions.adoc[]
+include::../partials/content/tp-pz/_tp_functions.adoc[]
+include::../partials/content/tp-pz/_tp_works.adoc[]

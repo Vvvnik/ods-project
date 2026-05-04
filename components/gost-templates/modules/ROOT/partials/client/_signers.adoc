@@ -1,0 +1,40 @@
+// ======================================================
+// Подписанты — заполняет клиент один раз
+// ======================================================
+
+// -- Заказчик ------------------------------------------
+:iof_customer: А.В. Петров
+:iof_customer_2: Петров А.В.
+:job_customer_1: Заместитель директора
+:job_customer_2: ООО «Заказчик организация»
+:job_customer_all: {job_customer_1} {job_customer_2}
+
+// -- Исполнитель ---------------------------------------
+:iof_executor: М.С. Иванов
+:iof_executor_2: Иванов М.С.
+:job_executor_1: Руководитель проектов
+:job_executor_2: ООО «Исполнитель организация»
+:job_executor_all: {job_executor_1} {job_executor_2}
+
+// -- Согласовавший -------------------------------------
+:iof_concordant: С.П. Сидоров
+:iof_concordant_2: Сидоров С.П.
+:job_concordant_1: Начальник отдела
+:job_concordant_2: {job_customer_2}
+:job_concordant_all: {job_concordant_1} {job_concordant_2}
+
+:fio_responsible: Козлова А.И.
+
+// -- Подписанты листа утверждения ----------------------
+:signer_1_position: Начальник отдела
+:signer_1_name: И.И. Иванов
+:signer_2_position: Главный инженер
+:signer_2_name: П.П. Петров
+:signer_3_position: Ведущий специалист
+:signer_3_name: С.С. Сидоров
+:signer_4_position: Руководитель проекта
+:signer_4_name: А.А. Алексеев
+:signer_5_position: Исполнитель
+:signer_5_name: В.Н. Лихачев
+:signer_6_position: Нормоконтролер
+:signer_6_name: В.Н. Державин
