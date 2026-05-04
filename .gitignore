@@ -614,3 +614,8 @@ dist-ssr
 # C++
 **/cmake-build-debug/
 **/CMakeSettings.json
+
+AI_MODEL_LICENSES.md
+scripts/compliance-check.sh
+scripts/spdx/
+.gitlab/issue_templates/release-compliance.md
