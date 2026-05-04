@@ -29,6 +29,10 @@ content:
       branches: HEAD
       worktrees: true
       start_path: components/project-guide-en
+    - url: .
+      branches: HEAD
+      worktrees: true
+      start_path: components/prices
 
 ui:
   bundle:

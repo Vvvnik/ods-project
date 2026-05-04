@@ -1,0 +1,46 @@
+= Документация как код
+include::../partials/attr_common.adoc[] 
+:doctype: book
+:title-page:
+:custom_title_page: original
+:custom_other_page: none
+:toc: macro
+:toc-title: Содержание
+:toclevels: 2
+:sectnums:
+:!chapter-signifier:
+:!section-refsig:
+:figure-caption!:
+:imagesdir: ../images
+:table-caption!: 
+:section-refsig: разделе
+:chapter-refsig: разделе
+:sectnums!:
+
+
+
+Пока документация в Confluence, EvaWiki, Word и чатах – новый разработчик теряет месяц. Андрей в отпуске, актуальное – в личке, структуры нет. Это повторяется с каждым новым человеком в команде.
+
+:note-caption: Стоимость:
+****
+[NOTE]
+от *400 000* до *700 000* рублей
+****
+
+Код открытый – можете поднять сами. Мы для тех, кто считает время команды.
+
+Разберем под ваш стек: https://t.me/VladimirNikTelegram[@VladimirNikTelegram] (Telegram).
+
+== Вот где обычно останавливаются:
+
+CI/CD для документации падает в бэклог – и остается там, потому что не блокирует релиз.
+
+Диаграммы устаревают раньше, чем выходит фича.
+
+Каждый пишет в своем инструменте – само не починится.
+
+ODS – конвейер, который через это прошел. Вы не проектируете архитектуру с нуля – настраиваете готовую.
+
+Хотите разобраться сами – xref:project-guide:ROOT:index.adoc[документация открыта].
+
+Нужен результат без старта с нуля – xref:prices.adoc[что входит и сколько стоит].

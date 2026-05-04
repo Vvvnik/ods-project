@@ -40,7 +40,7 @@
 .doc h5,
 .doc h6 {
   color: var(--heading-font-color);
-  font-size: 1.4em;
+  /* font-size: 1.4em; */
   /* color: #a60000; */
   /* font-weight: var(--heading-font-weight); */
   hyphens: none;
@@ -57,8 +57,9 @@
   margin-bottom: 20px;
 } */
 
+/* em привязан к .doc – на десктопе и мобиле масштабируется вместе с телом; крупнее h2 (ниже) */
 .doc > h1.page:first-child {
-  font-size: calc(24 / var(--rem-base) * 1rem);
+  font-size: 1.75em;
   margin: 1.2rem 0;
 }
 
@@ -89,6 +90,7 @@
 }
 
 .doc h2:not(.discrete) {
+  font-size: 1.4em;
   border-bottom: 1px solid var(--section-divider-color);
   margin-left: -1rem;
   margin-right: -1rem;

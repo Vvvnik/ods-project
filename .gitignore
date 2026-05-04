@@ -8,7 +8,7 @@ venv/
 .env
 *.js
 !tools/scripts/*.js
-*.pdf
+# *.pdf
 *.zip
 *.docx 
 *.doc

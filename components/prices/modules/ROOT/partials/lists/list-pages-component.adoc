@@ -1,0 +1,2 @@
+* xref:index.adoc[Документация как код]
+** xref:prices.adoc[Стоимость внедрения]
