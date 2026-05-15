@@ -153,7 +153,7 @@ docker-compose -f docker/docker-compose.yml run --rm --service-ports site-previe
 Open the server URL from the output (Ctrl+Click). To stop the server: Ctrl+C.
 
 # With specific component
-docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb postgre-service
 ----
 
 [NOTE]

@@ -1,20 +1,20 @@
-# Конфигурация источников API для airport-service
+# Конфигурация источников API для openapi-service
 # Поддерживаются URL, локальные файлы и папки
 
 sources:
   # URL источники
-  - type: url
-    path: "https://petstore.swagger.io/v2/swagger.json"
-    description: "Petstore API (пример)"
+  # - type: url
+  #   path: "https://petstore.swagger.io/v2/swagger.json"
+  #   description: "Petstore API (пример)"
     
   # Локальные файлы
-  - type: file
-    path: "components/airport-service/api/swagger.json"
-    description: "Airport Service API (JSON)"
+  # - type: file
+  #   path: "components/openapi-service/api/swagger.json"
+  #   description: "Toys Service API (JSON)"
     
   # Папки с файлами
   - type: directory
-    path: "components/airport-service/modules/ROOT/examples/api/"
+    path: "components/openapi-service/modules/ROOT/examples/api/"
     description: "Все файлы из папки api"
     patterns: ["*.json", "*.yaml", "*.yml"]
 

@@ -95,7 +95,7 @@ end
 
 [source,bash]
 ----
-ruby tools/scripts/db_to_adoc.rb --component airport-service --use-llm
+ruby tools/scripts/db_to_adoc.rb --component postgre-service --use-llm
 ----
 
 === Ollama Setup
@@ -360,7 +360,7 @@ The LLM system supports Docker usage, ensuring consistent environment for local 
 docker-compose -f docker/docker-compose.yml up -d ollama
 
 # Generate documentation with LLM via Docker
-docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb postgre-service
 ----
 
 ==== Configuration for Different Environments

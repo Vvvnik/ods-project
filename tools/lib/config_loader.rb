@@ -129,7 +129,7 @@ module ConfigLoader
   
   def self.extract_component_name_from_path
     # Извлекаем имя компонента из текущего пути выполнения
-    # Например: components/airport-service/modules/ROOT/partials/docs-db
+    # Например: components/postgre-service/modules/ROOT/partials/docs-db
     current_dir = Dir.pwd
     
     if current_dir.include?('components/')
@@ -155,8 +155,8 @@ module ConfigLoader
       end
     end
     
-    # Если не удалось определить, возвращаем airport-service по умолчанию
-    'airport-service'
+    # Если не удалось определить, возвращаем postgre-service по умолчанию
+    'postgre-service'
   end
   
   def self.find_component_config(config, component_name)

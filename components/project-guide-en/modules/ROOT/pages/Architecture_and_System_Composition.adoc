@@ -69,10 +69,10 @@ Detailed ROOT module structure:
 
 Project components:
 
-* airport-service – airport service;
+* postgre-service – airport service;
 * data-processing-engine – data processing engine;
 * information-system – information system;
-* toys-service – toys service;
+* openapi-service – toys service;
 * project-guide – project guide;
 
 == docker/ Folder

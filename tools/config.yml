@@ -114,7 +114,7 @@ defaults: &defaults
 # сборка pdf включена для переноса артифактов в gitlab на сайте
 # ******************************************************
 components:
-  - name: airport-service
+  - name: postgre-service
     <<: *defaults
     # db:
     #   enabled: true #TODO: включить генерацию БД
@@ -139,7 +139,7 @@ components:
     # pdf: #TODO: включить генерацию PDF документации
       # enabled: true #TODO: включить генерацию PDF документации
 
-  - name: toys-service
+  - name: openapi-service
     <<: *defaults
     # api: #TODO: включить генерацию API документации
     #   enabled: true  #TODO: включить генерацию API документации

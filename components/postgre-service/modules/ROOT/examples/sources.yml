@@ -1,20 +1,20 @@
-# Конфигурация источников API для toys-service
+# Конфигурация источников API для postgre-service
 # Поддерживаются URL, локальные файлы и папки
 
 sources:
   # URL источники
-  # - type: url
-  #   path: "https://petstore.swagger.io/v2/swagger.json"
-  #   description: "Petstore API (пример)"
+  - type: url
+    path: "https://petstore.swagger.io/v2/swagger.json"
+    description: "Petstore API (пример)"
     
   # Локальные файлы
-  # - type: file
-  #   path: "components/toys-service/api/swagger.json"
-  #   description: "Toys Service API (JSON)"
+  - type: file
+    path: "components/postgre-service/api/swagger.json"
+    description: "Airport Service API (JSON)"
     
   # Папки с файлами
   - type: directory
-    path: "components/toys-service/modules/ROOT/examples/api/"
+    path: "components/postgre-service/modules/ROOT/examples/api/"
     description: "Все файлы из папки api"
     patterns: ["*.json", "*.yaml", "*.yml"]
 

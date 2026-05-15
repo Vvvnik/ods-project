@@ -123,7 +123,7 @@ The project structure is shown in <<id_t_{num_t}, Table {num_t}>>.
 
 Each result in the components/ folder represents a separate part of the documentation:
 
-. *airport-service/* – airport service documentation component. Contains examples of database documentation with automatic generation of ERD diagrams and DB schemas.
+. *postgre-service/* – airport service documentation component. Contains examples of database documentation with automatic generation of ERD diagrams and DB schemas.
 
 . *data-processing-engine/* – data processing engine documentation component. Includes hardware-complex and user-guide modules with examples of documenting business processes, BPMN, and UML diagrams.
 
@@ -131,7 +131,7 @@ Each result in the components/ folder represents a separate part of the document
 
 . *project-guide/* – project and documentation guide component (this guide). Contains a complete description of the ODS system architecture, setup, and usage.
 
-. *toys-service/* – toy service documentation component. Provides examples of automatic API documentation generation from OpenAPI specifications with UML diagrams.
+. *openapi-service/* – toy service documentation component. Provides examples of automatic API documentation generation from OpenAPI specifications with UML diagrams.
 
 More about the project architecture and component structure can be found in the section xref:Architecture_and_System_Composition.adoc[Architecture and System Composition].
 

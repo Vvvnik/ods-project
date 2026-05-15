@@ -16,11 +16,11 @@ content:
     - url: .
       branches: HEAD
       worktrees: true
-      start_path: components/airport-service
+      start_path: components/postgre-service
     - url: .
       branches: HEAD
       worktrees: true
-      start_path: components/toys-service
+      start_path: components/openapi-service
     - url: .
       branches: HEAD
       worktrees: true

@@ -150,7 +150,7 @@ docker run --rm -v $(pwd):/app \
 
 [source,bash]
 ----
-docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb postgre-service
 ----
 
 == Шаг 9: Генерация сайта

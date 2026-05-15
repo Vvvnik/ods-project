@@ -13,7 +13,7 @@ include::../partials/attr_common.adoc[]
 
 |components/
 |Antora Components
-|Contains all documentation components (airport-service, data-processing-engine, information-system, toys-service, project-guide)
+|Contains all documentation components (postgre-service, data-processing-engine, information-system, openapi-service, project-guide)
 
 |tools/
 |Build Tools

@@ -6,9 +6,9 @@ include::../partials/attr_common.adoc[]
 :custom_other_page: none
 :code-main: AIRPORT
 :data_report: {localdate}
-:name_doc: Сервис аэропортов
+:name_doc: PostgreSQL сервис
 :number_doc: 1
-:name_prog_main: Сервис аэропортов
+:name_prog_main: PostgreSQL сервис
 :name-prog: Сервис
 :tom: 1
 :imagesdir: ../images
@@ -26,6 +26,8 @@ include::../partials/attr_common.adoc[]
 toc::[]
 
 == Назначение документа
+Это учебный пример — Ваша система будет выглядеть так же.
+
 Данный компонент демонстрирует возможности автоматической генерации документации из базы данных PostgreSQL.
 
 Документ содержит описание сервиса аэропортов, включая схему базы данных, структуру таблиц и логические связи между сущностями системы управления аэропортами. 

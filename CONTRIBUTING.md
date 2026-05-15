@@ -27,10 +27,10 @@
 
 ### Основные компоненты
 
-- `components/airport-service/` – документация сервиса аэропорта
+- `components/postgre-service/` – документация сервиса аэропорта
 - `components/data-processing-engine/` – документация движка обработки данных
 - `components/information-system/` – документация информационной системы
-- `components/toys-service/` – документация сервиса игрушек
+- `components/openapi-service/` – документация сервиса игрушек
 - `components/project-guide/` – руководство по работе с проектом
 
 ### Структура компонента

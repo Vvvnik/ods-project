@@ -6,9 +6,9 @@ include::../partials/attr_common.adoc[]
 :custom_other_page: none
 :code-main: AIRPORT
 :data_report: {localdate}
-:name_doc: Сервис аэропортов
+:name_doc: PostgreSQL сервис
 :number_doc: 1
-:name_prog_main: Сервис аэропортов
+:name_prog_main: PostgreSQL сервис
 :name-prog: Сервис
 :tom: 1
 :imagesdir: ../images
@@ -31,7 +31,7 @@ toc::[]
 
 === Назначение сервиса
 
-Сервис аэропортов предназначен для управления данными аэропортов, воздушных судов, рейсов, бронирований и билетов.
+PostgreSQL сервис предназначен для управления данными аэропортов, воздушных судов, рейсов, бронирований и билетов.
 
 Основные функции:
 

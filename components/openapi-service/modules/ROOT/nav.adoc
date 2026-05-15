@@ -1,4 +1,4 @@
-// * xref:index.adoc[Сервис игрушек]
+// * xref:index.adoc[OpenAPI сервис]
 // ** xref:api-documentation.adoc[Документация API]
 // ** xref:test-api.adoc[Тестовый API]
 

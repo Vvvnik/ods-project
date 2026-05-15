@@ -41,7 +41,7 @@ include::../partials/attr_common.adoc[]
 
 [source,yaml]
 ----
-- name: airport-service
+- name: postgre-service
   <<: *defaults
   db:
     enabled: true
@@ -49,7 +49,7 @@ include::../partials/attr_common.adoc[]
   pdf:
     enabled: true
 
-- name: toys-service
+- name: openapi-service
   <<: *defaults
   api:
     enabled: true
@@ -93,7 +93,7 @@ components:
 [source,yaml]
 ----
 components:
-  - name: airport-service
+  - name: postgre-service
     <<: *defaults
     # Раскомментировать для включения:
     db:

@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 ruby tools/start.rb                    # все компоненты
-ruby tools/start.rb airport-service   # один компонент
+ruby tools/start.rb postgre-service   # один компонент
 npm run build                          # то же через npm
 ```
 
@@ -76,7 +76,7 @@ components/<name>/
     nav.adoc              # навигация
 ```
 
-Компоненты: `airport-service`, `data-processing-engine`, `information-system`, `toys-service`, `project-guide`, `project-guide-en`.
+Компоненты: `postgre-service`, `data-processing-engine`, `information-system`, `openapi-service`, `project-guide`, `project-guide-en`.
 
 Набор компонентов и порядок их загрузки задаётся в `antora-playbook.yml`.
 

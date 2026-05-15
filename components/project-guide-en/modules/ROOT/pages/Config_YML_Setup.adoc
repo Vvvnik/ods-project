@@ -41,7 +41,7 @@ The path to database and API source settings is specified in the tools/config.ym
 
 [source,yaml]
 ----
-- name: airport-service
+- name: postgre-service
   <<: *defaults
   db:
     enabled: true
@@ -49,7 +49,7 @@ The path to database and API source settings is specified in the tools/config.ym
   pdf:
     enabled: true
 
-- name: toys-service
+- name: openapi-service
   <<: *defaults
   api:
     enabled: true
@@ -93,7 +93,7 @@ To enable generation for a component, uncomment the needed sections:
 [source,yaml]
 ----
 components:
-  - name: airport-service
+  - name: postgre-service
     <<: *defaults
     # Uncomment to enable:
     db:

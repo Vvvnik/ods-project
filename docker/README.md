@@ -56,7 +56,7 @@ docker-compose -f docker/docker-compose.yml run --rm --service-ports site-previe
 # Для выхода из режима сервера: Ctrl+C.
 
 # С конкретным компонентом
-docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb airport-service
+docker-compose -f docker/docker-compose.yml run --rm start ruby tools/start.rb postgre-service
 ```
 
 ### Проверка подключения к сервисам

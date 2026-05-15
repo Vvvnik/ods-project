@@ -70,10 +70,10 @@ include::../partials/architecture.puml[plantuml, architecture-diagram]
 
 Компоненты проекта:
 
-* airport-service – сервис аэропорта;
+* postgre-service – сервис аэропорта;
 * data-processing-engine – движок обработки данных;
 * information-system – информационная система;
-* toys-service – сервис игрушек;
+* openapi-service – OpenAPI сервис;
 * project-guide – руководство по проекту;
 
 == Папка docker/

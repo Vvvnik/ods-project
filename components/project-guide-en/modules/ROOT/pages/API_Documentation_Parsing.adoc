@@ -62,7 +62,7 @@ Each API source can contain the following attributes:
 [source,yaml]
 ----
 - type: directory
-  path: "components/toys-service/modules/ROOT/examples/api/"
+  path: "components/openapi-service/modules/ROOT/examples/api/"
   description: "All files from api folder"
 ----
 
@@ -78,7 +78,7 @@ Each API source can contain the following attributes:
 [source,yaml]
 ----
 - type: directory
-  path: "components/toys-service/modules/ROOT/examples/api/"
+  path: "components/openapi-service/modules/ROOT/examples/api/"
   description: "All files from api folder"
   patterns: ["*.json", "*.yaml", "*.yml"]
 ----

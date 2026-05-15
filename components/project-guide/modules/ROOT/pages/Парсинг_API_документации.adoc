@@ -62,7 +62,7 @@ sources:
 [source,yaml]
 ----
 - type: directory
-  path: "components/toys-service/modules/ROOT/examples/api/"
+  path: "components/openapi-service/modules/ROOT/examples/api/"
   description: "Все файлы из папки api"
 ----
 
@@ -78,7 +78,7 @@ sources:
 [source,yaml]
 ----
 - type: directory
-  path: "components/toys-service/modules/ROOT/examples/api/"
+  path: "components/openapi-service/modules/ROOT/examples/api/"
   description: "Все файлы из папки api"
   patterns: ["*.json", "*.yaml", "*.yml"]
 ----
